@@ -127,8 +127,10 @@ export type GameTitle = (typeof GameTitle)[keyof typeof GameTitle]
 
 export const CompetitionFormat: {
   OPEN_KNOCKOUT: 'OPEN_KNOCKOUT',
+  DOUBLE_ELIMINATION: 'DOUBLE_ELIMINATION',
   LEAGUE: 'LEAGUE',
-  CHAMPIONS_LEAGUE: 'CHAMPIONS_LEAGUE'
+  CHAMPIONS_LEAGUE: 'CHAMPIONS_LEAGUE',
+  SWISS_SYSTEM: 'SWISS_SYSTEM'
 };
 
 export type CompetitionFormat = (typeof CompetitionFormat)[keyof typeof CompetitionFormat]

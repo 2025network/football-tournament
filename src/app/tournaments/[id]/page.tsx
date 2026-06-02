@@ -72,7 +72,8 @@ export default async function TournamentDetailsPage({ params }: TournamentDetail
               <dl className="mt-5 grid gap-3 text-sm">
                 <Info label="Prize pool" value={formatMoney(tournament.prizePool)} highlight />
                 <Info label="Entry fee" value={formatMoney(tournament.entryFee)} />
-                <Info label="Registration type" value={`${formatRegistrationType(tournament.registrationType)}${tournament.teamSize ? ` - ${tournament.teamSize} players` : ""}`} />
+                <Info label="Registration type" value={formatRegistrationType(tournament.registrationType)} />
+                {tournament.registrationType === "TEAM" && tournament.teamSize ? <Info label="Team size" value={`${tournament.teamSize} players`} /> : null}
                 <Info label="Available slots" value={tournament.allowUnlimitedRegistration ? "Unlimited" : `${availableSlots} / ${tournament.registrationLimit ?? tournament.slots}`} />
                 <Info label="Registration" value={tournament.registrationOpen ? "Open" : "Closed"} />
                 <Info label="Home & away" value={tournament.useHomeAndAway ? "Enabled" : "Disabled"} />
@@ -92,7 +93,7 @@ export default async function TournamentDetailsPage({ params }: TournamentDetail
           <h2 className="mt-3 text-2xl font-black text-white">{formatCompetition(tournament.competitionFormat)}</h2>
           <p className="mt-4 text-slate-300">{tournament.format}</p>
           <p className="mt-4 text-slate-300">
-            Registered {tournament.registrationType === "TEAM" ? "teams" : "players"}: <span className="font-black text-white">{tournament.registeredPlayers}</span>
+            Number of registered {tournament.registrationType === "TEAM" ? "teams" : "players"}: <span className="font-black text-white">{tournament.registeredPlayers}</span>
           </p>
         </div>
 
@@ -298,3 +299,5 @@ function groupBy<T>(items: T[], getKey: (item: T) => string) {
     return groups;
   }, {});
 }
+
+

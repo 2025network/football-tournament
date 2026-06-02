@@ -77,7 +77,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
         registrationOpen: body.registrationOpen ?? true,
         useHomeAndAway: Boolean(body.useHomeAndAway),
         registrationType: body.registrationType ?? RegistrationType.SOLO,
-        teamSize: normalizeOptionalNumber(body.teamSize),
+        teamSize: (body.registrationType ?? RegistrationType.SOLO) === RegistrationType.TEAM ? normalizeOptionalNumber(body.teamSize) : null,
         livestreamUrl: body.livestreamUrl?.trim() || null,
         streamPlatform: body.streamPlatform || null,
         description: body.description!.trim(),
@@ -123,7 +123,8 @@ function validateTournamentBody(body: TournamentRequestBody) {
   if (body.useHomeAndAway !== undefined && typeof body.useHomeAndAway !== "boolean") return "Use home and away must be true or false.";
   if (body.registrationType && !Object.values(RegistrationType).includes(body.registrationType)) return "Valid registration type is required.";
   if (body.teamSize !== undefined && body.teamSize !== null && body.teamSize !== "" && !isPositiveNumber(body.teamSize)) return "Team size must be a positive number.";
-  if (body.registrationType === RegistrationType.TEAM && (!body.teamSize || Number(body.teamSize) < 2)) return "Team tournaments need a team size of at least 2.";
+  if ((body.registrationType ?? RegistrationType.SOLO) === RegistrationType.TEAM && (!body.teamSize || Number(body.teamSize) < 2)) return "Team tournaments need a team size of at least 2.";
+  if ((body.registrationType ?? RegistrationType.SOLO) === RegistrationType.SOLO && body.teamSize) return "Solo tournaments should not include a team size.";
   if (body.streamPlatform && !Object.values(StreamPlatform).includes(body.streamPlatform)) return "Valid stream platform is required.";
   if (!body.description?.trim()) return "Description is required.";
   if (normalizeRules(body.rules).length === 0) return "At least one rule is required.";
@@ -154,4 +155,6 @@ function normalizeRules(rules: TournamentRequestBody["rules"]) {
     .map((rule) => rule.trim())
     .filter(Boolean);
 }
+
+
 

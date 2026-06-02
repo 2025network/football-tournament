@@ -27,8 +27,10 @@ enum GameTitle {
 
 enum CompetitionFormat {
   OPEN_KNOCKOUT
+  DOUBLE_ELIMINATION
   LEAGUE
   CHAMPIONS_LEAGUE
+  SWISS_SYSTEM
 }
 
 enum MatchStatus {
@@ -459,3 +461,4 @@ model TournamentAutomationSetting {
 
   @@index([tournamentId])
 }
+

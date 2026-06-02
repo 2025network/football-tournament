@@ -75,9 +75,19 @@ const gameOptions = [
 
 const competitionOptions = [
   { label: "Open Knockout", value: CompetitionFormat.OPEN_KNOCKOUT },
+  { label: "Double Elimination", value: CompetitionFormat.DOUBLE_ELIMINATION },
   { label: "League", value: CompetitionFormat.LEAGUE },
   { label: "Champions League", value: CompetitionFormat.CHAMPIONS_LEAGUE },
+  { label: "Swiss System", value: CompetitionFormat.SWISS_SYSTEM },
 ];
+
+const competitionDescriptions: Record<CompetitionFormat, string> = {
+  [CompetitionFormat.OPEN_KNOCKOUT]: "Single-loss bracket. Players or teams are eliminated after one defeat until one champion remains.",
+  [CompetitionFormat.DOUBLE_ELIMINATION]: "Bracket with a winners side and losers side. A participant is eliminated after two defeats.",
+  [CompetitionFormat.LEAGUE]: "Everyone plays scheduled fixtures and earns table points. Best record wins the league.",
+  [CompetitionFormat.CHAMPIONS_LEAGUE]: "Group stage followed by knockout rounds for qualifiers, similar to a Champions League structure.",
+  [CompetitionFormat.SWISS_SYSTEM]: "Players or teams face opponents with similar records across multiple rounds without immediate elimination.",
+};
 
 const statusOptions = [TournamentStatus.OPEN, TournamentStatus.UPCOMING, TournamentStatus.CLOSED];
 const streamPlatformOptions = [StreamPlatform.YOUTUBE, StreamPlatform.FACEBOOK, StreamPlatform.TWITCH, StreamPlatform.TIKTOK, StreamPlatform.OTHER];
@@ -161,7 +171,7 @@ export function AdminTournamentsManager() {
   }, [tournaments]);
 
   function updateField<Field extends keyof FormState>(field: Field, value: FormState[Field]) {
-    setForm((current) => ({ ...current, [field]: value }));
+    setForm((current) => field === "registrationType" && value === RegistrationType.SOLO ? { ...current, registrationType: value as RegistrationType, teamSize: "" } : { ...current, [field]: value });
     setErrorMessage("");
     setSuccessMessage("");
   }
@@ -217,7 +227,7 @@ export function AdminTournamentsManager() {
       registrationOpen: source.registrationOpen,
       useHomeAndAway: source.useHomeAndAway,
       registrationType: source.registrationType,
-      teamSize: typeof source.teamSize === "number" ? source.teamSize : source.teamSize || null,
+      teamSize: source.registrationType === RegistrationType.TEAM ? (typeof source.teamSize === "number" ? source.teamSize : source.teamSize || null) : null,
       livestreamUrl: source.livestreamUrl || null,
       streamPlatform: source.streamPlatform || null,
       description: source.description,
@@ -232,6 +242,11 @@ export function AdminTournamentsManager() {
     setSuccessMessage("");
 
     try {
+      const validationError = validateTournamentForm(form);
+      if (validationError) {
+        throw new Error(validationError);
+      }
+
       const endpoint = editingId ? `/api/tournaments/${editingId}` : "/api/tournaments";
       const response = await fetch(endpoint, {
         method: editingId ? "PUT" : "POST",
@@ -332,15 +347,17 @@ export function AdminTournamentsManager() {
                   <option value={RegistrationType.SOLO}>Solo tournament</option>
                   <option value={RegistrationType.TEAM}>Team tournament</option>
                 </select>
-              </FormLabel>
-              <FormLabel label="Team size">
-                <input className="form-input" value={form.teamSize} onChange={(event) => updateField("teamSize", event.target.value)} placeholder="2, 4, or 5" type="number" min="2" disabled={form.registrationType === RegistrationType.SOLO} />
-              </FormLabel>
+              </FormLabel>              {form.registrationType === RegistrationType.TEAM ? (
+                <FormLabel label="Team size">
+                  <input className="form-input" value={form.teamSize} onChange={(event) => updateField("teamSize", event.target.value)} placeholder="2, 4, or 5" type="number" min="2" required />
+                </FormLabel>
+              ) : null}
             </div>
             <FormLabel label="Competition format">
               <select className="form-input" value={form.competitionFormat} onChange={(event) => updateField("competitionFormat", event.target.value as CompetitionFormat)}>
                 {competitionOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
               </select>
+              <span className="mt-2 block rounded-lg border border-cyan-300/20 bg-cyan-300/10 px-4 py-3 text-sm leading-6 text-cyan-100">{competitionDescriptions[form.competitionFormat]}</span>
             </FormLabel>
             <div className="grid gap-4 sm:grid-cols-3">
               <FormLabel label="Prize pool">
@@ -519,3 +536,19 @@ function toDateInputValue(value: string) {
   const localDate = new Date(date.getTime() - offset * 60 * 1000);
   return localDate.toISOString().slice(0, 16);
 }
+
+function validateTournamentForm(form: FormState) {
+  if (!form.title.trim()) return "Tournament title is required.";
+  if (!form.prizePool || Number(form.prizePool) < 0) return "Prize pool must be 0 or higher.";
+  if (!form.entryFee || Number(form.entryFee) < 0) return "Entry fee must be 0 or higher.";
+  if (!form.slots || Number(form.slots) < 1) return "Slots must be at least 1.";
+  if (!form.startDate) return "Start date is required.";
+  if (!form.format.trim()) return "Format note is required.";
+  if (!form.description.trim()) return "Description is required.";
+  if (!form.rules.trim()) return "Rules are required.";
+  if (form.registrationLimit && Number(form.registrationLimit) < 1) return "Registration limit must be at least 1.";
+  if (form.registrationType === RegistrationType.TEAM && (!form.teamSize || Number(form.teamSize) < 2)) return "Team tournaments need a team size of at least 2.";
+  return "";
+}
+
+

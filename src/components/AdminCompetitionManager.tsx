@@ -641,8 +641,10 @@ function groupBy<T>(items: T[], getKey: (item: T) => string) {
 function formatCompetition(format: CompetitionFormat) {
   const labels: Record<CompetitionFormat, string> = {
     OPEN_KNOCKOUT: "Open Knockout",
+    DOUBLE_ELIMINATION: "Double Elimination",
     LEAGUE: "League",
     CHAMPIONS_LEAGUE: "Champions League",
+    SWISS_SYSTEM: "Swiss System",
   };
 
   return labels[format];
@@ -666,3 +668,5 @@ function formatDate(value: string) {
     minute: "2-digit",
   }).format(new Date(value));
 }
+
+

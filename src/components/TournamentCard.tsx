@@ -4,7 +4,6 @@ import {
   formatDate,
   formatGame,
   formatMoney,
-  formatRegistrationType,
   formatStatus,
   getAvailableSlots,
   type PublicTournament,
@@ -23,13 +22,18 @@ const statusStyles: Record<PublicTournamentStatus, string> = {
 
 export function TournamentCard({ tournament }: TournamentCardProps) {
   const availableSlots = getAvailableSlots(tournament);
+  const registrationBadge = tournament.registrationType === "TEAM" ? "Team Tournament" : "Solo Tournament";
 
   return (
     <article className="group rounded-2xl border border-white/10 bg-slate-900/80 p-5 shadow-xl shadow-black/20 transition hover:-translate-y-2 hover:border-cyan-300/60 hover:shadow-cyan-950/40">
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.2em] text-cyan-300">{formatGame(tournament.game)}</p>
-          <p className="mt-2 text-xs font-bold uppercase tracking-[0.16em] text-slate-400">{formatCompetition(tournament.competitionFormat)} - {formatRegistrationType(tournament.registrationType)}{tournament.teamSize ? ` ${tournament.teamSize}` : ""}</p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            <span className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1 text-[11px] font-black uppercase tracking-wide text-cyan-100">{registrationBadge}</span>
+            {tournament.teamSize ? <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-black uppercase tracking-wide text-slate-300">{tournament.teamSize} players</span> : null}
+          </div>
+          <p className="mt-2 text-xs font-bold uppercase tracking-[0.16em] text-slate-400">{formatCompetition(tournament.competitionFormat)}</p>
           <h3 className="mt-3 text-xl font-black text-white">{tournament.title}</h3>
         </div>
         <span className={`rounded-full border px-3 py-1 text-xs font-black ${statusStyles[tournament.status]}`}>

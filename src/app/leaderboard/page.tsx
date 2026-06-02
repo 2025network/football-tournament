@@ -13,8 +13,10 @@ const gameLabels: Record<GameTitle, string> = {
 
 const formatLabels: Record<CompetitionFormat, string> = {
   OPEN_KNOCKOUT: "Open Knockout",
+  DOUBLE_ELIMINATION: "Double Elimination",
   LEAGUE: "League",
   CHAMPIONS_LEAGUE: "Champions League",
+  SWISS_SYSTEM: "Swiss System",
 };
 
 type LeaderboardPageProps = {
@@ -113,3 +115,4 @@ function Filter({ name, label, value, options, labels }: { name: string; label: 
 function Metric({ label, value }: { label: string; value: number }) {
   return <span className="text-sm text-slate-200"><span className="text-xs font-bold uppercase text-slate-500 lg:hidden">{label}: </span>{value}</span>;
 }
+

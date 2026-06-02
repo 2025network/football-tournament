@@ -389,8 +389,10 @@ exports.TournamentStatus = exports.$Enums.TournamentStatus = {
 
 exports.CompetitionFormat = exports.$Enums.CompetitionFormat = {
   OPEN_KNOCKOUT: 'OPEN_KNOCKOUT',
+  DOUBLE_ELIMINATION: 'DOUBLE_ELIMINATION',
   LEAGUE: 'LEAGUE',
-  CHAMPIONS_LEAGUE: 'CHAMPIONS_LEAGUE'
+  CHAMPIONS_LEAGUE: 'CHAMPIONS_LEAGUE',
+  SWISS_SYSTEM: 'SWISS_SYSTEM'
 };
 
 exports.RegistrationType = exports.$Enums.RegistrationType = {

@@ -1,7 +1,7 @@
 export type PublicGameTitle = "EFOOTBALL_MOBILE" | "PUBG_MOBILE" | "COD_MOBILE" | "FREE_FIRE";
 
 export type PublicTournamentStatus = "UPCOMING" | "OPEN" | "CLOSED";
-export type PublicCompetitionFormat = "OPEN_KNOCKOUT" | "LEAGUE" | "CHAMPIONS_LEAGUE";
+export type PublicCompetitionFormat = "OPEN_KNOCKOUT" | "DOUBLE_ELIMINATION" | "LEAGUE" | "CHAMPIONS_LEAGUE" | "SWISS_SYSTEM";
 export type PublicRegistrationType = "SOLO" | "TEAM";
 export type PublicStreamPlatform = "YOUTUBE" | "FACEBOOK" | "TWITCH" | "TIKTOK" | "OTHER";
 export type PublicMatchStreamMode = "NONE" | "PLAYER_STREAM" | "OFFICIAL_STREAM";
@@ -118,8 +118,10 @@ export function formatRegistrationType(type: PublicRegistrationType) {
 export function formatCompetition(format: PublicCompetitionFormat) {
   const labels: Record<PublicCompetitionFormat, string> = {
     OPEN_KNOCKOUT: "Open Knockout",
+    DOUBLE_ELIMINATION: "Double Elimination",
     LEAGUE: "League",
     CHAMPIONS_LEAGUE: "Champions League",
+    SWISS_SYSTEM: "Swiss System",
   };
 
   return labels[format];
@@ -144,4 +146,7 @@ export function getAvailableSlots(tournament: PublicTournament) {
 
   return Math.max((tournament.registrationLimit ?? tournament.slots) - tournament.registeredPlayers, 0);
 }
+
+
+
 
