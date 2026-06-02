@@ -86,7 +86,10 @@ export function Navbar() {
 
         <div className="hidden shrink-0 items-center gap-2 lg:flex">
           <Link href="/register" onClick={closeMenus} className="rounded-lg border border-cyan-300/40 bg-cyan-300 px-4 py-2 text-sm font-black text-slate-950 shadow-[0_0_28px_rgba(34,211,238,0.28)] transition hover:-translate-y-0.5 hover:bg-white">
-            Register
+            Join Tournament
+          </Link>
+          <Link href="/signup" onClick={closeMenus} className="rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-black text-white transition hover:border-cyan-300 hover:text-cyan-200">
+            Create Account
           </Link>
         </div>
 
@@ -109,7 +112,7 @@ export function Navbar() {
         <div className="border-t border-white/10 bg-slate-950/98 px-4 pb-5 pt-2 shadow-2xl shadow-cyan-950/30 lg:hidden">
           <div className="mx-auto grid max-w-7xl gap-4">
             <Link href="/register" onClick={closeMenus} className="rounded-lg bg-cyan-300 px-4 py-3 text-center text-sm font-black uppercase tracking-wide text-slate-950 transition hover:bg-white">
-              Register Tournament
+              Join Tournament
             </Link>
             {mobileGroups.map((group) => (
               <div key={group.title} className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
@@ -196,4 +199,6 @@ function isActive(pathname: string, href: string) {
   if (exactOnlyLinks.has(href)) return pathname === href;
   return pathname === href || pathname.startsWith(`${href}/`);
 }
+
+
 

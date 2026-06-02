@@ -59,10 +59,12 @@ export default async function PlayerProfilePage({ params }: PlayerProfilePagePro
             <h1 className="mt-3 text-3xl font-black sm:text-5xl">{player.gamerTag || player.fullName}</h1>
             <p className="mt-3 text-slate-300">{player.fullName}</p>
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              <Stat label="Platform ID" value={player.platformId ?? "Not generated"} />
               <Stat label="Current rank" value={player.currentRank ? `#${player.currentRank}` : "Unranked"} />
               <Stat label="Favorite game" value={player.favoriteGame ? gameLabels[player.favoriteGame] : "Not set"} />
               <Stat label="Total points" value={String(player.totalPoints)} />
               <Stat label="Tournaments won" value={String(player.tournamentsWon)} />
+              <Stat label="Default game UID" value={player.defaultGamePlayerId ?? "Not set"} />
             </div>
           </div>
 

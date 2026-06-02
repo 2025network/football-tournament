@@ -10,7 +10,12 @@ export type PlayerSession = {
   id: string;
   fullName: string;
   email: string;
+  platformId?: string;
   phone: string;
+  whatsapp?: string;
+  gamerTag?: string;
+  defaultGame?: string;
+  defaultGamePlayerId?: string;
 };
 
 function readPlayerSession() {
@@ -61,3 +66,5 @@ export function PlayerAuthGate() {
 
   return <PlayerDashboard player={player} onLogout={logout} />;
 }
+
+

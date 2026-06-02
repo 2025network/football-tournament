@@ -113,6 +113,12 @@ const emptyForm: FormState = {
   description: "",
   rules: "",
 };
+const seedTemplates: Array<{ label: string; data: FormState }> = [
+  { label: "Create eFootball Test Tournament", data: { ...emptyForm, title: "eFootball Test Cup", game: GameTitle.EFOOTBALL_MOBILE, prizePool: "50000", entryFee: "1000", slots: "32", startDate: futureDateInput(7), status: TournamentStatus.OPEN, format: "1v1 test knockout bracket", competitionFormat: CompetitionFormat.OPEN_KNOCKOUT, description: "Quick eFootball test tournament for local registration testing.", rules: "Use correct game UID\nSubmit proof after match\nRespect opponents" } },
+  { label: "Create PUBG Squad Test Tournament", data: { ...emptyForm, title: "PUBG Squad Test", game: GameTitle.PUBG_MOBILE, prizePool: "150000", entryFee: "3000", slots: "16", startDate: futureDateInput(10), status: TournamentStatus.OPEN, format: "Squad league test format", competitionFormat: CompetitionFormat.LEAGUE, registrationType: RegistrationType.TEAM, teamSize: "4", description: "Quick PUBG squad tournament for team registration testing.", rules: "Captain registers team\nFour active members required\nSubmit match proof" } },
+  { label: "Create COD 5v5 Test Tournament", data: { ...emptyForm, title: "COD Mobile 5v5 Test", game: GameTitle.COD_MOBILE, prizePool: "120000", entryFee: "2500", slots: "16", startDate: futureDateInput(12), status: TournamentStatus.OPEN, format: "5v5 double elimination", competitionFormat: CompetitionFormat.DOUBLE_ELIMINATION, registrationType: RegistrationType.TEAM, teamSize: "5", description: "Quick COD Mobile 5v5 tournament for testing team workflows.", rules: "Five active members required\nNo account sharing\nSubmit score proof" } },
+  { label: "Create Free Fire Squad Test Tournament", data: { ...emptyForm, title: "Free Fire Squad Test", game: GameTitle.FREE_FIRE, prizePool: "100000", entryFee: "2000", slots: "20", startDate: futureDateInput(14), status: TournamentStatus.OPEN, format: "Squad Swiss test rounds", competitionFormat: CompetitionFormat.SWISS_SYSTEM, registrationType: RegistrationType.TEAM, teamSize: "4", description: "Quick Free Fire squad tournament for testing registrations and teams.", rules: "Captain registers team\nFour active members required\nUpload result proof" } },
+];
 
 export function AdminTournamentsManager() {
   const [tournaments, setTournaments] = useState<AdminTournament[]>([]);
@@ -269,6 +275,25 @@ export function AdminTournamentsManager() {
     }
   }
 
+  async function createSeedTournament(template: FormState) {
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    try {
+      const response = await fetch("/api/tournaments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(tournamentPayload(template)),
+      });
+      const data = (await response.json()) as TournamentResponse;
+      if (!response.ok) throw new Error(data.message ?? "Failed to create test tournament.");
+      setSuccessMessage(data.message ?? "Test tournament created.");
+      await fetchTournaments();
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Failed to create test tournament.");
+    }
+  }
+
   async function deleteTournament(tournament: AdminTournament) {
     const confirmed = window.confirm(`Delete ${tournament.title}? This also deletes its registrations and matches.`);
 
@@ -421,6 +446,10 @@ export function AdminTournamentsManager() {
           <p className="text-sm font-black uppercase tracking-[0.24em] text-cyan-300">Database tournaments</p>
           <h2 className="mt-2 text-2xl font-black text-white">Manage tournaments</h2>
 
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            {seedTemplates.map((template) => <button key={template.label} type="button" onClick={() => createSeedTournament(template.data)} className="rounded-lg border border-cyan-300/30 bg-cyan-300/10 px-4 py-3 text-left text-sm font-black text-cyan-100 transition hover:bg-cyan-300 hover:text-slate-950">{template.label}</button>)}
+          </div>
+
           <div className="mt-6 space-y-4">
             {isLoading ? (
               <EmptyState title="Loading tournaments" message="Fetching tournaments from PostgreSQL." />
@@ -550,5 +579,16 @@ function validateTournamentForm(form: FormState) {
   if (form.registrationType === RegistrationType.TEAM && (!form.teamSize || Number(form.teamSize) < 2)) return "Team tournaments need a team size of at least 2.";
   return "";
 }
+
+
+
+function futureDateInput(daysFromNow: number) {
+  const date = new Date();
+  date.setDate(date.getDate() + daysFromNow);
+  date.setHours(18, 0, 0, 0);
+  const offset = date.getTimezoneOffset();
+  return new Date(date.getTime() - offset * 60 * 1000).toISOString().slice(0, 16);
+}
+
 
 

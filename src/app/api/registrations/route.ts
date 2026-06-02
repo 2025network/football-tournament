@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { serializePayment } from "@/lib/payments";
 import { ApprovalStatus, GameTitle as PrismaGameTitle, PaymentStatus, RegistrationType, TeamMemberStatus, type Prisma } from "@/generated/prisma/client";
+import { serializePayment } from "@/lib/payments";
+import { isValidEmail, isValidNigerianPhone, normalizePhone, validateGamePlayerId } from "@/lib/player-validation";
+import { prisma } from "@/lib/prisma";
 
 type RegistrationRequestBody = {
   fullName?: string;
@@ -32,9 +33,7 @@ export async function GET() {
         payments: { include: { registration: { include: { user: true, tournament: true } } }, orderBy: { createdAt: "desc" }, take: 1 },
         team: { include: { captain: true } },
       },
-      orderBy: {
-        createdAt: "desc",
-      },
+      orderBy: { createdAt: "desc" },
     });
 
     return NextResponse.json({
@@ -42,7 +41,7 @@ export async function GET() {
         id: registration.id,
         fullName: registration.user.fullName,
         email: registration.user.email,
-        phoneNumber: registration.user.phoneNumber ?? "",
+        phoneNumber: registration.user.phone ?? registration.user.phoneNumber ?? "",
         gamerTag: registration.user.gamerTag ?? "",
         game: prismaGameToDisplay[registration.tournament.game],
         tournamentId: registration.tournament.id,
@@ -52,7 +51,7 @@ export async function GET() {
         teamTag: registration.team?.tag ?? null,
         teamCaptain: registration.team?.captain.fullName ?? null,
         platformId: registration.platformId,
-        whatsappNumber: registration.user.whatsappNumber ?? "",
+        whatsappNumber: registration.user.whatsapp ?? registration.user.whatsappNumber ?? "",
         paymentStatus: registration.paymentStatus,
         approvalStatus: registration.approvalStatus,
         proofOfPaymentText: registration.proofOfPaymentText ?? "",
@@ -77,65 +76,49 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: validationError }, { status: 400 });
     }
 
+    const account = await prisma.user.findUnique({ where: { email: body.email!.trim().toLowerCase() } });
+
+    if (!account?.passwordHash) {
+      return NextResponse.json({ message: "Create an account first before registering for a tournament." }, { status: 403 });
+    }
+
     const tournament = await prisma.tournament.findFirst({
-      where: {
-        OR: [{ id: body.tournamentId! }, { slug: body.tournamentId! }],
-      },
+      where: { OR: [{ id: body.tournamentId! }, { slug: body.tournamentId! }] },
     });
 
-    if (!tournament) {
-      return NextResponse.json({ message: "Selected tournament was not found." }, { status: 404 });
-    }
-
-    if (tournament.status === "CLOSED" || !tournament.registrationOpen) {
-      return NextResponse.json({ message: "This tournament is closed for registration." }, { status: 400 });
-    }
+    if (!tournament) return NextResponse.json({ message: "Selected tournament was not found." }, { status: 404 });
+    if (tournament.status === "CLOSED" || !tournament.registrationOpen) return NextResponse.json({ message: "This tournament is closed for registration." }, { status: 400 });
 
     const registrationLimit = tournament.registrationLimit ?? tournament.slots;
-    if (!tournament.allowUnlimitedRegistration && tournament.registeredPlayers >= registrationLimit) {
-      return NextResponse.json({ message: "This tournament has no available slots." }, { status: 400 });
-    }
+    if (!tournament.allowUnlimitedRegistration && tournament.registeredPlayers >= registrationLimit) return NextResponse.json({ message: "This tournament has no available slots." }, { status: 400 });
 
     let team: Prisma.TeamGetPayload<{ include: { captain: true; members: true } }> | null = null;
 
     if (tournament.registrationType === RegistrationType.TEAM) {
-      if (!body.teamId?.trim()) {
-        return NextResponse.json({ message: "Choose a team for this team tournament." }, { status: 400 });
-      }
+      if (!body.teamId?.trim()) return NextResponse.json({ message: "Choose a team for this team tournament." }, { status: 400 });
 
-      team = await prisma.team.findUnique({
-        where: { id: body.teamId },
-        include: { captain: true, members: true },
-      });
-
+      team = await prisma.team.findUnique({ where: { id: body.teamId }, include: { captain: true, members: true } });
       if (!team) return NextResponse.json({ message: "Selected team was not found." }, { status: 404 });
       if (team.game !== tournament.game) return NextResponse.json({ message: "Team game must match the tournament game." }, { status: 400 });
-      if (team.captain.email.toLowerCase() !== body.email!.trim().toLowerCase()) return NextResponse.json({ message: "Only the team captain can register this team." }, { status: 403 });
+      if (team.captain.email.toLowerCase() !== account.email.toLowerCase()) return NextResponse.json({ message: "Only the team captain can register this team." }, { status: 403 });
       const activeMembers = team.members.filter((member) => member.status === TeamMemberStatus.ACTIVE).length;
       if (tournament.teamSize && activeMembers < tournament.teamSize) return NextResponse.json({ message: `This tournament requires ${tournament.teamSize} active team members.` }, { status: 400 });
     }
 
-    if (tournament.registrationType === RegistrationType.SOLO && body.teamId) {
-      return NextResponse.json({ message: "Solo tournaments must be registered as an individual player." }, { status: 400 });
-    }
+    if (tournament.registrationType === RegistrationType.SOLO && body.teamId) return NextResponse.json({ message: "Solo tournaments must be registered as an individual player." }, { status: 400 });
 
     const result = await prisma.$transaction(async (tx) => {
-      const user = await tx.user.upsert({
-        where: {
-          email: body.email!.trim().toLowerCase(),
-        },
-        create: {
+      const user = await tx.user.update({
+        where: { id: account.id },
+        data: {
           fullName: body.fullName!.trim(),
-          email: body.email!.trim().toLowerCase(),
-          phoneNumber: body.phoneNumber!.trim(),
-          whatsappNumber: body.whatsappNumber!.trim(),
+          phone: normalizePhone(body.phoneNumber!),
+          whatsapp: normalizePhone(body.whatsappNumber!),
+          phoneNumber: normalizePhone(body.phoneNumber!),
+          whatsappNumber: normalizePhone(body.whatsappNumber!),
           gamerTag: body.gamerTag!.trim(),
-        },
-        update: {
-          fullName: body.fullName!.trim(),
-          phoneNumber: body.phoneNumber!.trim(),
-          whatsappNumber: body.whatsappNumber!.trim(),
-          gamerTag: body.gamerTag!.trim(),
+          defaultGame: body.game as PrismaGameTitle,
+          defaultGamePlayerId: body.platformId!.trim(),
         },
       });
 
@@ -150,50 +133,31 @@ export async function POST(request: NextRequest) {
           proofOfPaymentText: "",
           agreedToRules: body.agreedToRules!,
         },
-        include: {
-          user: true,
-          tournament: true,
-        },
+        include: { user: true, tournament: true },
       });
 
-      await tx.tournament.update({
-        where: {
-          id: tournament.id,
-        },
-        data: {
-          registeredPlayers: {
-            increment: 1,
-          },
-        },
-      });
-
+      await tx.tournament.update({ where: { id: tournament.id }, data: { registeredPlayers: { increment: 1 } } });
       return registration;
     });
 
-    return NextResponse.json(
-      {
-        message: "Registration submitted successfully.",
-        registration: {
-          id: result.id,
-          fullName: result.user.fullName,
-          email: result.user.email,
-          game: prismaGameToDisplay[result.tournament.game],
-          tournamentId: result.tournament.id,
-          tournamentTitle: result.tournament.title,
-          registrationType: result.tournament.registrationType,
-          paymentStatus: result.paymentStatus,
-          approvalStatus: result.approvalStatus,
-          submittedAt: result.createdAt.toISOString(),
-          entryFee: result.tournament.entryFee,
-        },
+    return NextResponse.json({
+      message: "Registration submitted successfully.",
+      registration: {
+        id: result.id,
+        fullName: result.user.fullName,
+        email: result.user.email,
+        game: prismaGameToDisplay[result.tournament.game],
+        tournamentId: result.tournament.id,
+        tournamentTitle: result.tournament.title,
+        registrationType: result.tournament.registrationType,
+        paymentStatus: result.paymentStatus,
+        approvalStatus: result.approvalStatus,
+        submittedAt: result.createdAt.toISOString(),
+        entryFee: result.tournament.entryFee,
       },
-      { status: 201 },
-    );
+    }, { status: 201 });
   } catch (error) {
-    if (isPrismaErrorCode(error, "P2002")) {
-      return NextResponse.json({ message: "This email is already registered for this tournament." }, { status: 409 });
-    }
-
+    if (isPrismaErrorCode(error, "P2002")) return NextResponse.json({ message: "This player is already registered for this tournament." }, { status: 409 });
     console.error("Failed to create registration", error);
     return NextResponse.json({ message: "Failed to submit registration." }, { status: 500 });
   }
@@ -202,12 +166,7 @@ export async function POST(request: NextRequest) {
 export async function DELETE() {
   try {
     await prisma.registration.deleteMany();
-    await prisma.tournament.updateMany({
-      data: {
-        registeredPlayers: 0,
-      },
-    });
-
+    await prisma.tournament.updateMany({ data: { registeredPlayers: 0 } });
     return NextResponse.json({ message: "All registrations cleared." });
   } catch (error) {
     console.error("Failed to clear registrations", error);
@@ -216,23 +175,18 @@ export async function DELETE() {
 }
 
 function validateRegistrationBody(body: RegistrationRequestBody) {
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const phonePattern = /^[+\d][\d\s-]{6,}$/;
-
   if (!body.fullName?.trim()) return "Full name is required.";
-  if (!body.email || !emailPattern.test(body.email)) return "A valid email is required.";
-  if (!body.phoneNumber || !phonePattern.test(body.phoneNumber)) return "A valid phone number is required.";
+  if (!body.email || !isValidEmail(body.email)) return "A valid email is required.";
+  if (!body.phoneNumber || !isValidNigerianPhone(body.phoneNumber)) return "Phone number must be 11 digits and start with 070, 080, 081, 090, or 091.";
   if (!body.gamerTag?.trim()) return "Gamer tag is required.";
   if (!body.tournamentId?.trim()) return "Tournament is required.";
-  if (!body.platformId?.trim()) return "Platform ID / Player ID is required.";
-  if (!body.whatsappNumber || !phonePattern.test(body.whatsappNumber)) return "A valid WhatsApp number is required.";
+  const gamePlayerIdError = validateGamePlayerId(body.platformId ?? "");
+  if (gamePlayerIdError) return gamePlayerIdError;
+  if (!body.whatsappNumber || !isValidNigerianPhone(body.whatsappNumber)) return "WhatsApp number must be 11 digits and start with 070, 080, 081, 090, or 091.";
   if (!body.agreedToRules) return "You must agree to the tournament rules.";
-
   return null;
 }
 
 function isPrismaErrorCode(error: unknown, code: string) {
   return typeof error === "object" && error !== null && "code" in error && error.code === code;
 }
-
-

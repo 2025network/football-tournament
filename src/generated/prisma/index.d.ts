@@ -2882,6 +2882,11 @@ export namespace Prisma {
     id: string | null
     fullName: string | null
     email: string | null
+    platformId: string | null
+    phone: string | null
+    whatsapp: string | null
+    defaultGame: $Enums.GameTitle | null
+    defaultGamePlayerId: string | null
     phoneNumber: string | null
     whatsappNumber: string | null
     gamerTag: string | null
@@ -2903,6 +2908,11 @@ export namespace Prisma {
     id: string | null
     fullName: string | null
     email: string | null
+    platformId: string | null
+    phone: string | null
+    whatsapp: string | null
+    defaultGame: $Enums.GameTitle | null
+    defaultGamePlayerId: string | null
     phoneNumber: string | null
     whatsappNumber: string | null
     gamerTag: string | null
@@ -2924,6 +2934,11 @@ export namespace Prisma {
     id: number
     fullName: number
     email: number
+    platformId: number
+    phone: number
+    whatsapp: number
+    defaultGame: number
+    defaultGamePlayerId: number
     phoneNumber: number
     whatsappNumber: number
     gamerTag: number
@@ -2967,6 +2982,11 @@ export namespace Prisma {
     id?: true
     fullName?: true
     email?: true
+    platformId?: true
+    phone?: true
+    whatsapp?: true
+    defaultGame?: true
+    defaultGamePlayerId?: true
     phoneNumber?: true
     whatsappNumber?: true
     gamerTag?: true
@@ -2988,6 +3008,11 @@ export namespace Prisma {
     id?: true
     fullName?: true
     email?: true
+    platformId?: true
+    phone?: true
+    whatsapp?: true
+    defaultGame?: true
+    defaultGamePlayerId?: true
     phoneNumber?: true
     whatsappNumber?: true
     gamerTag?: true
@@ -3009,6 +3034,11 @@ export namespace Prisma {
     id?: true
     fullName?: true
     email?: true
+    platformId?: true
+    phone?: true
+    whatsapp?: true
+    defaultGame?: true
+    defaultGamePlayerId?: true
     phoneNumber?: true
     whatsappNumber?: true
     gamerTag?: true
@@ -3117,6 +3147,11 @@ export namespace Prisma {
     id: string
     fullName: string
     email: string
+    platformId: string | null
+    phone: string | null
+    whatsapp: string | null
+    defaultGame: $Enums.GameTitle | null
+    defaultGamePlayerId: string | null
     phoneNumber: string | null
     whatsappNumber: string | null
     gamerTag: string | null
@@ -3157,6 +3192,11 @@ export namespace Prisma {
     id?: boolean
     fullName?: boolean
     email?: boolean
+    platformId?: boolean
+    phone?: boolean
+    whatsapp?: boolean
+    defaultGame?: boolean
+    defaultGamePlayerId?: boolean
     phoneNumber?: boolean
     whatsappNumber?: boolean
     gamerTag?: boolean
@@ -3185,6 +3225,11 @@ export namespace Prisma {
     id?: boolean
     fullName?: boolean
     email?: boolean
+    platformId?: boolean
+    phone?: boolean
+    whatsapp?: boolean
+    defaultGame?: boolean
+    defaultGamePlayerId?: boolean
     phoneNumber?: boolean
     whatsappNumber?: boolean
     gamerTag?: boolean
@@ -3206,6 +3251,11 @@ export namespace Prisma {
     id?: boolean
     fullName?: boolean
     email?: boolean
+    platformId?: boolean
+    phone?: boolean
+    whatsapp?: boolean
+    defaultGame?: boolean
+    defaultGamePlayerId?: boolean
     phoneNumber?: boolean
     whatsappNumber?: boolean
     gamerTag?: boolean
@@ -3227,6 +3277,11 @@ export namespace Prisma {
     id?: boolean
     fullName?: boolean
     email?: boolean
+    platformId?: boolean
+    phone?: boolean
+    whatsapp?: boolean
+    defaultGame?: boolean
+    defaultGamePlayerId?: boolean
     phoneNumber?: boolean
     whatsappNumber?: boolean
     gamerTag?: boolean
@@ -3244,7 +3299,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullName" | "email" | "phoneNumber" | "whatsappNumber" | "gamerTag" | "passwordHash" | "role" | "totalPoints" | "totalWins" | "totalLosses" | "totalDraws" | "tournamentsPlayed" | "tournamentsWon" | "currentRank" | "favoriteGame" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullName" | "email" | "platformId" | "phone" | "whatsapp" | "defaultGame" | "defaultGamePlayerId" | "phoneNumber" | "whatsappNumber" | "gamerTag" | "passwordHash" | "role" | "totalPoints" | "totalWins" | "totalLosses" | "totalDraws" | "tournamentsPlayed" | "tournamentsWon" | "currentRank" | "favoriteGame" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     registrations?: boolean | User$registrationsArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
@@ -3271,6 +3326,11 @@ export namespace Prisma {
       id: string
       fullName: string
       email: string
+      platformId: string | null
+      phone: string | null
+      whatsapp: string | null
+      defaultGame: $Enums.GameTitle | null
+      defaultGamePlayerId: string | null
       phoneNumber: string | null
       whatsappNumber: string | null
       gamerTag: string | null
@@ -3718,6 +3778,11 @@ export namespace Prisma {
     readonly id: FieldRef<"User", 'String'>
     readonly fullName: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
+    readonly platformId: FieldRef<"User", 'String'>
+    readonly phone: FieldRef<"User", 'String'>
+    readonly whatsapp: FieldRef<"User", 'String'>
+    readonly defaultGame: FieldRef<"User", 'GameTitle'>
+    readonly defaultGamePlayerId: FieldRef<"User", 'String'>
     readonly phoneNumber: FieldRef<"User", 'String'>
     readonly whatsappNumber: FieldRef<"User", 'String'>
     readonly gamerTag: FieldRef<"User", 'String'>
@@ -22424,6 +22489,11 @@ export namespace Prisma {
     id: 'id',
     fullName: 'fullName',
     email: 'email',
+    platformId: 'platformId',
+    phone: 'phone',
+    whatsapp: 'whatsapp',
+    defaultGame: 'defaultGame',
+    defaultGamePlayerId: 'defaultGamePlayerId',
     phoneNumber: 'phoneNumber',
     whatsappNumber: 'whatsappNumber',
     gamerTag: 'gamerTag',
@@ -22747,6 +22817,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'GameTitle'
+   */
+  export type EnumGameTitleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GameTitle'>
+    
+
+
+  /**
+   * Reference to a field of type 'GameTitle[]'
+   */
+  export type ListEnumGameTitleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GameTitle[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Role'
    */
   export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
@@ -22771,20 +22855,6 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'GameTitle'
-   */
-  export type EnumGameTitleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GameTitle'>
-    
-
-
-  /**
-   * Reference to a field of type 'GameTitle[]'
-   */
-  export type ListEnumGameTitleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GameTitle[]'>
     
 
 
@@ -23057,6 +23127,11 @@ export namespace Prisma {
     id?: StringFilter<"User"> | string
     fullName?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
+    platformId?: StringNullableFilter<"User"> | string | null
+    phone?: StringNullableFilter<"User"> | string | null
+    whatsapp?: StringNullableFilter<"User"> | string | null
+    defaultGame?: EnumGameTitleNullableFilter<"User"> | $Enums.GameTitle | null
+    defaultGamePlayerId?: StringNullableFilter<"User"> | string | null
     phoneNumber?: StringNullableFilter<"User"> | string | null
     whatsappNumber?: StringNullableFilter<"User"> | string | null
     gamerTag?: StringNullableFilter<"User"> | string | null
@@ -23084,6 +23159,11 @@ export namespace Prisma {
     id?: SortOrder
     fullName?: SortOrder
     email?: SortOrder
+    platformId?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    whatsapp?: SortOrderInput | SortOrder
+    defaultGame?: SortOrderInput | SortOrder
+    defaultGamePlayerId?: SortOrderInput | SortOrder
     phoneNumber?: SortOrderInput | SortOrder
     whatsappNumber?: SortOrderInput | SortOrder
     gamerTag?: SortOrderInput | SortOrder
@@ -23110,10 +23190,15 @@ export namespace Prisma {
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     email?: string
+    platformId?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     fullName?: StringFilter<"User"> | string
+    phone?: StringNullableFilter<"User"> | string | null
+    whatsapp?: StringNullableFilter<"User"> | string | null
+    defaultGame?: EnumGameTitleNullableFilter<"User"> | $Enums.GameTitle | null
+    defaultGamePlayerId?: StringNullableFilter<"User"> | string | null
     phoneNumber?: StringNullableFilter<"User"> | string | null
     whatsappNumber?: StringNullableFilter<"User"> | string | null
     gamerTag?: StringNullableFilter<"User"> | string | null
@@ -23135,12 +23220,17 @@ export namespace Prisma {
     teamMemberships?: TeamMemberListRelationFilter
     rankingHistory?: RankingHistoryListRelationFilter
     achievements?: PlayerAchievementListRelationFilter
-  }, "id" | "email">
+  }, "id" | "email" | "platformId">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     fullName?: SortOrder
     email?: SortOrder
+    platformId?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    whatsapp?: SortOrderInput | SortOrder
+    defaultGame?: SortOrderInput | SortOrder
+    defaultGamePlayerId?: SortOrderInput | SortOrder
     phoneNumber?: SortOrderInput | SortOrder
     whatsappNumber?: SortOrderInput | SortOrder
     gamerTag?: SortOrderInput | SortOrder
@@ -23170,6 +23260,11 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"User"> | string
     fullName?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
+    platformId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    phone?: StringNullableWithAggregatesFilter<"User"> | string | null
+    whatsapp?: StringNullableWithAggregatesFilter<"User"> | string | null
+    defaultGame?: EnumGameTitleNullableWithAggregatesFilter<"User"> | $Enums.GameTitle | null
+    defaultGamePlayerId?: StringNullableWithAggregatesFilter<"User"> | string | null
     phoneNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
     whatsappNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
     gamerTag?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -24587,6 +24682,11 @@ export namespace Prisma {
     id?: string
     fullName: string
     email: string
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
     phoneNumber?: string | null
     whatsappNumber?: string | null
     gamerTag?: string | null
@@ -24614,6 +24714,11 @@ export namespace Prisma {
     id?: string
     fullName: string
     email: string
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
     phoneNumber?: string | null
     whatsappNumber?: string | null
     gamerTag?: string | null
@@ -24641,6 +24746,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
     gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24668,6 +24778,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
     gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24695,6 +24810,11 @@ export namespace Prisma {
     id?: string
     fullName: string
     email: string
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
     phoneNumber?: string | null
     whatsappNumber?: string | null
     gamerTag?: string | null
@@ -24716,6 +24836,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
     gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24737,6 +24862,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
     gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26333,6 +26463,13 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type EnumGameTitleNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.GameTitle | EnumGameTitleFieldRefInput<$PrismaModel> | null
+    in?: $Enums.GameTitle[] | ListEnumGameTitleFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.GameTitle[] | ListEnumGameTitleFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumGameTitleNullableFilter<$PrismaModel> | $Enums.GameTitle | null
+  }
+
   export type EnumRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
@@ -26360,13 +26497,6 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type EnumGameTitleNullableFilter<$PrismaModel = never> = {
-    equals?: $Enums.GameTitle | EnumGameTitleFieldRefInput<$PrismaModel> | null
-    in?: $Enums.GameTitle[] | ListEnumGameTitleFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.GameTitle[] | ListEnumGameTitleFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumGameTitleNullableFilter<$PrismaModel> | $Enums.GameTitle | null
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -26449,6 +26579,11 @@ export namespace Prisma {
     id?: SortOrder
     fullName?: SortOrder
     email?: SortOrder
+    platformId?: SortOrder
+    phone?: SortOrder
+    whatsapp?: SortOrder
+    defaultGame?: SortOrder
+    defaultGamePlayerId?: SortOrder
     phoneNumber?: SortOrder
     whatsappNumber?: SortOrder
     gamerTag?: SortOrder
@@ -26480,6 +26615,11 @@ export namespace Prisma {
     id?: SortOrder
     fullName?: SortOrder
     email?: SortOrder
+    platformId?: SortOrder
+    phone?: SortOrder
+    whatsapp?: SortOrder
+    defaultGame?: SortOrder
+    defaultGamePlayerId?: SortOrder
     phoneNumber?: SortOrder
     whatsappNumber?: SortOrder
     gamerTag?: SortOrder
@@ -26501,6 +26641,11 @@ export namespace Prisma {
     id?: SortOrder
     fullName?: SortOrder
     email?: SortOrder
+    platformId?: SortOrder
+    phone?: SortOrder
+    whatsapp?: SortOrder
+    defaultGame?: SortOrder
+    defaultGamePlayerId?: SortOrder
     phoneNumber?: SortOrder
     whatsappNumber?: SortOrder
     gamerTag?: SortOrder
@@ -26564,6 +26709,16 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type EnumGameTitleNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.GameTitle | EnumGameTitleFieldRefInput<$PrismaModel> | null
+    in?: $Enums.GameTitle[] | ListEnumGameTitleFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.GameTitle[] | ListEnumGameTitleFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumGameTitleNullableWithAggregatesFilter<$PrismaModel> | $Enums.GameTitle | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumGameTitleNullableFilter<$PrismaModel>
+    _max?: NestedEnumGameTitleNullableFilter<$PrismaModel>
+  }
+
   export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
@@ -26604,16 +26759,6 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type EnumGameTitleNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.GameTitle | EnumGameTitleFieldRefInput<$PrismaModel> | null
-    in?: $Enums.GameTitle[] | ListEnumGameTitleFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.GameTitle[] | ListEnumGameTitleFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumGameTitleNullableWithAggregatesFilter<$PrismaModel> | $Enums.GameTitle | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedEnumGameTitleNullableFilter<$PrismaModel>
-    _max?: NestedEnumGameTitleNullableFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -27893,6 +28038,10 @@ export namespace Prisma {
     set?: string | null
   }
 
+  export type NullableEnumGameTitleFieldUpdateOperationsInput = {
+    set?: $Enums.GameTitle | null
+  }
+
   export type EnumRoleFieldUpdateOperationsInput = {
     set?: $Enums.Role
   }
@@ -27911,10 +28060,6 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type NullableEnumGameTitleFieldUpdateOperationsInput = {
-    set?: $Enums.GameTitle | null
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -29358,6 +29503,13 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedEnumGameTitleNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.GameTitle | EnumGameTitleFieldRefInput<$PrismaModel> | null
+    in?: $Enums.GameTitle[] | ListEnumGameTitleFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.GameTitle[] | ListEnumGameTitleFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumGameTitleNullableFilter<$PrismaModel> | $Enums.GameTitle | null
+  }
+
   export type NestedEnumRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
@@ -29385,13 +29537,6 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedEnumGameTitleNullableFilter<$PrismaModel = never> = {
-    equals?: $Enums.GameTitle | EnumGameTitleFieldRefInput<$PrismaModel> | null
-    in?: $Enums.GameTitle[] | ListEnumGameTitleFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.GameTitle[] | ListEnumGameTitleFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumGameTitleNullableFilter<$PrismaModel> | $Enums.GameTitle | null
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -29437,6 +29582,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumGameTitleNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.GameTitle | EnumGameTitleFieldRefInput<$PrismaModel> | null
+    in?: $Enums.GameTitle[] | ListEnumGameTitleFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.GameTitle[] | ListEnumGameTitleFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumGameTitleNullableWithAggregatesFilter<$PrismaModel> | $Enums.GameTitle | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumGameTitleNullableFilter<$PrismaModel>
+    _max?: NestedEnumGameTitleNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
@@ -29501,16 +29656,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedEnumGameTitleNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.GameTitle | EnumGameTitleFieldRefInput<$PrismaModel> | null
-    in?: $Enums.GameTitle[] | ListEnumGameTitleFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.GameTitle[] | ListEnumGameTitleFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumGameTitleNullableWithAggregatesFilter<$PrismaModel> | $Enums.GameTitle | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedEnumGameTitleNullableFilter<$PrismaModel>
-    _max?: NestedEnumGameTitleNullableFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -30568,6 +30713,11 @@ export namespace Prisma {
     id?: string
     fullName: string
     email: string
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
     phoneNumber?: string | null
     whatsappNumber?: string | null
     gamerTag?: string | null
@@ -30594,6 +30744,11 @@ export namespace Prisma {
     id?: string
     fullName: string
     email: string
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
     phoneNumber?: string | null
     whatsappNumber?: string | null
     gamerTag?: string | null
@@ -31306,6 +31461,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
     gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31332,6 +31492,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
     gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33224,6 +33389,11 @@ export namespace Prisma {
     id?: string
     fullName: string
     email: string
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
     phoneNumber?: string | null
     whatsappNumber?: string | null
     gamerTag?: string | null
@@ -33250,6 +33420,11 @@ export namespace Prisma {
     id?: string
     fullName: string
     email: string
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
     phoneNumber?: string | null
     whatsappNumber?: string | null
     gamerTag?: string | null
@@ -33292,6 +33467,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
     gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33318,6 +33498,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
     gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33498,6 +33683,11 @@ export namespace Prisma {
     id?: string
     fullName: string
     email: string
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
     phoneNumber?: string | null
     whatsappNumber?: string | null
     gamerTag?: string | null
@@ -33524,6 +33714,11 @@ export namespace Prisma {
     id?: string
     fullName: string
     email: string
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
     phoneNumber?: string | null
     whatsappNumber?: string | null
     gamerTag?: string | null
@@ -33591,6 +33786,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
     gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33617,6 +33817,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
     gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33712,6 +33917,11 @@ export namespace Prisma {
     id?: string
     fullName: string
     email: string
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
     phoneNumber?: string | null
     whatsappNumber?: string | null
     gamerTag?: string | null
@@ -33738,6 +33948,11 @@ export namespace Prisma {
     id?: string
     fullName: string
     email: string
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
     phoneNumber?: string | null
     whatsappNumber?: string | null
     gamerTag?: string | null
@@ -33803,6 +34018,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
     gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33829,6 +34049,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
     gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33884,6 +34109,11 @@ export namespace Prisma {
     id?: string
     fullName: string
     email: string
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
     phoneNumber?: string | null
     whatsappNumber?: string | null
     gamerTag?: string | null
@@ -33910,6 +34140,11 @@ export namespace Prisma {
     id?: string
     fullName: string
     email: string
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
     phoneNumber?: string | null
     whatsappNumber?: string | null
     gamerTag?: string | null
@@ -34034,6 +34269,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
     gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34060,6 +34300,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
     gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34149,6 +34394,11 @@ export namespace Prisma {
     id?: string
     fullName: string
     email: string
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
     phoneNumber?: string | null
     whatsappNumber?: string | null
     gamerTag?: string | null
@@ -34175,6 +34425,11 @@ export namespace Prisma {
     id?: string
     fullName: string
     email: string
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
     phoneNumber?: string | null
     whatsappNumber?: string | null
     gamerTag?: string | null
@@ -34254,6 +34509,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
     gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34280,6 +34540,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
     gamerTag?: NullableStringFieldUpdateOperationsInput | string | null

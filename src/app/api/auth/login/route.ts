@@ -35,7 +35,12 @@ export async function POST(request: NextRequest) {
         id: user.id,
         fullName: user.fullName,
         email: user.email,
-        phone: user.phoneNumber ?? "",
+        platformId: user.platformId ?? "",
+        phone: user.phone ?? user.phoneNumber ?? "",
+        whatsapp: user.whatsapp ?? user.whatsappNumber ?? "",
+        gamerTag: user.gamerTag ?? "",
+        defaultGame: user.defaultGame ?? "",
+        defaultGamePlayerId: user.defaultGamePlayerId ?? "",
       },
     });
   } catch (error) {
@@ -43,3 +48,5 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: "Failed to login player." }, { status: 500 });
   }
 }
+
+

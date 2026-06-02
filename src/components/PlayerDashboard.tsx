@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import type { PlayerSession } from "@/components/PlayerAuthGate";
 
 type LatestPayment = {
@@ -38,6 +39,11 @@ type PlayerStats = PlayerSession & {
   tournamentsPlayed: number;
   tournamentsWon: number;
   favoriteGame: string;
+  platformId: string;
+  whatsapp: string;
+  gamerTag: string;
+  defaultGame: string;
+  defaultGamePlayerId: string;
 };
 
 type PlayerAchievement = {
@@ -89,8 +95,10 @@ function statusClass(status: PlayerRegistration["paymentStatus"] | PlayerRegistr
 }
 
 export function PlayerDashboard({ player, onLogout }: PlayerDashboardProps) {
+  const searchParams = useSearchParams();
+  const welcomePlatformId = searchParams.get("welcomePlatformId") ?? "";
   const [registrations, setRegistrations] = useState<PlayerRegistration[]>([]);
-  const [profile, setProfile] = useState<PlayerStats>({ ...player, currentRank: null, totalPoints: 0, totalWins: 0, totalLosses: 0, totalDraws: 0, tournamentsPlayed: 0, tournamentsWon: 0, favoriteGame: "Not set" });
+  const [profile, setProfile] = useState<PlayerStats>({ ...player, platformId: player.platformId ?? "", whatsapp: player.whatsapp ?? "", gamerTag: player.gamerTag ?? "", defaultGame: player.defaultGame ?? "Not set", defaultGamePlayerId: player.defaultGamePlayerId ?? "", currentRank: null, totalPoints: 0, totalWins: 0, totalLosses: 0, totalDraws: 0, tournamentsPlayed: 0, tournamentsWon: 0, favoriteGame: "Not set" });
   const [achievements, setAchievements] = useState<PlayerAchievement[]>([]);
   const [recentMatches, setRecentMatches] = useState<RecentMatch[]>([]);
   const [loading, setLoading] = useState(true);
@@ -127,6 +135,11 @@ export function PlayerDashboard({ player, onLogout }: PlayerDashboardProps) {
     return () => window.clearTimeout(timer);
   }, [loadDashboard]);
 
+  const unpaidRegistrations = useMemo(() => registrations.filter((registration) => registration.entryFee > 0 && registration.paymentStatus !== "PAID"), [registrations]);
+  const profileFields = [profile.fullName, profile.email, profile.platformId, profile.phone, profile.whatsapp, profile.gamerTag, profile.defaultGamePlayerId];
+  const completedProfileFields = profileFields.filter((value) => String(value ?? "").trim().length > 0).length;
+  const profileCompletion = Math.round((completedProfileFields / profileFields.length) * 100);
+
   async function payWithPaystack(registrationId: string) {
     setPayingId(registrationId);
     setErrorMessage("");
@@ -156,7 +169,8 @@ export function PlayerDashboard({ player, onLogout }: PlayerDashboardProps) {
         <div>
           <p className="text-sm font-black uppercase tracking-[0.24em] text-cyan-300">Player dashboard</p>
           <h1 className="mt-3 text-3xl font-black text-white sm:text-5xl">Welcome, {profile.fullName}</h1>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">Track your registrations, ranking points, achievements, payments, and match history.</p>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">Track your registrations, ranking points, achievements, payments, match schedule, and notifications.</p>
+          {welcomePlatformId ? <div className="mt-4 rounded-xl border border-emerald-300/30 bg-emerald-300/10 px-4 py-3 text-sm font-bold text-emerald-200">Your Platform ID is {welcomePlatformId}</div> : null}
         </div>
         <button onClick={onLogout} type="button" className="rounded-lg border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm font-bold text-red-100 transition hover:border-red-300 hover:bg-red-500/20">
           Logout
@@ -164,6 +178,8 @@ export function PlayerDashboard({ player, onLogout }: PlayerDashboardProps) {
       </div>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <ProfileCard label="Platform ID" value={profile.platformId || "Not generated"} highlight />
+        <ProfileCard label="Profile completion" value={`${profileCompletion}%`} />
         <ProfileCard label="Current rank" value={profile.currentRank ? `#${profile.currentRank}` : "Unranked"} />
         <ProfileCard label="Total points" value={String(profile.totalPoints)} />
         <ProfileCard label="Wins / Draws / Losses" value={`${profile.totalWins} / ${profile.totalDraws} / ${profile.totalLosses}`} />
@@ -171,7 +187,15 @@ export function PlayerDashboard({ player, onLogout }: PlayerDashboardProps) {
         <ProfileCard label="Name" value={profile.fullName} />
         <ProfileCard label="Email" value={profile.email} />
         <ProfileCard label="Phone" value={profile.phone || "Not provided"} />
+        <ProfileCard label="WhatsApp" value={profile.whatsapp || "Not provided"} />
+        <ProfileCard label="Default game UID" value={profile.defaultGamePlayerId || "Not set"} />
         <ProfileCard label="Favorite game" value={profile.favoriteGame} />
+      </div>
+
+      <div className="mt-8 grid gap-4 sm:grid-cols-3">
+        <ActionCard title="Unpaid registrations" value={String(unpaidRegistrations.length)} href="#my-tournaments" />
+        <ActionCard title="Upcoming matches" value="View schedule" href="/player/matches" />
+        <ActionCard title="Notifications" value="Open inbox" href="/player/notifications" />
       </div>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-2">
@@ -213,7 +237,7 @@ export function PlayerDashboard({ player, onLogout }: PlayerDashboardProps) {
         <div className="mt-6 rounded-lg border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-red-100">{errorMessage}</div>
       ) : null}
 
-      <div className="mt-8">
+      <div id="my-tournaments" className="mt-8">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="text-2xl font-black text-white">My Tournaments</h2>
           <Link href="/tournaments" className="rounded-lg border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-sm font-bold text-cyan-100 transition hover:border-cyan-300 hover:bg-cyan-400/20">
@@ -268,11 +292,11 @@ export function PlayerDashboard({ player, onLogout }: PlayerDashboardProps) {
   );
 }
 
-function ProfileCard({ label, value }: { label: string; value: string }) {
+function ProfileCard({ label, value, highlight = false }: { label: string; value: string; highlight?: boolean }) {
   return (
     <div className="rounded-xl border border-white/10 bg-white/[0.035] p-5 shadow-[0_0_35px_rgba(14,165,233,0.08)]">
       <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">{label}</p>
-      <p className="mt-3 break-words text-lg font-black text-white">{value}</p>
+      <p className={`mt-3 break-words text-lg font-black ${highlight ? "text-cyan-200" : "text-white"}`}>{value}</p>
     </div>
   );
 }
@@ -285,3 +309,14 @@ function Info({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
+
+function ActionCard({ title, value, href }: { title: string; value: string; href: string }) {
+  return (
+    <Link href={href} className="rounded-xl border border-cyan-300/20 bg-cyan-300/10 p-5 transition hover:-translate-y-1 hover:border-cyan-300 hover:bg-cyan-300/15">
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-cyan-300">{title}</p>
+      <p className="mt-3 text-lg font-black text-white">{value}</p>
+    </Link>
+  );
+}
+
+

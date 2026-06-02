@@ -124,6 +124,11 @@ exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   fullName: 'fullName',
   email: 'email',
+  platformId: 'platformId',
+  phone: 'phone',
+  whatsapp: 'whatsapp',
+  defaultGame: 'defaultGame',
+  defaultGamePlayerId: 'defaultGamePlayerId',
   phoneNumber: 'phoneNumber',
   whatsappNumber: 'whatsappNumber',
   gamerTag: 'gamerTag',
@@ -369,16 +374,16 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.Role = exports.$Enums.Role = {
-  PLAYER: 'PLAYER',
-  ADMIN: 'ADMIN'
-};
-
 exports.GameTitle = exports.$Enums.GameTitle = {
   EFOOTBALL_MOBILE: 'EFOOTBALL_MOBILE',
   PUBG_MOBILE: 'PUBG_MOBILE',
   COD_MOBILE: 'COD_MOBILE',
   FREE_FIRE: 'FREE_FIRE'
+};
+
+exports.Role = exports.$Enums.Role = {
+  PLAYER: 'PLAYER',
+  ADMIN: 'ADMIN'
 };
 
 exports.TournamentStatus = exports.$Enums.TournamentStatus = {

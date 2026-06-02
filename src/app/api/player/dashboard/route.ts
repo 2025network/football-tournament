@@ -60,7 +60,12 @@ export async function GET(request: NextRequest) {
         id: player.id,
         fullName: player.fullName,
         email: player.email,
-        phone: player.phoneNumber ?? "",
+        platformId: player.platformId ?? "",
+        phone: player.phone ?? player.phoneNumber ?? "",
+        whatsapp: player.whatsapp ?? player.whatsappNumber ?? "",
+        gamerTag: player.gamerTag ?? "",
+        defaultGame: player.defaultGame ? gameToDisplay[player.defaultGame] : "Not set",
+        defaultGamePlayerId: player.defaultGamePlayerId ?? "",
         currentRank: player.currentRank,
         totalPoints: player.totalPoints,
         totalWins: player.totalWins,
@@ -102,3 +107,4 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ message: "Failed to load player dashboard." }, { status: 500 });
   }
 }
+

@@ -123,30 +123,35 @@ enum StreamPlatform {
 }
 
 model User {
-  id                String              @id @default(cuid())
-  fullName          String
-  email             String              @unique
-  phoneNumber       String?
-  whatsappNumber    String?
-  gamerTag          String?
-  passwordHash      String?
-  role              Role                @default(PLAYER)
-  registrations     Registration[]
-  notifications     Notification[]
-  captainTeams      Team[]              @relation("TeamCaptain")
-  teamMemberships   TeamMember[]
-  rankingHistory    RankingHistory[]
-  achievements      PlayerAchievement[]
-  totalPoints       Int                 @default(0)
-  totalWins         Int                 @default(0)
-  totalLosses       Int                 @default(0)
-  totalDraws        Int                 @default(0)
-  tournamentsPlayed Int                 @default(0)
-  tournamentsWon    Int                 @default(0)
-  currentRank       Int?
-  favoriteGame      GameTitle?
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
+  id                  String              @id @default(cuid())
+  fullName            String
+  email               String              @unique
+  platformId          String?             @unique
+  phone               String?
+  whatsapp            String?
+  defaultGame         GameTitle?
+  defaultGamePlayerId String?
+  phoneNumber         String?
+  whatsappNumber      String?
+  gamerTag            String?
+  passwordHash        String?
+  role                Role                @default(PLAYER)
+  registrations       Registration[]
+  notifications       Notification[]
+  captainTeams        Team[]              @relation("TeamCaptain")
+  teamMemberships     TeamMember[]
+  rankingHistory      RankingHistory[]
+  achievements        PlayerAchievement[]
+  totalPoints         Int                 @default(0)
+  totalWins           Int                 @default(0)
+  totalLosses         Int                 @default(0)
+  totalDraws          Int                 @default(0)
+  tournamentsPlayed   Int                 @default(0)
+  tournamentsWon      Int                 @default(0)
+  currentRank         Int?
+  favoriteGame        GameTitle?
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
 }
 
 model Tournament {
