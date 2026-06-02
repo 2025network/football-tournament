@@ -1,0 +1,461 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  PLAYER
+  ADMIN
+}
+
+enum TournamentStatus {
+  UPCOMING
+  OPEN
+  CLOSED
+}
+
+enum GameTitle {
+  EFOOTBALL_MOBILE
+  PUBG_MOBILE
+  COD_MOBILE
+  FREE_FIRE
+}
+
+enum CompetitionFormat {
+  OPEN_KNOCKOUT
+  LEAGUE
+  CHAMPIONS_LEAGUE
+}
+
+enum MatchStatus {
+  PENDING
+  COMPLETED
+  DISPUTED
+}
+
+enum ResultSubmissionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum NotificationType {
+  INFO
+  MATCH
+  RESULT
+  APPROVAL
+  PAYMENT
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
+enum PaymentMethod {
+  PAYSTACK
+  BANK_TRANSFER
+  MANUAL_ADMIN
+}
+
+enum PaymentProvider {
+  PAYSTACK
+  MANUAL
+}
+
+enum PaymentRecordStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  UNDER_REVIEW
+  REJECTED
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum TeamRole {
+  CAPTAIN
+  MEMBER
+}
+
+enum TeamMemberStatus {
+  ACTIVE
+  INVITED
+  REMOVED
+}
+
+enum RegistrationType {
+  SOLO
+  TEAM
+}
+
+enum MatchStreamMode {
+  NONE
+  PLAYER_STREAM
+  OFFICIAL_STREAM
+}
+
+enum WebsiteSettingType {
+  TEXT
+  LONG_TEXT
+  URL
+  IMAGE
+  JSON
+}
+
+enum StreamPlatform {
+  YOUTUBE
+  FACEBOOK
+  TWITCH
+  TIKTOK
+  OTHER
+}
+
+model User {
+  id                String              @id @default(cuid())
+  fullName          String
+  email             String              @unique
+  phoneNumber       String?
+  whatsappNumber    String?
+  gamerTag          String?
+  passwordHash      String?
+  role              Role                @default(PLAYER)
+  registrations     Registration[]
+  notifications     Notification[]
+  captainTeams      Team[]              @relation("TeamCaptain")
+  teamMemberships   TeamMember[]
+  rankingHistory    RankingHistory[]
+  achievements      PlayerAchievement[]
+  totalPoints       Int                 @default(0)
+  totalWins         Int                 @default(0)
+  totalLosses       Int                 @default(0)
+  totalDraws        Int                 @default(0)
+  tournamentsPlayed Int                 @default(0)
+  tournamentsWon    Int                 @default(0)
+  currentRank       Int?
+  favoriteGame      GameTitle?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+}
+
+model Tournament {
+  id                         String                       @id @default(cuid())
+  slug                       String                       @unique
+  title                      String
+  game                       GameTitle
+  prizePool                  Int
+  entryFee                   Int
+  slots                      Int
+  registeredPlayers          Int                          @default(0)
+  startDate                  DateTime
+  status                     TournamentStatus             @default(UPCOMING)
+  format                     String
+  competitionFormat          CompetitionFormat            @default(OPEN_KNOCKOUT)
+  registrationLimit          Int?
+  allowUnlimitedRegistration Boolean                      @default(false)
+  registrationOpen           Boolean                      @default(true)
+  useHomeAndAway             Boolean                      @default(false)
+  registrationType           RegistrationType             @default(SOLO)
+  teamSize                   Int?
+  livestreamUrl              String?
+  streamPlatform             StreamPlatform?
+  description                String
+  rules                      String[]
+  registrations              Registration[]
+  matches                    Match[]
+  leagueStandings            LeagueStanding[]
+  automationSetting          TournamentAutomationSetting?
+  createdAt                  DateTime                     @default(now())
+  updatedAt                  DateTime                     @updatedAt
+}
+
+model Registration {
+  id                 String         @id @default(cuid())
+  userId             String
+  tournamentId       String
+  teamId             String?
+  platformId         String
+  paymentStatus      PaymentStatus  @default(PENDING)
+  approvalStatus     ApprovalStatus @default(PENDING)
+  proofOfPaymentText String?
+  adminNote          String?
+  agreedToRules      Boolean        @default(false)
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  user                   User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tournament             Tournament              @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  team                   Team?                   @relation(fields: [teamId], references: [id], onDelete: SetNull)
+  playerOneMatches       Match[]                 @relation("MatchPlayerOne")
+  playerTwoMatches       Match[]                 @relation("MatchPlayerTwo")
+  wonMatches             Match[]                 @relation("MatchWinner")
+  homeMatches            Match[]                 @relation("MatchHome")
+  awayMatches            Match[]                 @relation("MatchAway")
+  aggregateWonMatches    Match[]                 @relation("MatchAggregateWinner")
+  leagueStandings        LeagueStanding[]
+  matchResultSubmissions MatchResultSubmission[]
+  payments               Payment[]
+
+  @@unique([userId, tournamentId])
+  @@index([tournamentId])
+  @@index([teamId])
+}
+
+model Match {
+  id                            String          @id @default(cuid())
+  tournamentId                  String
+  round                         Int
+  groupName                     String?
+  playerOneRegistrationId       String?
+  playerTwoRegistrationId       String?
+  playerOneScore                Int?
+  playerTwoScore                Int?
+  winnerRegistrationId          String?
+  status                        MatchStatus     @default(PENDING)
+  scheduledAt                   DateTime?
+  livestreamUrl                 String?
+  streamMode                    MatchStreamMode @default(NONE)
+  playerStreamUrl               String?
+  officialStreamUrl             String?
+  featuredLive                  Boolean         @default(false)
+  roomCode                      String?
+  roomPassword                  String?
+  spectatorNote                 String?
+  legNumber                     Int?
+  homeRegistrationId            String?
+  awayRegistrationId            String?
+  homeScore                     Int?
+  awayScore                     Int?
+  aggregateMatchId              String?
+  aggregateWinnerRegistrationId String?
+  createdAt                     DateTime        @default(now())
+  updatedAt                     DateTime        @updatedAt
+
+  tournament                  Tournament              @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  playerOneRegistration       Registration?           @relation("MatchPlayerOne", fields: [playerOneRegistrationId], references: [id], onDelete: SetNull)
+  playerTwoRegistration       Registration?           @relation("MatchPlayerTwo", fields: [playerTwoRegistrationId], references: [id], onDelete: SetNull)
+  winnerRegistration          Registration?           @relation("MatchWinner", fields: [winnerRegistrationId], references: [id], onDelete: SetNull)
+  homeRegistration            Registration?           @relation("MatchHome", fields: [homeRegistrationId], references: [id], onDelete: SetNull)
+  awayRegistration            Registration?           @relation("MatchAway", fields: [awayRegistrationId], references: [id], onDelete: SetNull)
+  aggregateMatch              Match?                  @relation("AggregateLegs", fields: [aggregateMatchId], references: [id], onDelete: SetNull)
+  aggregateLegs               Match[]                 @relation("AggregateLegs")
+  aggregateWinnerRegistration Registration?           @relation("MatchAggregateWinner", fields: [aggregateWinnerRegistrationId], references: [id], onDelete: SetNull)
+  resultSubmissions           MatchResultSubmission[]
+
+  @@index([tournamentId])
+  @@index([aggregateMatchId])
+  @@index([round])
+  @@index([groupName])
+}
+
+model LeagueStanding {
+  id             String   @id @default(cuid())
+  tournamentId   String
+  registrationId String
+  groupName      String?
+  played         Int      @default(0)
+  won            Int      @default(0)
+  drawn          Int      @default(0)
+  lost           Int      @default(0)
+  goalsFor       Int      @default(0)
+  goalsAgainst   Int      @default(0)
+  goalDifference Int      @default(0)
+  points         Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  tournament   Tournament   @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  registration Registration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+
+  @@unique([tournamentId, registrationId, groupName])
+  @@index([tournamentId])
+  @@index([groupName])
+}
+
+model MatchResultSubmission {
+  id                String                 @id @default(cuid())
+  matchId           String
+  registrationId    String
+  submittedScore    String
+  screenshotUrl     String?
+  note              String?
+  status            ResultSubmissionStatus @default(PENDING)
+  adminNote         String?
+  opponentConfirmed Boolean                @default(false)
+  opponentDisputed  Boolean                @default(false)
+  opponentNote      String?
+  autoApproved      Boolean                @default(false)
+  createdAt         DateTime               @default(now())
+  updatedAt         DateTime               @updatedAt
+
+  match        Match        @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  registration Registration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+
+  @@index([matchId])
+  @@index([registrationId])
+  @@index([status])
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  title     String
+  message   String
+  type      NotificationType @default(INFO)
+  read      Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([read])
+  @@index([type])
+}
+
+model Payment {
+  id               String              @id @default(cuid())
+  registrationId   String
+  amount           Int
+  currency         String              @default("NGN")
+  method           PaymentMethod
+  provider         PaymentProvider
+  reference        String?             @unique
+  receiptUrl       String?
+  senderName       String?
+  senderBank       String?
+  transferNote     String?
+  status           PaymentRecordStatus @default(PENDING)
+  providerResponse String?
+  adminNote        String?
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+
+  registration Registration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+
+  @@index([registrationId])
+  @@index([status])
+  @@index([method])
+}
+
+model LeaderboardSeason {
+  id        String           @id @default(cuid())
+  name      String
+  startDate DateTime
+  endDate   DateTime
+  active    Boolean          @default(false)
+  history   RankingHistory[]
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@index([active])
+  @@index([startDate, endDate])
+}
+
+model RankingHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  seasonId  String?
+  points    Int      @default(0)
+  wins      Int      @default(0)
+  losses    Int      @default(0)
+  draws     Int      @default(0)
+  createdAt DateTime @default(now())
+
+  user   User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  season LeaderboardSeason? @relation(fields: [seasonId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([seasonId])
+  @@index([createdAt])
+}
+
+model Achievement {
+  id          String              @id @default(cuid())
+  name        String              @unique
+  description String
+  icon        String?
+  players     PlayerAchievement[]
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+}
+
+model PlayerAchievement {
+  id            String   @id @default(cuid())
+  userId        String
+  achievementId String
+  unlockedAt    DateTime @default(now())
+
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievement Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementId])
+  @@index([userId])
+  @@index([achievementId])
+}
+
+model Team {
+  id            String         @id @default(cuid())
+  name          String
+  tag           String         @unique
+  logoUrl       String?
+  captainId     String
+  game          GameTitle
+  description   String?
+  captain       User           @relation("TeamCaptain", fields: [captainId], references: [id], onDelete: Cascade)
+  members       TeamMember[]
+  registrations Registration[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([captainId])
+  @@index([game])
+}
+
+model TeamMember {
+  id       String           @id @default(cuid())
+  teamId   String
+  userId   String
+  role     TeamRole         @default(MEMBER)
+  status   TeamMemberStatus @default(ACTIVE)
+  joinedAt DateTime         @default(now())
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, userId])
+  @@index([userId])
+  @@index([status])
+}
+
+model WebsiteSetting {
+  id        String             @id @default(cuid())
+  key       String             @unique
+  value     String             @db.Text
+  type      WebsiteSettingType @default(TEXT)
+  updatedAt DateTime           @updatedAt
+}
+
+model TournamentAutomationSetting {
+  id                     String   @id @default(cuid())
+  tournamentId           String   @unique
+  autoApprovePaidPlayers Boolean  @default(false)
+  autoCloseRegistration  Boolean  @default(false)
+  autoGenerateFixtures   Boolean  @default(false)
+  autoNotifyPlayers      Boolean  @default(true)
+  autoFeatureFinals      Boolean  @default(false)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  tournament Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+
+  @@index([tournamentId])
+}
