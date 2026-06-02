@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { publicGameOptions, type PublicGameTitle } from "@/types/public-tournament";
 import type { PlayerSession } from "@/components/PlayerAuthGate";
 import type { TeamResponse } from "@/types/team";
@@ -33,8 +33,9 @@ function readSession() {
 
 export function TeamCreateForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [player, setPlayer] = useState<PlayerSession | null>(null);
-  const [form, setForm] = useState<FormState>(emptyForm);
+  const [form, setForm] = useState<FormState>(() => ({ ...emptyForm, game: (searchParams.get("game") as PublicGameTitle) || emptyForm.game }));
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
 
@@ -67,7 +68,7 @@ export function TeamCreateForm() {
       });
       const data = (await response.json()) as TeamResponse;
       if (!response.ok || !data.team) throw new Error(data.message ?? "Could not create team.");
-      router.push(`/teams/${data.team.id}`);
+      router.push(searchParams.get("returnTo") || `/teams/${data.team.id}`);
     } catch (currentError) {
       setError(currentError instanceof Error ? currentError.message : "Could not create team.");
     } finally {
@@ -80,17 +81,17 @@ export function TeamCreateForm() {
       <form onSubmit={handleSubmit} className="rounded-2xl border border-cyan-300/20 bg-slate-900/80 p-6 shadow-2xl shadow-cyan-950/20">
         <p className="text-sm font-black uppercase tracking-[0.24em] text-cyan-300">Create team</p>
         <h1 className="mt-3 text-3xl font-black text-white">Build your clan</h1>
-        <p className="mt-3 text-sm leading-6 text-slate-400">The logged-in player becomes captain automatically.</p>
+        <p className="mt-3 text-sm leading-6 text-slate-400">The logged-in player becomes captain automatically. After creating the team, invite members from Player Teams using their Platform ID.</p>
 
-        {error ? <div className="mt-5 rounded-lg border border-rose-300/30 bg-rose-300/10 px-4 py-3 text-sm font-bold text-rose-200">{error}</div> : null}
+        {player ? <div className="mt-5 rounded-xl border border-cyan-300/20 bg-cyan-300/10 px-4 py-3 text-sm text-cyan-100"><span className="font-black text-white">Captain:</span> {player.fullName} {player.platformId ? `(${player.platformId})` : ""}</div> : null}\n        {error ? <div className="mt-5 rounded-lg border border-rose-300/30 bg-rose-300/10 px-4 py-3 text-sm font-bold text-rose-200">{error}</div> : null}
 
         <div className="mt-6 grid gap-4">
           <Field label="Team name"><input className="form-input" value={form.name} onChange={(event) => update("name", event.target.value)} placeholder="Delta Squad" /></Field>
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="Team tag"><input className="form-input" value={form.tag} onChange={(event) => update("tag", event.target.value)} placeholder="DLT" maxLength={8} /></Field>
+            <Field label="Team tag optional"><input className="form-input" value={form.tag} onChange={(event) => update("tag", event.target.value)} placeholder="Auto generated from team name" maxLength={8} /></Field>
             <Field label="Game"><select className="form-input" value={form.game} onChange={(event) => update("game", event.target.value as PublicGameTitle)}>{publicGameOptions.filter((game) => game.value !== "All").map((game) => <option key={game.value} value={game.value}>{game.label}</option>)}</select></Field>
           </div>
-          <Field label="Logo URL optional"><input className="form-input" value={form.logoUrl} onChange={(event) => update("logoUrl", event.target.value)} placeholder="https://..." /></Field>
+          <Field label="Team logo upload placeholder"><input className="form-input" value={form.logoUrl} onChange={(event) => update("logoUrl", event.target.value)} placeholder="Paste logo URL for now. Upload will come later." /></Field>
           <Field label="Description optional"><textarea className="form-input min-h-28 resize-y" value={form.description} onChange={(event) => update("description", event.target.value)} placeholder="Tell players what your team is about." /></Field>
         </div>
 

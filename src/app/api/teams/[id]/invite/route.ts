@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
-type InviteBody = { captainEmail?: string; email?: string };
+type InviteBody = { captainEmail?: string; email?: string; platformId?: string };
 
 export async function POST(request: NextRequest, context: RouteContext) {
   const { id } = await context.params;
@@ -15,11 +15,14 @@ export async function POST(request: NextRequest, context: RouteContext) {
     const team = await prisma.team.findUnique({ where: { id }, include: teamInclude });
     if (!team) return NextResponse.json({ message: "Team not found." }, { status: 404 });
     if (!body.captainEmail || !isCaptain(team, body.captainEmail)) return NextResponse.json({ message: "Only the captain can invite members." }, { status: 403 });
-    if (!body.email?.trim()) return NextResponse.json({ message: "Player email is required." }, { status: 400 });
+    const platformId = body.platformId?.trim().toUpperCase();
+    const email = body.email?.trim().toLowerCase();
+    if (!platformId && !email) return NextResponse.json({ message: "Player Platform ID or email is required." }, { status: 400 });
 
-    const email = body.email.trim().toLowerCase();
-    const user = await prisma.user.findUnique({ where: { email } });
-    if (!user?.passwordHash) return NextResponse.json({ message: "Player account not found. Ask them to sign up first." }, { status: 404 });
+    const user = platformId
+      ? await prisma.user.findUnique({ where: { platformId } })
+      : await prisma.user.findUnique({ where: { email: email! } });
+    if (!user?.passwordHash) return NextResponse.json({ message: "Player account not found. Ask them to sign up first and share their Platform ID." }, { status: 404 });
 
     await prisma.teamMember.upsert({
       where: { teamId_userId: { teamId: id, userId: user.id } },

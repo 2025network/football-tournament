@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
         ...(email
           ? captainOnly
             ? { captain: { email } }
-            : { members: { some: { user: { email }, status: TeamMemberStatus.ACTIVE } } }
+            : { members: { some: { user: { email }, status: { in: [TeamMemberStatus.ACTIVE, TeamMemberStatus.INVITED] } } } }
           : {}),
       },
       include: teamInclude,
@@ -45,7 +45,12 @@ export async function POST(request: NextRequest) {
     if (validationError) return NextResponse.json({ message: validationError }, { status: 400 });
 
     const email = body.captainEmail!.trim().toLowerCase();
-    const tag = normalizeTeamTag(body.tag!);
+    const tag = normalizeTeamTag(body.tag?.trim() || body.name!);
+
+    const existingName = await prisma.team.findFirst({ where: { name: { equals: body.name!.trim(), mode: "insensitive" }, game: body.game! } });
+    if (existingName) {
+      return NextResponse.json({ message: "A team with this name already exists for this game." }, { status: 409 });
+    }
 
     const captain = await prisma.user.findUnique({ where: { email } });
     if (!captain?.passwordHash) {
@@ -74,7 +79,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: "Team created successfully.", team: serializeTeam(team) }, { status: 201 });
   } catch (error) {
     if (isPrismaErrorCode(error, "P2002")) {
-      return NextResponse.json({ message: "Team tag is already taken. Choose another tag." }, { status: 409 });
+      return NextResponse.json({ message: "Team name or tag is already taken. Choose another name or tag." }, { status: 409 });
     }
     console.error("Failed to create team", error);
     return NextResponse.json({ message: "Failed to create team." }, { status: 500 });
@@ -83,7 +88,7 @@ export async function POST(request: NextRequest) {
 
 function validateBody(body: CreateTeamBody) {
   if (!body.name?.trim()) return "Team name is required.";
-  if (!body.tag?.trim() || normalizeTeamTag(body.tag).length < 2) return "Team tag must be at least 2 letters or numbers.";
+  if (normalizeTeamTag(body.tag?.trim() || body.name).length < 2) return "Team tag must be at least 2 letters or numbers.";
   if (!body.captainEmail?.trim()) return "Captain email is required.";
   if (!body.game || !Object.values(GameTitle).includes(body.game)) return "Valid team game is required.";
   return null;

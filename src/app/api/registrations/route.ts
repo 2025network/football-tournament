@@ -82,6 +82,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Create an account first before registering for a tournament." }, { status: 403 });
     }
 
+    if (body.platformId && account.platformId && body.platformId.trim().toUpperCase() === account.platformId.toUpperCase()) {
+      return NextResponse.json({ message: "Do not use your Platform ID as your Game Player ID / UID. Enter the ID from inside your selected game." }, { status: 400 });
+    }
+
     const tournament = await prisma.tournament.findFirst({
       where: { OR: [{ id: body.tournamentId! }, { slug: body.tournamentId! }] },
     });
@@ -101,6 +105,8 @@ export async function POST(request: NextRequest) {
       if (!team) return NextResponse.json({ message: "Selected team was not found." }, { status: 404 });
       if (team.game !== tournament.game) return NextResponse.json({ message: "Team game must match the tournament game." }, { status: 400 });
       if (team.captain.email.toLowerCase() !== account.email.toLowerCase()) return NextResponse.json({ message: "Only the team captain can register this team." }, { status: 403 });
+      const existingTeamRegistration = await prisma.registration.findFirst({ where: { tournamentId: tournament.id, teamId: team.id } });
+      if (existingTeamRegistration) return NextResponse.json({ message: "This team is already registered for this tournament." }, { status: 409 });
       const activeMembers = team.members.filter((member) => member.status === TeamMemberStatus.ACTIVE).length;
       if (tournament.teamSize && activeMembers < tournament.teamSize) return NextResponse.json({ message: `This tournament requires ${tournament.teamSize} active team members.` }, { status: 400 });
     }
@@ -190,3 +196,4 @@ function validateRegistrationBody(body: RegistrationRequestBody) {
 function isPrismaErrorCode(error: unknown, code: string) {
   return typeof error === "object" && error !== null && "code" in error && error.code === code;
 }
+

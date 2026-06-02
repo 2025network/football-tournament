@@ -9,6 +9,7 @@ export type PublicTeamMember = {
   fullName: string;
   email: string;
   gamerTag: string | null;
+  platformId: string | null;
   role: TeamRole;
   status: TeamMemberStatus;
   joinedAt: string;

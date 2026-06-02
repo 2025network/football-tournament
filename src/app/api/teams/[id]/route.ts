@@ -41,6 +41,15 @@ export async function PUT(request: NextRequest, context: RouteContext) {
     if (!body.name?.trim()) return NextResponse.json({ message: "Team name is required." }, { status: 400 });
     if (!body.game || !Object.values(GameTitle).includes(body.game)) return NextResponse.json({ message: "Valid game is required." }, { status: 400 });
 
+    const duplicateName = await prisma.team.findFirst({
+      where: {
+        id: { not: id },
+        game: body.game,
+        name: { equals: body.name.trim(), mode: "insensitive" },
+      },
+    });
+    if (duplicateName) return NextResponse.json({ message: "A team with this name already exists for this game." }, { status: 409 });
+
     const team = await prisma.team.update({
       where: { id },
       data: {
@@ -56,7 +65,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
     return NextResponse.json({ message: "Team updated successfully.", team: serializeTeam(team) });
   } catch (error) {
     if (isPrismaErrorCode(error, "P2002")) {
-      return NextResponse.json({ message: "Team tag is already taken." }, { status: 409 });
+      return NextResponse.json({ message: "Team name or tag is already taken." }, { status: 409 });
     }
     console.error("Failed to update team", error);
     return NextResponse.json({ message: "Failed to update team." }, { status: 500 });

@@ -155,11 +155,11 @@ export function RegisterForm() {
 
   function validateForm() {
     const nextErrors: Partial<Record<keyof FormState, string>> = {};
-    const gamePlayerError = validateGamePlayerId(form.gamePlayerId);
+    const gamePlayerError = validateGamePlayerId(form.gamePlayerId, player?.platformId);
 
     if (!form.tournamentId) nextErrors.tournamentId = "Choose a tournament.";
     if (!form.game) nextErrors.game = "Choose a game.";
-    if (isTeamTournament && !form.teamId) nextErrors.teamId = "Choose one of your captain teams.";
+    if (isTeamTournament && !form.teamId) nextErrors.teamId = "Choose a team you captain before joining this team tournament.";
     if (gamePlayerError) nextErrors.gamePlayerId = gamePlayerError;
     if (!form.agreedToRules) nextErrors.agreedToRules = "You must agree to the tournament rules.";
 
@@ -265,14 +265,39 @@ export function RegisterForm() {
       <div className="grid gap-5 md:grid-cols-2">
         <FormField label="Game" error={errors.game}><select value={form.game} onChange={(event) => updateField("game", event.target.value as PublicGameTitle | "")} className="form-input" disabled={isLoadingTournaments}><option value="">{isLoadingTournaments ? "Loading games..." : "Select game"}</option>{publicGameOptions.filter((game) => game.value !== "All").map((game) => <option key={game.value} value={game.value}>{game.label}</option>)}</select></FormField>
         <FormField label="Tournament" error={errors.tournamentId}><select value={form.tournamentId} onChange={(event) => updateField("tournamentId", event.target.value)} className="form-input" disabled={isLoadingTournaments}><option value="">{isLoadingTournaments ? "Loading tournaments..." : "Select tournament"}</option>{availableTournaments.map((tournament) => <option key={tournament.id} value={tournament.id}>{tournament.title} ({formatGame(tournament.game)}) - {tournament.registrationType}</option>)}</select></FormField>
-        {isTeamTournament ? <FormField label={`Team ${selectedTournament?.teamSize ? `(needs ${selectedTournament.teamSize})` : ""}`} error={errors.teamId}><select value={form.teamId} onChange={(event) => updateField("teamId", event.target.value)} className="form-input" disabled={isLoadingTeams}><option value="">{isLoadingTeams ? "Loading your captain teams..." : "Select team"}</option>{teams.map((team) => <option key={team.id} value={team.id}>[{team.tag}] {team.name} - {team.activeMemberCount} active members</option>)}</select></FormField> : null}
-        <FormField label="Game Player ID / UID" error={errors.gamePlayerId} helper="This is your ID inside the selected game, for example eFootball Player ID, PUBG UID, COD UID, or Free Fire UID."><input value={form.gamePlayerId} onChange={(event) => updateField("gamePlayerId", event.target.value)} className="form-input" placeholder="Enter game UID" /></FormField>
+                {isTeamTournament ? (
+          <div className="md:col-span-2">
+            {teams.length === 0 && !isLoadingTeams ? (
+              <div className="rounded-xl border border-amber-300/30 bg-amber-300/10 p-4">
+                <p className="font-black text-amber-100">You do not have a team yet. Create one first.</p>
+                <p className="mt-2 text-sm leading-6 text-amber-100/80">Only captains can register teams. After creating your team, invite members by Platform ID and return here.</p>
+                <Link href={`/teams/create?game=${selectedTournament?.game ?? form.game}&returnTo=${encodeURIComponent(`/register?tournament=${form.tournamentId}`)}`} className="mt-4 inline-block rounded-lg bg-cyan-300 px-4 py-3 text-sm font-black text-slate-950 transition hover:bg-white">Create Team</Link>
+              </div>
+            ) : (
+              <FormField label={`Team ${selectedTournament?.teamSize ? `(needs ${selectedTournament.teamSize})` : ""}`} error={errors.teamId} helper="Choose a team where you are the captain. The team must have enough active members for this tournament.">
+                <select value={form.teamId} onChange={(event) => updateField("teamId", event.target.value)} className="form-input" disabled={isLoadingTeams || teams.length === 0}>
+                  <option value="">{isLoadingTeams ? "Loading your captain teams..." : "Select team"}</option>
+                  {teams.map((team) => <option key={team.id} value={team.id}>[{team.tag}] {team.name} - {team.activeMemberCount} active members</option>)}
+                </select>
+              </FormField>
+            )}
+          </div>
+        ) : null}
+                <FormField label="Game Player ID / UID" error={errors.gamePlayerId} helper={`This is not your Platform ID (${player.platformId || "FT-000001"}). Enter the ID from inside your selected game.`}>
+          <input value={form.gamePlayerId} onChange={(event) => updateField("gamePlayerId", event.target.value)} className="form-input" placeholder="Enter game UID" />
+          <div className="mt-3 grid gap-1 rounded-lg border border-white/10 bg-black/20 p-3 text-xs leading-5 text-slate-400 sm:grid-cols-2">
+            <span>eFootball ID example: 123456789</span>
+            <span>PUBG UID example: 5123456789</span>
+            <span>COD UID example: CODM_778899</span>
+            <span>Free Fire UID example: 1234567890</span>
+          </div>
+        </FormField>
       </div>
 
       <label className="mt-6 flex gap-3 rounded-xl border border-white/10 bg-white/[0.04] p-4 text-sm text-slate-300"><input type="checkbox" checked={form.agreedToRules} onChange={(event) => updateField("agreedToRules", event.target.checked)} className="mt-1 h-4 w-4 accent-cyan-300" /><span>I agree to follow the tournament rules and accept admin decisions during disputes.</span></label>
       {errors.agreedToRules ? <p className="mt-2 text-sm font-semibold text-rose-300">{errors.agreedToRules}</p> : null}
 
-      <button className="mt-7 w-full rounded-lg bg-cyan-300 px-5 py-4 text-sm font-black uppercase tracking-wide text-slate-950 shadow-[0_0_32px_rgba(34,211,238,0.35)] transition hover:-translate-y-1 hover:bg-white disabled:cursor-not-allowed disabled:opacity-60" type="submit" disabled={isSubmitting || isLoadingTournaments}>{isSubmitting ? "Submitting..." : "Join Tournament"}</button>
+      <button className="mt-7 w-full rounded-lg bg-cyan-300 px-5 py-4 text-sm font-black uppercase tracking-wide text-slate-950 shadow-[0_0_32px_rgba(34,211,238,0.35)] transition hover:-translate-y-1 hover:bg-white disabled:cursor-not-allowed disabled:opacity-60" type="submit" disabled={isSubmitting || isLoadingTournaments || (Boolean(isTeamTournament) && teams.length === 0)}>{isSubmitting ? "Submitting..." : "Join Tournament"}</button>
     </form>
   );
 }
@@ -282,5 +307,6 @@ type FormFieldProps = { label: string; error?: string; helper?: string; children
 function FormField({ label, error, helper, children }: FormFieldProps) {
   return <label className="block"><span className="mb-2 block text-sm font-black text-slate-200">{label}</span>{children}{helper ? <span className="mt-2 block text-xs leading-5 text-slate-400">{helper}</span> : null}{error ? <span className="mt-2 block text-sm font-semibold text-rose-300">{error}</span> : null}</label>;
 }
+
 
 

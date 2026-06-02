@@ -44,6 +44,7 @@ export function serializeTeam(team: TeamWithRelations) {
       fullName: member.user.fullName,
       email: member.user.email,
       gamerTag: member.user.gamerTag,
+      platformId: member.user.platformId,
       role: member.role,
       status: member.status,
       joinedAt: member.joinedAt.toISOString(),
