@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { CompetitionFormat, MatchStatus, MatchStreamMode, ResultSubmissionStatus } from "@/generated/prisma/client";
+import { CompetitionFormat, MatchLiveStatus, MatchStatus, MatchStreamMode, ResultSubmissionStatus } from "@/generated/prisma/client";
 
 type TournamentSummary = {
   id: string;
@@ -49,6 +49,16 @@ type CompetitionMatch = {
   winnerRegistrationId: string | null;
   winnerName: string | null;
   status: MatchStatus;
+  liveStatus: MatchLiveStatus;
+  refereeId: string | null;
+  refereeName: string | null;
+  refereeEmail: string | null;
+  livePlayerOneScore: number;
+  livePlayerTwoScore: number;
+  liveHomeScore: number;
+  liveAwayScore: number;
+  liveStartedAt: string | null;
+  liveEndedAt: string | null;
   legNumber: number | null;
   homeRegistrationId: string | null;
   awayRegistrationId: string | null;
@@ -94,7 +104,7 @@ type CompetitionResponse = {
   standings: Standing[];
 };
 
-type MatchScoreState = Record<string, { homeScore: string; awayScore: string; winnerRegistrationId: string; scheduledAt: string; livestreamUrl: string; streamMode: MatchStreamMode; playerStreamUrl: string; officialStreamUrl: string; featuredLive: boolean; roomCode: string; roomPassword: string; spectatorNote: string }>;
+type MatchScoreState = Record<string, { homeScore: string; awayScore: string; winnerRegistrationId: string; scheduledAt: string; livestreamUrl: string; streamMode: MatchStreamMode; playerStreamUrl: string; officialStreamUrl: string; featuredLive: boolean; roomCode: string; roomPassword: string; spectatorNote: string; refereeEmail: string; liveStatus: MatchLiveStatus; liveHomeScore: string; liveAwayScore: string; livePlayerOneScore: string; livePlayerTwoScore: string }>;
 
 export function AdminCompetitionManager({ tournamentId }: { tournamentId: string }) {
   const [data, setData] = useState<CompetitionResponse | null>(null);
@@ -298,6 +308,110 @@ export function AdminCompetitionManager({ tournamentId }: { tournamentId: string
     }
   }
 
+  async function assignReferee(match: CompetitionMatch) {
+    const email = scores[match.id]?.refereeEmail?.trim();
+
+    if (!email) {
+      setErrorMessage("Enter the referee email first.");
+      return;
+    }
+
+    setActionLoading(`referee-${match.id}`);
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    try {
+      const response = await fetch(`/api/matches/${match.id}/assign-referee`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const nextData = (await response.json()) as CompetitionResponse;
+
+      if (!response.ok) {
+        throw new Error(nextData.message ?? "Could not assign referee.");
+      }
+
+      setData(nextData);
+      setScores(buildScoreState(nextData.matches, scores));
+      setAdminNotes(buildAdminNoteState(nextData.matches, adminNotes));
+      setSuccessMessage(nextData.message ?? "Referee assigned.");
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Could not assign referee.");
+    } finally {
+      setActionLoading("");
+    }
+  }
+
+  async function saveLiveScore(match: CompetitionMatch, liveStatus?: MatchLiveStatus) {
+    const score = scores[match.id];
+    const liveHomeScore = Number(score?.liveHomeScore ?? 0);
+    const liveAwayScore = Number(score?.liveAwayScore ?? 0);
+    const livePlayerOneScore = Number(score?.livePlayerOneScore ?? liveHomeScore);
+    const livePlayerTwoScore = Number(score?.livePlayerTwoScore ?? liveAwayScore);
+
+    if ([liveHomeScore, liveAwayScore, livePlayerOneScore, livePlayerTwoScore].some((value) => !Number.isInteger(value) || value < 0)) {
+      setErrorMessage("Enter valid live scores.");
+      return;
+    }
+
+    setActionLoading(`live-${match.id}`);
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    try {
+      const response = await fetch(`/api/matches/${match.id}/live-score`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          liveStatus: liveStatus ?? score?.liveStatus ?? match.liveStatus,
+          liveHomeScore,
+          liveAwayScore,
+          livePlayerOneScore,
+          livePlayerTwoScore,
+        }),
+      });
+      const nextData = (await response.json()) as CompetitionResponse;
+
+      if (!response.ok) {
+        throw new Error(nextData.message ?? "Could not update live score.");
+      }
+
+      setData(nextData);
+      setScores(buildScoreState(nextData.matches, scores));
+      setAdminNotes(buildAdminNoteState(nextData.matches, adminNotes));
+      setSuccessMessage(nextData.message ?? "Live score updated.");
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Could not update live score.");
+    } finally {
+      setActionLoading("");
+    }
+  }
+
+  async function finalizeLiveResult(match: CompetitionMatch) {
+    setActionLoading(`finalize-${match.id}`);
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    try {
+      const response = await fetch(`/api/matches/${match.id}/finalize-live-result`, { method: "PUT" });
+      const nextData = (await response.json()) as CompetitionResponse;
+
+      if (!response.ok) {
+        throw new Error(nextData.message ?? "Could not finalize live result.");
+      }
+
+      setData(nextData);
+      setScores(buildScoreState(nextData.matches, scores));
+      setAdminNotes(buildAdminNoteState(nextData.matches, adminNotes));
+      setSuccessMessage(nextData.message ?? "Live result finalized.");
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Could not finalize live result.");
+    } finally {
+      setActionLoading("");
+    }
+  }
+
   async function saveSchedule(match: CompetitionMatch) {
     const scheduledAt = scores[match.id]?.scheduledAt || null;
     setActionLoading(`schedule-${match.id}`);
@@ -347,6 +461,12 @@ export function AdminCompetitionManager({ tournamentId }: { tournamentId: string
         roomCode: current[matchId]?.roomCode ?? "",
         roomPassword: current[matchId]?.roomPassword ?? "",
         spectatorNote: current[matchId]?.spectatorNote ?? "",
+        refereeEmail: current[matchId]?.refereeEmail ?? "",
+        liveStatus: current[matchId]?.liveStatus ?? MatchLiveStatus.NOT_STARTED,
+        liveHomeScore: current[matchId]?.liveHomeScore ?? "0",
+        liveAwayScore: current[matchId]?.liveAwayScore ?? "0",
+        livePlayerOneScore: current[matchId]?.livePlayerOneScore ?? "0",
+        livePlayerTwoScore: current[matchId]?.livePlayerTwoScore ?? "0",
         [field]: value,
       },
     }));
@@ -430,12 +550,31 @@ export function AdminCompetitionManager({ tournamentId }: { tournamentId: string
                       </div>
                       <p className="mt-2 text-sm text-slate-400">Home: {match.homeName} - Away: {match.awayName}</p>
                       <p className="mt-1 text-sm text-slate-400">Scheduled: {match.scheduledAt ? formatDate(match.scheduledAt) : "Not scheduled"}</p>
+                      <div className="mt-3 flex flex-wrap gap-2 text-xs font-bold">
+                        <span className={`rounded-full border px-3 py-1 ${match.liveStatus === MatchLiveStatus.LIVE ? "border-red-300/30 bg-red-500/10 text-red-100" : "border-white/10 bg-white/[0.04] text-slate-300"}`}>Live: {match.liveStatus}</span>
+                        <span className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1 text-cyan-100">Referee: {match.refereeName ?? "Not assigned"}</span>
+                        <span className="rounded-full border border-emerald-300/30 bg-emerald-300/10 px-3 py-1 text-emerald-100">Current score {match.liveHomeScore} : {match.liveAwayScore}</span>
+                      </div>
                       <div className="mt-4 grid gap-3 md:grid-cols-[1fr_auto] md:items-end">
                         <label>
                           <span className="mb-2 block text-xs font-black uppercase tracking-[0.18em] text-slate-400">Scheduled date/time</span>
                           <input className="form-input" type="datetime-local" value={scores[match.id]?.scheduledAt ?? ""} onChange={(event) => updateScore(match.id, "scheduledAt", event.target.value)} />
                         </label>
                         <button onClick={() => saveSchedule(match)} disabled={actionLoading === `schedule-${match.id}`} type="button" className="rounded-lg border border-amber-300/30 bg-amber-300/10 px-4 py-3 text-sm font-black text-amber-100 transition hover:bg-amber-300 hover:text-slate-950 disabled:opacity-50">Save Schedule</button>
+                      </div>
+                      <div className="mt-4 grid gap-3 rounded-xl border border-cyan-300/20 bg-cyan-300/5 p-4 md:grid-cols-[1fr_auto] md:items-end">
+                        <label>
+                          <span className="mb-2 block text-xs font-black uppercase tracking-[0.18em] text-slate-400">Referee email</span>
+                          <input className="form-input" value={scores[match.id]?.refereeEmail ?? ""} onChange={(event) => updateScore(match.id, "refereeEmail", event.target.value)} placeholder="referee@example.com" />
+                        </label>
+                        <button onClick={() => assignReferee(match)} disabled={actionLoading === `referee-${match.id}`} type="button" className="rounded-lg border border-cyan-300/30 bg-cyan-300/10 px-4 py-3 text-sm font-black text-cyan-100 transition hover:bg-cyan-300 hover:text-slate-950 disabled:opacity-50">Assign Referee</button>
+                        <ScoreInput label="Live home score" value={scores[match.id]?.liveHomeScore ?? "0"} onChange={(value) => updateScore(match.id, "liveHomeScore", value)} />
+                        <ScoreInput label="Live away score" value={scores[match.id]?.liveAwayScore ?? "0"} onChange={(value) => updateScore(match.id, "liveAwayScore", value)} />
+                        <div className="flex flex-wrap gap-2 md:col-span-2">
+                          <button onClick={() => saveLiveScore(match, MatchLiveStatus.LIVE)} disabled={actionLoading === `live-${match.id}`} type="button" className="rounded-lg border border-emerald-300/30 bg-emerald-300/10 px-4 py-3 text-sm font-black text-emerald-100 transition hover:bg-emerald-300 hover:text-slate-950 disabled:opacity-50">Start / Update Live</button>
+                          <button onClick={() => saveLiveScore(match, MatchLiveStatus.PAUSED)} disabled={actionLoading === `live-${match.id}`} type="button" className="rounded-lg border border-amber-300/30 bg-amber-300/10 px-4 py-3 text-sm font-black text-amber-100 transition hover:bg-amber-300 hover:text-slate-950 disabled:opacity-50">Pause</button>
+                          <button onClick={() => finalizeLiveResult(match)} disabled={actionLoading === `finalize-${match.id}`} type="button" className="rounded-lg border border-fuchsia-300/30 bg-fuchsia-300/10 px-4 py-3 text-sm font-black text-fuchsia-100 transition hover:bg-fuchsia-300 hover:text-slate-950 disabled:opacity-50">Finalize Live Result</button>
+                        </div>
                       </div>
                       <div className="mt-4 grid gap-3 md:grid-cols-2">
                         <label>
@@ -624,6 +763,12 @@ function buildScoreState(matches: CompetitionMatch[], current: MatchScoreState) 
       roomCode: current[match.id]?.roomCode ?? match.roomCode ?? "",
       roomPassword: current[match.id]?.roomPassword ?? match.roomPassword ?? "",
       spectatorNote: current[match.id]?.spectatorNote ?? match.spectatorNote ?? "",
+      refereeEmail: current[match.id]?.refereeEmail ?? match.refereeEmail ?? "",
+      liveStatus: current[match.id]?.liveStatus ?? match.liveStatus ?? MatchLiveStatus.NOT_STARTED,
+      liveHomeScore: current[match.id]?.liveHomeScore ?? match.liveHomeScore?.toString() ?? "0",
+      liveAwayScore: current[match.id]?.liveAwayScore ?? match.liveAwayScore?.toString() ?? "0",
+      livePlayerOneScore: current[match.id]?.livePlayerOneScore ?? match.livePlayerOneScore?.toString() ?? "0",
+      livePlayerTwoScore: current[match.id]?.livePlayerTwoScore ?? match.livePlayerTwoScore?.toString() ?? "0",
     };
     return next;
   }, {});
@@ -668,5 +813,6 @@ function formatDate(value: string) {
     minute: "2-digit",
   }).format(new Date(value));
 }
+
 
 

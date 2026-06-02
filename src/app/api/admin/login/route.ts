@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
+import { Role } from "@/generated/prisma/client";
+import { prisma } from "@/lib/prisma";
 
 type LoginRequestBody = {
   email?: string;
@@ -6,28 +9,36 @@ type LoginRequestBody = {
 };
 
 export async function POST(request: NextRequest) {
-  const body = (await request.json()) as LoginRequestBody;
-  const adminEmail = process.env.ADMIN_EMAIL;
-  const adminPassword = process.env.ADMIN_PASSWORD;
+  try {
+    const body = (await request.json()) as LoginRequestBody;
+    const email = body.email?.trim().toLowerCase();
+    const password = body.password ?? "";
 
-  if (!adminEmail || !adminPassword) {
-    return NextResponse.json(
-      { message: "Admin credentials are not configured on the server." },
-      { status: 500 },
-    );
+    if (!email || !password) {
+      return NextResponse.json({ message: "Email and password are required." }, { status: 400 });
+    }
+
+    const admin = await prisma.user.findUnique({ where: { email } });
+
+    if (!admin || admin.role !== Role.ADMIN || !admin.passwordHash) {
+      return NextResponse.json({ message: "Invalid admin email or password." }, { status: 401 });
+    }
+
+    const passwordMatches = await bcrypt.compare(password, admin.passwordHash);
+
+    if (!passwordMatches) {
+      return NextResponse.json({ message: "Invalid admin email or password." }, { status: 401 });
+    }
+
+    return NextResponse.json({
+      message: "Admin login successful.",
+      admin: {
+        email: admin.email,
+        role: admin.role,
+      },
+    });
+  } catch (error) {
+    console.error("Admin database login failed", error);
+    return NextResponse.json({ message: "Admin login failed." }, { status: 500 });
   }
-
-  if (!body.email?.trim() || !body.password) {
-    return NextResponse.json({ message: "Email and password are required." }, { status: 400 });
-  }
-
-  const isValidLogin =
-    body.email.trim().toLowerCase() === adminEmail.trim().toLowerCase() &&
-    body.password === adminPassword;
-
-  if (!isValidLogin) {
-    return NextResponse.json({ message: "Invalid admin email or password." }, { status: 401 });
-  }
-
-  return NextResponse.json({ message: "Admin login successful." });
 }

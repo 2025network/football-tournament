@@ -25,13 +25,13 @@ export function AdminLoginForm() {
         },
         body: JSON.stringify({ email, password }),
       });
-      const data = (await response.json()) as { message?: string };
+      const data = (await response.json()) as { message?: string; admin?: { email: string; role: "ADMIN" } };
 
       if (!response.ok) {
         throw new Error(data.message ?? "Admin login failed.");
       }
 
-      sessionStorage.setItem(adminSessionKey, "true");
+      sessionStorage.setItem(adminSessionKey, JSON.stringify({ adminEmail: data.admin?.email ?? email.trim().toLowerCase(), adminRole: data.admin?.role ?? "ADMIN" }));
       router.push("/admin");
       router.refresh();
     } catch (error) {
@@ -82,3 +82,4 @@ export function AdminLoginForm() {
     </form>
   );
 }
+

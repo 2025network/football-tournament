@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MatchStatus, MatchStreamMode } from "@/generated/prisma/client";
+import { MatchLiveStatus, MatchStreamMode } from "@/generated/prisma/client";
 import { Footer } from "@/components/Footer";
 import { LivestreamEmbed } from "@/components/LivestreamEmbed";
 import { Navbar } from "@/components/Navbar";
@@ -83,7 +83,7 @@ function MatchPanel({ match, featured = false }: { match: StreamMatch; featured?
   const homeName = home?.team ? `[${home.team.tag}] ${home.team.name}` : home?.user.gamerTag || home?.user.fullName || "TBD";
   const awayName = away?.team ? `[${away.team.tag}] ${away.team.name}` : away?.user.gamerTag || away?.user.fullName || "TBD";
   const streamUrl = getMatchStreamUrl(match);
-  const isLive = match.status === MatchStatus.PENDING && streamUrl;
+  const isLive = match.liveStatus === MatchLiveStatus.LIVE && streamUrl;
 
   return (
     <article className={`rounded-xl border border-white/10 bg-white/[0.035] p-5 ${featured ? "shadow-[0_0_35px_rgba(14,165,233,0.14)]" : ""}`}>
@@ -91,10 +91,12 @@ function MatchPanel({ match, featured = false }: { match: StreamMatch; featured?
         {isLive ? <span className="rounded-full border border-red-300/30 bg-red-500/10 px-3 py-1 text-red-100">LIVE</span> : null}
         <span className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1 text-cyan-100">{formatGame(match.tournament.game)}</span>
         <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-slate-300">{match.status}</span>
+        <span className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1 text-cyan-100">{match.liveStatus}</span>
         <span className="rounded-full border border-emerald-300/30 bg-emerald-300/10 px-3 py-1 text-emerald-100">{match.featuredLive ? "FEATURED" : "OFFICIAL"}</span>
       </div>
       <h3 className="mt-4 text-xl font-black">{homeName} vs {awayName}</h3>
       <p className="mt-2 text-sm text-slate-400">{match.tournament.title} - Round {match.round}{match.groupName ? ` - ${match.groupName}` : ""}</p>
+      {match.liveStatus !== MatchLiveStatus.NOT_STARTED ? <p className="mt-3 text-3xl font-black text-white">{match.liveHomeScore} : {match.liveAwayScore}</p> : null}
       <dl className="mt-4 grid gap-2 text-sm">
         <Info label="Scheduled" value={match.scheduledAt ? formatDate(match.scheduledAt.toISOString()) : "Not scheduled"} />
         {match.roomCode ? <Info label="Room code" value={match.roomCode} /> : null}
@@ -116,3 +118,4 @@ function Info({ label, value }: { label: string; value: string }) {
 function Empty({ text }: { text: string }) {
   return <div className="mt-5 rounded-xl border border-white/10 bg-white/[0.03] p-8 text-center text-slate-400">{text}</div>;
 }
+

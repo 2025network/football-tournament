@@ -224,12 +224,14 @@ function Matches({ matches }: { matches: PublicMatch[] }) {
                     <h4 className="font-black text-white">{match.homeName} vs {match.awayName}</h4>
                     <div className="flex flex-wrap gap-2 text-xs font-bold">
                       {match.legNumber ? <span className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1 text-cyan-100">Leg {match.legNumber}</span> : null}
+                      {match.liveStatus === "LIVE" ? <span className="rounded-full border border-red-300/30 bg-red-500/10 px-3 py-1 text-red-100">LIVE</span> : null}
                       <span className={`rounded-full border px-3 py-1 ${streamBadgeClass(match)}`}>{streamBadge(match)}</span>
                       <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-slate-300">{match.status}</span>
                     </div>
                   </div>
                   <p className="mt-3 text-sm text-slate-300">Home: <span className="font-bold text-white">{match.homeName}</span> - Away: <span className="font-bold text-white">{match.awayName}</span></p>
-                  <p className="mt-2 text-2xl font-black text-white">{match.homeScore ?? "-"} : {match.awayScore ?? "-"}</p>
+                  <p className="mt-2 text-2xl font-black text-white">{match.liveStatus === "LIVE" || match.liveStatus === "PAUSED" ? `${match.liveHomeScore} : ${match.liveAwayScore}` : `${match.homeScore ?? "-"} : ${match.awayScore ?? "-"}`}</p>
+                  {match.liveStatus !== "NOT_STARTED" ? <p className="mt-1 text-sm font-bold text-cyan-300">Referee live status: {match.liveStatus}</p> : null}
                   {getMatchStreamUrl(match) ? <a href={getMatchStreamUrl(match) ?? "#"} target="_blank" className="mt-3 inline-block text-sm font-bold text-cyan-300 hover:text-white">Watch match livestream</a> : null}
                   {match.roomCode ? <p className="mt-2 text-sm text-slate-300">Room code: <span className="font-bold text-white">{match.roomCode}</span></p> : null}
                   {match.spectatorNote ? <p className="mt-2 text-sm text-slate-300">Spectator note: {match.spectatorNote}</p> : null}
@@ -299,5 +301,6 @@ function groupBy<T>(items: T[], getKey: (item: T) => string) {
     return groups;
   }, {});
 }
+
 
 

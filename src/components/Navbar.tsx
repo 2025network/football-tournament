@@ -19,6 +19,7 @@ const playerLinks = [
   { label: "Player Matches", href: "/player/matches" },
   { label: "Notifications", href: "/player/notifications" },
   { label: "Player Teams", href: "/player/teams" },
+  { label: "Referee Matches", href: "/referee/matches" },
 ];
 
 const accountLinks = [
@@ -199,6 +200,7 @@ function isActive(pathname: string, href: string) {
   if (exactOnlyLinks.has(href)) return pathname === href;
   return pathname === href || pathname.startsWith(`${href}/`);
 }
+
 
 
 

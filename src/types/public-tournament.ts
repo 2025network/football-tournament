@@ -6,6 +6,7 @@ export type PublicRegistrationType = "SOLO" | "TEAM";
 export type PublicStreamPlatform = "YOUTUBE" | "FACEBOOK" | "TWITCH" | "TIKTOK" | "OTHER";
 export type PublicMatchStreamMode = "NONE" | "PLAYER_STREAM" | "OFFICIAL_STREAM";
 export type PublicMatchStatus = "PENDING" | "COMPLETED" | "DISPUTED";
+export type PublicMatchLiveStatus = "NOT_STARTED" | "LIVE" | "PAUSED" | "COMPLETED";
 
 export type PublicTournament = {
   id: string;
@@ -40,6 +41,13 @@ export type PublicMatch = {
   playerTwoName: string;
   winnerName: string | null;
   status: PublicMatchStatus;
+  liveStatus: PublicMatchLiveStatus;
+  livePlayerOneScore: number;
+  livePlayerTwoScore: number;
+  liveHomeScore: number;
+  liveAwayScore: number;
+  liveStartedAt?: string | null;
+  liveEndedAt?: string | null;
   legNumber: number | null;
   homeName: string;
   awayName: string;
@@ -146,6 +154,7 @@ export function getAvailableSlots(tournament: PublicTournament) {
 
   return Math.max((tournament.registrationLimit ?? tournament.slots) - tournament.registeredPlayers, 0);
 }
+
 
 
 

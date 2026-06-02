@@ -124,6 +124,7 @@ exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   fullName: 'fullName',
   email: 'email',
+  emailVerified: 'emailVerified',
   platformId: 'platformId',
   phone: 'phone',
   whatsapp: 'whatsapp',
@@ -199,6 +200,14 @@ exports.Prisma.MatchScalarFieldEnum = {
   playerTwoScore: 'playerTwoScore',
   winnerRegistrationId: 'winnerRegistrationId',
   status: 'status',
+  liveStatus: 'liveStatus',
+  refereeId: 'refereeId',
+  livePlayerOneScore: 'livePlayerOneScore',
+  livePlayerTwoScore: 'livePlayerTwoScore',
+  liveHomeScore: 'liveHomeScore',
+  liveAwayScore: 'liveAwayScore',
+  liveStartedAt: 'liveStartedAt',
+  liveEndedAt: 'liveEndedAt',
   scheduledAt: 'scheduledAt',
   livestreamUrl: 'livestreamUrl',
   streamMode: 'streamMode',
@@ -429,6 +438,13 @@ exports.MatchStatus = exports.$Enums.MatchStatus = {
   PENDING: 'PENDING',
   COMPLETED: 'COMPLETED',
   DISPUTED: 'DISPUTED'
+};
+
+exports.MatchLiveStatus = exports.$Enums.MatchLiveStatus = {
+  NOT_STARTED: 'NOT_STARTED',
+  LIVE: 'LIVE',
+  PAUSED: 'PAUSED',
+  COMPLETED: 'COMPLETED'
 };
 
 exports.MatchStreamMode = exports.$Enums.MatchStreamMode = {

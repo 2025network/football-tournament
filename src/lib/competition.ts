@@ -1,4 +1,4 @@
-import { ApprovalStatus, CompetitionFormat, MatchStatus, MatchStreamMode, NotificationType, Prisma } from "@/generated/prisma/client";
+import { ApprovalStatus, CompetitionFormat, MatchLiveStatus, MatchStatus, MatchStreamMode, NotificationType, Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import { notifyRegistrations } from "@/lib/notifications";
 import { recalculateGlobalRankings } from "@/lib/rankings";
@@ -15,6 +15,7 @@ export const matchInclude = {
   homeRegistration: { include: { user: true } },
   awayRegistration: { include: { user: true } },
   aggregateWinnerRegistration: { include: { user: true } },
+  referee: true,
   resultSubmissions: {
     include: { registration: { include: { user: true } } },
     orderBy: { createdAt: "desc" },
@@ -199,7 +200,13 @@ export async function updateMatchResult(matchId: string, body: UpdateMatchResult
   if (body.homeScore !== undefined) data.homeScore = body.homeScore;
   if (body.awayScore !== undefined) data.awayScore = body.awayScore;
   if (body.scheduledAt !== undefined) data.scheduledAt = body.scheduledAt ? new Date(body.scheduledAt) : null;
-  if (body.livestreamUrl !== undefined) data.livestreamUrl = body.livestreamUrl?.trim() || null;
+  if (body.liveStatus !== undefined) data.liveStatus = body.liveStatus;
+  if (body.livePlayerOneScore !== undefined) data.livePlayerOneScore = body.livePlayerOneScore;
+  if (body.livePlayerTwoScore !== undefined) data.livePlayerTwoScore = body.livePlayerTwoScore;
+  if (body.liveHomeScore !== undefined) data.liveHomeScore = body.liveHomeScore;
+  if (body.liveAwayScore !== undefined) data.liveAwayScore = body.liveAwayScore;
+  if (body.liveStartedAt !== undefined) data.liveStartedAt = body.liveStartedAt ? new Date(body.liveStartedAt) : null;
+  if (body.liveEndedAt !== undefined) data.liveEndedAt = body.liveEndedAt ? new Date(body.liveEndedAt) : null;  if (body.livestreamUrl !== undefined) data.livestreamUrl = body.livestreamUrl?.trim() || null;
   if (body.streamMode !== undefined) data.streamMode = body.streamMode;
   if (body.playerStreamUrl !== undefined) data.playerStreamUrl = body.playerStreamUrl?.trim() || null;
   if (body.officialStreamUrl !== undefined) data.officialStreamUrl = body.officialStreamUrl?.trim() || null;
@@ -243,7 +250,13 @@ export type UpdateMatchResultBody = {
   winnerRegistrationId?: string | null;
   status?: MatchStatus;
   scheduledAt?: string | null;
-  livestreamUrl?: string | null;
+  liveStatus?: MatchLiveStatus;
+  livePlayerOneScore?: number;
+  livePlayerTwoScore?: number;
+  liveHomeScore?: number;
+  liveAwayScore?: number;
+  liveStartedAt?: string | null;
+  liveEndedAt?: string | null;  livestreamUrl?: string | null;
   streamMode?: MatchStreamMode;
   playerStreamUrl?: string | null;
   officialStreamUrl?: string | null;
@@ -464,6 +477,16 @@ export function serializeMatch(match: MatchWithPlayers) {
     winnerRegistrationId: match.winnerRegistrationId,
     winnerName: match.winnerRegistration?.user.fullName ?? null,
     status: match.status,
+    liveStatus: match.liveStatus,
+    refereeId: match.refereeId,
+    refereeName: match.referee?.fullName ?? null,
+    refereeEmail: match.referee?.email ?? null,
+    livePlayerOneScore: match.livePlayerOneScore,
+    livePlayerTwoScore: match.livePlayerTwoScore,
+    liveHomeScore: match.liveHomeScore,
+    liveAwayScore: match.liveAwayScore,
+    liveStartedAt: match.liveStartedAt?.toISOString() ?? null,
+    liveEndedAt: match.liveEndedAt?.toISOString() ?? null,
     scheduledAt: match.scheduledAt?.toISOString() ?? null,
     livestreamUrl: match.livestreamUrl,
     streamMode: match.streamMode,
@@ -530,3 +553,4 @@ function serializeRegistration(registration: ApprovedRegistration) {
     paymentStatus: registration.paymentStatus,
   };
 }
+

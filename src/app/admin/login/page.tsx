@@ -13,7 +13,7 @@ export default function AdminLoginPage() {
             Secure the tournament control room.
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-300">
-            Temporary beginner admin access using environment variables. Later this will become secure database authentication.
+            Admin access now uses database users with ADMIN role and bcrypt password hashing. Session storage remains temporary until secure cookie/JWT auth is added.
           </p>
         </div>
       </section>
@@ -24,3 +24,4 @@ export default function AdminLoginPage() {
     </main>
   );
 }
+
