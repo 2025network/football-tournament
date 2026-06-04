@@ -3,6 +3,7 @@ import { GamesSection } from "@/components/GamesSection";
 import { HeroSection } from "@/components/HeroSection";
 import { HomepagePlatformSections } from "@/components/HomepagePlatformSections";
 import { Navbar } from "@/components/Navbar";
+import { TrustSection } from "@/components/TrustSection";
 import { getSettingsMap } from "@/lib/settings";
 
 export default async function Home() {
@@ -14,7 +15,10 @@ export default async function Home() {
       <HeroSection title={settings.homepage_hero_title} subtitle={settings.homepage_hero_subtitle} />
       <HomepagePlatformSections />
       <GamesSection />
+      <TrustSection />
       <Footer />
     </main>
   );
 }
+
+

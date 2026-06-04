@@ -1,45 +1,111 @@
 import Link from "next/link";
+import { MatchStatus, TournamentStatus } from "@/generated/prisma/client";
+import { prisma } from "@/lib/prisma";
+import { formatGame, formatMoney, getAvailableSlots, type PublicTournament } from "@/types/public-tournament";
 
-const steps = ["Create player account", "Get your Platform ID", "Join tournament", "Pay entry fee", "Play match", "Submit/confirm result", "Climb leaderboard"];
-const trustItems = ["Admin-reviewed tournament records", "Manual and Paystack payment tracking", "Match proof and dispute workflow", "Rankings, teams, and notifications"];
+export async function HomepagePlatformSections() {
+  const [registeredPlayers, activeTournaments, matchesPlayed, prizeAggregate, featuredTournaments] = await Promise.all([
+    prisma.user.count({ where: { role: "PLAYER" } }),
+    prisma.tournament.count({ where: { status: TournamentStatus.OPEN, registrationOpen: true } }),
+    prisma.match.count({ where: { status: MatchStatus.COMPLETED } }),
+    prisma.tournament.aggregate({ _sum: { prizePool: true }, where: { status: TournamentStatus.CLOSED } }),
+    prisma.tournament.findMany({
+      where: { status: TournamentStatus.OPEN, registrationOpen: true },
+      orderBy: [{ prizePool: "desc" }, { startDate: "asc" }],
+      take: 3,
+    }),
+  ]);
 
-export function HomepagePlatformSections() {
+  const stats = [
+    { label: "Registered Players", value: registeredPlayers.toLocaleString(), detail: "verified platform accounts" },
+    { label: "Active Tournaments", value: activeTournaments.toLocaleString(), detail: "open for registration" },
+    { label: "Matches Played", value: matchesPlayed.toLocaleString(), detail: "completed fixtures" },
+    { label: "Total Prize Money Paid", value: formatMoney(prizeAggregate._sum.prizePool ?? 0), detail: "closed tournament pools" },
+  ];
+
   return (
     <>
       <section className="mx-auto max-w-7xl px-5 py-12 lg:px-8">
-        <p className="text-sm font-black uppercase tracking-[0.24em] text-cyan-300">How it works</p>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {steps.map((step, index) => <div key={step} className="rounded-xl border border-white/10 bg-white/[0.035] p-5"><span className="text-3xl font-black text-cyan-300">{index + 1}</span><p className="mt-3 font-black text-white">{step}</p></div>)}
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {stats.map((stat) => (
+            <div key={stat.label} className="rounded-xl border border-cyan-300/15 bg-white/[0.035] p-5 shadow-[0_0_30px_rgba(14,165,233,0.08)]">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">{stat.label}</p>
+              <p className="mt-3 text-3xl font-black text-white">{stat.value}</p>
+              <p className="mt-2 text-sm text-cyan-200">{stat.detail}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-      <section className="border-y border-white/10 bg-slate-900/50 px-5 py-12 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-5 md:grid-cols-2 xl:grid-cols-4">
-          <Feature title="Featured Tournaments" text="Browse open events created by admins and organizers." href="/tournaments" />
-          <Feature title="Live Matches" text="Watch featured official streams and upcoming broadcast fixtures." href="/live" />
-          <Feature title="Leaderboard Preview" text="Track top players, points, wins, and rankings." href="/leaderboard" />
-          <Feature title="Teams / Clans" text="Create squads for PUBG, COD Mobile, and Free Fire tournaments." href="/teams" />
-        </div>
-      </section>
-
-      <section className="mx-auto grid max-w-7xl gap-6 px-5 py-12 lg:grid-cols-2 lg:px-8">
-        <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-6">
-          <p className="text-sm font-black uppercase tracking-[0.24em] text-cyan-300">Why players trust us</p>
-          <div className="mt-5 grid gap-3">{trustItems.map((item) => <p key={item} className="rounded-lg bg-black/20 px-4 py-3 text-sm font-bold text-slate-200">{item}</p>)}</div>
-        </div>
-        <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-6">
-          <p className="text-sm font-black uppercase tracking-[0.24em] text-cyan-300">Payment options</p>
-          <h2 className="mt-3 text-3xl font-black text-white">Pay online or upload proof</h2>
-          <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-xl border border-white/10 bg-slate-950/70 p-5"><p className="font-black text-white">Paystack</p><p className="mt-2 text-sm text-slate-400">Card, transfer, and online payment initialization.</p></div>
-            <div className="rounded-xl border border-white/10 bg-slate-950/70 p-5"><p className="font-black text-white">Bank Transfer</p><p className="mt-2 text-sm text-slate-400">Upload receipt for admin confirmation.</p></div>
+      <section className="border-y border-white/10 bg-slate-900/45 px-5 py-14 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-sm font-black uppercase tracking-[0.24em] text-cyan-300">Featured tournaments</p>
+              <h2 className="mt-3 text-3xl font-black text-white sm:text-4xl">Compete for real prizes</h2>
+            </div>
+            <Link href="/tournaments" className="rounded-lg border border-cyan-300/40 bg-cyan-300/10 px-5 py-3 text-center text-sm font-black text-cyan-100 transition hover:-translate-y-1 hover:bg-cyan-300 hover:text-slate-950">View All Tournaments</Link>
           </div>
+
+          {featuredTournaments.length === 0 ? (
+            <div className="mt-8 rounded-xl border border-white/10 bg-white/[0.03] p-8 text-center text-slate-300">No featured tournaments are open yet. Please check back soon.</div>
+          ) : (
+            <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {featuredTournaments.map((tournament) => <FeaturedTournamentCard key={tournament.id} tournament={serializeTournament(tournament)} />)}
+            </div>
+          )}
         </div>
       </section>
+
     </>
   );
 }
 
-function Feature({ title, text, href }: { title: string; text: string; href: string }) {
-  return <Link href={href} className="rounded-2xl border border-white/10 bg-white/[0.035] p-6 transition hover:-translate-y-1 hover:border-cyan-300/50"><h2 className="text-xl font-black text-white">{title}</h2><p className="mt-3 text-sm leading-6 text-slate-400">{text}</p></Link>;
+function FeaturedTournamentCard({ tournament }: { tournament: PublicTournament }) {
+  const slots = getAvailableSlots(tournament);
+
+  return (
+    <article className="rounded-2xl border border-white/10 bg-slate-950/70 p-5 shadow-[0_0_35px_rgba(14,165,233,0.08)] transition hover:-translate-y-1 hover:border-cyan-300/50">
+      <p className="text-xs font-black uppercase tracking-[0.2em] text-cyan-300">{formatGame(tournament.game)}</p>
+      <h3 className="mt-3 text-2xl font-black text-white">{tournament.title}</h3>
+      <dl className="mt-5 grid gap-3 text-sm">
+        <Info label="Prize pool" value={formatMoney(tournament.prizePool)} highlight />
+        <Info label="Entry fee" value={formatMoney(tournament.entryFee)} />
+        <Info label="Slots remaining" value={Number.isFinite(slots) ? String(slots) : "Unlimited"} />
+      </dl>
+      <Link href={`/register?tournament=${tournament.id}`} className="mt-5 block rounded-lg bg-cyan-300 px-4 py-3 text-center text-sm font-black text-slate-950 transition hover:bg-white">Join Tournament</Link>
+    </article>
+  );
 }
+
+function Info({ label, value, highlight = false }: { label: string; value: string; highlight?: boolean }) {
+  return <div className="flex justify-between gap-4 rounded-lg bg-white/[0.04] px-4 py-3"><dt className="text-slate-400">{label}</dt><dd className={`text-right font-black ${highlight ? "text-emerald-300" : "text-white"}`}>{value}</dd></div>;
+}
+
+function serializeTournament(tournament: Awaited<ReturnType<typeof prisma.tournament.findMany>>[number]): PublicTournament {
+  return {
+    id: tournament.id,
+    slug: tournament.slug,
+    title: tournament.title,
+    game: tournament.game,
+    prizePool: tournament.prizePool,
+    entryFee: tournament.entryFee,
+    slots: tournament.slots,
+    registeredPlayers: tournament.registeredPlayers,
+    startDate: tournament.startDate.toISOString(),
+    status: tournament.status,
+    format: tournament.format,
+    competitionFormat: tournament.competitionFormat,
+    registrationLimit: tournament.registrationLimit,
+    allowUnlimitedRegistration: tournament.allowUnlimitedRegistration,
+    registrationOpen: tournament.registrationOpen,
+    useHomeAndAway: tournament.useHomeAndAway,
+    registrationType: tournament.registrationType,
+    teamSize: tournament.teamSize,
+    livestreamUrl: tournament.livestreamUrl,
+    streamPlatform: tournament.streamPlatform,
+    description: tournament.description,
+    rules: tournament.rules,
+  };
+}
+

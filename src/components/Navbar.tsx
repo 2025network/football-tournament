@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useMemo, useState, type ReactNode } from "react";
+import { useMemo, useState } from "react";
 
 const playerSessionKey = "football-tournament-player-session";
 
@@ -14,46 +14,29 @@ const publicLinks = [
   { label: "Teams", href: "/teams" },
 ];
 
-const playerLinks = [
+const profileLinks = [
   { label: "Player Dashboard", href: "/player/dashboard" },
-  { label: "Player Matches", href: "/player/matches" },
-  { label: "Notifications", href: "/player/notifications" },
-  { label: "Player Teams", href: "/player/teams" },
-  { label: "Referee Matches", href: "/referee/matches" },
-];
-
-const accountLinks = [
-  { label: "Signup", href: "/signup" },
-  { label: "Login", href: "/login" },
-];
-
-const adminLinks = [
-  { label: "Admin Dashboard", href: "/admin" },
-  { label: "Tournaments", href: "/admin/tournaments" },
-  { label: "Payments", href: "/admin/payments" },
-  { label: "Settings", href: "/admin/settings" },
-  { label: "Production Checklist", href: "/admin/production-checklist" },
+  { label: "Account Settings", href: "/player/dashboard" },
+  { label: "My Teams", href: "/player/teams" },
+  { label: "Admin Login", href: "/admin/login" },
 ];
 
 type NavLink = { label: string; href: string };
-type DropdownName = "player" | "account" | "admin";
 
 export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
-  const [openDropdown, setOpenDropdown] = useState<DropdownName | null>(null);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [playerLoggedIn, setPlayerLoggedIn] = useState(() => typeof window !== "undefined" && sessionStorage.getItem(playerSessionKey) !== null);
 
   const mobileGroups = useMemo(() => [
-    { title: "Main", links: publicLinks },
-    { title: "Player", links: playerLinks },
-    { title: "Account", links: accountLinks },
-    { title: "Admin", links: adminLinks },
+    { title: "Navigation", links: publicLinks },
+    { title: "Profile", links: profileLinks },
   ], []);
 
   function closeMenus() {
-    setOpenDropdown(null);
+    setProfileOpen(false);
     setMobileOpen(false);
   }
 
@@ -67,30 +50,27 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full overflow-x-clip border-b border-white/10 bg-slate-950/90 backdrop-blur-xl">
       <nav className="mx-auto flex max-w-7xl flex-nowrap items-center justify-between gap-3 px-4 py-3 sm:px-5 lg:px-8">
-        <Link href="/" onClick={closeMenus} className="group flex w-auto max-w-[145px] shrink items-center gap-2 sm:max-w-[185px] 2xl:w-[190px] 2xl:max-w-[190px] 2xl:shrink-0">
+        <Link href="/" onClick={closeMenus} className="group flex w-auto max-w-[142px] shrink items-center gap-2 sm:max-w-[168px] 2xl:w-[178px] 2xl:max-w-[178px] 2xl:shrink-0">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-cyan-400/40 bg-cyan-400/10 text-sm font-black text-cyan-200 shadow-[0_0_24px_rgba(34,211,238,0.25)] sm:h-10 sm:w-10 sm:text-lg">
             FT
           </span>
           <span className="min-w-0">
-            <span className="block text-xs font-black uppercase text-white sm:text-sm">FT Esports</span>
-            <span className="hidden text-xs font-semibold uppercase tracking-[0.18em] text-cyan-300 sm:block">Mobile</span>
+            <span className="block whitespace-nowrap text-xs font-black uppercase text-white sm:text-sm">FT Esports</span>
           </span>
         </Link>
 
-        <div className="hidden min-w-0 flex-1 flex-nowrap items-center justify-center gap-2 2xl:flex">
+        <div className="hidden min-w-0 flex-1 flex-nowrap items-center justify-center gap-4 2xl:flex">
           {publicLinks.map((link) => <DesktopLink key={link.href} link={link} pathname={pathname} onNavigate={closeMenus} />)}
-          <DropdownButton name="player" label="Player" links={playerLinks} pathname={pathname} openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} onNavigate={closeMenus} footer={playerLoggedIn ? <DropdownAction label="Logout" onClick={logoutPlayer} /> : null} />
-          <DropdownButton name="account" label="Account" links={accountLinks} pathname={pathname} openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} onNavigate={closeMenus} />
-          <DropdownButton name="admin" label="Admin" links={adminLinks} pathname={pathname} openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} onNavigate={closeMenus} />
         </div>
 
-        <div className="flex shrink-0 flex-nowrap items-center justify-end gap-2 sm:gap-3 2xl:w-[290px]">
+        <div className="flex shrink-0 flex-nowrap items-center justify-end gap-2 sm:gap-3 2xl:w-[420px]">
           <Link href="/register" onClick={closeMenus} className={`whitespace-nowrap rounded-lg border border-cyan-300/40 px-3 py-2 text-xs font-black shadow-[0_0_28px_rgba(34,211,238,0.28)] transition hover:-translate-y-0.5 hover:bg-white sm:px-4 sm:text-sm ${isActive(pathname, "/register") ? "bg-white text-slate-950" : "bg-cyan-300 text-slate-950"}`}>
             Join Tournament
           </Link>
           <Link href="/signup" onClick={closeMenus} className={`hidden whitespace-nowrap rounded-lg border px-4 py-2 text-sm font-black transition hover:border-cyan-300 hover:text-cyan-200 2xl:inline-flex ${isActive(pathname, "/signup") ? "border-cyan-300 bg-cyan-300/15 text-cyan-100" : "border-white/10 bg-white/[0.04] text-white"}`}>
             Create Account
           </Link>
+          <ProfileDropdown pathname={pathname} open={profileOpen} setOpen={setProfileOpen} onNavigate={closeMenus} onLogout={logoutPlayer} showLogout={playerLoggedIn} />
           <button
             type="button"
             onClick={() => setMobileOpen((current) => !current)}
@@ -118,11 +98,7 @@ export function Navbar() {
                 <p className="px-2 pb-2 text-xs font-black uppercase tracking-[0.2em] text-cyan-300">{group.title}</p>
                 <div className="grid gap-1">
                   {group.links.map((link) => <MobileLink key={link.href} link={link} pathname={pathname} onNavigate={closeMenus} />)}
-                  {group.title === "Player" && playerLoggedIn ? (
-                    <button onClick={logoutPlayer} type="button" className="rounded-lg px-3 py-2 text-left text-sm font-bold text-rose-200 transition hover:bg-rose-300/10">
-                      Logout
-                    </button>
-                  ) : null}
+                  {group.title === "Profile" && playerLoggedIn ? <DropdownAction label="Logout" onClick={logoutPlayer} /> : null}
                 </div>
               </div>
             ))}
@@ -151,25 +127,24 @@ function MobileLink({ link, pathname, onNavigate }: { link: NavLink; pathname: s
   );
 }
 
-function DropdownButton({ name, label, links, pathname, openDropdown, setOpenDropdown, onNavigate, footer }: { name: DropdownName; label: string; links: NavLink[]; pathname: string; openDropdown: DropdownName | null; setOpenDropdown: (name: DropdownName | null) => void; onNavigate: () => void; footer?: ReactNode }) {
-  const open = openDropdown === name;
-  const active = links.some((link) => isActive(pathname, link.href));
+function ProfileDropdown({ pathname, open, setOpen, onNavigate, onLogout, showLogout }: { pathname: string; open: boolean; setOpen: (open: boolean) => void; onNavigate: () => void; onLogout: () => void; showLogout: boolean }) {
+  const active = profileLinks.some((link) => isActive(pathname, link.href));
 
   return (
-    <div className="relative">
+    <div className="relative hidden 2xl:block">
       <button
         type="button"
-        onClick={() => setOpenDropdown(open ? null : name)}
+        onClick={() => setOpen(!open)}
         className={`inline-flex items-center gap-1 whitespace-nowrap rounded-lg px-3 py-2 text-sm font-bold transition ${active ? "bg-cyan-300/15 text-cyan-200" : "text-slate-300 hover:bg-white/[0.04] hover:text-cyan-300"}`}
         aria-expanded={open}
       >
-        {label}
+        Account
         <span className={`text-xs transition ${open ? "rotate-180" : ""}`}>v</span>
       </button>
       {open ? (
         <div className="absolute right-0 top-full mt-2 w-56 rounded-xl border border-white/10 bg-slate-950 p-2 shadow-2xl shadow-cyan-950/30">
-          {links.map((link) => <DropdownLink key={link.href} link={link} pathname={pathname} onNavigate={onNavigate} />)}
-          {footer ? <div className="mt-2 border-t border-white/10 pt-2">{footer}</div> : null}
+          {profileLinks.map((link) => <DropdownLink key={link.href} link={link} pathname={pathname} onNavigate={onNavigate} />)}
+          {showLogout ? <div className="mt-2 border-t border-white/10 pt-2"><DropdownAction label="Logout" onClick={onLogout} /></div> : null}
         </div>
       ) : null}
     </div>
