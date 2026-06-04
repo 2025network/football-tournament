@@ -65,15 +65,15 @@ export function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-slate-950/90 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 w-full overflow-x-clip border-b border-white/10 bg-slate-950/90 backdrop-blur-xl">
       <nav className="mx-auto flex max-w-7xl flex-nowrap items-center justify-between gap-3 px-4 py-3 sm:px-5 lg:px-8">
-        <Link href="/" onClick={closeMenus} className="group flex min-w-0 shrink items-center gap-2 sm:gap-3 max-w-[210px] 2xl:w-[230px] 2xl:max-w-[230px] 2xl:shrink-0">
+        <Link href="/" onClick={closeMenus} className="group flex w-auto max-w-[145px] shrink items-center gap-2 sm:max-w-[185px] 2xl:w-[190px] 2xl:max-w-[190px] 2xl:shrink-0">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-cyan-400/40 bg-cyan-400/10 text-sm font-black text-cyan-200 shadow-[0_0_24px_rgba(34,211,238,0.25)] sm:h-10 sm:w-10 sm:text-lg">
             FT
           </span>
           <span className="min-w-0">
-            <span className="block truncate text-xs font-black uppercase text-white sm:text-sm 2xl:text-base">football-tournament</span>
-            <span className="hidden text-xs font-semibold uppercase tracking-[0.18em] text-cyan-300 sm:block">Mobile esports</span>
+            <span className="block text-xs font-black uppercase text-white sm:text-sm">FT Esports</span>
+            <span className="hidden text-xs font-semibold uppercase tracking-[0.18em] text-cyan-300 sm:block">Mobile</span>
           </span>
         </Link>
 
@@ -84,41 +84,35 @@ export function Navbar() {
           <DropdownButton name="admin" label="Admin" links={adminLinks} pathname={pathname} openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} onNavigate={closeMenus} />
         </div>
 
-        <div className="hidden w-[300px] shrink-0 flex-nowrap items-center justify-end gap-3 2xl:flex">
-          <Link href="/register" onClick={closeMenus} className={`whitespace-nowrap rounded-lg border border-cyan-300/40 px-4 py-2 text-sm font-black shadow-[0_0_28px_rgba(34,211,238,0.28)] transition hover:-translate-y-0.5 hover:bg-white ${isActive(pathname, "/register") ? "bg-white text-slate-950" : "bg-cyan-300 text-slate-950"}`}>
+        <div className="flex shrink-0 flex-nowrap items-center justify-end gap-2 sm:gap-3 2xl:w-[290px]">
+          <Link href="/register" onClick={closeMenus} className={`whitespace-nowrap rounded-lg border border-cyan-300/40 px-3 py-2 text-xs font-black shadow-[0_0_28px_rgba(34,211,238,0.28)] transition hover:-translate-y-0.5 hover:bg-white sm:px-4 sm:text-sm ${isActive(pathname, "/register") ? "bg-white text-slate-950" : "bg-cyan-300 text-slate-950"}`}>
             Join Tournament
           </Link>
-          <Link href="/signup" onClick={closeMenus} className={`whitespace-nowrap rounded-lg border px-4 py-2 text-sm font-black transition hover:border-cyan-300 hover:text-cyan-200 ${isActive(pathname, "/signup") ? "border-cyan-300 bg-cyan-300/15 text-cyan-100" : "border-white/10 bg-white/[0.04] text-white"}`}>
+          <Link href="/signup" onClick={closeMenus} className={`hidden whitespace-nowrap rounded-lg border px-4 py-2 text-sm font-black transition hover:border-cyan-300 hover:text-cyan-200 2xl:inline-flex ${isActive(pathname, "/signup") ? "border-cyan-300 bg-cyan-300/15 text-cyan-100" : "border-white/10 bg-white/[0.04] text-white"}`}>
             Create Account
           </Link>
+          <button
+            type="button"
+            onClick={() => setMobileOpen((current) => !current)}
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-white transition hover:border-cyan-300 hover:text-cyan-200 2xl:hidden"
+            aria-label="Toggle navigation menu"
+            aria-expanded={mobileOpen}
+          >
+            <span className="grid gap-1.5">
+              <span className={`block h-0.5 w-5 rounded-full bg-current transition ${mobileOpen ? "translate-y-2 rotate-45" : ""}`} />
+              <span className={`block h-0.5 w-5 rounded-full bg-current transition ${mobileOpen ? "opacity-0" : ""}`} />
+              <span className={`block h-0.5 w-5 rounded-full bg-current transition ${mobileOpen ? "-translate-y-2 -rotate-45" : ""}`} />
+            </span>
+          </button>
         </div>
-
-        <button
-          type="button"
-          onClick={() => setMobileOpen((current) => !current)}
-          className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-white transition hover:border-cyan-300 hover:text-cyan-200 2xl:hidden"
-          aria-label="Toggle navigation menu"
-          aria-expanded={mobileOpen}
-        >
-          <span className="grid gap-1.5">
-            <span className={`block h-0.5 w-5 rounded-full bg-current transition ${mobileOpen ? "translate-y-2 rotate-45" : ""}`} />
-            <span className={`block h-0.5 w-5 rounded-full bg-current transition ${mobileOpen ? "opacity-0" : ""}`} />
-            <span className={`block h-0.5 w-5 rounded-full bg-current transition ${mobileOpen ? "-translate-y-2 -rotate-45" : ""}`} />
-          </span>
-        </button>
       </nav>
 
       {mobileOpen ? (
         <div className="border-t border-white/10 bg-slate-950/98 px-4 pb-5 pt-2 shadow-2xl shadow-cyan-950/30 2xl:hidden">
           <div className="mx-auto grid max-w-7xl gap-4">
-            <div className="grid gap-3 sm:grid-cols-2">
-              <Link href="/register" onClick={closeMenus} className={`rounded-lg px-4 py-3 text-center text-sm font-black uppercase tracking-wide transition ${isActive(pathname, "/register") ? "bg-white text-slate-950" : "bg-cyan-300 text-slate-950 hover:bg-white"}`}>
-                Join Tournament
-              </Link>
-              <Link href="/signup" onClick={closeMenus} className={`rounded-lg border px-4 py-3 text-center text-sm font-black uppercase tracking-wide transition ${isActive(pathname, "/signup") ? "border-cyan-300 bg-cyan-300/15 text-cyan-100" : "border-white/10 bg-white/[0.04] text-white hover:border-cyan-300 hover:text-cyan-200"}`}>
-                Create Account
-              </Link>
-            </div>
+            <Link href="/signup" onClick={closeMenus} className={`rounded-lg border px-4 py-3 text-center text-sm font-black uppercase tracking-wide transition ${isActive(pathname, "/signup") ? "border-cyan-300 bg-cyan-300/15 text-cyan-100" : "border-white/10 bg-white/[0.04] text-white hover:border-cyan-300 hover:text-cyan-200"}`}>
+              Create Account
+            </Link>
             {mobileGroups.map((group) => (
               <div key={group.title} className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
                 <p className="px-2 pb-2 text-xs font-black uppercase tracking-[0.2em] text-cyan-300">{group.title}</p>
