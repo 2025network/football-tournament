@@ -1,24 +1,59 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import bcrypt from "bcryptjs";
-import { PrismaClient, Role } from "../src/generated/prisma/index.js";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaClient, Role } from "../src/generated/prisma/client.js";
 
-const prisma = new PrismaClient();
+function loadEnvFile() {
+  try {
+    const envPath = resolve(process.cwd(), ".env");
+    const envFile = readFileSync(envPath, "utf8");
 
-async function main() {
-  const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
-  const password = process.env.ADMIN_PASSWORD;
+    for (const line of envFile.split(/\r?\n/)) {
+      const trimmedLine = line.trim();
 
-  if (!email || !password) {
-    throw new Error("ADMIN_EMAIL and ADMIN_PASSWORD must be set in .env before creating the first admin.");
+      if (!trimmedLine || trimmedLine.startsWith("#") || !trimmedLine.includes("=")) {
+        continue;
+      }
+
+      const [key, ...valueParts] = trimmedLine.split("=");
+      const value = valueParts.join("=").replace(/^"|"$/g, "");
+      process.env[key] ??= value;
+    }
+  } catch {
+    // The script can still work when environment variables are set by the shell or VPS process manager.
   }
+}
 
-  if (password.length < 8 || password === "change-this-password") {
-    throw new Error("Use a stronger ADMIN_PASSWORD before creating the first admin.");
-  }
+loadEnvFile();
 
-  const passwordHash = await bcrypt.hash(password, 12);
+const databaseUrl = process.env.DATABASE_URL?.trim();
+const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+const adminPassword = process.env.ADMIN_PASSWORD ?? "";
+
+if (!databaseUrl) {
+  console.error("DATABASE_URL is missing. Add it to .env or your VPS environment first.");
+  process.exit(1);
+}
+
+if (!adminEmail || !adminPassword) {
+  console.error("ADMIN_EMAIL and ADMIN_PASSWORD must be set before creating the first admin.");
+  process.exit(1);
+}
+
+if (adminPassword.length < 8 || adminPassword === "change-this-password") {
+  console.error("Use a stronger ADMIN_PASSWORD before creating the first admin.");
+  process.exit(1);
+}
+
+const adapter = new PrismaPg({ connectionString: databaseUrl });
+const prisma = new PrismaClient({ adapter });
+
+try {
+  const passwordHash = await bcrypt.hash(adminPassword, 12);
 
   const admin = await prisma.user.upsert({
-    where: { email },
+    where: { email: adminEmail },
     update: {
       passwordHash,
       role: Role.ADMIN,
@@ -26,7 +61,7 @@ async function main() {
     },
     create: {
       fullName: "Platform Admin",
-      email,
+      email: adminEmail,
       passwordHash,
       role: Role.ADMIN,
       emailVerified: true,
@@ -34,13 +69,10 @@ async function main() {
   });
 
   console.log(`Admin user ready: ${admin.email}`);
+} catch (error) {
+  console.error("Failed to create admin user.");
+  console.error(error);
+  process.exitCode = 1;
+} finally {
+  await prisma.$disconnect();
 }
-
-main()
-  .catch((error) => {
-    console.error(error.message ?? error);
-    process.exitCode = 1;
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
