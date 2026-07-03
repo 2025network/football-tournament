@@ -12,7 +12,7 @@ export default async function TeamsPage() {
       <Navbar />
       <section className="mx-auto max-w-7xl px-5 py-12 lg:px-8">
         <div className="flex flex-col gap-5 border-b border-white/10 pb-8 sm:flex-row sm:items-end sm:justify-between">
-          <div><p className="text-sm font-black uppercase tracking-[0.24em] text-cyan-300">Teams and clans</p><h1 className="mt-3 text-4xl font-black sm:text-6xl">Esports Teams</h1><p className="mt-4 max-w-2xl text-slate-300">Browse PUBG Mobile, COD Mobile, and Free Fire squads created by players.</p></div>
+          <div><p className="text-sm font-black uppercase tracking-[0.24em] text-cyan-300">Football teams</p><h1 className="mt-3 text-4xl font-black sm:text-6xl">AfriKick Teams</h1><p className="mt-4 max-w-2xl text-slate-300">Browse football teams created by players, clubs, schools, and communities.</p></div>
           <div className="flex gap-3"><Link href="/teams/create" className="rounded-lg bg-cyan-300 px-4 py-3 text-sm font-black text-slate-950 hover:bg-white">Create Team</Link><Link href="/leaderboard/teams" className="rounded-lg border border-cyan-300/30 bg-cyan-300/10 px-4 py-3 text-sm font-black text-cyan-100 hover:bg-cyan-300 hover:text-slate-950">Team Leaderboard</Link></div>
         </div>
 

@@ -5,36 +5,38 @@ import { recalculateGlobalRankings } from "@/lib/rankings";
 
 export const registrationInclude = {
   user: true,
+  team: { include: { captain: true } },
   tournament: true,
 } satisfies Prisma.RegistrationInclude;
 
 export const matchInclude = {
-  playerOneRegistration: { include: { user: true } },
-  playerTwoRegistration: { include: { user: true } },
-  winnerRegistration: { include: { user: true } },
-  homeRegistration: { include: { user: true } },
-  awayRegistration: { include: { user: true } },
-  aggregateWinnerRegistration: { include: { user: true } },
+  playerOneRegistration: { include: { user: true, team: { include: { members: { include: { user: true } } } } } },
+  playerTwoRegistration: { include: { user: true, team: { include: { members: { include: { user: true } } } } } },
+  winnerRegistration: { include: { user: true, team: true } },
+  homeRegistration: { include: { user: true, team: { include: { members: { include: { user: true } } } } } },
+  awayRegistration: { include: { user: true, team: { include: { members: { include: { user: true } } } } } },
+  aggregateWinnerRegistration: { include: { user: true, team: true } },
+  teamLineups: { include: { team: { include: { members: { include: { user: true } } } } } },
   referee: true,
   resultSubmissions: {
-    include: { registration: { include: { user: true } } },
+    include: { registration: { include: { user: true, team: true } } },
     orderBy: { createdAt: "desc" },
   },
 } satisfies Prisma.MatchInclude;
 
 export const standingInclude = {
-  registration: { include: { user: true } },
+  registration: { include: { user: true, team: true } },
 } satisfies Prisma.LeagueStandingInclude;
 
 export type MatchWithPlayers = Prisma.MatchGetPayload<{ include: typeof matchInclude }>;
 export type StandingWithPlayer = Prisma.LeagueStandingGetPayload<{ include: typeof standingInclude }>;
 
-type ApprovedRegistration = Prisma.RegistrationGetPayload<{ include: { user: true } }>;
+type ApprovedRegistration = Prisma.RegistrationGetPayload<{ include: { user: true; team: { include: { captain: true } } } }>;
 
 export async function getApprovedRegistrations(tournamentId: string) {
   return prisma.registration.findMany({
     where: { tournamentId, approvalStatus: ApprovalStatus.APPROVED },
-    include: { user: true },
+    include: { user: true, team: { include: { captain: true } } },
     orderBy: { createdAt: "asc" },
   });
 }
@@ -133,7 +135,7 @@ export async function generateChampionsLeague(tournamentId: string, options: { n
   const registrations = await getApprovedRegistrations(tournamentId);
 
   if (registrations.length < 4) {
-    throw new Error("At least four approved players are recommended for Champions League groups.");
+    throw new Error("At least four approved players are recommended for group-stage fixtures.");
   }
 
   await clearCompetitionData(tournamentId);
@@ -150,7 +152,7 @@ export async function generateChampionsLeague(tournamentId: string, options: { n
   });
 
   if (options.notifyPlayers ?? true) {
-    await notifyRegistrations(registrations.map((registration) => registration.id), "Champions League fixtures generated", "Your Champions League group schedule is now available.", NotificationType.MATCH);
+    await notifyRegistrations(registrations.map((registration) => registration.id), "Group Stage fixtures generated", "Your group-stage schedule is now available.", NotificationType.MATCH);
   }
 
   return getCompetitionData(tournamentId);
@@ -470,12 +472,12 @@ export function serializeMatch(match: MatchWithPlayers) {
     groupName: match.groupName,
     playerOneRegistrationId: match.playerOneRegistrationId,
     playerTwoRegistrationId: match.playerTwoRegistrationId,
-    playerOneName: match.playerOneRegistration?.user.fullName ?? "TBD",
-    playerTwoName: match.playerTwoRegistration?.user.fullName ?? "TBD",
+    playerOneName: getRegistrationDisplayName(match.playerOneRegistration),
+    playerTwoName: getRegistrationDisplayName(match.playerTwoRegistration),
     playerOneScore: match.playerOneScore,
     playerTwoScore: match.playerTwoScore,
     winnerRegistrationId: match.winnerRegistrationId,
-    winnerName: match.winnerRegistration?.user.fullName ?? null,
+    winnerName: getRegistrationDisplayName(match.winnerRegistration, null),
     status: match.status,
     liveStatus: match.liveStatus,
     refereeId: match.refereeId,
@@ -499,18 +501,18 @@ export function serializeMatch(match: MatchWithPlayers) {
     legNumber: match.legNumber,
     homeRegistrationId: match.homeRegistrationId,
     awayRegistrationId: match.awayRegistrationId,
-    homeName: match.homeRegistration?.user.fullName ?? "TBD",
-    awayName: match.awayRegistration?.user.fullName ?? "TBD",
+    homeName: getRegistrationDisplayName(match.homeRegistration),
+    awayName: getRegistrationDisplayName(match.awayRegistration),
     homeScore: match.homeScore,
     awayScore: match.awayScore,
     aggregateMatchId: match.aggregateMatchId,
     aggregateWinnerRegistrationId: match.aggregateWinnerRegistrationId,
-    aggregateWinnerName: match.aggregateWinnerRegistration?.user.fullName ?? null,
+    aggregateWinnerName: getRegistrationDisplayName(match.aggregateWinnerRegistration, null),
     submissions: match.resultSubmissions.map((submission) => ({
       id: submission.id,
       matchId: submission.matchId,
       registrationId: submission.registrationId,
-      playerName: submission.registration.user.fullName,
+      playerName: getRegistrationDisplayName(submission.registration),
       submittedScore: submission.submittedScore,
       screenshotUrl: submission.screenshotUrl,
       note: submission.note,
@@ -522,6 +524,7 @@ export function serializeMatch(match: MatchWithPlayers) {
       autoApproved: submission.autoApproved,
       createdAt: submission.createdAt.toISOString(),
     })),
+    lineups: match.teamLineups.map((lineup) => serializeLineup(lineup)),
   };
 }
 
@@ -530,7 +533,7 @@ export function serializeStanding(standing: StandingWithPlayer) {
     id: standing.id,
     tournamentId: standing.tournamentId,
     registrationId: standing.registrationId,
-    playerName: standing.registration.user.fullName,
+    playerName: getRegistrationDisplayName(standing.registration),
     groupName: standing.groupName,
     played: standing.played,
     won: standing.won,
@@ -547,10 +550,48 @@ function serializeRegistration(registration: ApprovedRegistration) {
   return {
     id: registration.id,
     fullName: registration.user.fullName,
+    displayName: getRegistrationDisplayName(registration),
+    teamName: registration.team?.name ?? null,
+    teamTag: registration.team?.tag ?? null,
     email: registration.user.email,
     gamerTag: registration.user.gamerTag ?? "",
     approvalStatus: registration.approvalStatus,
     paymentStatus: registration.paymentStatus,
+  };
+}
+
+function getRegistrationDisplayName(registration: { user: { fullName: string }; team?: { name: string; tag: string } | null } | null, fallback: string | null = "TBD") {
+  if (!registration) return fallback;
+  return registration.team ? `[${registration.team.tag}] ${registration.team.name}` : registration.user.fullName;
+}
+
+function serializeLineup(lineup: MatchWithPlayers["teamLineups"][number]) {
+  const memberUserIds = Array.isArray(lineup.memberUserIds) ? lineup.memberUserIds.filter((value): value is string => typeof value === "string") : [];
+  const teamMembers = lineup.team.members.map((member) => ({
+    userId: member.userId,
+    fullName: member.user.fullName,
+    gamerTag: member.user.gamerTag,
+    platformId: member.user.platformId,
+  }));
+  const selectedMembers = memberUserIds.flatMap((userId) => {
+    const member = teamMembers.find((item) => item.userId === userId);
+    return member ? [member] : [];
+  });
+  const representative = teamMembers.find((member) => member.userId === lineup.representativeUserId) ?? null;
+
+  return {
+    id: lineup.id,
+    matchId: lineup.matchId,
+    registrationId: lineup.registrationId,
+    teamId: lineup.teamId,
+    teamName: lineup.team.name,
+    teamTag: lineup.team.tag,
+    memberUserIds,
+    members: selectedMembers,
+    representativeUserId: lineup.representativeUserId,
+    representativeName: representative?.gamerTag || representative?.fullName || "Selected representative",
+    submittedByUserId: lineup.submittedByUserId,
+    updatedAt: lineup.updatedAt.toISOString(),
   };
 }
 

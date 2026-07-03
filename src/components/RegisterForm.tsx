@@ -158,7 +158,7 @@ export function RegisterForm() {
     const gamePlayerError = validateGamePlayerId(form.gamePlayerId, player?.platformId);
 
     if (!form.tournamentId) nextErrors.tournamentId = "Choose a tournament.";
-    if (!form.game) nextErrors.game = "Choose a game.";
+    if (!form.game) nextErrors.game = "Choose a football category.";
     if (isTeamTournament && !form.teamId) nextErrors.teamId = "Choose a team you captain before joining this team tournament.";
     if (gamePlayerError) nextErrors.gamePlayerId = gamePlayerError;
     if (!form.agreedToRules) nextErrors.agreedToRules = "You must agree to the tournament rules.";
@@ -263,7 +263,7 @@ export function RegisterForm() {
       {selectedTournament ? <div className="mb-6 rounded-xl border border-cyan-300/20 bg-cyan-300/10 px-4 py-3 text-sm font-bold text-cyan-100">{selectedTournament.registrationType === "TEAM" ? `Team tournament${selectedTournament.teamSize ? ` - ${selectedTournament.teamSize} active members required` : ""}. Only the captain can register.` : "Solo tournament. Register as an individual player."}</div> : null}
 
       <div className="grid gap-5 md:grid-cols-2">
-        <FormField label="Game" error={errors.game}><select value={form.game} onChange={(event) => updateField("game", event.target.value as PublicGameTitle | "")} className="form-input" disabled={isLoadingTournaments}><option value="">{isLoadingTournaments ? "Loading games..." : "Select game"}</option>{publicGameOptions.filter((game) => game.value !== "All").map((game) => <option key={game.value} value={game.value}>{game.label}</option>)}</select></FormField>
+        <FormField label="Football category" error={errors.game}><select value={form.game} onChange={(event) => updateField("game", event.target.value as PublicGameTitle | "")} className="form-input" disabled={isLoadingTournaments}><option value="">{isLoadingTournaments ? "Loading categories..." : "Select football category"}</option>{publicGameOptions.filter((game) => game.value !== "All").map((game) => <option key={game.value} value={game.value}>{game.label}</option>)}</select></FormField>
         <FormField label="Tournament" error={errors.tournamentId}><select value={form.tournamentId} onChange={(event) => updateField("tournamentId", event.target.value)} className="form-input" disabled={isLoadingTournaments}><option value="">{isLoadingTournaments ? "Loading tournaments..." : "Select tournament"}</option>{availableTournaments.map((tournament) => <option key={tournament.id} value={tournament.id}>{tournament.title} ({formatGame(tournament.game)}) - {tournament.registrationType}</option>)}</select></FormField>
                 {isTeamTournament ? (
           <div className="md:col-span-2">
@@ -283,13 +283,13 @@ export function RegisterForm() {
             )}
           </div>
         ) : null}
-                <FormField label="Game Player ID / UID" error={errors.gamePlayerId} helper={`This is not your Platform ID (${player.platformId || "FT-000001"}). Enter the ID from inside your selected game.`}>
-          <input value={form.gamePlayerId} onChange={(event) => updateField("gamePlayerId", event.target.value)} className="form-input" placeholder="Enter game UID" />
+                <FormField label="Football Player ID / UID" error={errors.gamePlayerId} helper={`This is not your Platform ID (${player.platformId || "AK-000001"}). Enter the ID used for your selected football category.`}>
+          <input value={form.gamePlayerId} onChange={(event) => updateField("gamePlayerId", event.target.value)} className="form-input" placeholder="Enter football player ID" />
           <div className="mt-3 grid gap-1 rounded-lg border border-white/10 bg-black/20 p-3 text-xs leading-5 text-slate-400 sm:grid-cols-2">
-            <span>eFootball ID example: 123456789</span>
-            <span>PUBG UID example: 5123456789</span>
-            <span>COD UID example: CODM_778899</span>
-            <span>Free Fire UID example: 1234567890</span>
+            <span>Football ID example: 123456789</span>
+            <span>Club Challenge ID example: CLUB-778899</span>
+            <span>School Cup ID example: SCHOOL-12345</span>
+            <span>Community Cup ID example: COMMUNITY-67890</span>
           </div>
         </FormField>
       </div>

@@ -1,97 +1,73 @@
 import Link from "next/link";
-import { CompetitionFormat, GameTitle } from "@/generated/prisma/client";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { prisma } from "@/lib/prisma";
 
-const gameLabels: Record<GameTitle, string> = {
-  EFOOTBALL_MOBILE: "eFootball Mobile",
-  PUBG_MOBILE: "PUBG Mobile",
-  COD_MOBILE: "COD Mobile",
-  FREE_FIRE: "Free Fire",
-};
-
-const formatLabels: Record<CompetitionFormat, string> = {
-  OPEN_KNOCKOUT: "Open Knockout",
-  DOUBLE_ELIMINATION: "Double Elimination",
-  LEAGUE: "League",
-  CHAMPIONS_LEAGUE: "Champions League",
-  SWISS_SYSTEM: "Swiss System",
-};
-
 type LeaderboardPageProps = {
-  searchParams: Promise<{ game?: string; season?: string; format?: string }>;
+  searchParams?: Promise<{ season?: string }>;
 };
 
 export default async function LeaderboardPage({ searchParams }: LeaderboardPageProps) {
   const params = await searchParams;
-  const game = Object.values(GameTitle).includes(params.game as GameTitle) ? (params.game as GameTitle) : "All";
-  const format = Object.values(CompetitionFormat).includes(params.format as CompetitionFormat) ? (params.format as CompetitionFormat) : "All";
-  const seasonId = params.season?.trim() || "All";
+  const seasons = await prisma.season.findMany({ orderBy: [{ active: "desc" }, { startDate: "desc" }] });
+  const activeSeason = seasons.find((season) => season.active) ?? seasons[0] ?? null;
+  const selectedSeason = seasons.find((season) => season.id === params?.season) ?? activeSeason;
 
-  const [seasons, players] = await Promise.all([
-    prisma.leaderboardSeason.findMany({ orderBy: { startDate: "desc" } }),
-    prisma.user.findMany({
-      where: {
-        role: "PLAYER",
-        ...(game !== "All" ? { favoriteGame: game } : {}),
-        ...(format !== "All" ? { registrations: { some: { tournament: { competitionFormat: format } } } } : {}),
-      },
-      include: {
-        achievements: { include: { achievement: true }, orderBy: { unlockedAt: "desc" } },
-        rankingHistory: seasonId === "All" ? false : { where: { seasonId }, orderBy: { createdAt: "desc" }, take: 1 },
-      },
-      orderBy: [{ totalPoints: "desc" }, { totalWins: "desc" }, { totalLosses: "asc" }],
-      take: 50,
-    }),
-  ]);
-
-  const rankedPlayers = players
-    .map((player) => {
-      const seasonHistory = "rankingHistory" in player && Array.isArray(player.rankingHistory) ? player.rankingHistory[0] : null;
-      return {
-        ...player,
-        displayPoints: seasonHistory?.points ?? player.totalPoints,
-        displayWins: seasonHistory?.wins ?? player.totalWins,
-        displayLosses: seasonHistory?.losses ?? player.totalLosses,
-        displayDraws: seasonHistory?.draws ?? player.totalDraws,
-      };
-    })
-    .sort((a, b) => b.displayPoints - a.displayPoints || b.displayWins - a.displayWins || a.displayLosses - b.displayLosses);
+  const ratings = selectedSeason ? await prisma.playerRating.findMany({
+    where: { seasonId: selectedSeason.id },
+    include: { user: { include: { achievements: { include: { achievement: true }, orderBy: { unlockedAt: "desc" }, take: 3 } } } },
+    orderBy: [{ currentRating: "desc" }, { wins: "desc" }, { losses: "asc" }],
+    take: 100,
+  }) : [];
 
   return (
     <main className="min-h-screen bg-[#05070d] text-white">
       <Navbar />
       <section className="mx-auto max-w-7xl px-5 py-12 lg:px-8">
         <div className="border-b border-white/10 pb-8">
-          <p className="text-sm font-black uppercase tracking-[0.24em] text-cyan-300">Global leaderboard</p>
-          <h1 className="mt-3 text-3xl font-black sm:text-5xl">Player Rankings</h1>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">Wins give 3 points, draws give 1 point, and tournament champions earn bonus points.</p>
+          <p className="text-sm font-black uppercase tracking-[0.24em] text-cyan-300">Penalty leaderboard</p>
+          <h1 className="mt-3 text-3xl font-black sm:text-5xl">Player Ratings</h1>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">Completed penalty matches update the active season automatically. Winners gain points, losers lose points, and disputed matches wait until resolved.</p>
         </div>
 
-        <form className="mt-8 grid gap-4 rounded-xl border border-white/10 bg-white/[0.03] p-4 md:grid-cols-3">
-          <Filter name="game" label="Game" value={game} options={["All", ...Object.values(GameTitle)]} labels={{ All: "All Games", ...gameLabels }} />
-          <Filter name="season" label="Season" value={seasonId} options={["All", ...seasons.map((season) => season.id)]} labels={{ All: "All Seasons", ...Object.fromEntries(seasons.map((season) => [season.id, season.name])) }} />
-          <Filter name="format" label="Format" value={format} options={["All", ...Object.values(CompetitionFormat)]} labels={{ All: "All Formats", ...formatLabels }} />
-          <button className="rounded-lg bg-cyan-300 px-4 py-3 text-sm font-black text-slate-950 transition hover:bg-white md:col-span-3" type="submit">Apply Filters</button>
-        </form>
+        <div className="mt-6 flex flex-wrap gap-2">
+          {seasons.length === 0 ? (
+            <span className="rounded-full border border-amber-300/30 bg-amber-300/10 px-4 py-2 text-sm font-bold text-amber-100">No seasons created yet</span>
+          ) : seasons.map((season) => (
+            <Link key={season.id} href={`/leaderboard?season=${season.id}`} className={`rounded-full border px-4 py-2 text-sm font-bold transition ${selectedSeason?.id === season.id ? "border-cyan-300 bg-cyan-300 text-slate-950" : "border-white/10 bg-white/[0.04] text-slate-300 hover:border-cyan-300 hover:text-cyan-100"}`}>
+              {season.name}{season.active ? " · Active" : ""}
+            </Link>
+          ))}
+        </div>
+
+        {selectedSeason ? (
+          <p className="mt-4 text-sm text-slate-400">Showing {selectedSeason.name}: {formatDate(selectedSeason.startDate)} - {formatDate(selectedSeason.endDate)}</p>
+        ) : null}
 
         <div className="mt-8 overflow-hidden rounded-xl border border-white/10 bg-white/[0.03]">
-          <div className="hidden grid-cols-[0.5fr_1.5fr_repeat(6,1fr)] gap-4 border-b border-white/10 px-5 py-3 text-xs font-bold uppercase tracking-[0.18em] text-slate-400 lg:grid">
-            <span>Rank</span><span>Player</span><span>Points</span><span>Wins</span><span>Losses</span><span>Draws</span><span>Trophies</span><span>Game</span>
+          <div className="hidden grid-cols-[0.5fr_2fr_repeat(4,1fr)] gap-4 border-b border-white/10 px-5 py-3 text-xs font-bold uppercase tracking-[0.18em] text-slate-400 lg:grid">
+            <span>Rank</span><span>Player</span><span>Rating</span><span>Wins</span><span>Losses</span><span>Win %</span>
           </div>
-          {rankedPlayers.length === 0 ? (
-            <div className="p-8 text-center text-slate-300">No ranked players found yet.</div>
-          ) : rankedPlayers.map((player, index) => (
-            <Link key={player.id} href={`/players/${player.id}`} className="grid gap-3 border-b border-white/10 px-5 py-5 transition hover:bg-cyan-300/5 lg:grid-cols-[0.5fr_1.5fr_repeat(6,1fr)] lg:items-center">
+          {ratings.length === 0 ? (
+            <div className="p-8 text-center text-slate-300">No rated players yet. Ratings appear after completed penalty matches.</div>
+          ) : ratings.map((rating, index) => (
+            <Link key={rating.id} href={`/players/${rating.userId}`} className="grid gap-3 border-b border-white/10 px-5 py-5 transition hover:bg-cyan-300/5 lg:grid-cols-[0.5fr_2fr_repeat(4,1fr)] lg:items-center">
               <p className="text-2xl font-black text-cyan-200">#{index + 1}</p>
-              <div><p className="font-black text-white">{player.gamerTag || player.fullName}</p><p className="text-xs text-slate-400">{player.fullName}</p></div>
-              <Metric label="Points" value={player.displayPoints} />
-              <Metric label="Wins" value={player.displayWins} />
-              <Metric label="Losses" value={player.displayLosses} />
-              <Metric label="Draws" value={player.displayDraws} />
-              <Metric label="Trophies" value={player.tournamentsWon} />
-              <span className="text-sm text-slate-200">{player.favoriteGame ? gameLabels[player.favoriteGame] : "Not set"}</span>
+              <div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="font-black text-white">{rating.user.gamerTag || rating.user.fullName}</p>
+                  {rating.user.achievements.map((item) => (
+                    <span key={item.id} title={item.achievement.name} className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-2 py-0.5 text-[10px] font-black text-cyan-100">
+                      {item.achievement.icon ?? item.achievement.name}
+                    </span>
+                  ))}
+                </div>
+                <p className="text-xs text-slate-400">{rating.user.platformId ?? rating.user.email}</p>
+              </div>
+              <Metric label="Rating" value={rating.currentRating} highlight />
+              <Metric label="Wins" value={rating.wins} />
+              <Metric label="Losses" value={rating.losses} />
+              <span className="text-sm text-slate-200"><span className="text-xs font-bold uppercase text-slate-500 lg:hidden">Win %: </span>{formatWinPercentage(rating.wins, rating.matchesPlayed)}</span>
             </Link>
           ))}
         </div>
@@ -101,18 +77,15 @@ export default async function LeaderboardPage({ searchParams }: LeaderboardPageP
   );
 }
 
-function Filter({ name, label, value, options, labels }: { name: string; label: string; value: string; options: string[]; labels: Record<string, string> }) {
-  return (
-    <label className="block">
-      <span className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">{label}</span>
-      <select name={name} defaultValue={value} className="mt-2 w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-cyan-300">
-        {options.map((option) => <option key={option} value={option}>{labels[option] ?? option}</option>)}
-      </select>
-    </label>
-  );
+function Metric({ label, value, highlight = false }: { label: string; value: number; highlight?: boolean }) {
+  return <span className={`text-sm ${highlight ? "font-black text-cyan-200" : "text-slate-200"}`}><span className="text-xs font-bold uppercase text-slate-500 lg:hidden">{label}: </span>{value}</span>;
 }
 
-function Metric({ label, value }: { label: string; value: number }) {
-  return <span className="text-sm text-slate-200"><span className="text-xs font-bold uppercase text-slate-500 lg:hidden">{label}: </span>{value}</span>;
+function formatWinPercentage(wins: number, matchesPlayed: number) {
+  if (matchesPlayed === 0) return "0%";
+  return `${Math.round((wins / matchesPlayed) * 100)}%`;
 }
 
+function formatDate(value: Date) {
+  return new Intl.DateTimeFormat("en", { month: "short", day: "numeric", year: "numeric" }).format(value);
+}

@@ -4,10 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { formatGame } from "@/types/public-tournament";
 
 const games = [
-  { game: GameTitle.EFOOTBALL_MOBILE, icon: "EF", description: "Fast mobile football tournaments for solo players and knockout brackets." },
-  { game: GameTitle.PUBG_MOBILE, icon: "PB", description: "Squad-based battle royale events for teams, clans, and competitive groups." },
-  { game: GameTitle.COD_MOBILE, icon: "CD", description: "Mobile FPS tournaments built for tactical teams and 5v5 matchups." },
-  { game: GameTitle.FREE_FIRE, icon: "FF", description: "Accessible squad events with clear registration, payments, and result tracking." },
+  { game: GameTitle.EFOOTBALL_MOBILE, icon: "FB", description: "Football tournaments for solo players, clubs, schools, and community knockout brackets." },
 ];
 
 export async function GamesSection() {
@@ -24,9 +21,9 @@ export async function GamesSection() {
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div>
-            <p className="text-sm font-black uppercase tracking-[0.24em] text-cyan-300">Supported games</p>
-            <h2 className="mt-3 text-3xl font-black text-white sm:text-4xl">Choose your battlefield</h2>
-            <p className="mt-4 max-w-2xl text-slate-300">Join solo tournaments or build teams for the biggest mobile esports titles on FT Esports.</p>
+            <p className="text-sm font-black uppercase tracking-[0.24em] text-cyan-300">Supported competitions</p>
+            <h2 className="mt-3 text-3xl font-black text-white sm:text-4xl">Choose your arena</h2>
+            <p className="mt-4 max-w-2xl text-slate-300">Join football-focused tournaments or build teams for African community competitions on AfriKick.</p>
           </div>
           <Link href="/tournaments" className="rounded-lg border border-cyan-300/40 bg-cyan-300/10 px-5 py-3 text-center text-sm font-black text-cyan-100 transition hover:-translate-y-1 hover:bg-cyan-300 hover:text-slate-950">Browse Tournaments</Link>
         </div>

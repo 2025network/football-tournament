@@ -38,6 +38,15 @@ type ResultSubmission = {
   createdAt: string;
 };
 
+type MatchLineup = {
+  id: string;
+  registrationId: string;
+  teamName: string;
+  teamTag: string;
+  members: { userId: string; fullName: string; gamerTag: string | null; platformId: string | null }[];
+  representativeName: string;
+};
+
 type CompetitionMatch = {
   id: string;
   round: number;
@@ -79,6 +88,7 @@ type CompetitionMatch = {
   roomPassword: string | null;
   spectatorNote: string | null;
   submissions: ResultSubmission[];
+  lineups: MatchLineup[];
 };
 
 type Standing = {
@@ -510,7 +520,7 @@ export function AdminCompetitionManager({ tournamentId }: { tournamentId: string
         <div className="mt-5 grid gap-3 md:grid-cols-3">
           <ActionButton label="Generate Knockout" loading={actionLoading.includes("generate-knockout")} onClick={() => runAction(`/api/tournaments/${tournamentId}/generate-knockout`, "Knockout generated.")} />
           <ActionButton label="Generate League" loading={actionLoading.includes("generate-league")} onClick={() => runAction(`/api/tournaments/${tournamentId}/generate-league`, "League generated.")} />
-          <ActionButton label="Generate Champions League" loading={actionLoading.includes("generate-champions-league")} onClick={() => runAction(`/api/tournaments/${tournamentId}/generate-champions-league`, "Champions League generated.")} />
+          <ActionButton label="Generate Group Stage" loading={actionLoading.includes("generate-champions-league")} onClick={() => runAction(`/api/tournaments/${tournamentId}/generate-champions-league`, "Group Stage generated.")} />
         </div>
       </div>
 
@@ -594,11 +604,11 @@ export function AdminCompetitionManager({ tournamentId }: { tournamentId: string
                           <input className="form-input" value={scores[match.id]?.livestreamUrl ?? ""} onChange={(event) => updateScore(match.id, "livestreamUrl", event.target.value)} placeholder="Backward compatible stream URL" />
                         </label>
                         <label>
-                          <span className="mb-2 block text-xs font-black uppercase tracking-[0.18em] text-slate-400">Room code</span>
-                          <input className="form-input" value={scores[match.id]?.roomCode ?? ""} onChange={(event) => updateScore(match.id, "roomCode", event.target.value)} placeholder="Room ID or code" />
+                          <span className="mb-2 block text-xs font-black uppercase tracking-[0.18em] text-slate-400">Match access code</span>
+                          <input className="form-input" value={scores[match.id]?.roomCode ?? ""} onChange={(event) => updateScore(match.id, "roomCode", event.target.value)} placeholder="Pitch, link, or access code" />
                         </label>
                         <label>
-                          <span className="mb-2 block text-xs font-black uppercase tracking-[0.18em] text-slate-400">Room password</span>
+                          <span className="mb-2 block text-xs font-black uppercase tracking-[0.18em] text-slate-400">Match access password</span>
                           <input className="form-input" value={scores[match.id]?.roomPassword ?? ""} onChange={(event) => updateScore(match.id, "roomPassword", event.target.value)} placeholder="Optional password" />
                         </label>
                         <label>
@@ -613,6 +623,23 @@ export function AdminCompetitionManager({ tournamentId }: { tournamentId: string
                       </div>
                       {match.aggregateWinnerName ? <p className="mt-2 text-sm font-bold text-emerald-300">Aggregate winner: {match.aggregateWinnerName}</p> : null}
                       {match.status === MatchStatus.DISPUTED ? <p className="mt-2 text-sm font-bold text-amber-300">Aggregate is tied. Choose a manual winner, penalty winner, or replay decision before saving.</p> : null}
+
+                      {match.lineups.length > 0 ? (
+                        <div className="mt-4 grid gap-3">
+                          <p className="text-xs font-black uppercase tracking-[0.18em] text-fuchsia-300">Team lineups</p>
+                          <div className="grid gap-3 md:grid-cols-2">
+                            {match.lineups.map((lineup) => (
+                              <div key={lineup.id} className="rounded-xl border border-fuchsia-300/20 bg-fuchsia-300/10 p-4">
+                                <p className="font-black text-white">[{lineup.teamTag}] {lineup.teamName}</p>
+                                <p className="mt-1 text-sm font-bold text-cyan-100">Penalty representative: {lineup.representativeName}</p>
+                                <div className="mt-3 flex flex-wrap gap-2">
+                                  {lineup.members.map((member) => <span key={member.userId} className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-xs text-slate-200">{member.gamerTag || member.fullName}</span>)}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ) : null}
 
                       {match.submissions.length > 0 ? (
                         <div className="mt-4 grid gap-3">
@@ -678,7 +705,7 @@ function StandingsView({ groupedStandings }: { groupedStandings: Record<string, 
     <div className="rounded-2xl border border-white/10 bg-slate-900/80 p-5 sm:p-6">
       <p className="text-sm font-black uppercase tracking-[0.24em] text-cyan-300">Tables and groups</p>
       <div className="mt-5 grid gap-5">
-        {groups.length === 0 ? <EmptyState text="League tables and Champions League groups appear after fixtures are generated." /> : groups.map(([group, standings]) => (
+        {groups.length === 0 ? <EmptyState text="League tables and group-stage tables appear after fixtures are generated." /> : groups.map(([group, standings]) => (
           <div key={group} className="overflow-x-auto">
             <h3 className="mb-3 text-lg font-black text-white">{group}</h3>
             <table className="w-full min-w-[680px] text-left text-sm">
@@ -786,10 +813,10 @@ function groupBy<T>(items: T[], getKey: (item: T) => string) {
 function formatCompetition(format: CompetitionFormat) {
   const labels: Record<CompetitionFormat, string> = {
     OPEN_KNOCKOUT: "Open Knockout",
-    DOUBLE_ELIMINATION: "Double Elimination",
-    LEAGUE: "League",
-    CHAMPIONS_LEAGUE: "Champions League",
-    SWISS_SYSTEM: "Swiss System",
+    DOUBLE_ELIMINATION: "Cup Format",
+    LEAGUE: "League Format",
+    CHAMPIONS_LEAGUE: "Group Stage",
+    SWISS_SYSTEM: "Community Cup",
   };
 
   return labels[format];

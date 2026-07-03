@@ -18,6 +18,8 @@ const profileLinks = [
   { label: "Player Dashboard", href: "/player/dashboard" },
   { label: "Account Settings", href: "/player/dashboard" },
   { label: "My Teams", href: "/player/teams" },
+  { label: "Admin Seasons", href: "/admin/seasons" },
+  { label: "Admin Achievements", href: "/admin/achievements" },
   { label: "Admin Login", href: "/admin/login" },
 ];
 
@@ -52,10 +54,10 @@ export function Navbar() {
       <nav className="mx-auto flex max-w-7xl flex-nowrap items-center justify-between gap-3 px-4 py-3 sm:px-5 lg:px-8">
         <Link href="/" onClick={closeMenus} className="group flex w-auto max-w-[142px] shrink items-center gap-2 sm:max-w-[168px] 2xl:w-[178px] 2xl:max-w-[178px] 2xl:shrink-0">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-cyan-400/40 bg-cyan-400/10 text-sm font-black text-cyan-200 shadow-[0_0_24px_rgba(34,211,238,0.25)] sm:h-10 sm:w-10 sm:text-lg">
-            FT
+            AK
           </span>
           <span className="min-w-0">
-            <span className="block whitespace-nowrap text-xs font-black uppercase text-white sm:text-sm">FT Esports</span>
+            <span className="block whitespace-nowrap text-xs font-black uppercase text-white sm:text-sm">AfriKick</span>
           </span>
         </Link>
 

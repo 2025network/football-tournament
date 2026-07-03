@@ -2,12 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { GameTitle, MatchStatus } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import { serializePayment } from "@/lib/payments";
+import { getOrCreateWallet, serializeWalletTransaction } from "@/lib/wallet";
 
 const gameToDisplay: Record<GameTitle, string> = {
-  EFOOTBALL_MOBILE: "eFootball Mobile",
-  PUBG_MOBILE: "PUBG Mobile",
-  COD_MOBILE: "COD Mobile",
-  FREE_FIRE: "Free Fire",
+  EFOOTBALL_MOBILE: "Football",
+  PUBG_MOBILE: "Community Cup",
+  COD_MOBILE: "Club Challenge",
+  FREE_FIRE: "Street Football Cup",
 };
 
 export async function GET(request: NextRequest) {
@@ -21,7 +22,14 @@ export async function GET(request: NextRequest) {
     const player = await prisma.user.findUnique({
       where: { email },
       include: {
+        playerRatings: {
+          where: { season: { active: true } },
+          include: { season: true },
+          take: 1,
+        },
         achievements: { include: { achievement: true }, orderBy: { unlockedAt: "desc" } },
+        wallet: { include: { transactions: { orderBy: { createdAt: "desc" }, take: 10 } } },
+        walletFundingRequests: { orderBy: { createdAt: "desc" }, take: 10 },
         registrations: {
           include: { tournament: true, payments: { include: { registration: { include: { user: true, tournament: true } } }, orderBy: { createdAt: "desc" }, take: 1 } },
           orderBy: { createdAt: "desc" },
@@ -34,6 +42,8 @@ export async function GET(request: NextRequest) {
     }
 
     const registrationIds = player.registrations.map((registration) => registration.id);
+    const wallet = player.wallet ?? await getOrCreateWallet(player.id);
+    const walletTransactions = player.wallet?.transactions ?? await prisma.walletTransaction.findMany({ where: { walletId: wallet.id }, orderBy: { createdAt: "desc" }, take: 10 });
     const recentMatches = registrationIds.length === 0 ? [] : await prisma.match.findMany({
       where: {
         status: MatchStatus.COMPLETED,
@@ -74,7 +84,36 @@ export async function GET(request: NextRequest) {
         tournamentsPlayed: player.tournamentsPlayed,
         tournamentsWon: player.tournamentsWon,
         favoriteGame: player.favoriteGame ? gameToDisplay[player.favoriteGame] : "Not set",
+        rating: player.playerRatings[0] ? {
+          seasonName: player.playerRatings[0].season?.name ?? "Active season",
+          matchesPlayed: player.playerRatings[0].matchesPlayed,
+          wins: player.playerRatings[0].wins,
+          losses: player.playerRatings[0].losses,
+          goalsScored: player.playerRatings[0].goalsScored,
+          goalsConceded: player.playerRatings[0].goalsConceded,
+          currentRating: player.playerRatings[0].currentRating,
+          highestRating: player.playerRatings[0].highestRating,
+        } : null,
       },
+      wallet: {
+        balance: wallet.balance,
+        currency: wallet.currency,
+        transactions: walletTransactions.map(serializeWalletTransaction),
+      },
+      walletFundingRequests: player.walletFundingRequests.map((request) => ({
+        id: request.id,
+        amount: request.amount,
+        currency: request.currency,
+        paymentMethod: request.paymentMethod,
+        senderName: request.senderName,
+        receiptUrl: request.receiptUrl,
+        status: request.status,
+        adminNote: request.adminNote,
+        approvedBy: request.approvedBy,
+        creditedTransactionId: request.creditedTransactionId,
+        createdAt: request.createdAt.toISOString(),
+        updatedAt: request.updatedAt.toISOString(),
+      })),
       achievements: player.achievements.map((item) => ({
         id: item.id,
         name: item.achievement.name,

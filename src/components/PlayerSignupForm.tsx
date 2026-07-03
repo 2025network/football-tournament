@@ -48,7 +48,7 @@ export function PlayerSignupForm() {
     if (!isValidEmail(formData.email)) return "Enter a valid email address.";
     if (!isValidNigerianPhone(formData.phone)) return "Phone number must be 11 digits and start with 070, 080, 081, 090, or 091.";
     if (!isValidNigerianPhone(formData.whatsapp)) return "WhatsApp number must be 11 digits and start with 070, 080, 081, 090, or 091.";
-    if (!formData.gamerTag.trim()) return "Gamer tag is required.";
+    if (!formData.gamerTag.trim()) return "Player tag is required.";
     if (!formData.password || formData.password.length < 6) return "Password must be at least 6 characters.";
     return "";
   }
@@ -98,15 +98,15 @@ export function PlayerSignupForm() {
         <FormInput label="Email" value={formData.email} onChange={(value) => updateField("email", value)} placeholder="player@example.com" type="email" />
         <FormInput label="Phone number" value={formData.phone} onChange={(value) => updateField("phone", value)} placeholder="08012345678" />
         <FormInput label="WhatsApp number" value={formData.whatsapp} onChange={(value) => updateField("whatsapp", value)} placeholder="08012345678" />
-        <FormInput label="Gamer tag" value={formData.gamerTag} onChange={(value) => updateField("gamerTag", value)} placeholder="Your public esports name" />
+        <FormInput label="Player tag" value={formData.gamerTag} onChange={(value) => updateField("gamerTag", value)} placeholder="Your public football name" />
         <label>
-          <span className="mb-2 block text-sm font-black text-slate-200">Preferred game</span>
+          <span className="mb-2 block text-sm font-black text-slate-200">Preferred football category</span>
           <select value={formData.preferredGame} onChange={(event) => updateField("preferredGame", event.target.value as PublicGameTitle | "")} className="form-input">
-            <option value="">Select preferred game</option>
+            <option value="">Select preferred football category</option>
             {playableGames.map((game) => <option key={game.value} value={game.value}>{game.label}</option>)}
           </select>
         </label>
-        <FormInput label="Default Game Player ID / UID optional" value={formData.defaultGamePlayerId} onChange={(value) => updateField("defaultGamePlayerId", value)} placeholder="eFootball ID, PUBG UID, COD UID, Free Fire UID" />
+        <FormInput label="Default football player ID / UID optional" value={formData.defaultGamePlayerId} onChange={(value) => updateField("defaultGamePlayerId", value)} placeholder="Football ID, Club Challenge ID, School Cup ID" />
         <FormInput label="Password" value={formData.password} onChange={(value) => updateField("password", value)} placeholder="At least 6 characters" type="password" />
       </div>
 

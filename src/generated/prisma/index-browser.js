@@ -170,6 +170,9 @@ exports.Prisma.TournamentScalarFieldEnum = {
   streamPlatform: 'streamPlatform',
   description: 'description',
   rules: 'rules',
+  prizePayoutPaid: 'prizePayoutPaid',
+  prizePayoutPaidAt: 'prizePayoutPaidAt',
+  prizePayoutNote: 'prizePayoutNote',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -224,6 +227,7 @@ exports.Prisma.MatchScalarFieldEnum = {
   awayScore: 'awayScore',
   aggregateMatchId: 'aggregateMatchId',
   aggregateWinnerRegistrationId: 'aggregateWinnerRegistrationId',
+  penaltyRatingApplied: 'penaltyRatingApplied',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -291,6 +295,46 @@ exports.Prisma.PaymentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.WalletScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  balance: 'balance',
+  currency: 'currency',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.WalletTransactionScalarFieldEnum = {
+  id: 'id',
+  walletId: 'walletId',
+  userId: 'userId',
+  type: 'type',
+  amount: 'amount',
+  balanceAfter: 'balanceAfter',
+  description: 'description',
+  reference: 'reference',
+  registrationId: 'registrationId',
+  tournamentId: 'tournamentId',
+  adminName: 'adminName',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.WalletFundingRequestScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  amount: 'amount',
+  currency: 'currency',
+  paymentMethod: 'paymentMethod',
+  senderName: 'senderName',
+  receiptUrl: 'receiptUrl',
+  status: 'status',
+  adminNote: 'adminNote',
+  approvedBy: 'approvedBy',
+  creditedTransactionId: 'creditedTransactionId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.LeaderboardSeasonScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -349,6 +393,18 @@ exports.Prisma.TeamMemberScalarFieldEnum = {
   joinedAt: 'joinedAt'
 };
 
+exports.Prisma.TeamMatchLineupScalarFieldEnum = {
+  id: 'id',
+  matchId: 'matchId',
+  registrationId: 'registrationId',
+  teamId: 'teamId',
+  memberUserIds: 'memberUserIds',
+  representativeUserId: 'representativeUserId',
+  submittedByUserId: 'submittedByUserId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.WebsiteSettingScalarFieldEnum = {
   id: 'id',
   key: 'key',
@@ -369,9 +425,72 @@ exports.Prisma.TournamentAutomationSettingScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PenaltyShootoutResultScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  matchId: 'matchId',
+  score: 'score',
+  suddenDeathScore: 'suddenDeathScore',
+  totalShots: 'totalShots',
+  shotsJson: 'shotsJson',
+  suddenDeathShotsJson: 'suddenDeathShotsJson',
+  isWinner: 'isWinner',
+  auditVersion: 'auditVersion',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PenaltyShootoutTrainingAttemptScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  score: 'score',
+  totalShots: 'totalShots',
+  shotsJson: 'shotsJson',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PenaltyShootoutAdminActionScalarFieldEnum = {
+  id: 'id',
+  matchId: 'matchId',
+  resultId: 'resultId',
+  actionType: 'actionType',
+  adminName: 'adminName',
+  reason: 'reason',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SeasonScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PlayerRatingScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  seasonId: 'seasonId',
+  matchesPlayed: 'matchesPlayed',
+  wins: 'wins',
+  losses: 'losses',
+  goalsScored: 'goalsScored',
+  goalsConceded: 'goalsConceded',
+  currentRating: 'currentRating',
+  highestRating: 'highestRating',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -382,6 +501,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.GameTitle = exports.$Enums.GameTitle = {
   EFOOTBALL_MOBILE: 'EFOOTBALL_MOBILE',
@@ -470,12 +595,14 @@ exports.NotificationType = exports.$Enums.NotificationType = {
 exports.PaymentMethod = exports.$Enums.PaymentMethod = {
   PAYSTACK: 'PAYSTACK',
   BANK_TRANSFER: 'BANK_TRANSFER',
-  MANUAL_ADMIN: 'MANUAL_ADMIN'
+  MANUAL_ADMIN: 'MANUAL_ADMIN',
+  WALLET: 'WALLET'
 };
 
 exports.PaymentProvider = exports.$Enums.PaymentProvider = {
   PAYSTACK: 'PAYSTACK',
-  MANUAL: 'MANUAL'
+  MANUAL: 'MANUAL',
+  WALLET: 'WALLET'
 };
 
 exports.PaymentRecordStatus = exports.$Enums.PaymentRecordStatus = {
@@ -483,6 +610,17 @@ exports.PaymentRecordStatus = exports.$Enums.PaymentRecordStatus = {
   SUCCESS: 'SUCCESS',
   FAILED: 'FAILED',
   UNDER_REVIEW: 'UNDER_REVIEW',
+  REJECTED: 'REJECTED'
+};
+
+exports.WalletTransactionType = exports.$Enums.WalletTransactionType = {
+  CREDIT: 'CREDIT',
+  DEBIT: 'DEBIT'
+};
+
+exports.WalletFundingRequestStatus = exports.$Enums.WalletFundingRequestStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
   REJECTED: 'REJECTED'
 };
 
@@ -505,6 +643,11 @@ exports.WebsiteSettingType = exports.$Enums.WebsiteSettingType = {
   JSON: 'JSON'
 };
 
+exports.PenaltyShootoutAdminActionType = exports.$Enums.PenaltyShootoutAdminActionType = {
+  MANUAL_WINNER: 'MANUAL_WINNER',
+  RESET_RESULT: 'RESET_RESULT'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Tournament: 'Tournament',
@@ -514,14 +657,23 @@ exports.Prisma.ModelName = {
   MatchResultSubmission: 'MatchResultSubmission',
   Notification: 'Notification',
   Payment: 'Payment',
+  Wallet: 'Wallet',
+  WalletTransaction: 'WalletTransaction',
+  WalletFundingRequest: 'WalletFundingRequest',
   LeaderboardSeason: 'LeaderboardSeason',
   RankingHistory: 'RankingHistory',
   Achievement: 'Achievement',
   PlayerAchievement: 'PlayerAchievement',
   Team: 'Team',
   TeamMember: 'TeamMember',
+  TeamMatchLineup: 'TeamMatchLineup',
   WebsiteSetting: 'WebsiteSetting',
-  TournamentAutomationSetting: 'TournamentAutomationSetting'
+  TournamentAutomationSetting: 'TournamentAutomationSetting',
+  PenaltyShootoutResult: 'PenaltyShootoutResult',
+  PenaltyShootoutTrainingAttempt: 'PenaltyShootoutTrainingAttempt',
+  PenaltyShootoutAdminAction: 'PenaltyShootoutAdminAction',
+  Season: 'Season',
+  PlayerRating: 'PlayerRating'
 };
 
 /**

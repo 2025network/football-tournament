@@ -70,11 +70,13 @@ enum PaymentMethod {
   PAYSTACK
   BANK_TRANSFER
   MANUAL_ADMIN
+  WALLET
 }
 
 enum PaymentProvider {
   PAYSTACK
   MANUAL
+  WALLET
 }
 
 enum PaymentRecordStatus {
@@ -82,6 +84,17 @@ enum PaymentRecordStatus {
   SUCCESS
   FAILED
   UNDER_REVIEW
+  REJECTED
+}
+
+enum WalletTransactionType {
+  CREDIT
+  DEBIT
+}
+
+enum WalletFundingRequestStatus {
+  PENDING
+  APPROVED
   REJECTED
 }
 
@@ -113,6 +126,11 @@ enum MatchStreamMode {
   OFFICIAL_STREAM
 }
 
+enum PenaltyShootoutAdminActionType {
+  MANUAL_WINNER
+  RESET_RESULT
+}
+
 enum WebsiteSettingType {
   TEXT
   LONG_TEXT
@@ -130,37 +148,43 @@ enum StreamPlatform {
 }
 
 model User {
-  id                  String              @id @default(cuid())
-  fullName            String
-  email               String              @unique
-  emailVerified       Boolean             @default(false)
-  platformId          String?             @unique
-  phone               String?
-  whatsapp            String?
-  defaultGame         GameTitle?
-  defaultGamePlayerId String?
-  phoneNumber         String?
-  whatsappNumber      String?
-  gamerTag            String?
-  passwordHash        String?
-  role                Role                @default(PLAYER)
-  registrations       Registration[]
-  notifications       Notification[]
-  refereeMatches      Match[]             @relation("MatchReferee")
-  captainTeams        Team[]              @relation("TeamCaptain")
-  teamMemberships     TeamMember[]
-  rankingHistory      RankingHistory[]
-  achievements        PlayerAchievement[]
-  totalPoints         Int                 @default(0)
-  totalWins           Int                 @default(0)
-  totalLosses         Int                 @default(0)
-  totalDraws          Int                 @default(0)
-  tournamentsPlayed   Int                 @default(0)
-  tournamentsWon      Int                 @default(0)
-  currentRank         Int?
-  favoriteGame        GameTitle?
-  createdAt           DateTime            @default(now())
-  updatedAt           DateTime            @updatedAt
+  id                      String                           @id @default(cuid())
+  fullName                String
+  email                   String                           @unique
+  emailVerified           Boolean                          @default(false)
+  platformId              String?                          @unique
+  phone                   String?
+  whatsapp                String?
+  defaultGame             GameTitle?
+  defaultGamePlayerId     String?
+  phoneNumber             String?
+  whatsappNumber          String?
+  gamerTag                String?
+  passwordHash            String?
+  role                    Role                             @default(PLAYER)
+  registrations           Registration[]
+  notifications           Notification[]
+  refereeMatches          Match[]                          @relation("MatchReferee")
+  captainTeams            Team[]                           @relation("TeamCaptain")
+  teamMemberships         TeamMember[]
+  rankingHistory          RankingHistory[]
+  achievements            PlayerAchievement[]
+  penaltyShootoutResults  PenaltyShootoutResult[]
+  penaltyTrainingAttempts PenaltyShootoutTrainingAttempt[]
+  playerRatings           PlayerRating[]
+  wallet                  Wallet?
+  walletTransactions      WalletTransaction[]
+  walletFundingRequests   WalletFundingRequest[]
+  totalPoints             Int                              @default(0)
+  totalWins               Int                              @default(0)
+  totalLosses             Int                              @default(0)
+  totalDraws              Int                              @default(0)
+  tournamentsPlayed       Int                              @default(0)
+  tournamentsWon          Int                              @default(0)
+  currentRank             Int?
+  favoriteGame            GameTitle?
+  createdAt               DateTime                         @default(now())
+  updatedAt               DateTime                         @updatedAt
 }
 
 model Tournament {
@@ -190,6 +214,9 @@ model Tournament {
   matches                    Match[]
   leagueStandings            LeagueStanding[]
   automationSetting          TournamentAutomationSetting?
+  prizePayoutPaid            Boolean                      @default(false)
+  prizePayoutPaidAt          DateTime?
+  prizePayoutNote            String?
   createdAt                  DateTime                     @default(now())
   updatedAt                  DateTime                     @updatedAt
 }
@@ -220,6 +247,7 @@ model Registration {
   leagueStandings        LeagueStanding[]
   matchResultSubmissions MatchResultSubmission[]
   payments               Payment[]
+  teamLineups            TeamMatchLineup[]
 
   @@unique([userId, tournamentId])
   @@index([tournamentId])
@@ -252,7 +280,7 @@ model Match {
   officialStreamUrl             String?
   featuredLive                  Boolean         @default(false)
   roomCode                      String?
-  roomPassword                  String?
+  Match access password         String?
   spectatorNote                 String?
   legNumber                     Int?
   homeRegistrationId            String?
@@ -261,6 +289,7 @@ model Match {
   awayScore                     Int?
   aggregateMatchId              String?
   aggregateWinnerRegistrationId String?
+  penaltyRatingApplied          Boolean         @default(false)
   createdAt                     DateTime        @default(now())
   updatedAt                     DateTime        @updatedAt
 
@@ -275,6 +304,8 @@ model Match {
   aggregateLegs               Match[]                 @relation("AggregateLegs")
   aggregateWinnerRegistration Registration?           @relation("MatchAggregateWinner", fields: [aggregateWinnerRegistrationId], references: [id], onDelete: SetNull)
   resultSubmissions           MatchResultSubmission[]
+  penaltyShootoutResults      PenaltyShootoutResult[]
+  teamLineups                 TeamMatchLineup[]
 
   @@index([tournamentId])
   @@index([aggregateMatchId])
@@ -371,6 +402,66 @@ model Payment {
   @@index([method])
 }
 
+model Wallet {
+  id           String              @id @default(cuid())
+  userId       String              @unique
+  balance      Int                 @default(0)
+  currency     String              @default("NGN")
+  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions WalletTransaction[]
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+
+  @@index([balance])
+}
+
+model WalletTransaction {
+  id             String                @id @default(cuid())
+  walletId       String
+  userId         String
+  type           WalletTransactionType
+  amount         Int
+  balanceAfter   Int
+  description    String
+  reference      String?
+  registrationId String?
+  tournamentId   String?
+  adminName      String?
+  createdAt      DateTime              @default(now())
+
+  wallet Wallet @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([walletId])
+  @@index([userId])
+  @@index([type])
+  @@index([registrationId])
+  @@index([tournamentId])
+  @@index([createdAt])
+}
+
+model WalletFundingRequest {
+  id                    String                     @id @default(cuid())
+  userId                String
+  amount                Int
+  currency              String                     @default("NGN")
+  paymentMethod         String
+  senderName            String
+  receiptUrl            String?
+  status                WalletFundingRequestStatus @default(PENDING)
+  adminNote             String?
+  approvedBy            String?
+  creditedTransactionId String?                    @unique
+  createdAt             DateTime                   @default(now())
+  updatedAt             DateTime                   @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+}
+
 model LeaderboardSeason {
   id        String           @id @default(cuid())
   name      String
@@ -428,18 +519,19 @@ model PlayerAchievement {
 }
 
 model Team {
-  id            String         @id @default(cuid())
+  id            String            @id @default(cuid())
   name          String
-  tag           String         @unique
+  tag           String            @unique
   logoUrl       String?
   captainId     String
   game          GameTitle
   description   String?
-  captain       User           @relation("TeamCaptain", fields: [captainId], references: [id], onDelete: Cascade)
+  captain       User              @relation("TeamCaptain", fields: [captainId], references: [id], onDelete: Cascade)
   members       TeamMember[]
   registrations Registration[]
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  matchLineups  TeamMatchLineup[]
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
 
   @@index([captainId])
   @@index([game])
@@ -459,6 +551,28 @@ model TeamMember {
   @@unique([teamId, userId])
   @@index([userId])
   @@index([status])
+}
+
+model TeamMatchLineup {
+  id                   String   @id @default(cuid())
+  matchId              String
+  registrationId       String
+  teamId               String
+  memberUserIds        Json
+  representativeUserId String
+  submittedByUserId    String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  match        Match        @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  registration Registration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+  team         Team         @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@unique([matchId, registrationId])
+  @@index([matchId])
+  @@index([registrationId])
+  @@index([teamId])
+  @@index([representativeUserId])
 }
 
 model WebsiteSetting {
@@ -483,4 +597,96 @@ model TournamentAutomationSetting {
   tournament Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
 
   @@index([tournamentId])
+}
+
+model PenaltyShootoutResult {
+  id                   String   @id @default(cuid())
+  userId               String
+  matchId              String?
+  score                Int
+  suddenDeathScore     Int      @default(0)
+  totalShots           Int      @default(5)
+  shotsJson            Json
+  suddenDeathShotsJson Json     @default("[]")
+  isWinner             Boolean  @default(false)
+  auditVersion         Int      @default(1)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  match Match? @relation(fields: [matchId], references: [id], onDelete: SetNull)
+
+  @@unique([userId, matchId])
+  @@index([userId])
+  @@index([matchId])
+  @@index([score])
+  @@index([createdAt])
+}
+
+model PenaltyShootoutTrainingAttempt {
+  id         String   @id @default(cuid())
+  userId     String
+  score      Int
+  totalShots Int      @default(5)
+  shotsJson  Json
+  createdAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([score])
+  @@index([createdAt])
+}
+
+model PenaltyShootoutAdminAction {
+  id         String                         @id @default(cuid())
+  matchId    String
+  resultId   String?
+  actionType PenaltyShootoutAdminActionType
+  adminName  String
+  reason     String                         @db.Text
+  createdAt  DateTime                       @default(now())
+
+  @@index([matchId])
+  @@index([resultId])
+  @@index([actionType])
+  @@index([createdAt])
+}
+
+model Season {
+  id        String         @id @default(cuid())
+  name      String
+  startDate DateTime
+  endDate   DateTime
+  active    Boolean        @default(false)
+  ratings   PlayerRating[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@index([active])
+  @@index([startDate, endDate])
+}
+
+model PlayerRating {
+  id            String   @id @default(cuid())
+  userId        String
+  seasonId      String?
+  matchesPlayed Int      @default(0)
+  wins          Int      @default(0)
+  losses        Int      @default(0)
+  goalsScored   Int      @default(0)
+  goalsConceded Int      @default(0)
+  currentRating Int      @default(1000)
+  highestRating Int      @default(1000)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  season Season? @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, seasonId])
+  @@index([seasonId])
+  @@index([currentRating])
+  @@index([wins])
+  @@index([matchesPlayed])
 }

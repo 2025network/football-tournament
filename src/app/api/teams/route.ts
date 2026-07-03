@@ -49,12 +49,17 @@ export async function POST(request: NextRequest) {
 
     const existingName = await prisma.team.findFirst({ where: { name: { equals: body.name!.trim(), mode: "insensitive" }, game: body.game! } });
     if (existingName) {
-      return NextResponse.json({ message: "A team with this name already exists for this game." }, { status: 409 });
+      return NextResponse.json({ message: "A team with this name already exists for this football category." }, { status: 409 });
     }
 
     const captain = await prisma.user.findUnique({ where: { email } });
     if (!captain?.passwordHash) {
       return NextResponse.json({ message: "Captain must be a logged-in player account." }, { status: 404 });
+    }
+
+    const ownedTeam = await prisma.team.findFirst({ where: { captainId: captain.id } });
+    if (ownedTeam) {
+      return NextResponse.json({ message: "You already own a team. Each player can create only one team for now." }, { status: 409 });
     }
 
     const team = await prisma.team.create({
@@ -90,7 +95,7 @@ function validateBody(body: CreateTeamBody) {
   if (!body.name?.trim()) return "Team name is required.";
   if (normalizeTeamTag(body.tag?.trim() || body.name).length < 2) return "Team tag must be at least 2 letters or numbers.";
   if (!body.captainEmail?.trim()) return "Captain email is required.";
-  if (!body.game || !Object.values(GameTitle).includes(body.game)) return "Valid team game is required.";
+  if (!body.game || !Object.values(GameTitle).includes(body.game)) return "Valid team football category is required.";
   return null;
 }
 

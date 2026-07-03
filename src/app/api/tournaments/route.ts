@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { CompetitionFormat, GameTitle, RegistrationType, StreamPlatform, TournamentStatus } from "@/generated/prisma/client";
+import { ApprovalStatus, CompetitionFormat, GameTitle, PaymentStatus, RegistrationType, StreamPlatform, TournamentStatus } from "@/generated/prisma/client";
 
 type TournamentRequestBody = {
   title?: string;
@@ -27,12 +27,19 @@ type TournamentRequestBody = {
 export async function GET() {
   try {
     const tournaments = await prisma.tournament.findMany({
+      include: { registrations: { where: { approvalStatus: ApprovalStatus.APPROVED, paymentStatus: PaymentStatus.PAID }, select: { id: true } } },
       orderBy: {
         createdAt: "desc",
       },
     });
 
-    return NextResponse.json({ tournaments });
+    return NextResponse.json({
+      tournaments: tournaments.map((tournament) => ({
+        ...tournament,
+        calculatedPrizePool: tournament.entryFee * tournament.registrations.length,
+        registrations: undefined,
+      })),
+    });
   } catch (error) {
     console.error("Failed to fetch tournaments", error);
     return NextResponse.json({ message: "Failed to fetch tournaments." }, { status: 500 });
@@ -82,7 +89,7 @@ export async function POST(request: NextRequest) {
 
 function validateTournamentBody(body: TournamentRequestBody) {
   if (!body.title?.trim()) return "Title is required.";
-  if (!body.game || !Object.values(GameTitle).includes(body.game)) return "Valid game is required.";
+  if (!body.game || !Object.values(GameTitle).includes(body.game)) return "Valid football category is required.";
   if (!isPositiveNumber(body.prizePool)) return "Prize pool must be a positive number.";
   if (!isNonNegativeNumber(body.entryFee)) return "Entry fee must be zero or greater.";
   if (!isPositiveNumber(body.slots)) return "Slots must be a positive number.";

@@ -54,6 +54,21 @@ export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
  */
 export type Payment = $Result.DefaultSelection<Prisma.$PaymentPayload>
 /**
+ * Model Wallet
+ * 
+ */
+export type Wallet = $Result.DefaultSelection<Prisma.$WalletPayload>
+/**
+ * Model WalletTransaction
+ * 
+ */
+export type WalletTransaction = $Result.DefaultSelection<Prisma.$WalletTransactionPayload>
+/**
+ * Model WalletFundingRequest
+ * 
+ */
+export type WalletFundingRequest = $Result.DefaultSelection<Prisma.$WalletFundingRequestPayload>
+/**
  * Model LeaderboardSeason
  * 
  */
@@ -84,6 +99,11 @@ export type Team = $Result.DefaultSelection<Prisma.$TeamPayload>
  */
 export type TeamMember = $Result.DefaultSelection<Prisma.$TeamMemberPayload>
 /**
+ * Model TeamMatchLineup
+ * 
+ */
+export type TeamMatchLineup = $Result.DefaultSelection<Prisma.$TeamMatchLineupPayload>
+/**
  * Model WebsiteSetting
  * 
  */
@@ -93,6 +113,31 @@ export type WebsiteSetting = $Result.DefaultSelection<Prisma.$WebsiteSettingPayl
  * 
  */
 export type TournamentAutomationSetting = $Result.DefaultSelection<Prisma.$TournamentAutomationSettingPayload>
+/**
+ * Model PenaltyShootoutResult
+ * 
+ */
+export type PenaltyShootoutResult = $Result.DefaultSelection<Prisma.$PenaltyShootoutResultPayload>
+/**
+ * Model PenaltyShootoutTrainingAttempt
+ * 
+ */
+export type PenaltyShootoutTrainingAttempt = $Result.DefaultSelection<Prisma.$PenaltyShootoutTrainingAttemptPayload>
+/**
+ * Model PenaltyShootoutAdminAction
+ * 
+ */
+export type PenaltyShootoutAdminAction = $Result.DefaultSelection<Prisma.$PenaltyShootoutAdminActionPayload>
+/**
+ * Model Season
+ * 
+ */
+export type Season = $Result.DefaultSelection<Prisma.$SeasonPayload>
+/**
+ * Model PlayerRating
+ * 
+ */
+export type PlayerRating = $Result.DefaultSelection<Prisma.$PlayerRatingPayload>
 
 /**
  * Enums
@@ -187,7 +232,8 @@ export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
 export const PaymentMethod: {
   PAYSTACK: 'PAYSTACK',
   BANK_TRANSFER: 'BANK_TRANSFER',
-  MANUAL_ADMIN: 'MANUAL_ADMIN'
+  MANUAL_ADMIN: 'MANUAL_ADMIN',
+  WALLET: 'WALLET'
 };
 
 export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
@@ -195,7 +241,8 @@ export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
 
 export const PaymentProvider: {
   PAYSTACK: 'PAYSTACK',
-  MANUAL: 'MANUAL'
+  MANUAL: 'MANUAL',
+  WALLET: 'WALLET'
 };
 
 export type PaymentProvider = (typeof PaymentProvider)[keyof typeof PaymentProvider]
@@ -210,6 +257,23 @@ export const PaymentRecordStatus: {
 };
 
 export type PaymentRecordStatus = (typeof PaymentRecordStatus)[keyof typeof PaymentRecordStatus]
+
+
+export const WalletTransactionType: {
+  CREDIT: 'CREDIT',
+  DEBIT: 'DEBIT'
+};
+
+export type WalletTransactionType = (typeof WalletTransactionType)[keyof typeof WalletTransactionType]
+
+
+export const WalletFundingRequestStatus: {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
+
+export type WalletFundingRequestStatus = (typeof WalletFundingRequestStatus)[keyof typeof WalletFundingRequestStatus]
 
 
 export const ApprovalStatus: {
@@ -253,6 +317,14 @@ export const MatchStreamMode: {
 };
 
 export type MatchStreamMode = (typeof MatchStreamMode)[keyof typeof MatchStreamMode]
+
+
+export const PenaltyShootoutAdminActionType: {
+  MANUAL_WINNER: 'MANUAL_WINNER',
+  RESET_RESULT: 'RESET_RESULT'
+};
+
+export type PenaltyShootoutAdminActionType = (typeof PenaltyShootoutAdminActionType)[keyof typeof PenaltyShootoutAdminActionType]
 
 
 export const WebsiteSettingType: {
@@ -326,6 +398,14 @@ export type PaymentRecordStatus = $Enums.PaymentRecordStatus
 
 export const PaymentRecordStatus: typeof $Enums.PaymentRecordStatus
 
+export type WalletTransactionType = $Enums.WalletTransactionType
+
+export const WalletTransactionType: typeof $Enums.WalletTransactionType
+
+export type WalletFundingRequestStatus = $Enums.WalletFundingRequestStatus
+
+export const WalletFundingRequestStatus: typeof $Enums.WalletFundingRequestStatus
+
 export type ApprovalStatus = $Enums.ApprovalStatus
 
 export const ApprovalStatus: typeof $Enums.ApprovalStatus
@@ -345,6 +425,10 @@ export const RegistrationType: typeof $Enums.RegistrationType
 export type MatchStreamMode = $Enums.MatchStreamMode
 
 export const MatchStreamMode: typeof $Enums.MatchStreamMode
+
+export type PenaltyShootoutAdminActionType = $Enums.PenaltyShootoutAdminActionType
+
+export const PenaltyShootoutAdminActionType: typeof $Enums.PenaltyShootoutAdminActionType
 
 export type WebsiteSettingType = $Enums.WebsiteSettingType
 
@@ -556,6 +640,36 @@ export class PrismaClient<
   get payment(): Prisma.PaymentDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.wallet`: Exposes CRUD operations for the **Wallet** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Wallets
+    * const wallets = await prisma.wallet.findMany()
+    * ```
+    */
+  get wallet(): Prisma.WalletDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.walletTransaction`: Exposes CRUD operations for the **WalletTransaction** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WalletTransactions
+    * const walletTransactions = await prisma.walletTransaction.findMany()
+    * ```
+    */
+  get walletTransaction(): Prisma.WalletTransactionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.walletFundingRequest`: Exposes CRUD operations for the **WalletFundingRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WalletFundingRequests
+    * const walletFundingRequests = await prisma.walletFundingRequest.findMany()
+    * ```
+    */
+  get walletFundingRequest(): Prisma.WalletFundingRequestDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.leaderboardSeason`: Exposes CRUD operations for the **LeaderboardSeason** model.
     * Example usage:
     * ```ts
@@ -616,6 +730,16 @@ export class PrismaClient<
   get teamMember(): Prisma.TeamMemberDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.teamMatchLineup`: Exposes CRUD operations for the **TeamMatchLineup** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TeamMatchLineups
+    * const teamMatchLineups = await prisma.teamMatchLineup.findMany()
+    * ```
+    */
+  get teamMatchLineup(): Prisma.TeamMatchLineupDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.websiteSetting`: Exposes CRUD operations for the **WebsiteSetting** model.
     * Example usage:
     * ```ts
@@ -634,6 +758,56 @@ export class PrismaClient<
     * ```
     */
   get tournamentAutomationSetting(): Prisma.TournamentAutomationSettingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.penaltyShootoutResult`: Exposes CRUD operations for the **PenaltyShootoutResult** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PenaltyShootoutResults
+    * const penaltyShootoutResults = await prisma.penaltyShootoutResult.findMany()
+    * ```
+    */
+  get penaltyShootoutResult(): Prisma.PenaltyShootoutResultDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.penaltyShootoutTrainingAttempt`: Exposes CRUD operations for the **PenaltyShootoutTrainingAttempt** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PenaltyShootoutTrainingAttempts
+    * const penaltyShootoutTrainingAttempts = await prisma.penaltyShootoutTrainingAttempt.findMany()
+    * ```
+    */
+  get penaltyShootoutTrainingAttempt(): Prisma.PenaltyShootoutTrainingAttemptDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.penaltyShootoutAdminAction`: Exposes CRUD operations for the **PenaltyShootoutAdminAction** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PenaltyShootoutAdminActions
+    * const penaltyShootoutAdminActions = await prisma.penaltyShootoutAdminAction.findMany()
+    * ```
+    */
+  get penaltyShootoutAdminAction(): Prisma.PenaltyShootoutAdminActionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.season`: Exposes CRUD operations for the **Season** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Seasons
+    * const seasons = await prisma.season.findMany()
+    * ```
+    */
+  get season(): Prisma.SeasonDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.playerRating`: Exposes CRUD operations for the **PlayerRating** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PlayerRatings
+    * const playerRatings = await prisma.playerRating.findMany()
+    * ```
+    */
+  get playerRating(): Prisma.PlayerRatingDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1076,14 +1250,23 @@ export namespace Prisma {
     MatchResultSubmission: 'MatchResultSubmission',
     Notification: 'Notification',
     Payment: 'Payment',
+    Wallet: 'Wallet',
+    WalletTransaction: 'WalletTransaction',
+    WalletFundingRequest: 'WalletFundingRequest',
     LeaderboardSeason: 'LeaderboardSeason',
     RankingHistory: 'RankingHistory',
     Achievement: 'Achievement',
     PlayerAchievement: 'PlayerAchievement',
     Team: 'Team',
     TeamMember: 'TeamMember',
+    TeamMatchLineup: 'TeamMatchLineup',
     WebsiteSetting: 'WebsiteSetting',
-    TournamentAutomationSetting: 'TournamentAutomationSetting'
+    TournamentAutomationSetting: 'TournamentAutomationSetting',
+    PenaltyShootoutResult: 'PenaltyShootoutResult',
+    PenaltyShootoutTrainingAttempt: 'PenaltyShootoutTrainingAttempt',
+    PenaltyShootoutAdminAction: 'PenaltyShootoutAdminAction',
+    Season: 'Season',
+    PlayerRating: 'PlayerRating'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1099,7 +1282,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "tournament" | "registration" | "match" | "leagueStanding" | "matchResultSubmission" | "notification" | "payment" | "leaderboardSeason" | "rankingHistory" | "achievement" | "playerAchievement" | "team" | "teamMember" | "websiteSetting" | "tournamentAutomationSetting"
+      modelProps: "user" | "tournament" | "registration" | "match" | "leagueStanding" | "matchResultSubmission" | "notification" | "payment" | "wallet" | "walletTransaction" | "walletFundingRequest" | "leaderboardSeason" | "rankingHistory" | "achievement" | "playerAchievement" | "team" | "teamMember" | "teamMatchLineup" | "websiteSetting" | "tournamentAutomationSetting" | "penaltyShootoutResult" | "penaltyShootoutTrainingAttempt" | "penaltyShootoutAdminAction" | "season" | "playerRating"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1695,6 +1878,228 @@ export namespace Prisma {
           }
         }
       }
+      Wallet: {
+        payload: Prisma.$WalletPayload<ExtArgs>
+        fields: Prisma.WalletFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WalletFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WalletFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletPayload>
+          }
+          findFirst: {
+            args: Prisma.WalletFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WalletFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletPayload>
+          }
+          findMany: {
+            args: Prisma.WalletFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletPayload>[]
+          }
+          create: {
+            args: Prisma.WalletCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletPayload>
+          }
+          createMany: {
+            args: Prisma.WalletCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WalletCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletPayload>[]
+          }
+          delete: {
+            args: Prisma.WalletDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletPayload>
+          }
+          update: {
+            args: Prisma.WalletUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletPayload>
+          }
+          deleteMany: {
+            args: Prisma.WalletDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WalletUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WalletUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletPayload>[]
+          }
+          upsert: {
+            args: Prisma.WalletUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletPayload>
+          }
+          aggregate: {
+            args: Prisma.WalletAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWallet>
+          }
+          groupBy: {
+            args: Prisma.WalletGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WalletGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WalletCountArgs<ExtArgs>
+            result: $Utils.Optional<WalletCountAggregateOutputType> | number
+          }
+        }
+      }
+      WalletTransaction: {
+        payload: Prisma.$WalletTransactionPayload<ExtArgs>
+        fields: Prisma.WalletTransactionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WalletTransactionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletTransactionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WalletTransactionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
+          }
+          findFirst: {
+            args: Prisma.WalletTransactionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletTransactionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WalletTransactionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
+          }
+          findMany: {
+            args: Prisma.WalletTransactionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletTransactionPayload>[]
+          }
+          create: {
+            args: Prisma.WalletTransactionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
+          }
+          createMany: {
+            args: Prisma.WalletTransactionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WalletTransactionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletTransactionPayload>[]
+          }
+          delete: {
+            args: Prisma.WalletTransactionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
+          }
+          update: {
+            args: Prisma.WalletTransactionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
+          }
+          deleteMany: {
+            args: Prisma.WalletTransactionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WalletTransactionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WalletTransactionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletTransactionPayload>[]
+          }
+          upsert: {
+            args: Prisma.WalletTransactionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
+          }
+          aggregate: {
+            args: Prisma.WalletTransactionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWalletTransaction>
+          }
+          groupBy: {
+            args: Prisma.WalletTransactionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WalletTransactionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WalletTransactionCountArgs<ExtArgs>
+            result: $Utils.Optional<WalletTransactionCountAggregateOutputType> | number
+          }
+        }
+      }
+      WalletFundingRequest: {
+        payload: Prisma.$WalletFundingRequestPayload<ExtArgs>
+        fields: Prisma.WalletFundingRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WalletFundingRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletFundingRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WalletFundingRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletFundingRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.WalletFundingRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletFundingRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WalletFundingRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletFundingRequestPayload>
+          }
+          findMany: {
+            args: Prisma.WalletFundingRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletFundingRequestPayload>[]
+          }
+          create: {
+            args: Prisma.WalletFundingRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletFundingRequestPayload>
+          }
+          createMany: {
+            args: Prisma.WalletFundingRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WalletFundingRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletFundingRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.WalletFundingRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletFundingRequestPayload>
+          }
+          update: {
+            args: Prisma.WalletFundingRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletFundingRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.WalletFundingRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WalletFundingRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WalletFundingRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletFundingRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.WalletFundingRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WalletFundingRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.WalletFundingRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWalletFundingRequest>
+          }
+          groupBy: {
+            args: Prisma.WalletFundingRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WalletFundingRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WalletFundingRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<WalletFundingRequestCountAggregateOutputType> | number
+          }
+        }
+      }
       LeaderboardSeason: {
         payload: Prisma.$LeaderboardSeasonPayload<ExtArgs>
         fields: Prisma.LeaderboardSeasonFieldRefs
@@ -2139,6 +2544,80 @@ export namespace Prisma {
           }
         }
       }
+      TeamMatchLineup: {
+        payload: Prisma.$TeamMatchLineupPayload<ExtArgs>
+        fields: Prisma.TeamMatchLineupFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TeamMatchLineupFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMatchLineupPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TeamMatchLineupFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMatchLineupPayload>
+          }
+          findFirst: {
+            args: Prisma.TeamMatchLineupFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMatchLineupPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TeamMatchLineupFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMatchLineupPayload>
+          }
+          findMany: {
+            args: Prisma.TeamMatchLineupFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMatchLineupPayload>[]
+          }
+          create: {
+            args: Prisma.TeamMatchLineupCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMatchLineupPayload>
+          }
+          createMany: {
+            args: Prisma.TeamMatchLineupCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TeamMatchLineupCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMatchLineupPayload>[]
+          }
+          delete: {
+            args: Prisma.TeamMatchLineupDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMatchLineupPayload>
+          }
+          update: {
+            args: Prisma.TeamMatchLineupUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMatchLineupPayload>
+          }
+          deleteMany: {
+            args: Prisma.TeamMatchLineupDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TeamMatchLineupUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TeamMatchLineupUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMatchLineupPayload>[]
+          }
+          upsert: {
+            args: Prisma.TeamMatchLineupUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMatchLineupPayload>
+          }
+          aggregate: {
+            args: Prisma.TeamMatchLineupAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTeamMatchLineup>
+          }
+          groupBy: {
+            args: Prisma.TeamMatchLineupGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TeamMatchLineupGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TeamMatchLineupCountArgs<ExtArgs>
+            result: $Utils.Optional<TeamMatchLineupCountAggregateOutputType> | number
+          }
+        }
+      }
       WebsiteSetting: {
         payload: Prisma.$WebsiteSettingPayload<ExtArgs>
         fields: Prisma.WebsiteSettingFieldRefs
@@ -2287,6 +2766,376 @@ export namespace Prisma {
           }
         }
       }
+      PenaltyShootoutResult: {
+        payload: Prisma.$PenaltyShootoutResultPayload<ExtArgs>
+        fields: Prisma.PenaltyShootoutResultFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PenaltyShootoutResultFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutResultPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PenaltyShootoutResultFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutResultPayload>
+          }
+          findFirst: {
+            args: Prisma.PenaltyShootoutResultFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutResultPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PenaltyShootoutResultFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutResultPayload>
+          }
+          findMany: {
+            args: Prisma.PenaltyShootoutResultFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutResultPayload>[]
+          }
+          create: {
+            args: Prisma.PenaltyShootoutResultCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutResultPayload>
+          }
+          createMany: {
+            args: Prisma.PenaltyShootoutResultCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PenaltyShootoutResultCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutResultPayload>[]
+          }
+          delete: {
+            args: Prisma.PenaltyShootoutResultDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutResultPayload>
+          }
+          update: {
+            args: Prisma.PenaltyShootoutResultUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutResultPayload>
+          }
+          deleteMany: {
+            args: Prisma.PenaltyShootoutResultDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PenaltyShootoutResultUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PenaltyShootoutResultUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutResultPayload>[]
+          }
+          upsert: {
+            args: Prisma.PenaltyShootoutResultUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutResultPayload>
+          }
+          aggregate: {
+            args: Prisma.PenaltyShootoutResultAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePenaltyShootoutResult>
+          }
+          groupBy: {
+            args: Prisma.PenaltyShootoutResultGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PenaltyShootoutResultGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PenaltyShootoutResultCountArgs<ExtArgs>
+            result: $Utils.Optional<PenaltyShootoutResultCountAggregateOutputType> | number
+          }
+        }
+      }
+      PenaltyShootoutTrainingAttempt: {
+        payload: Prisma.$PenaltyShootoutTrainingAttemptPayload<ExtArgs>
+        fields: Prisma.PenaltyShootoutTrainingAttemptFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PenaltyShootoutTrainingAttemptFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutTrainingAttemptPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PenaltyShootoutTrainingAttemptFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutTrainingAttemptPayload>
+          }
+          findFirst: {
+            args: Prisma.PenaltyShootoutTrainingAttemptFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutTrainingAttemptPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PenaltyShootoutTrainingAttemptFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutTrainingAttemptPayload>
+          }
+          findMany: {
+            args: Prisma.PenaltyShootoutTrainingAttemptFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutTrainingAttemptPayload>[]
+          }
+          create: {
+            args: Prisma.PenaltyShootoutTrainingAttemptCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutTrainingAttemptPayload>
+          }
+          createMany: {
+            args: Prisma.PenaltyShootoutTrainingAttemptCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PenaltyShootoutTrainingAttemptCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutTrainingAttemptPayload>[]
+          }
+          delete: {
+            args: Prisma.PenaltyShootoutTrainingAttemptDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutTrainingAttemptPayload>
+          }
+          update: {
+            args: Prisma.PenaltyShootoutTrainingAttemptUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutTrainingAttemptPayload>
+          }
+          deleteMany: {
+            args: Prisma.PenaltyShootoutTrainingAttemptDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PenaltyShootoutTrainingAttemptUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PenaltyShootoutTrainingAttemptUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutTrainingAttemptPayload>[]
+          }
+          upsert: {
+            args: Prisma.PenaltyShootoutTrainingAttemptUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutTrainingAttemptPayload>
+          }
+          aggregate: {
+            args: Prisma.PenaltyShootoutTrainingAttemptAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePenaltyShootoutTrainingAttempt>
+          }
+          groupBy: {
+            args: Prisma.PenaltyShootoutTrainingAttemptGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PenaltyShootoutTrainingAttemptGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PenaltyShootoutTrainingAttemptCountArgs<ExtArgs>
+            result: $Utils.Optional<PenaltyShootoutTrainingAttemptCountAggregateOutputType> | number
+          }
+        }
+      }
+      PenaltyShootoutAdminAction: {
+        payload: Prisma.$PenaltyShootoutAdminActionPayload<ExtArgs>
+        fields: Prisma.PenaltyShootoutAdminActionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PenaltyShootoutAdminActionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutAdminActionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PenaltyShootoutAdminActionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutAdminActionPayload>
+          }
+          findFirst: {
+            args: Prisma.PenaltyShootoutAdminActionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutAdminActionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PenaltyShootoutAdminActionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutAdminActionPayload>
+          }
+          findMany: {
+            args: Prisma.PenaltyShootoutAdminActionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutAdminActionPayload>[]
+          }
+          create: {
+            args: Prisma.PenaltyShootoutAdminActionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutAdminActionPayload>
+          }
+          createMany: {
+            args: Prisma.PenaltyShootoutAdminActionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PenaltyShootoutAdminActionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutAdminActionPayload>[]
+          }
+          delete: {
+            args: Prisma.PenaltyShootoutAdminActionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutAdminActionPayload>
+          }
+          update: {
+            args: Prisma.PenaltyShootoutAdminActionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutAdminActionPayload>
+          }
+          deleteMany: {
+            args: Prisma.PenaltyShootoutAdminActionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PenaltyShootoutAdminActionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PenaltyShootoutAdminActionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutAdminActionPayload>[]
+          }
+          upsert: {
+            args: Prisma.PenaltyShootoutAdminActionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PenaltyShootoutAdminActionPayload>
+          }
+          aggregate: {
+            args: Prisma.PenaltyShootoutAdminActionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePenaltyShootoutAdminAction>
+          }
+          groupBy: {
+            args: Prisma.PenaltyShootoutAdminActionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PenaltyShootoutAdminActionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PenaltyShootoutAdminActionCountArgs<ExtArgs>
+            result: $Utils.Optional<PenaltyShootoutAdminActionCountAggregateOutputType> | number
+          }
+        }
+      }
+      Season: {
+        payload: Prisma.$SeasonPayload<ExtArgs>
+        fields: Prisma.SeasonFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SeasonFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeasonPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SeasonFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeasonPayload>
+          }
+          findFirst: {
+            args: Prisma.SeasonFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeasonPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SeasonFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeasonPayload>
+          }
+          findMany: {
+            args: Prisma.SeasonFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeasonPayload>[]
+          }
+          create: {
+            args: Prisma.SeasonCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeasonPayload>
+          }
+          createMany: {
+            args: Prisma.SeasonCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SeasonCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeasonPayload>[]
+          }
+          delete: {
+            args: Prisma.SeasonDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeasonPayload>
+          }
+          update: {
+            args: Prisma.SeasonUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeasonPayload>
+          }
+          deleteMany: {
+            args: Prisma.SeasonDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SeasonUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SeasonUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeasonPayload>[]
+          }
+          upsert: {
+            args: Prisma.SeasonUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeasonPayload>
+          }
+          aggregate: {
+            args: Prisma.SeasonAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSeason>
+          }
+          groupBy: {
+            args: Prisma.SeasonGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SeasonGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SeasonCountArgs<ExtArgs>
+            result: $Utils.Optional<SeasonCountAggregateOutputType> | number
+          }
+        }
+      }
+      PlayerRating: {
+        payload: Prisma.$PlayerRatingPayload<ExtArgs>
+        fields: Prisma.PlayerRatingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PlayerRatingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerRatingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PlayerRatingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerRatingPayload>
+          }
+          findFirst: {
+            args: Prisma.PlayerRatingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerRatingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PlayerRatingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerRatingPayload>
+          }
+          findMany: {
+            args: Prisma.PlayerRatingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerRatingPayload>[]
+          }
+          create: {
+            args: Prisma.PlayerRatingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerRatingPayload>
+          }
+          createMany: {
+            args: Prisma.PlayerRatingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PlayerRatingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerRatingPayload>[]
+          }
+          delete: {
+            args: Prisma.PlayerRatingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerRatingPayload>
+          }
+          update: {
+            args: Prisma.PlayerRatingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerRatingPayload>
+          }
+          deleteMany: {
+            args: Prisma.PlayerRatingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PlayerRatingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PlayerRatingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerRatingPayload>[]
+          }
+          upsert: {
+            args: Prisma.PlayerRatingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerRatingPayload>
+          }
+          aggregate: {
+            args: Prisma.PlayerRatingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePlayerRating>
+          }
+          groupBy: {
+            args: Prisma.PlayerRatingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PlayerRatingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PlayerRatingCountArgs<ExtArgs>
+            result: $Utils.Optional<PlayerRatingCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2403,14 +3252,23 @@ export namespace Prisma {
     matchResultSubmission?: MatchResultSubmissionOmit
     notification?: NotificationOmit
     payment?: PaymentOmit
+    wallet?: WalletOmit
+    walletTransaction?: WalletTransactionOmit
+    walletFundingRequest?: WalletFundingRequestOmit
     leaderboardSeason?: LeaderboardSeasonOmit
     rankingHistory?: RankingHistoryOmit
     achievement?: AchievementOmit
     playerAchievement?: PlayerAchievementOmit
     team?: TeamOmit
     teamMember?: TeamMemberOmit
+    teamMatchLineup?: TeamMatchLineupOmit
     websiteSetting?: WebsiteSettingOmit
     tournamentAutomationSetting?: TournamentAutomationSettingOmit
+    penaltyShootoutResult?: PenaltyShootoutResultOmit
+    penaltyShootoutTrainingAttempt?: PenaltyShootoutTrainingAttemptOmit
+    penaltyShootoutAdminAction?: PenaltyShootoutAdminActionOmit
+    season?: SeasonOmit
+    playerRating?: PlayerRatingOmit
   }
 
   /* Types for Logging */
@@ -2498,6 +3356,11 @@ export namespace Prisma {
     teamMemberships: number
     rankingHistory: number
     achievements: number
+    penaltyShootoutResults: number
+    penaltyTrainingAttempts: number
+    playerRatings: number
+    walletTransactions: number
+    walletFundingRequests: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2508,6 +3371,11 @@ export namespace Prisma {
     teamMemberships?: boolean | UserCountOutputTypeCountTeamMembershipsArgs
     rankingHistory?: boolean | UserCountOutputTypeCountRankingHistoryArgs
     achievements?: boolean | UserCountOutputTypeCountAchievementsArgs
+    penaltyShootoutResults?: boolean | UserCountOutputTypeCountPenaltyShootoutResultsArgs
+    penaltyTrainingAttempts?: boolean | UserCountOutputTypeCountPenaltyTrainingAttemptsArgs
+    playerRatings?: boolean | UserCountOutputTypeCountPlayerRatingsArgs
+    walletTransactions?: boolean | UserCountOutputTypeCountWalletTransactionsArgs
+    walletFundingRequests?: boolean | UserCountOutputTypeCountWalletFundingRequestsArgs
   }
 
   // Custom InputTypes
@@ -2568,6 +3436,41 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountAchievementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PlayerAchievementWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPenaltyShootoutResultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PenaltyShootoutResultWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPenaltyTrainingAttemptsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PenaltyShootoutTrainingAttemptWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPlayerRatingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlayerRatingWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountWalletTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WalletTransactionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountWalletFundingRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WalletFundingRequestWhereInput
   }
 
 
@@ -2634,6 +3537,7 @@ export namespace Prisma {
     leagueStandings: number
     matchResultSubmissions: number
     payments: number
+    teamLineups: number
   }
 
   export type RegistrationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2646,6 +3550,7 @@ export namespace Prisma {
     leagueStandings?: boolean | RegistrationCountOutputTypeCountLeagueStandingsArgs
     matchResultSubmissions?: boolean | RegistrationCountOutputTypeCountMatchResultSubmissionsArgs
     payments?: boolean | RegistrationCountOutputTypeCountPaymentsArgs
+    teamLineups?: boolean | RegistrationCountOutputTypeCountTeamLineupsArgs
   }
 
   // Custom InputTypes
@@ -2722,6 +3627,13 @@ export namespace Prisma {
     where?: PaymentWhereInput
   }
 
+  /**
+   * RegistrationCountOutputType without action
+   */
+  export type RegistrationCountOutputTypeCountTeamLineupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TeamMatchLineupWhereInput
+  }
+
 
   /**
    * Count Type MatchCountOutputType
@@ -2730,11 +3642,15 @@ export namespace Prisma {
   export type MatchCountOutputType = {
     aggregateLegs: number
     resultSubmissions: number
+    penaltyShootoutResults: number
+    teamLineups: number
   }
 
   export type MatchCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     aggregateLegs?: boolean | MatchCountOutputTypeCountAggregateLegsArgs
     resultSubmissions?: boolean | MatchCountOutputTypeCountResultSubmissionsArgs
+    penaltyShootoutResults?: boolean | MatchCountOutputTypeCountPenaltyShootoutResultsArgs
+    teamLineups?: boolean | MatchCountOutputTypeCountTeamLineupsArgs
   }
 
   // Custom InputTypes
@@ -2760,6 +3676,51 @@ export namespace Prisma {
    */
   export type MatchCountOutputTypeCountResultSubmissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MatchResultSubmissionWhereInput
+  }
+
+  /**
+   * MatchCountOutputType without action
+   */
+  export type MatchCountOutputTypeCountPenaltyShootoutResultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PenaltyShootoutResultWhereInput
+  }
+
+  /**
+   * MatchCountOutputType without action
+   */
+  export type MatchCountOutputTypeCountTeamLineupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TeamMatchLineupWhereInput
+  }
+
+
+  /**
+   * Count Type WalletCountOutputType
+   */
+
+  export type WalletCountOutputType = {
+    transactions: number
+  }
+
+  export type WalletCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transactions?: boolean | WalletCountOutputTypeCountTransactionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * WalletCountOutputType without action
+   */
+  export type WalletCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletCountOutputType
+     */
+    select?: WalletCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * WalletCountOutputType without action
+   */
+  export type WalletCountOutputTypeCountTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WalletTransactionWhereInput
   }
 
 
@@ -2832,11 +3793,13 @@ export namespace Prisma {
   export type TeamCountOutputType = {
     members: number
     registrations: number
+    matchLineups: number
   }
 
   export type TeamCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | TeamCountOutputTypeCountMembersArgs
     registrations?: boolean | TeamCountOutputTypeCountRegistrationsArgs
+    matchLineups?: boolean | TeamCountOutputTypeCountMatchLineupsArgs
   }
 
   // Custom InputTypes
@@ -2862,6 +3825,44 @@ export namespace Prisma {
    */
   export type TeamCountOutputTypeCountRegistrationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RegistrationWhereInput
+  }
+
+  /**
+   * TeamCountOutputType without action
+   */
+  export type TeamCountOutputTypeCountMatchLineupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TeamMatchLineupWhereInput
+  }
+
+
+  /**
+   * Count Type SeasonCountOutputType
+   */
+
+  export type SeasonCountOutputType = {
+    ratings: number
+  }
+
+  export type SeasonCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ratings?: boolean | SeasonCountOutputTypeCountRatingsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * SeasonCountOutputType without action
+   */
+  export type SeasonCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeasonCountOutputType
+     */
+    select?: SeasonCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SeasonCountOutputType without action
+   */
+  export type SeasonCountOutputTypeCountRatingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlayerRatingWhereInput
   }
 
 
@@ -3250,6 +4251,12 @@ export namespace Prisma {
     teamMemberships?: boolean | User$teamMembershipsArgs<ExtArgs>
     rankingHistory?: boolean | User$rankingHistoryArgs<ExtArgs>
     achievements?: boolean | User$achievementsArgs<ExtArgs>
+    penaltyShootoutResults?: boolean | User$penaltyShootoutResultsArgs<ExtArgs>
+    penaltyTrainingAttempts?: boolean | User$penaltyTrainingAttemptsArgs<ExtArgs>
+    playerRatings?: boolean | User$playerRatingsArgs<ExtArgs>
+    wallet?: boolean | User$walletArgs<ExtArgs>
+    walletTransactions?: boolean | User$walletTransactionsArgs<ExtArgs>
+    walletFundingRequests?: boolean | User$walletFundingRequestsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3343,6 +4350,12 @@ export namespace Prisma {
     teamMemberships?: boolean | User$teamMembershipsArgs<ExtArgs>
     rankingHistory?: boolean | User$rankingHistoryArgs<ExtArgs>
     achievements?: boolean | User$achievementsArgs<ExtArgs>
+    penaltyShootoutResults?: boolean | User$penaltyShootoutResultsArgs<ExtArgs>
+    penaltyTrainingAttempts?: boolean | User$penaltyTrainingAttemptsArgs<ExtArgs>
+    playerRatings?: boolean | User$playerRatingsArgs<ExtArgs>
+    wallet?: boolean | User$walletArgs<ExtArgs>
+    walletTransactions?: boolean | User$walletTransactionsArgs<ExtArgs>
+    walletFundingRequests?: boolean | User$walletFundingRequestsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3358,6 +4371,12 @@ export namespace Prisma {
       teamMemberships: Prisma.$TeamMemberPayload<ExtArgs>[]
       rankingHistory: Prisma.$RankingHistoryPayload<ExtArgs>[]
       achievements: Prisma.$PlayerAchievementPayload<ExtArgs>[]
+      penaltyShootoutResults: Prisma.$PenaltyShootoutResultPayload<ExtArgs>[]
+      penaltyTrainingAttempts: Prisma.$PenaltyShootoutTrainingAttemptPayload<ExtArgs>[]
+      playerRatings: Prisma.$PlayerRatingPayload<ExtArgs>[]
+      wallet: Prisma.$WalletPayload<ExtArgs> | null
+      walletTransactions: Prisma.$WalletTransactionPayload<ExtArgs>[]
+      walletFundingRequests: Prisma.$WalletFundingRequestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3785,6 +4804,12 @@ export namespace Prisma {
     teamMemberships<T extends User$teamMembershipsArgs<ExtArgs> = {}>(args?: Subset<T, User$teamMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     rankingHistory<T extends User$rankingHistoryArgs<ExtArgs> = {}>(args?: Subset<T, User$rankingHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RankingHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     achievements<T extends User$achievementsArgs<ExtArgs> = {}>(args?: Subset<T, User$achievementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlayerAchievementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    penaltyShootoutResults<T extends User$penaltyShootoutResultsArgs<ExtArgs> = {}>(args?: Subset<T, User$penaltyShootoutResultsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PenaltyShootoutResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    penaltyTrainingAttempts<T extends User$penaltyTrainingAttemptsArgs<ExtArgs> = {}>(args?: Subset<T, User$penaltyTrainingAttemptsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PenaltyShootoutTrainingAttemptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    playerRatings<T extends User$playerRatingsArgs<ExtArgs> = {}>(args?: Subset<T, User$playerRatingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlayerRatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    wallet<T extends User$walletArgs<ExtArgs> = {}>(args?: Subset<T, User$walletArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    walletTransactions<T extends User$walletTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$walletTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WalletTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    walletFundingRequests<T extends User$walletFundingRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$walletFundingRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WalletFundingRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4399,6 +5424,145 @@ export namespace Prisma {
   }
 
   /**
+   * User.penaltyShootoutResults
+   */
+  export type User$penaltyShootoutResultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutResult
+     */
+    select?: PenaltyShootoutResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutResult
+     */
+    omit?: PenaltyShootoutResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutResultInclude<ExtArgs> | null
+    where?: PenaltyShootoutResultWhereInput
+    orderBy?: PenaltyShootoutResultOrderByWithRelationInput | PenaltyShootoutResultOrderByWithRelationInput[]
+    cursor?: PenaltyShootoutResultWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PenaltyShootoutResultScalarFieldEnum | PenaltyShootoutResultScalarFieldEnum[]
+  }
+
+  /**
+   * User.penaltyTrainingAttempts
+   */
+  export type User$penaltyTrainingAttemptsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutTrainingAttempt
+     */
+    select?: PenaltyShootoutTrainingAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutTrainingAttempt
+     */
+    omit?: PenaltyShootoutTrainingAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutTrainingAttemptInclude<ExtArgs> | null
+    where?: PenaltyShootoutTrainingAttemptWhereInput
+    orderBy?: PenaltyShootoutTrainingAttemptOrderByWithRelationInput | PenaltyShootoutTrainingAttemptOrderByWithRelationInput[]
+    cursor?: PenaltyShootoutTrainingAttemptWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PenaltyShootoutTrainingAttemptScalarFieldEnum | PenaltyShootoutTrainingAttemptScalarFieldEnum[]
+  }
+
+  /**
+   * User.playerRatings
+   */
+  export type User$playerRatingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerRating
+     */
+    select?: PlayerRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlayerRating
+     */
+    omit?: PlayerRatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerRatingInclude<ExtArgs> | null
+    where?: PlayerRatingWhereInput
+    orderBy?: PlayerRatingOrderByWithRelationInput | PlayerRatingOrderByWithRelationInput[]
+    cursor?: PlayerRatingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PlayerRatingScalarFieldEnum | PlayerRatingScalarFieldEnum[]
+  }
+
+  /**
+   * User.wallet
+   */
+  export type User$walletArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wallet
+     */
+    select?: WalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wallet
+     */
+    omit?: WalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletInclude<ExtArgs> | null
+    where?: WalletWhereInput
+  }
+
+  /**
+   * User.walletTransactions
+   */
+  export type User$walletTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletTransaction
+     */
+    select?: WalletTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletTransaction
+     */
+    omit?: WalletTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletTransactionInclude<ExtArgs> | null
+    where?: WalletTransactionWhereInput
+    orderBy?: WalletTransactionOrderByWithRelationInput | WalletTransactionOrderByWithRelationInput[]
+    cursor?: WalletTransactionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WalletTransactionScalarFieldEnum | WalletTransactionScalarFieldEnum[]
+  }
+
+  /**
+   * User.walletFundingRequests
+   */
+  export type User$walletFundingRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletFundingRequest
+     */
+    select?: WalletFundingRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletFundingRequest
+     */
+    omit?: WalletFundingRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletFundingRequestInclude<ExtArgs> | null
+    where?: WalletFundingRequestWhereInput
+    orderBy?: WalletFundingRequestOrderByWithRelationInput | WalletFundingRequestOrderByWithRelationInput[]
+    cursor?: WalletFundingRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WalletFundingRequestScalarFieldEnum | WalletFundingRequestScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4469,6 +5633,9 @@ export namespace Prisma {
     livestreamUrl: string | null
     streamPlatform: $Enums.StreamPlatform | null
     description: string | null
+    prizePayoutPaid: boolean | null
+    prizePayoutPaidAt: Date | null
+    prizePayoutNote: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4495,6 +5662,9 @@ export namespace Prisma {
     livestreamUrl: string | null
     streamPlatform: $Enums.StreamPlatform | null
     description: string | null
+    prizePayoutPaid: boolean | null
+    prizePayoutPaidAt: Date | null
+    prizePayoutNote: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4522,6 +5692,9 @@ export namespace Prisma {
     streamPlatform: number
     description: number
     rules: number
+    prizePayoutPaid: number
+    prizePayoutPaidAt: number
+    prizePayoutNote: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -4568,6 +5741,9 @@ export namespace Prisma {
     livestreamUrl?: true
     streamPlatform?: true
     description?: true
+    prizePayoutPaid?: true
+    prizePayoutPaidAt?: true
+    prizePayoutNote?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4594,6 +5770,9 @@ export namespace Prisma {
     livestreamUrl?: true
     streamPlatform?: true
     description?: true
+    prizePayoutPaid?: true
+    prizePayoutPaidAt?: true
+    prizePayoutNote?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4621,6 +5800,9 @@ export namespace Prisma {
     streamPlatform?: true
     description?: true
     rules?: true
+    prizePayoutPaid?: true
+    prizePayoutPaidAt?: true
+    prizePayoutNote?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -4735,6 +5917,9 @@ export namespace Prisma {
     streamPlatform: $Enums.StreamPlatform | null
     description: string
     rules: string[]
+    prizePayoutPaid: boolean
+    prizePayoutPaidAt: Date | null
+    prizePayoutNote: string | null
     createdAt: Date
     updatedAt: Date
     _count: TournamentCountAggregateOutputType | null
@@ -4781,6 +5966,9 @@ export namespace Prisma {
     streamPlatform?: boolean
     description?: boolean
     rules?: boolean
+    prizePayoutPaid?: boolean
+    prizePayoutPaidAt?: boolean
+    prizePayoutNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     registrations?: boolean | Tournament$registrationsArgs<ExtArgs>
@@ -4813,6 +6001,9 @@ export namespace Prisma {
     streamPlatform?: boolean
     description?: boolean
     rules?: boolean
+    prizePayoutPaid?: boolean
+    prizePayoutPaidAt?: boolean
+    prizePayoutNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["tournament"]>
@@ -4840,6 +6031,9 @@ export namespace Prisma {
     streamPlatform?: boolean
     description?: boolean
     rules?: boolean
+    prizePayoutPaid?: boolean
+    prizePayoutPaidAt?: boolean
+    prizePayoutNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["tournament"]>
@@ -4867,11 +6061,14 @@ export namespace Prisma {
     streamPlatform?: boolean
     description?: boolean
     rules?: boolean
+    prizePayoutPaid?: boolean
+    prizePayoutPaidAt?: boolean
+    prizePayoutNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TournamentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "game" | "prizePool" | "entryFee" | "slots" | "registeredPlayers" | "startDate" | "status" | "format" | "competitionFormat" | "registrationLimit" | "allowUnlimitedRegistration" | "registrationOpen" | "useHomeAndAway" | "registrationType" | "teamSize" | "livestreamUrl" | "streamPlatform" | "description" | "rules" | "createdAt" | "updatedAt", ExtArgs["result"]["tournament"]>
+  export type TournamentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "game" | "prizePool" | "entryFee" | "slots" | "registeredPlayers" | "startDate" | "status" | "format" | "competitionFormat" | "registrationLimit" | "allowUnlimitedRegistration" | "registrationOpen" | "useHomeAndAway" | "registrationType" | "teamSize" | "livestreamUrl" | "streamPlatform" | "description" | "rules" | "prizePayoutPaid" | "prizePayoutPaidAt" | "prizePayoutNote" | "createdAt" | "updatedAt", ExtArgs["result"]["tournament"]>
   export type TournamentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     registrations?: boolean | Tournament$registrationsArgs<ExtArgs>
     matches?: boolean | Tournament$matchesArgs<ExtArgs>
@@ -4913,6 +6110,9 @@ export namespace Prisma {
       streamPlatform: $Enums.StreamPlatform | null
       description: string
       rules: string[]
+      prizePayoutPaid: boolean
+      prizePayoutPaidAt: Date | null
+      prizePayoutNote: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["tournament"]>
@@ -5364,6 +6564,9 @@ export namespace Prisma {
     readonly streamPlatform: FieldRef<"Tournament", 'StreamPlatform'>
     readonly description: FieldRef<"Tournament", 'String'>
     readonly rules: FieldRef<"Tournament", 'String[]'>
+    readonly prizePayoutPaid: FieldRef<"Tournament", 'Boolean'>
+    readonly prizePayoutPaidAt: FieldRef<"Tournament", 'DateTime'>
+    readonly prizePayoutNote: FieldRef<"Tournament", 'String'>
     readonly createdAt: FieldRef<"Tournament", 'DateTime'>
     readonly updatedAt: FieldRef<"Tournament", 'DateTime'>
   }
@@ -6100,6 +7303,7 @@ export namespace Prisma {
     leagueStandings?: boolean | Registration$leagueStandingsArgs<ExtArgs>
     matchResultSubmissions?: boolean | Registration$matchResultSubmissionsArgs<ExtArgs>
     payments?: boolean | Registration$paymentsArgs<ExtArgs>
+    teamLineups?: boolean | Registration$teamLineupsArgs<ExtArgs>
     _count?: boolean | RegistrationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["registration"]>
 
@@ -6168,6 +7372,7 @@ export namespace Prisma {
     leagueStandings?: boolean | Registration$leagueStandingsArgs<ExtArgs>
     matchResultSubmissions?: boolean | Registration$matchResultSubmissionsArgs<ExtArgs>
     payments?: boolean | Registration$paymentsArgs<ExtArgs>
+    teamLineups?: boolean | Registration$teamLineupsArgs<ExtArgs>
     _count?: boolean | RegistrationCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type RegistrationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6196,6 +7401,7 @@ export namespace Prisma {
       leagueStandings: Prisma.$LeagueStandingPayload<ExtArgs>[]
       matchResultSubmissions: Prisma.$MatchResultSubmissionPayload<ExtArgs>[]
       payments: Prisma.$PaymentPayload<ExtArgs>[]
+      teamLineups: Prisma.$TeamMatchLineupPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6616,6 +7822,7 @@ export namespace Prisma {
     leagueStandings<T extends Registration$leagueStandingsArgs<ExtArgs> = {}>(args?: Subset<T, Registration$leagueStandingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeagueStandingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     matchResultSubmissions<T extends Registration$matchResultSubmissionsArgs<ExtArgs> = {}>(args?: Subset<T, Registration$matchResultSubmissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatchResultSubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     payments<T extends Registration$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Registration$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    teamLineups<T extends Registration$teamLineupsArgs<ExtArgs> = {}>(args?: Subset<T, Registration$teamLineupsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMatchLineupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7293,6 +8500,30 @@ export namespace Prisma {
   }
 
   /**
+   * Registration.teamLineups
+   */
+  export type Registration$teamLineupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMatchLineup
+     */
+    select?: TeamMatchLineupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMatchLineup
+     */
+    omit?: TeamMatchLineupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMatchLineupInclude<ExtArgs> | null
+    where?: TeamMatchLineupWhereInput
+    orderBy?: TeamMatchLineupOrderByWithRelationInput | TeamMatchLineupOrderByWithRelationInput[]
+    cursor?: TeamMatchLineupWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TeamMatchLineupScalarFieldEnum | TeamMatchLineupScalarFieldEnum[]
+  }
+
+  /**
    * Registration without action
    */
   export type RegistrationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7384,6 +8615,7 @@ export namespace Prisma {
     awayScore: number | null
     aggregateMatchId: string | null
     aggregateWinnerRegistrationId: string | null
+    penaltyRatingApplied: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7423,6 +8655,7 @@ export namespace Prisma {
     awayScore: number | null
     aggregateMatchId: string | null
     aggregateWinnerRegistrationId: string | null
+    penaltyRatingApplied: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7462,6 +8695,7 @@ export namespace Prisma {
     awayScore: number
     aggregateMatchId: number
     aggregateWinnerRegistrationId: number
+    penaltyRatingApplied: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -7529,6 +8763,7 @@ export namespace Prisma {
     awayScore?: true
     aggregateMatchId?: true
     aggregateWinnerRegistrationId?: true
+    penaltyRatingApplied?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7568,6 +8803,7 @@ export namespace Prisma {
     awayScore?: true
     aggregateMatchId?: true
     aggregateWinnerRegistrationId?: true
+    penaltyRatingApplied?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7607,6 +8843,7 @@ export namespace Prisma {
     awayScore?: true
     aggregateMatchId?: true
     aggregateWinnerRegistrationId?: true
+    penaltyRatingApplied?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -7733,6 +8970,7 @@ export namespace Prisma {
     awayScore: number | null
     aggregateMatchId: string | null
     aggregateWinnerRegistrationId: string | null
+    penaltyRatingApplied: boolean
     createdAt: Date
     updatedAt: Date
     _count: MatchCountAggregateOutputType | null
@@ -7791,6 +9029,7 @@ export namespace Prisma {
     awayScore?: boolean
     aggregateMatchId?: boolean
     aggregateWinnerRegistrationId?: boolean
+    penaltyRatingApplied?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tournament?: boolean | TournamentDefaultArgs<ExtArgs>
@@ -7804,6 +9043,8 @@ export namespace Prisma {
     aggregateLegs?: boolean | Match$aggregateLegsArgs<ExtArgs>
     aggregateWinnerRegistration?: boolean | Match$aggregateWinnerRegistrationArgs<ExtArgs>
     resultSubmissions?: boolean | Match$resultSubmissionsArgs<ExtArgs>
+    penaltyShootoutResults?: boolean | Match$penaltyShootoutResultsArgs<ExtArgs>
+    teamLineups?: boolean | Match$teamLineupsArgs<ExtArgs>
     _count?: boolean | MatchCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["match"]>
 
@@ -7842,6 +9083,7 @@ export namespace Prisma {
     awayScore?: boolean
     aggregateMatchId?: boolean
     aggregateWinnerRegistrationId?: boolean
+    penaltyRatingApplied?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tournament?: boolean | TournamentDefaultArgs<ExtArgs>
@@ -7890,6 +9132,7 @@ export namespace Prisma {
     awayScore?: boolean
     aggregateMatchId?: boolean
     aggregateWinnerRegistrationId?: boolean
+    penaltyRatingApplied?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tournament?: boolean | TournamentDefaultArgs<ExtArgs>
@@ -7938,11 +9181,12 @@ export namespace Prisma {
     awayScore?: boolean
     aggregateMatchId?: boolean
     aggregateWinnerRegistrationId?: boolean
+    penaltyRatingApplied?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type MatchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tournamentId" | "round" | "groupName" | "playerOneRegistrationId" | "playerTwoRegistrationId" | "playerOneScore" | "playerTwoScore" | "winnerRegistrationId" | "status" | "liveStatus" | "refereeId" | "livePlayerOneScore" | "livePlayerTwoScore" | "liveHomeScore" | "liveAwayScore" | "liveStartedAt" | "liveEndedAt" | "scheduledAt" | "livestreamUrl" | "streamMode" | "playerStreamUrl" | "officialStreamUrl" | "featuredLive" | "roomCode" | "roomPassword" | "spectatorNote" | "legNumber" | "homeRegistrationId" | "awayRegistrationId" | "homeScore" | "awayScore" | "aggregateMatchId" | "aggregateWinnerRegistrationId" | "createdAt" | "updatedAt", ExtArgs["result"]["match"]>
+  export type MatchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tournamentId" | "round" | "groupName" | "playerOneRegistrationId" | "playerTwoRegistrationId" | "playerOneScore" | "playerTwoScore" | "winnerRegistrationId" | "status" | "liveStatus" | "refereeId" | "livePlayerOneScore" | "livePlayerTwoScore" | "liveHomeScore" | "liveAwayScore" | "liveStartedAt" | "liveEndedAt" | "scheduledAt" | "livestreamUrl" | "streamMode" | "playerStreamUrl" | "officialStreamUrl" | "featuredLive" | "roomCode" | "roomPassword" | "spectatorNote" | "legNumber" | "homeRegistrationId" | "awayRegistrationId" | "homeScore" | "awayScore" | "aggregateMatchId" | "aggregateWinnerRegistrationId" | "penaltyRatingApplied" | "createdAt" | "updatedAt", ExtArgs["result"]["match"]>
   export type MatchInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tournament?: boolean | TournamentDefaultArgs<ExtArgs>
     referee?: boolean | Match$refereeArgs<ExtArgs>
@@ -7955,6 +9199,8 @@ export namespace Prisma {
     aggregateLegs?: boolean | Match$aggregateLegsArgs<ExtArgs>
     aggregateWinnerRegistration?: boolean | Match$aggregateWinnerRegistrationArgs<ExtArgs>
     resultSubmissions?: boolean | Match$resultSubmissionsArgs<ExtArgs>
+    penaltyShootoutResults?: boolean | Match$penaltyShootoutResultsArgs<ExtArgs>
+    teamLineups?: boolean | Match$teamLineupsArgs<ExtArgs>
     _count?: boolean | MatchCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type MatchIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7994,6 +9240,8 @@ export namespace Prisma {
       aggregateLegs: Prisma.$MatchPayload<ExtArgs>[]
       aggregateWinnerRegistration: Prisma.$RegistrationPayload<ExtArgs> | null
       resultSubmissions: Prisma.$MatchResultSubmissionPayload<ExtArgs>[]
+      penaltyShootoutResults: Prisma.$PenaltyShootoutResultPayload<ExtArgs>[]
+      teamLineups: Prisma.$TeamMatchLineupPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8030,6 +9278,7 @@ export namespace Prisma {
       awayScore: number | null
       aggregateMatchId: string | null
       aggregateWinnerRegistrationId: string | null
+      penaltyRatingApplied: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["match"]>
@@ -8437,6 +9686,8 @@ export namespace Prisma {
     aggregateLegs<T extends Match$aggregateLegsArgs<ExtArgs> = {}>(args?: Subset<T, Match$aggregateLegsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     aggregateWinnerRegistration<T extends Match$aggregateWinnerRegistrationArgs<ExtArgs> = {}>(args?: Subset<T, Match$aggregateWinnerRegistrationArgs<ExtArgs>>): Prisma__RegistrationClient<$Result.GetResult<Prisma.$RegistrationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     resultSubmissions<T extends Match$resultSubmissionsArgs<ExtArgs> = {}>(args?: Subset<T, Match$resultSubmissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatchResultSubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    penaltyShootoutResults<T extends Match$penaltyShootoutResultsArgs<ExtArgs> = {}>(args?: Subset<T, Match$penaltyShootoutResultsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PenaltyShootoutResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    teamLineups<T extends Match$teamLineupsArgs<ExtArgs> = {}>(args?: Subset<T, Match$teamLineupsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMatchLineupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8500,6 +9751,7 @@ export namespace Prisma {
     readonly awayScore: FieldRef<"Match", 'Int'>
     readonly aggregateMatchId: FieldRef<"Match", 'String'>
     readonly aggregateWinnerRegistrationId: FieldRef<"Match", 'String'>
+    readonly penaltyRatingApplied: FieldRef<"Match", 'Boolean'>
     readonly createdAt: FieldRef<"Match", 'DateTime'>
     readonly updatedAt: FieldRef<"Match", 'DateTime'>
   }
@@ -9100,6 +10352,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MatchResultSubmissionScalarFieldEnum | MatchResultSubmissionScalarFieldEnum[]
+  }
+
+  /**
+   * Match.penaltyShootoutResults
+   */
+  export type Match$penaltyShootoutResultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutResult
+     */
+    select?: PenaltyShootoutResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutResult
+     */
+    omit?: PenaltyShootoutResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutResultInclude<ExtArgs> | null
+    where?: PenaltyShootoutResultWhereInput
+    orderBy?: PenaltyShootoutResultOrderByWithRelationInput | PenaltyShootoutResultOrderByWithRelationInput[]
+    cursor?: PenaltyShootoutResultWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PenaltyShootoutResultScalarFieldEnum | PenaltyShootoutResultScalarFieldEnum[]
+  }
+
+  /**
+   * Match.teamLineups
+   */
+  export type Match$teamLineupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMatchLineup
+     */
+    select?: TeamMatchLineupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMatchLineup
+     */
+    omit?: TeamMatchLineupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMatchLineupInclude<ExtArgs> | null
+    where?: TeamMatchLineupWhereInput
+    orderBy?: TeamMatchLineupOrderByWithRelationInput | TeamMatchLineupOrderByWithRelationInput[]
+    cursor?: TeamMatchLineupWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TeamMatchLineupScalarFieldEnum | TeamMatchLineupScalarFieldEnum[]
   }
 
   /**
@@ -13889,6 +15189,3547 @@ export namespace Prisma {
 
 
   /**
+   * Model Wallet
+   */
+
+  export type AggregateWallet = {
+    _count: WalletCountAggregateOutputType | null
+    _avg: WalletAvgAggregateOutputType | null
+    _sum: WalletSumAggregateOutputType | null
+    _min: WalletMinAggregateOutputType | null
+    _max: WalletMaxAggregateOutputType | null
+  }
+
+  export type WalletAvgAggregateOutputType = {
+    balance: number | null
+  }
+
+  export type WalletSumAggregateOutputType = {
+    balance: number | null
+  }
+
+  export type WalletMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    balance: number | null
+    currency: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WalletMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    balance: number | null
+    currency: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WalletCountAggregateOutputType = {
+    id: number
+    userId: number
+    balance: number
+    currency: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type WalletAvgAggregateInputType = {
+    balance?: true
+  }
+
+  export type WalletSumAggregateInputType = {
+    balance?: true
+  }
+
+  export type WalletMinAggregateInputType = {
+    id?: true
+    userId?: true
+    balance?: true
+    currency?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WalletMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    balance?: true
+    currency?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WalletCountAggregateInputType = {
+    id?: true
+    userId?: true
+    balance?: true
+    currency?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type WalletAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Wallet to aggregate.
+     */
+    where?: WalletWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Wallets to fetch.
+     */
+    orderBy?: WalletOrderByWithRelationInput | WalletOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WalletWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Wallets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Wallets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Wallets
+    **/
+    _count?: true | WalletCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WalletAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WalletSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WalletMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WalletMaxAggregateInputType
+  }
+
+  export type GetWalletAggregateType<T extends WalletAggregateArgs> = {
+        [P in keyof T & keyof AggregateWallet]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWallet[P]>
+      : GetScalarType<T[P], AggregateWallet[P]>
+  }
+
+
+
+
+  export type WalletGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WalletWhereInput
+    orderBy?: WalletOrderByWithAggregationInput | WalletOrderByWithAggregationInput[]
+    by: WalletScalarFieldEnum[] | WalletScalarFieldEnum
+    having?: WalletScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WalletCountAggregateInputType | true
+    _avg?: WalletAvgAggregateInputType
+    _sum?: WalletSumAggregateInputType
+    _min?: WalletMinAggregateInputType
+    _max?: WalletMaxAggregateInputType
+  }
+
+  export type WalletGroupByOutputType = {
+    id: string
+    userId: string
+    balance: number
+    currency: string
+    createdAt: Date
+    updatedAt: Date
+    _count: WalletCountAggregateOutputType | null
+    _avg: WalletAvgAggregateOutputType | null
+    _sum: WalletSumAggregateOutputType | null
+    _min: WalletMinAggregateOutputType | null
+    _max: WalletMaxAggregateOutputType | null
+  }
+
+  type GetWalletGroupByPayload<T extends WalletGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WalletGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WalletGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WalletGroupByOutputType[P]>
+            : GetScalarType<T[P], WalletGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WalletSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    balance?: boolean
+    currency?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    transactions?: boolean | Wallet$transactionsArgs<ExtArgs>
+    _count?: boolean | WalletCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["wallet"]>
+
+  export type WalletSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    balance?: boolean
+    currency?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["wallet"]>
+
+  export type WalletSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    balance?: boolean
+    currency?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["wallet"]>
+
+  export type WalletSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    balance?: boolean
+    currency?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type WalletOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "balance" | "currency" | "createdAt" | "updatedAt", ExtArgs["result"]["wallet"]>
+  export type WalletInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    transactions?: boolean | Wallet$transactionsArgs<ExtArgs>
+    _count?: boolean | WalletCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type WalletIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type WalletIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $WalletPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Wallet"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      transactions: Prisma.$WalletTransactionPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      balance: number
+      currency: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["wallet"]>
+    composites: {}
+  }
+
+  type WalletGetPayload<S extends boolean | null | undefined | WalletDefaultArgs> = $Result.GetResult<Prisma.$WalletPayload, S>
+
+  type WalletCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WalletFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WalletCountAggregateInputType | true
+    }
+
+  export interface WalletDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Wallet'], meta: { name: 'Wallet' } }
+    /**
+     * Find zero or one Wallet that matches the filter.
+     * @param {WalletFindUniqueArgs} args - Arguments to find a Wallet
+     * @example
+     * // Get one Wallet
+     * const wallet = await prisma.wallet.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WalletFindUniqueArgs>(args: SelectSubset<T, WalletFindUniqueArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Wallet that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WalletFindUniqueOrThrowArgs} args - Arguments to find a Wallet
+     * @example
+     * // Get one Wallet
+     * const wallet = await prisma.wallet.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WalletFindUniqueOrThrowArgs>(args: SelectSubset<T, WalletFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Wallet that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WalletFindFirstArgs} args - Arguments to find a Wallet
+     * @example
+     * // Get one Wallet
+     * const wallet = await prisma.wallet.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WalletFindFirstArgs>(args?: SelectSubset<T, WalletFindFirstArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Wallet that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WalletFindFirstOrThrowArgs} args - Arguments to find a Wallet
+     * @example
+     * // Get one Wallet
+     * const wallet = await prisma.wallet.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WalletFindFirstOrThrowArgs>(args?: SelectSubset<T, WalletFindFirstOrThrowArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Wallets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WalletFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Wallets
+     * const wallets = await prisma.wallet.findMany()
+     * 
+     * // Get first 10 Wallets
+     * const wallets = await prisma.wallet.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const walletWithIdOnly = await prisma.wallet.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WalletFindManyArgs>(args?: SelectSubset<T, WalletFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Wallet.
+     * @param {WalletCreateArgs} args - Arguments to create a Wallet.
+     * @example
+     * // Create one Wallet
+     * const Wallet = await prisma.wallet.create({
+     *   data: {
+     *     // ... data to create a Wallet
+     *   }
+     * })
+     * 
+     */
+    create<T extends WalletCreateArgs>(args: SelectSubset<T, WalletCreateArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Wallets.
+     * @param {WalletCreateManyArgs} args - Arguments to create many Wallets.
+     * @example
+     * // Create many Wallets
+     * const wallet = await prisma.wallet.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WalletCreateManyArgs>(args?: SelectSubset<T, WalletCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Wallets and returns the data saved in the database.
+     * @param {WalletCreateManyAndReturnArgs} args - Arguments to create many Wallets.
+     * @example
+     * // Create many Wallets
+     * const wallet = await prisma.wallet.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Wallets and only return the `id`
+     * const walletWithIdOnly = await prisma.wallet.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WalletCreateManyAndReturnArgs>(args?: SelectSubset<T, WalletCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Wallet.
+     * @param {WalletDeleteArgs} args - Arguments to delete one Wallet.
+     * @example
+     * // Delete one Wallet
+     * const Wallet = await prisma.wallet.delete({
+     *   where: {
+     *     // ... filter to delete one Wallet
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WalletDeleteArgs>(args: SelectSubset<T, WalletDeleteArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Wallet.
+     * @param {WalletUpdateArgs} args - Arguments to update one Wallet.
+     * @example
+     * // Update one Wallet
+     * const wallet = await prisma.wallet.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WalletUpdateArgs>(args: SelectSubset<T, WalletUpdateArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Wallets.
+     * @param {WalletDeleteManyArgs} args - Arguments to filter Wallets to delete.
+     * @example
+     * // Delete a few Wallets
+     * const { count } = await prisma.wallet.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WalletDeleteManyArgs>(args?: SelectSubset<T, WalletDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Wallets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WalletUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Wallets
+     * const wallet = await prisma.wallet.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WalletUpdateManyArgs>(args: SelectSubset<T, WalletUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Wallets and returns the data updated in the database.
+     * @param {WalletUpdateManyAndReturnArgs} args - Arguments to update many Wallets.
+     * @example
+     * // Update many Wallets
+     * const wallet = await prisma.wallet.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Wallets and only return the `id`
+     * const walletWithIdOnly = await prisma.wallet.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WalletUpdateManyAndReturnArgs>(args: SelectSubset<T, WalletUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Wallet.
+     * @param {WalletUpsertArgs} args - Arguments to update or create a Wallet.
+     * @example
+     * // Update or create a Wallet
+     * const wallet = await prisma.wallet.upsert({
+     *   create: {
+     *     // ... data to create a Wallet
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Wallet we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WalletUpsertArgs>(args: SelectSubset<T, WalletUpsertArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Wallets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WalletCountArgs} args - Arguments to filter Wallets to count.
+     * @example
+     * // Count the number of Wallets
+     * const count = await prisma.wallet.count({
+     *   where: {
+     *     // ... the filter for the Wallets we want to count
+     *   }
+     * })
+    **/
+    count<T extends WalletCountArgs>(
+      args?: Subset<T, WalletCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WalletCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Wallet.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WalletAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WalletAggregateArgs>(args: Subset<T, WalletAggregateArgs>): Prisma.PrismaPromise<GetWalletAggregateType<T>>
+
+    /**
+     * Group by Wallet.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WalletGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WalletGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WalletGroupByArgs['orderBy'] }
+        : { orderBy?: WalletGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WalletGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWalletGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Wallet model
+   */
+  readonly fields: WalletFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Wallet.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WalletClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    transactions<T extends Wallet$transactionsArgs<ExtArgs> = {}>(args?: Subset<T, Wallet$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WalletTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Wallet model
+   */
+  interface WalletFieldRefs {
+    readonly id: FieldRef<"Wallet", 'String'>
+    readonly userId: FieldRef<"Wallet", 'String'>
+    readonly balance: FieldRef<"Wallet", 'Int'>
+    readonly currency: FieldRef<"Wallet", 'String'>
+    readonly createdAt: FieldRef<"Wallet", 'DateTime'>
+    readonly updatedAt: FieldRef<"Wallet", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Wallet findUnique
+   */
+  export type WalletFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wallet
+     */
+    select?: WalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wallet
+     */
+    omit?: WalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletInclude<ExtArgs> | null
+    /**
+     * Filter, which Wallet to fetch.
+     */
+    where: WalletWhereUniqueInput
+  }
+
+  /**
+   * Wallet findUniqueOrThrow
+   */
+  export type WalletFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wallet
+     */
+    select?: WalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wallet
+     */
+    omit?: WalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletInclude<ExtArgs> | null
+    /**
+     * Filter, which Wallet to fetch.
+     */
+    where: WalletWhereUniqueInput
+  }
+
+  /**
+   * Wallet findFirst
+   */
+  export type WalletFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wallet
+     */
+    select?: WalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wallet
+     */
+    omit?: WalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletInclude<ExtArgs> | null
+    /**
+     * Filter, which Wallet to fetch.
+     */
+    where?: WalletWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Wallets to fetch.
+     */
+    orderBy?: WalletOrderByWithRelationInput | WalletOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Wallets.
+     */
+    cursor?: WalletWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Wallets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Wallets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Wallets.
+     */
+    distinct?: WalletScalarFieldEnum | WalletScalarFieldEnum[]
+  }
+
+  /**
+   * Wallet findFirstOrThrow
+   */
+  export type WalletFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wallet
+     */
+    select?: WalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wallet
+     */
+    omit?: WalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletInclude<ExtArgs> | null
+    /**
+     * Filter, which Wallet to fetch.
+     */
+    where?: WalletWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Wallets to fetch.
+     */
+    orderBy?: WalletOrderByWithRelationInput | WalletOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Wallets.
+     */
+    cursor?: WalletWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Wallets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Wallets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Wallets.
+     */
+    distinct?: WalletScalarFieldEnum | WalletScalarFieldEnum[]
+  }
+
+  /**
+   * Wallet findMany
+   */
+  export type WalletFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wallet
+     */
+    select?: WalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wallet
+     */
+    omit?: WalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletInclude<ExtArgs> | null
+    /**
+     * Filter, which Wallets to fetch.
+     */
+    where?: WalletWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Wallets to fetch.
+     */
+    orderBy?: WalletOrderByWithRelationInput | WalletOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Wallets.
+     */
+    cursor?: WalletWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Wallets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Wallets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Wallets.
+     */
+    distinct?: WalletScalarFieldEnum | WalletScalarFieldEnum[]
+  }
+
+  /**
+   * Wallet create
+   */
+  export type WalletCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wallet
+     */
+    select?: WalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wallet
+     */
+    omit?: WalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Wallet.
+     */
+    data: XOR<WalletCreateInput, WalletUncheckedCreateInput>
+  }
+
+  /**
+   * Wallet createMany
+   */
+  export type WalletCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Wallets.
+     */
+    data: WalletCreateManyInput | WalletCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Wallet createManyAndReturn
+   */
+  export type WalletCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wallet
+     */
+    select?: WalletSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wallet
+     */
+    omit?: WalletOmit<ExtArgs> | null
+    /**
+     * The data used to create many Wallets.
+     */
+    data: WalletCreateManyInput | WalletCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Wallet update
+   */
+  export type WalletUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wallet
+     */
+    select?: WalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wallet
+     */
+    omit?: WalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Wallet.
+     */
+    data: XOR<WalletUpdateInput, WalletUncheckedUpdateInput>
+    /**
+     * Choose, which Wallet to update.
+     */
+    where: WalletWhereUniqueInput
+  }
+
+  /**
+   * Wallet updateMany
+   */
+  export type WalletUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Wallets.
+     */
+    data: XOR<WalletUpdateManyMutationInput, WalletUncheckedUpdateManyInput>
+    /**
+     * Filter which Wallets to update
+     */
+    where?: WalletWhereInput
+    /**
+     * Limit how many Wallets to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Wallet updateManyAndReturn
+   */
+  export type WalletUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wallet
+     */
+    select?: WalletSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wallet
+     */
+    omit?: WalletOmit<ExtArgs> | null
+    /**
+     * The data used to update Wallets.
+     */
+    data: XOR<WalletUpdateManyMutationInput, WalletUncheckedUpdateManyInput>
+    /**
+     * Filter which Wallets to update
+     */
+    where?: WalletWhereInput
+    /**
+     * Limit how many Wallets to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Wallet upsert
+   */
+  export type WalletUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wallet
+     */
+    select?: WalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wallet
+     */
+    omit?: WalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Wallet to update in case it exists.
+     */
+    where: WalletWhereUniqueInput
+    /**
+     * In case the Wallet found by the `where` argument doesn't exist, create a new Wallet with this data.
+     */
+    create: XOR<WalletCreateInput, WalletUncheckedCreateInput>
+    /**
+     * In case the Wallet was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WalletUpdateInput, WalletUncheckedUpdateInput>
+  }
+
+  /**
+   * Wallet delete
+   */
+  export type WalletDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wallet
+     */
+    select?: WalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wallet
+     */
+    omit?: WalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletInclude<ExtArgs> | null
+    /**
+     * Filter which Wallet to delete.
+     */
+    where: WalletWhereUniqueInput
+  }
+
+  /**
+   * Wallet deleteMany
+   */
+  export type WalletDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Wallets to delete
+     */
+    where?: WalletWhereInput
+    /**
+     * Limit how many Wallets to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Wallet.transactions
+   */
+  export type Wallet$transactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletTransaction
+     */
+    select?: WalletTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletTransaction
+     */
+    omit?: WalletTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletTransactionInclude<ExtArgs> | null
+    where?: WalletTransactionWhereInput
+    orderBy?: WalletTransactionOrderByWithRelationInput | WalletTransactionOrderByWithRelationInput[]
+    cursor?: WalletTransactionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WalletTransactionScalarFieldEnum | WalletTransactionScalarFieldEnum[]
+  }
+
+  /**
+   * Wallet without action
+   */
+  export type WalletDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wallet
+     */
+    select?: WalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wallet
+     */
+    omit?: WalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model WalletTransaction
+   */
+
+  export type AggregateWalletTransaction = {
+    _count: WalletTransactionCountAggregateOutputType | null
+    _avg: WalletTransactionAvgAggregateOutputType | null
+    _sum: WalletTransactionSumAggregateOutputType | null
+    _min: WalletTransactionMinAggregateOutputType | null
+    _max: WalletTransactionMaxAggregateOutputType | null
+  }
+
+  export type WalletTransactionAvgAggregateOutputType = {
+    amount: number | null
+    balanceAfter: number | null
+  }
+
+  export type WalletTransactionSumAggregateOutputType = {
+    amount: number | null
+    balanceAfter: number | null
+  }
+
+  export type WalletTransactionMinAggregateOutputType = {
+    id: string | null
+    walletId: string | null
+    userId: string | null
+    type: $Enums.WalletTransactionType | null
+    amount: number | null
+    balanceAfter: number | null
+    description: string | null
+    reference: string | null
+    registrationId: string | null
+    tournamentId: string | null
+    adminName: string | null
+    createdAt: Date | null
+  }
+
+  export type WalletTransactionMaxAggregateOutputType = {
+    id: string | null
+    walletId: string | null
+    userId: string | null
+    type: $Enums.WalletTransactionType | null
+    amount: number | null
+    balanceAfter: number | null
+    description: string | null
+    reference: string | null
+    registrationId: string | null
+    tournamentId: string | null
+    adminName: string | null
+    createdAt: Date | null
+  }
+
+  export type WalletTransactionCountAggregateOutputType = {
+    id: number
+    walletId: number
+    userId: number
+    type: number
+    amount: number
+    balanceAfter: number
+    description: number
+    reference: number
+    registrationId: number
+    tournamentId: number
+    adminName: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type WalletTransactionAvgAggregateInputType = {
+    amount?: true
+    balanceAfter?: true
+  }
+
+  export type WalletTransactionSumAggregateInputType = {
+    amount?: true
+    balanceAfter?: true
+  }
+
+  export type WalletTransactionMinAggregateInputType = {
+    id?: true
+    walletId?: true
+    userId?: true
+    type?: true
+    amount?: true
+    balanceAfter?: true
+    description?: true
+    reference?: true
+    registrationId?: true
+    tournamentId?: true
+    adminName?: true
+    createdAt?: true
+  }
+
+  export type WalletTransactionMaxAggregateInputType = {
+    id?: true
+    walletId?: true
+    userId?: true
+    type?: true
+    amount?: true
+    balanceAfter?: true
+    description?: true
+    reference?: true
+    registrationId?: true
+    tournamentId?: true
+    adminName?: true
+    createdAt?: true
+  }
+
+  export type WalletTransactionCountAggregateInputType = {
+    id?: true
+    walletId?: true
+    userId?: true
+    type?: true
+    amount?: true
+    balanceAfter?: true
+    description?: true
+    reference?: true
+    registrationId?: true
+    tournamentId?: true
+    adminName?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type WalletTransactionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WalletTransaction to aggregate.
+     */
+    where?: WalletTransactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WalletTransactions to fetch.
+     */
+    orderBy?: WalletTransactionOrderByWithRelationInput | WalletTransactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WalletTransactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WalletTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WalletTransactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WalletTransactions
+    **/
+    _count?: true | WalletTransactionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WalletTransactionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WalletTransactionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WalletTransactionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WalletTransactionMaxAggregateInputType
+  }
+
+  export type GetWalletTransactionAggregateType<T extends WalletTransactionAggregateArgs> = {
+        [P in keyof T & keyof AggregateWalletTransaction]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWalletTransaction[P]>
+      : GetScalarType<T[P], AggregateWalletTransaction[P]>
+  }
+
+
+
+
+  export type WalletTransactionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WalletTransactionWhereInput
+    orderBy?: WalletTransactionOrderByWithAggregationInput | WalletTransactionOrderByWithAggregationInput[]
+    by: WalletTransactionScalarFieldEnum[] | WalletTransactionScalarFieldEnum
+    having?: WalletTransactionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WalletTransactionCountAggregateInputType | true
+    _avg?: WalletTransactionAvgAggregateInputType
+    _sum?: WalletTransactionSumAggregateInputType
+    _min?: WalletTransactionMinAggregateInputType
+    _max?: WalletTransactionMaxAggregateInputType
+  }
+
+  export type WalletTransactionGroupByOutputType = {
+    id: string
+    walletId: string
+    userId: string
+    type: $Enums.WalletTransactionType
+    amount: number
+    balanceAfter: number
+    description: string
+    reference: string | null
+    registrationId: string | null
+    tournamentId: string | null
+    adminName: string | null
+    createdAt: Date
+    _count: WalletTransactionCountAggregateOutputType | null
+    _avg: WalletTransactionAvgAggregateOutputType | null
+    _sum: WalletTransactionSumAggregateOutputType | null
+    _min: WalletTransactionMinAggregateOutputType | null
+    _max: WalletTransactionMaxAggregateOutputType | null
+  }
+
+  type GetWalletTransactionGroupByPayload<T extends WalletTransactionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WalletTransactionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WalletTransactionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WalletTransactionGroupByOutputType[P]>
+            : GetScalarType<T[P], WalletTransactionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WalletTransactionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    walletId?: boolean
+    userId?: boolean
+    type?: boolean
+    amount?: boolean
+    balanceAfter?: boolean
+    description?: boolean
+    reference?: boolean
+    registrationId?: boolean
+    tournamentId?: boolean
+    adminName?: boolean
+    createdAt?: boolean
+    wallet?: boolean | WalletDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["walletTransaction"]>
+
+  export type WalletTransactionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    walletId?: boolean
+    userId?: boolean
+    type?: boolean
+    amount?: boolean
+    balanceAfter?: boolean
+    description?: boolean
+    reference?: boolean
+    registrationId?: boolean
+    tournamentId?: boolean
+    adminName?: boolean
+    createdAt?: boolean
+    wallet?: boolean | WalletDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["walletTransaction"]>
+
+  export type WalletTransactionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    walletId?: boolean
+    userId?: boolean
+    type?: boolean
+    amount?: boolean
+    balanceAfter?: boolean
+    description?: boolean
+    reference?: boolean
+    registrationId?: boolean
+    tournamentId?: boolean
+    adminName?: boolean
+    createdAt?: boolean
+    wallet?: boolean | WalletDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["walletTransaction"]>
+
+  export type WalletTransactionSelectScalar = {
+    id?: boolean
+    walletId?: boolean
+    userId?: boolean
+    type?: boolean
+    amount?: boolean
+    balanceAfter?: boolean
+    description?: boolean
+    reference?: boolean
+    registrationId?: boolean
+    tournamentId?: boolean
+    adminName?: boolean
+    createdAt?: boolean
+  }
+
+  export type WalletTransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "walletId" | "userId" | "type" | "amount" | "balanceAfter" | "description" | "reference" | "registrationId" | "tournamentId" | "adminName" | "createdAt", ExtArgs["result"]["walletTransaction"]>
+  export type WalletTransactionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    wallet?: boolean | WalletDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type WalletTransactionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    wallet?: boolean | WalletDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type WalletTransactionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    wallet?: boolean | WalletDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $WalletTransactionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WalletTransaction"
+    objects: {
+      wallet: Prisma.$WalletPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      walletId: string
+      userId: string
+      type: $Enums.WalletTransactionType
+      amount: number
+      balanceAfter: number
+      description: string
+      reference: string | null
+      registrationId: string | null
+      tournamentId: string | null
+      adminName: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["walletTransaction"]>
+    composites: {}
+  }
+
+  type WalletTransactionGetPayload<S extends boolean | null | undefined | WalletTransactionDefaultArgs> = $Result.GetResult<Prisma.$WalletTransactionPayload, S>
+
+  type WalletTransactionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WalletTransactionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WalletTransactionCountAggregateInputType | true
+    }
+
+  export interface WalletTransactionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WalletTransaction'], meta: { name: 'WalletTransaction' } }
+    /**
+     * Find zero or one WalletTransaction that matches the filter.
+     * @param {WalletTransactionFindUniqueArgs} args - Arguments to find a WalletTransaction
+     * @example
+     * // Get one WalletTransaction
+     * const walletTransaction = await prisma.walletTransaction.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WalletTransactionFindUniqueArgs>(args: SelectSubset<T, WalletTransactionFindUniqueArgs<ExtArgs>>): Prisma__WalletTransactionClient<$Result.GetResult<Prisma.$WalletTransactionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WalletTransaction that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WalletTransactionFindUniqueOrThrowArgs} args - Arguments to find a WalletTransaction
+     * @example
+     * // Get one WalletTransaction
+     * const walletTransaction = await prisma.walletTransaction.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WalletTransactionFindUniqueOrThrowArgs>(args: SelectSubset<T, WalletTransactionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WalletTransactionClient<$Result.GetResult<Prisma.$WalletTransactionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WalletTransaction that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WalletTransactionFindFirstArgs} args - Arguments to find a WalletTransaction
+     * @example
+     * // Get one WalletTransaction
+     * const walletTransaction = await prisma.walletTransaction.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WalletTransactionFindFirstArgs>(args?: SelectSubset<T, WalletTransactionFindFirstArgs<ExtArgs>>): Prisma__WalletTransactionClient<$Result.GetResult<Prisma.$WalletTransactionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WalletTransaction that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WalletTransactionFindFirstOrThrowArgs} args - Arguments to find a WalletTransaction
+     * @example
+     * // Get one WalletTransaction
+     * const walletTransaction = await prisma.walletTransaction.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WalletTransactionFindFirstOrThrowArgs>(args?: SelectSubset<T, WalletTransactionFindFirstOrThrowArgs<ExtArgs>>): Prisma__WalletTransactionClient<$Result.GetResult<Prisma.$WalletTransactionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WalletTransactions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WalletTransactionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WalletTransactions
+     * const walletTransactions = await prisma.walletTransaction.findMany()
+     * 
+     * // Get first 10 WalletTransactions
+     * const walletTransactions = await prisma.walletTransaction.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const walletTransactionWithIdOnly = await prisma.walletTransaction.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WalletTransactionFindManyArgs>(args?: SelectSubset<T, WalletTransactionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WalletTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a WalletTransaction.
+     * @param {WalletTransactionCreateArgs} args - Arguments to create a WalletTransaction.
+     * @example
+     * // Create one WalletTransaction
+     * const WalletTransaction = await prisma.walletTransaction.create({
+     *   data: {
+     *     // ... data to create a WalletTransaction
+     *   }
+     * })
+     * 
+     */
+    create<T extends WalletTransactionCreateArgs>(args: SelectSubset<T, WalletTransactionCreateArgs<ExtArgs>>): Prisma__WalletTransactionClient<$Result.GetResult<Prisma.$WalletTransactionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many WalletTransactions.
+     * @param {WalletTransactionCreateManyArgs} args - Arguments to create many WalletTransactions.
+     * @example
+     * // Create many WalletTransactions
+     * const walletTransaction = await prisma.walletTransaction.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WalletTransactionCreateManyArgs>(args?: SelectSubset<T, WalletTransactionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many WalletTransactions and returns the data saved in the database.
+     * @param {WalletTransactionCreateManyAndReturnArgs} args - Arguments to create many WalletTransactions.
+     * @example
+     * // Create many WalletTransactions
+     * const walletTransaction = await prisma.walletTransaction.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many WalletTransactions and only return the `id`
+     * const walletTransactionWithIdOnly = await prisma.walletTransaction.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WalletTransactionCreateManyAndReturnArgs>(args?: SelectSubset<T, WalletTransactionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WalletTransactionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a WalletTransaction.
+     * @param {WalletTransactionDeleteArgs} args - Arguments to delete one WalletTransaction.
+     * @example
+     * // Delete one WalletTransaction
+     * const WalletTransaction = await prisma.walletTransaction.delete({
+     *   where: {
+     *     // ... filter to delete one WalletTransaction
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WalletTransactionDeleteArgs>(args: SelectSubset<T, WalletTransactionDeleteArgs<ExtArgs>>): Prisma__WalletTransactionClient<$Result.GetResult<Prisma.$WalletTransactionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one WalletTransaction.
+     * @param {WalletTransactionUpdateArgs} args - Arguments to update one WalletTransaction.
+     * @example
+     * // Update one WalletTransaction
+     * const walletTransaction = await prisma.walletTransaction.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WalletTransactionUpdateArgs>(args: SelectSubset<T, WalletTransactionUpdateArgs<ExtArgs>>): Prisma__WalletTransactionClient<$Result.GetResult<Prisma.$WalletTransactionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more WalletTransactions.
+     * @param {WalletTransactionDeleteManyArgs} args - Arguments to filter WalletTransactions to delete.
+     * @example
+     * // Delete a few WalletTransactions
+     * const { count } = await prisma.walletTransaction.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WalletTransactionDeleteManyArgs>(args?: SelectSubset<T, WalletTransactionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WalletTransactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WalletTransactionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WalletTransactions
+     * const walletTransaction = await prisma.walletTransaction.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WalletTransactionUpdateManyArgs>(args: SelectSubset<T, WalletTransactionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WalletTransactions and returns the data updated in the database.
+     * @param {WalletTransactionUpdateManyAndReturnArgs} args - Arguments to update many WalletTransactions.
+     * @example
+     * // Update many WalletTransactions
+     * const walletTransaction = await prisma.walletTransaction.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more WalletTransactions and only return the `id`
+     * const walletTransactionWithIdOnly = await prisma.walletTransaction.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WalletTransactionUpdateManyAndReturnArgs>(args: SelectSubset<T, WalletTransactionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WalletTransactionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one WalletTransaction.
+     * @param {WalletTransactionUpsertArgs} args - Arguments to update or create a WalletTransaction.
+     * @example
+     * // Update or create a WalletTransaction
+     * const walletTransaction = await prisma.walletTransaction.upsert({
+     *   create: {
+     *     // ... data to create a WalletTransaction
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WalletTransaction we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WalletTransactionUpsertArgs>(args: SelectSubset<T, WalletTransactionUpsertArgs<ExtArgs>>): Prisma__WalletTransactionClient<$Result.GetResult<Prisma.$WalletTransactionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of WalletTransactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WalletTransactionCountArgs} args - Arguments to filter WalletTransactions to count.
+     * @example
+     * // Count the number of WalletTransactions
+     * const count = await prisma.walletTransaction.count({
+     *   where: {
+     *     // ... the filter for the WalletTransactions we want to count
+     *   }
+     * })
+    **/
+    count<T extends WalletTransactionCountArgs>(
+      args?: Subset<T, WalletTransactionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WalletTransactionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WalletTransaction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WalletTransactionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WalletTransactionAggregateArgs>(args: Subset<T, WalletTransactionAggregateArgs>): Prisma.PrismaPromise<GetWalletTransactionAggregateType<T>>
+
+    /**
+     * Group by WalletTransaction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WalletTransactionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WalletTransactionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WalletTransactionGroupByArgs['orderBy'] }
+        : { orderBy?: WalletTransactionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WalletTransactionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWalletTransactionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WalletTransaction model
+   */
+  readonly fields: WalletTransactionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WalletTransaction.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WalletTransactionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    wallet<T extends WalletDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WalletDefaultArgs<ExtArgs>>): Prisma__WalletClient<$Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WalletTransaction model
+   */
+  interface WalletTransactionFieldRefs {
+    readonly id: FieldRef<"WalletTransaction", 'String'>
+    readonly walletId: FieldRef<"WalletTransaction", 'String'>
+    readonly userId: FieldRef<"WalletTransaction", 'String'>
+    readonly type: FieldRef<"WalletTransaction", 'WalletTransactionType'>
+    readonly amount: FieldRef<"WalletTransaction", 'Int'>
+    readonly balanceAfter: FieldRef<"WalletTransaction", 'Int'>
+    readonly description: FieldRef<"WalletTransaction", 'String'>
+    readonly reference: FieldRef<"WalletTransaction", 'String'>
+    readonly registrationId: FieldRef<"WalletTransaction", 'String'>
+    readonly tournamentId: FieldRef<"WalletTransaction", 'String'>
+    readonly adminName: FieldRef<"WalletTransaction", 'String'>
+    readonly createdAt: FieldRef<"WalletTransaction", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WalletTransaction findUnique
+   */
+  export type WalletTransactionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletTransaction
+     */
+    select?: WalletTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletTransaction
+     */
+    omit?: WalletTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletTransactionInclude<ExtArgs> | null
+    /**
+     * Filter, which WalletTransaction to fetch.
+     */
+    where: WalletTransactionWhereUniqueInput
+  }
+
+  /**
+   * WalletTransaction findUniqueOrThrow
+   */
+  export type WalletTransactionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletTransaction
+     */
+    select?: WalletTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletTransaction
+     */
+    omit?: WalletTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletTransactionInclude<ExtArgs> | null
+    /**
+     * Filter, which WalletTransaction to fetch.
+     */
+    where: WalletTransactionWhereUniqueInput
+  }
+
+  /**
+   * WalletTransaction findFirst
+   */
+  export type WalletTransactionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletTransaction
+     */
+    select?: WalletTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletTransaction
+     */
+    omit?: WalletTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletTransactionInclude<ExtArgs> | null
+    /**
+     * Filter, which WalletTransaction to fetch.
+     */
+    where?: WalletTransactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WalletTransactions to fetch.
+     */
+    orderBy?: WalletTransactionOrderByWithRelationInput | WalletTransactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WalletTransactions.
+     */
+    cursor?: WalletTransactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WalletTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WalletTransactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WalletTransactions.
+     */
+    distinct?: WalletTransactionScalarFieldEnum | WalletTransactionScalarFieldEnum[]
+  }
+
+  /**
+   * WalletTransaction findFirstOrThrow
+   */
+  export type WalletTransactionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletTransaction
+     */
+    select?: WalletTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletTransaction
+     */
+    omit?: WalletTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletTransactionInclude<ExtArgs> | null
+    /**
+     * Filter, which WalletTransaction to fetch.
+     */
+    where?: WalletTransactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WalletTransactions to fetch.
+     */
+    orderBy?: WalletTransactionOrderByWithRelationInput | WalletTransactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WalletTransactions.
+     */
+    cursor?: WalletTransactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WalletTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WalletTransactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WalletTransactions.
+     */
+    distinct?: WalletTransactionScalarFieldEnum | WalletTransactionScalarFieldEnum[]
+  }
+
+  /**
+   * WalletTransaction findMany
+   */
+  export type WalletTransactionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletTransaction
+     */
+    select?: WalletTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletTransaction
+     */
+    omit?: WalletTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletTransactionInclude<ExtArgs> | null
+    /**
+     * Filter, which WalletTransactions to fetch.
+     */
+    where?: WalletTransactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WalletTransactions to fetch.
+     */
+    orderBy?: WalletTransactionOrderByWithRelationInput | WalletTransactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WalletTransactions.
+     */
+    cursor?: WalletTransactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WalletTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WalletTransactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WalletTransactions.
+     */
+    distinct?: WalletTransactionScalarFieldEnum | WalletTransactionScalarFieldEnum[]
+  }
+
+  /**
+   * WalletTransaction create
+   */
+  export type WalletTransactionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletTransaction
+     */
+    select?: WalletTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletTransaction
+     */
+    omit?: WalletTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletTransactionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a WalletTransaction.
+     */
+    data: XOR<WalletTransactionCreateInput, WalletTransactionUncheckedCreateInput>
+  }
+
+  /**
+   * WalletTransaction createMany
+   */
+  export type WalletTransactionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WalletTransactions.
+     */
+    data: WalletTransactionCreateManyInput | WalletTransactionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WalletTransaction createManyAndReturn
+   */
+  export type WalletTransactionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletTransaction
+     */
+    select?: WalletTransactionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletTransaction
+     */
+    omit?: WalletTransactionOmit<ExtArgs> | null
+    /**
+     * The data used to create many WalletTransactions.
+     */
+    data: WalletTransactionCreateManyInput | WalletTransactionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletTransactionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WalletTransaction update
+   */
+  export type WalletTransactionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletTransaction
+     */
+    select?: WalletTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletTransaction
+     */
+    omit?: WalletTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletTransactionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a WalletTransaction.
+     */
+    data: XOR<WalletTransactionUpdateInput, WalletTransactionUncheckedUpdateInput>
+    /**
+     * Choose, which WalletTransaction to update.
+     */
+    where: WalletTransactionWhereUniqueInput
+  }
+
+  /**
+   * WalletTransaction updateMany
+   */
+  export type WalletTransactionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WalletTransactions.
+     */
+    data: XOR<WalletTransactionUpdateManyMutationInput, WalletTransactionUncheckedUpdateManyInput>
+    /**
+     * Filter which WalletTransactions to update
+     */
+    where?: WalletTransactionWhereInput
+    /**
+     * Limit how many WalletTransactions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WalletTransaction updateManyAndReturn
+   */
+  export type WalletTransactionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletTransaction
+     */
+    select?: WalletTransactionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletTransaction
+     */
+    omit?: WalletTransactionOmit<ExtArgs> | null
+    /**
+     * The data used to update WalletTransactions.
+     */
+    data: XOR<WalletTransactionUpdateManyMutationInput, WalletTransactionUncheckedUpdateManyInput>
+    /**
+     * Filter which WalletTransactions to update
+     */
+    where?: WalletTransactionWhereInput
+    /**
+     * Limit how many WalletTransactions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletTransactionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WalletTransaction upsert
+   */
+  export type WalletTransactionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletTransaction
+     */
+    select?: WalletTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletTransaction
+     */
+    omit?: WalletTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletTransactionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the WalletTransaction to update in case it exists.
+     */
+    where: WalletTransactionWhereUniqueInput
+    /**
+     * In case the WalletTransaction found by the `where` argument doesn't exist, create a new WalletTransaction with this data.
+     */
+    create: XOR<WalletTransactionCreateInput, WalletTransactionUncheckedCreateInput>
+    /**
+     * In case the WalletTransaction was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WalletTransactionUpdateInput, WalletTransactionUncheckedUpdateInput>
+  }
+
+  /**
+   * WalletTransaction delete
+   */
+  export type WalletTransactionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletTransaction
+     */
+    select?: WalletTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletTransaction
+     */
+    omit?: WalletTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletTransactionInclude<ExtArgs> | null
+    /**
+     * Filter which WalletTransaction to delete.
+     */
+    where: WalletTransactionWhereUniqueInput
+  }
+
+  /**
+   * WalletTransaction deleteMany
+   */
+  export type WalletTransactionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WalletTransactions to delete
+     */
+    where?: WalletTransactionWhereInput
+    /**
+     * Limit how many WalletTransactions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * WalletTransaction without action
+   */
+  export type WalletTransactionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletTransaction
+     */
+    select?: WalletTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletTransaction
+     */
+    omit?: WalletTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletTransactionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model WalletFundingRequest
+   */
+
+  export type AggregateWalletFundingRequest = {
+    _count: WalletFundingRequestCountAggregateOutputType | null
+    _avg: WalletFundingRequestAvgAggregateOutputType | null
+    _sum: WalletFundingRequestSumAggregateOutputType | null
+    _min: WalletFundingRequestMinAggregateOutputType | null
+    _max: WalletFundingRequestMaxAggregateOutputType | null
+  }
+
+  export type WalletFundingRequestAvgAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type WalletFundingRequestSumAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type WalletFundingRequestMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    amount: number | null
+    currency: string | null
+    paymentMethod: string | null
+    senderName: string | null
+    receiptUrl: string | null
+    status: $Enums.WalletFundingRequestStatus | null
+    adminNote: string | null
+    approvedBy: string | null
+    creditedTransactionId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WalletFundingRequestMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    amount: number | null
+    currency: string | null
+    paymentMethod: string | null
+    senderName: string | null
+    receiptUrl: string | null
+    status: $Enums.WalletFundingRequestStatus | null
+    adminNote: string | null
+    approvedBy: string | null
+    creditedTransactionId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WalletFundingRequestCountAggregateOutputType = {
+    id: number
+    userId: number
+    amount: number
+    currency: number
+    paymentMethod: number
+    senderName: number
+    receiptUrl: number
+    status: number
+    adminNote: number
+    approvedBy: number
+    creditedTransactionId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type WalletFundingRequestAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type WalletFundingRequestSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type WalletFundingRequestMinAggregateInputType = {
+    id?: true
+    userId?: true
+    amount?: true
+    currency?: true
+    paymentMethod?: true
+    senderName?: true
+    receiptUrl?: true
+    status?: true
+    adminNote?: true
+    approvedBy?: true
+    creditedTransactionId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WalletFundingRequestMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    amount?: true
+    currency?: true
+    paymentMethod?: true
+    senderName?: true
+    receiptUrl?: true
+    status?: true
+    adminNote?: true
+    approvedBy?: true
+    creditedTransactionId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WalletFundingRequestCountAggregateInputType = {
+    id?: true
+    userId?: true
+    amount?: true
+    currency?: true
+    paymentMethod?: true
+    senderName?: true
+    receiptUrl?: true
+    status?: true
+    adminNote?: true
+    approvedBy?: true
+    creditedTransactionId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type WalletFundingRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WalletFundingRequest to aggregate.
+     */
+    where?: WalletFundingRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WalletFundingRequests to fetch.
+     */
+    orderBy?: WalletFundingRequestOrderByWithRelationInput | WalletFundingRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WalletFundingRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WalletFundingRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WalletFundingRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WalletFundingRequests
+    **/
+    _count?: true | WalletFundingRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WalletFundingRequestAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WalletFundingRequestSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WalletFundingRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WalletFundingRequestMaxAggregateInputType
+  }
+
+  export type GetWalletFundingRequestAggregateType<T extends WalletFundingRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateWalletFundingRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWalletFundingRequest[P]>
+      : GetScalarType<T[P], AggregateWalletFundingRequest[P]>
+  }
+
+
+
+
+  export type WalletFundingRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WalletFundingRequestWhereInput
+    orderBy?: WalletFundingRequestOrderByWithAggregationInput | WalletFundingRequestOrderByWithAggregationInput[]
+    by: WalletFundingRequestScalarFieldEnum[] | WalletFundingRequestScalarFieldEnum
+    having?: WalletFundingRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WalletFundingRequestCountAggregateInputType | true
+    _avg?: WalletFundingRequestAvgAggregateInputType
+    _sum?: WalletFundingRequestSumAggregateInputType
+    _min?: WalletFundingRequestMinAggregateInputType
+    _max?: WalletFundingRequestMaxAggregateInputType
+  }
+
+  export type WalletFundingRequestGroupByOutputType = {
+    id: string
+    userId: string
+    amount: number
+    currency: string
+    paymentMethod: string
+    senderName: string
+    receiptUrl: string | null
+    status: $Enums.WalletFundingRequestStatus
+    adminNote: string | null
+    approvedBy: string | null
+    creditedTransactionId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: WalletFundingRequestCountAggregateOutputType | null
+    _avg: WalletFundingRequestAvgAggregateOutputType | null
+    _sum: WalletFundingRequestSumAggregateOutputType | null
+    _min: WalletFundingRequestMinAggregateOutputType | null
+    _max: WalletFundingRequestMaxAggregateOutputType | null
+  }
+
+  type GetWalletFundingRequestGroupByPayload<T extends WalletFundingRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WalletFundingRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WalletFundingRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WalletFundingRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], WalletFundingRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WalletFundingRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    amount?: boolean
+    currency?: boolean
+    paymentMethod?: boolean
+    senderName?: boolean
+    receiptUrl?: boolean
+    status?: boolean
+    adminNote?: boolean
+    approvedBy?: boolean
+    creditedTransactionId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["walletFundingRequest"]>
+
+  export type WalletFundingRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    amount?: boolean
+    currency?: boolean
+    paymentMethod?: boolean
+    senderName?: boolean
+    receiptUrl?: boolean
+    status?: boolean
+    adminNote?: boolean
+    approvedBy?: boolean
+    creditedTransactionId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["walletFundingRequest"]>
+
+  export type WalletFundingRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    amount?: boolean
+    currency?: boolean
+    paymentMethod?: boolean
+    senderName?: boolean
+    receiptUrl?: boolean
+    status?: boolean
+    adminNote?: boolean
+    approvedBy?: boolean
+    creditedTransactionId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["walletFundingRequest"]>
+
+  export type WalletFundingRequestSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    amount?: boolean
+    currency?: boolean
+    paymentMethod?: boolean
+    senderName?: boolean
+    receiptUrl?: boolean
+    status?: boolean
+    adminNote?: boolean
+    approvedBy?: boolean
+    creditedTransactionId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type WalletFundingRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "amount" | "currency" | "paymentMethod" | "senderName" | "receiptUrl" | "status" | "adminNote" | "approvedBy" | "creditedTransactionId" | "createdAt" | "updatedAt", ExtArgs["result"]["walletFundingRequest"]>
+  export type WalletFundingRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type WalletFundingRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type WalletFundingRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $WalletFundingRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WalletFundingRequest"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      amount: number
+      currency: string
+      paymentMethod: string
+      senderName: string
+      receiptUrl: string | null
+      status: $Enums.WalletFundingRequestStatus
+      adminNote: string | null
+      approvedBy: string | null
+      creditedTransactionId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["walletFundingRequest"]>
+    composites: {}
+  }
+
+  type WalletFundingRequestGetPayload<S extends boolean | null | undefined | WalletFundingRequestDefaultArgs> = $Result.GetResult<Prisma.$WalletFundingRequestPayload, S>
+
+  type WalletFundingRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WalletFundingRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WalletFundingRequestCountAggregateInputType | true
+    }
+
+  export interface WalletFundingRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WalletFundingRequest'], meta: { name: 'WalletFundingRequest' } }
+    /**
+     * Find zero or one WalletFundingRequest that matches the filter.
+     * @param {WalletFundingRequestFindUniqueArgs} args - Arguments to find a WalletFundingRequest
+     * @example
+     * // Get one WalletFundingRequest
+     * const walletFundingRequest = await prisma.walletFundingRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WalletFundingRequestFindUniqueArgs>(args: SelectSubset<T, WalletFundingRequestFindUniqueArgs<ExtArgs>>): Prisma__WalletFundingRequestClient<$Result.GetResult<Prisma.$WalletFundingRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WalletFundingRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WalletFundingRequestFindUniqueOrThrowArgs} args - Arguments to find a WalletFundingRequest
+     * @example
+     * // Get one WalletFundingRequest
+     * const walletFundingRequest = await prisma.walletFundingRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WalletFundingRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, WalletFundingRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WalletFundingRequestClient<$Result.GetResult<Prisma.$WalletFundingRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WalletFundingRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WalletFundingRequestFindFirstArgs} args - Arguments to find a WalletFundingRequest
+     * @example
+     * // Get one WalletFundingRequest
+     * const walletFundingRequest = await prisma.walletFundingRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WalletFundingRequestFindFirstArgs>(args?: SelectSubset<T, WalletFundingRequestFindFirstArgs<ExtArgs>>): Prisma__WalletFundingRequestClient<$Result.GetResult<Prisma.$WalletFundingRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WalletFundingRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WalletFundingRequestFindFirstOrThrowArgs} args - Arguments to find a WalletFundingRequest
+     * @example
+     * // Get one WalletFundingRequest
+     * const walletFundingRequest = await prisma.walletFundingRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WalletFundingRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, WalletFundingRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__WalletFundingRequestClient<$Result.GetResult<Prisma.$WalletFundingRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WalletFundingRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WalletFundingRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WalletFundingRequests
+     * const walletFundingRequests = await prisma.walletFundingRequest.findMany()
+     * 
+     * // Get first 10 WalletFundingRequests
+     * const walletFundingRequests = await prisma.walletFundingRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const walletFundingRequestWithIdOnly = await prisma.walletFundingRequest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WalletFundingRequestFindManyArgs>(args?: SelectSubset<T, WalletFundingRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WalletFundingRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a WalletFundingRequest.
+     * @param {WalletFundingRequestCreateArgs} args - Arguments to create a WalletFundingRequest.
+     * @example
+     * // Create one WalletFundingRequest
+     * const WalletFundingRequest = await prisma.walletFundingRequest.create({
+     *   data: {
+     *     // ... data to create a WalletFundingRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends WalletFundingRequestCreateArgs>(args: SelectSubset<T, WalletFundingRequestCreateArgs<ExtArgs>>): Prisma__WalletFundingRequestClient<$Result.GetResult<Prisma.$WalletFundingRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many WalletFundingRequests.
+     * @param {WalletFundingRequestCreateManyArgs} args - Arguments to create many WalletFundingRequests.
+     * @example
+     * // Create many WalletFundingRequests
+     * const walletFundingRequest = await prisma.walletFundingRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WalletFundingRequestCreateManyArgs>(args?: SelectSubset<T, WalletFundingRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many WalletFundingRequests and returns the data saved in the database.
+     * @param {WalletFundingRequestCreateManyAndReturnArgs} args - Arguments to create many WalletFundingRequests.
+     * @example
+     * // Create many WalletFundingRequests
+     * const walletFundingRequest = await prisma.walletFundingRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many WalletFundingRequests and only return the `id`
+     * const walletFundingRequestWithIdOnly = await prisma.walletFundingRequest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WalletFundingRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, WalletFundingRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WalletFundingRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a WalletFundingRequest.
+     * @param {WalletFundingRequestDeleteArgs} args - Arguments to delete one WalletFundingRequest.
+     * @example
+     * // Delete one WalletFundingRequest
+     * const WalletFundingRequest = await prisma.walletFundingRequest.delete({
+     *   where: {
+     *     // ... filter to delete one WalletFundingRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WalletFundingRequestDeleteArgs>(args: SelectSubset<T, WalletFundingRequestDeleteArgs<ExtArgs>>): Prisma__WalletFundingRequestClient<$Result.GetResult<Prisma.$WalletFundingRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one WalletFundingRequest.
+     * @param {WalletFundingRequestUpdateArgs} args - Arguments to update one WalletFundingRequest.
+     * @example
+     * // Update one WalletFundingRequest
+     * const walletFundingRequest = await prisma.walletFundingRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WalletFundingRequestUpdateArgs>(args: SelectSubset<T, WalletFundingRequestUpdateArgs<ExtArgs>>): Prisma__WalletFundingRequestClient<$Result.GetResult<Prisma.$WalletFundingRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more WalletFundingRequests.
+     * @param {WalletFundingRequestDeleteManyArgs} args - Arguments to filter WalletFundingRequests to delete.
+     * @example
+     * // Delete a few WalletFundingRequests
+     * const { count } = await prisma.walletFundingRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WalletFundingRequestDeleteManyArgs>(args?: SelectSubset<T, WalletFundingRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WalletFundingRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WalletFundingRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WalletFundingRequests
+     * const walletFundingRequest = await prisma.walletFundingRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WalletFundingRequestUpdateManyArgs>(args: SelectSubset<T, WalletFundingRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WalletFundingRequests and returns the data updated in the database.
+     * @param {WalletFundingRequestUpdateManyAndReturnArgs} args - Arguments to update many WalletFundingRequests.
+     * @example
+     * // Update many WalletFundingRequests
+     * const walletFundingRequest = await prisma.walletFundingRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more WalletFundingRequests and only return the `id`
+     * const walletFundingRequestWithIdOnly = await prisma.walletFundingRequest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WalletFundingRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, WalletFundingRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WalletFundingRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one WalletFundingRequest.
+     * @param {WalletFundingRequestUpsertArgs} args - Arguments to update or create a WalletFundingRequest.
+     * @example
+     * // Update or create a WalletFundingRequest
+     * const walletFundingRequest = await prisma.walletFundingRequest.upsert({
+     *   create: {
+     *     // ... data to create a WalletFundingRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WalletFundingRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WalletFundingRequestUpsertArgs>(args: SelectSubset<T, WalletFundingRequestUpsertArgs<ExtArgs>>): Prisma__WalletFundingRequestClient<$Result.GetResult<Prisma.$WalletFundingRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of WalletFundingRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WalletFundingRequestCountArgs} args - Arguments to filter WalletFundingRequests to count.
+     * @example
+     * // Count the number of WalletFundingRequests
+     * const count = await prisma.walletFundingRequest.count({
+     *   where: {
+     *     // ... the filter for the WalletFundingRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends WalletFundingRequestCountArgs>(
+      args?: Subset<T, WalletFundingRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WalletFundingRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WalletFundingRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WalletFundingRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WalletFundingRequestAggregateArgs>(args: Subset<T, WalletFundingRequestAggregateArgs>): Prisma.PrismaPromise<GetWalletFundingRequestAggregateType<T>>
+
+    /**
+     * Group by WalletFundingRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WalletFundingRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WalletFundingRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WalletFundingRequestGroupByArgs['orderBy'] }
+        : { orderBy?: WalletFundingRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WalletFundingRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWalletFundingRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WalletFundingRequest model
+   */
+  readonly fields: WalletFundingRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WalletFundingRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WalletFundingRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WalletFundingRequest model
+   */
+  interface WalletFundingRequestFieldRefs {
+    readonly id: FieldRef<"WalletFundingRequest", 'String'>
+    readonly userId: FieldRef<"WalletFundingRequest", 'String'>
+    readonly amount: FieldRef<"WalletFundingRequest", 'Int'>
+    readonly currency: FieldRef<"WalletFundingRequest", 'String'>
+    readonly paymentMethod: FieldRef<"WalletFundingRequest", 'String'>
+    readonly senderName: FieldRef<"WalletFundingRequest", 'String'>
+    readonly receiptUrl: FieldRef<"WalletFundingRequest", 'String'>
+    readonly status: FieldRef<"WalletFundingRequest", 'WalletFundingRequestStatus'>
+    readonly adminNote: FieldRef<"WalletFundingRequest", 'String'>
+    readonly approvedBy: FieldRef<"WalletFundingRequest", 'String'>
+    readonly creditedTransactionId: FieldRef<"WalletFundingRequest", 'String'>
+    readonly createdAt: FieldRef<"WalletFundingRequest", 'DateTime'>
+    readonly updatedAt: FieldRef<"WalletFundingRequest", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WalletFundingRequest findUnique
+   */
+  export type WalletFundingRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletFundingRequest
+     */
+    select?: WalletFundingRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletFundingRequest
+     */
+    omit?: WalletFundingRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletFundingRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which WalletFundingRequest to fetch.
+     */
+    where: WalletFundingRequestWhereUniqueInput
+  }
+
+  /**
+   * WalletFundingRequest findUniqueOrThrow
+   */
+  export type WalletFundingRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletFundingRequest
+     */
+    select?: WalletFundingRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletFundingRequest
+     */
+    omit?: WalletFundingRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletFundingRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which WalletFundingRequest to fetch.
+     */
+    where: WalletFundingRequestWhereUniqueInput
+  }
+
+  /**
+   * WalletFundingRequest findFirst
+   */
+  export type WalletFundingRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletFundingRequest
+     */
+    select?: WalletFundingRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletFundingRequest
+     */
+    omit?: WalletFundingRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletFundingRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which WalletFundingRequest to fetch.
+     */
+    where?: WalletFundingRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WalletFundingRequests to fetch.
+     */
+    orderBy?: WalletFundingRequestOrderByWithRelationInput | WalletFundingRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WalletFundingRequests.
+     */
+    cursor?: WalletFundingRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WalletFundingRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WalletFundingRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WalletFundingRequests.
+     */
+    distinct?: WalletFundingRequestScalarFieldEnum | WalletFundingRequestScalarFieldEnum[]
+  }
+
+  /**
+   * WalletFundingRequest findFirstOrThrow
+   */
+  export type WalletFundingRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletFundingRequest
+     */
+    select?: WalletFundingRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletFundingRequest
+     */
+    omit?: WalletFundingRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletFundingRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which WalletFundingRequest to fetch.
+     */
+    where?: WalletFundingRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WalletFundingRequests to fetch.
+     */
+    orderBy?: WalletFundingRequestOrderByWithRelationInput | WalletFundingRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WalletFundingRequests.
+     */
+    cursor?: WalletFundingRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WalletFundingRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WalletFundingRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WalletFundingRequests.
+     */
+    distinct?: WalletFundingRequestScalarFieldEnum | WalletFundingRequestScalarFieldEnum[]
+  }
+
+  /**
+   * WalletFundingRequest findMany
+   */
+  export type WalletFundingRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletFundingRequest
+     */
+    select?: WalletFundingRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletFundingRequest
+     */
+    omit?: WalletFundingRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletFundingRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which WalletFundingRequests to fetch.
+     */
+    where?: WalletFundingRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WalletFundingRequests to fetch.
+     */
+    orderBy?: WalletFundingRequestOrderByWithRelationInput | WalletFundingRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WalletFundingRequests.
+     */
+    cursor?: WalletFundingRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WalletFundingRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WalletFundingRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WalletFundingRequests.
+     */
+    distinct?: WalletFundingRequestScalarFieldEnum | WalletFundingRequestScalarFieldEnum[]
+  }
+
+  /**
+   * WalletFundingRequest create
+   */
+  export type WalletFundingRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletFundingRequest
+     */
+    select?: WalletFundingRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletFundingRequest
+     */
+    omit?: WalletFundingRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletFundingRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to create a WalletFundingRequest.
+     */
+    data: XOR<WalletFundingRequestCreateInput, WalletFundingRequestUncheckedCreateInput>
+  }
+
+  /**
+   * WalletFundingRequest createMany
+   */
+  export type WalletFundingRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WalletFundingRequests.
+     */
+    data: WalletFundingRequestCreateManyInput | WalletFundingRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WalletFundingRequest createManyAndReturn
+   */
+  export type WalletFundingRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletFundingRequest
+     */
+    select?: WalletFundingRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletFundingRequest
+     */
+    omit?: WalletFundingRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many WalletFundingRequests.
+     */
+    data: WalletFundingRequestCreateManyInput | WalletFundingRequestCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletFundingRequestIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WalletFundingRequest update
+   */
+  export type WalletFundingRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletFundingRequest
+     */
+    select?: WalletFundingRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletFundingRequest
+     */
+    omit?: WalletFundingRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletFundingRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to update a WalletFundingRequest.
+     */
+    data: XOR<WalletFundingRequestUpdateInput, WalletFundingRequestUncheckedUpdateInput>
+    /**
+     * Choose, which WalletFundingRequest to update.
+     */
+    where: WalletFundingRequestWhereUniqueInput
+  }
+
+  /**
+   * WalletFundingRequest updateMany
+   */
+  export type WalletFundingRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WalletFundingRequests.
+     */
+    data: XOR<WalletFundingRequestUpdateManyMutationInput, WalletFundingRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which WalletFundingRequests to update
+     */
+    where?: WalletFundingRequestWhereInput
+    /**
+     * Limit how many WalletFundingRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WalletFundingRequest updateManyAndReturn
+   */
+  export type WalletFundingRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletFundingRequest
+     */
+    select?: WalletFundingRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletFundingRequest
+     */
+    omit?: WalletFundingRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update WalletFundingRequests.
+     */
+    data: XOR<WalletFundingRequestUpdateManyMutationInput, WalletFundingRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which WalletFundingRequests to update
+     */
+    where?: WalletFundingRequestWhereInput
+    /**
+     * Limit how many WalletFundingRequests to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletFundingRequestIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WalletFundingRequest upsert
+   */
+  export type WalletFundingRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletFundingRequest
+     */
+    select?: WalletFundingRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletFundingRequest
+     */
+    omit?: WalletFundingRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletFundingRequestInclude<ExtArgs> | null
+    /**
+     * The filter to search for the WalletFundingRequest to update in case it exists.
+     */
+    where: WalletFundingRequestWhereUniqueInput
+    /**
+     * In case the WalletFundingRequest found by the `where` argument doesn't exist, create a new WalletFundingRequest with this data.
+     */
+    create: XOR<WalletFundingRequestCreateInput, WalletFundingRequestUncheckedCreateInput>
+    /**
+     * In case the WalletFundingRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WalletFundingRequestUpdateInput, WalletFundingRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * WalletFundingRequest delete
+   */
+  export type WalletFundingRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletFundingRequest
+     */
+    select?: WalletFundingRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletFundingRequest
+     */
+    omit?: WalletFundingRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletFundingRequestInclude<ExtArgs> | null
+    /**
+     * Filter which WalletFundingRequest to delete.
+     */
+    where: WalletFundingRequestWhereUniqueInput
+  }
+
+  /**
+   * WalletFundingRequest deleteMany
+   */
+  export type WalletFundingRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WalletFundingRequests to delete
+     */
+    where?: WalletFundingRequestWhereInput
+    /**
+     * Limit how many WalletFundingRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * WalletFundingRequest without action
+   */
+  export type WalletFundingRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WalletFundingRequest
+     */
+    select?: WalletFundingRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WalletFundingRequest
+     */
+    omit?: WalletFundingRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WalletFundingRequestInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model LeaderboardSeason
    */
 
@@ -18509,6 +23350,7 @@ export namespace Prisma {
     captain?: boolean | UserDefaultArgs<ExtArgs>
     members?: boolean | Team$membersArgs<ExtArgs>
     registrations?: boolean | Team$registrationsArgs<ExtArgs>
+    matchLineups?: boolean | Team$matchLineupsArgs<ExtArgs>
     _count?: boolean | TeamCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["team"]>
 
@@ -18555,6 +23397,7 @@ export namespace Prisma {
     captain?: boolean | UserDefaultArgs<ExtArgs>
     members?: boolean | Team$membersArgs<ExtArgs>
     registrations?: boolean | Team$registrationsArgs<ExtArgs>
+    matchLineups?: boolean | Team$matchLineupsArgs<ExtArgs>
     _count?: boolean | TeamCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TeamIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -18570,6 +23413,7 @@ export namespace Prisma {
       captain: Prisma.$UserPayload<ExtArgs>
       members: Prisma.$TeamMemberPayload<ExtArgs>[]
       registrations: Prisma.$RegistrationPayload<ExtArgs>[]
+      matchLineups: Prisma.$TeamMatchLineupPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -18978,6 +23822,7 @@ export namespace Prisma {
     captain<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     members<T extends Team$membersArgs<ExtArgs> = {}>(args?: Subset<T, Team$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     registrations<T extends Team$registrationsArgs<ExtArgs> = {}>(args?: Subset<T, Team$registrationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RegistrationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    matchLineups<T extends Team$matchLineupsArgs<ExtArgs> = {}>(args?: Subset<T, Team$matchLineupsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMatchLineupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -19462,6 +24307,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RegistrationScalarFieldEnum | RegistrationScalarFieldEnum[]
+  }
+
+  /**
+   * Team.matchLineups
+   */
+  export type Team$matchLineupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMatchLineup
+     */
+    select?: TeamMatchLineupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMatchLineup
+     */
+    omit?: TeamMatchLineupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMatchLineupInclude<ExtArgs> | null
+    where?: TeamMatchLineupWhereInput
+    orderBy?: TeamMatchLineupOrderByWithRelationInput | TeamMatchLineupOrderByWithRelationInput[]
+    cursor?: TeamMatchLineupWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TeamMatchLineupScalarFieldEnum | TeamMatchLineupScalarFieldEnum[]
   }
 
   /**
@@ -20564,6 +25433,1133 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: TeamMemberInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TeamMatchLineup
+   */
+
+  export type AggregateTeamMatchLineup = {
+    _count: TeamMatchLineupCountAggregateOutputType | null
+    _min: TeamMatchLineupMinAggregateOutputType | null
+    _max: TeamMatchLineupMaxAggregateOutputType | null
+  }
+
+  export type TeamMatchLineupMinAggregateOutputType = {
+    id: string | null
+    matchId: string | null
+    registrationId: string | null
+    teamId: string | null
+    representativeUserId: string | null
+    submittedByUserId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TeamMatchLineupMaxAggregateOutputType = {
+    id: string | null
+    matchId: string | null
+    registrationId: string | null
+    teamId: string | null
+    representativeUserId: string | null
+    submittedByUserId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TeamMatchLineupCountAggregateOutputType = {
+    id: number
+    matchId: number
+    registrationId: number
+    teamId: number
+    memberUserIds: number
+    representativeUserId: number
+    submittedByUserId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TeamMatchLineupMinAggregateInputType = {
+    id?: true
+    matchId?: true
+    registrationId?: true
+    teamId?: true
+    representativeUserId?: true
+    submittedByUserId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TeamMatchLineupMaxAggregateInputType = {
+    id?: true
+    matchId?: true
+    registrationId?: true
+    teamId?: true
+    representativeUserId?: true
+    submittedByUserId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TeamMatchLineupCountAggregateInputType = {
+    id?: true
+    matchId?: true
+    registrationId?: true
+    teamId?: true
+    memberUserIds?: true
+    representativeUserId?: true
+    submittedByUserId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TeamMatchLineupAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TeamMatchLineup to aggregate.
+     */
+    where?: TeamMatchLineupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeamMatchLineups to fetch.
+     */
+    orderBy?: TeamMatchLineupOrderByWithRelationInput | TeamMatchLineupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TeamMatchLineupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeamMatchLineups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeamMatchLineups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TeamMatchLineups
+    **/
+    _count?: true | TeamMatchLineupCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TeamMatchLineupMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TeamMatchLineupMaxAggregateInputType
+  }
+
+  export type GetTeamMatchLineupAggregateType<T extends TeamMatchLineupAggregateArgs> = {
+        [P in keyof T & keyof AggregateTeamMatchLineup]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTeamMatchLineup[P]>
+      : GetScalarType<T[P], AggregateTeamMatchLineup[P]>
+  }
+
+
+
+
+  export type TeamMatchLineupGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TeamMatchLineupWhereInput
+    orderBy?: TeamMatchLineupOrderByWithAggregationInput | TeamMatchLineupOrderByWithAggregationInput[]
+    by: TeamMatchLineupScalarFieldEnum[] | TeamMatchLineupScalarFieldEnum
+    having?: TeamMatchLineupScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TeamMatchLineupCountAggregateInputType | true
+    _min?: TeamMatchLineupMinAggregateInputType
+    _max?: TeamMatchLineupMaxAggregateInputType
+  }
+
+  export type TeamMatchLineupGroupByOutputType = {
+    id: string
+    matchId: string
+    registrationId: string
+    teamId: string
+    memberUserIds: JsonValue
+    representativeUserId: string
+    submittedByUserId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: TeamMatchLineupCountAggregateOutputType | null
+    _min: TeamMatchLineupMinAggregateOutputType | null
+    _max: TeamMatchLineupMaxAggregateOutputType | null
+  }
+
+  type GetTeamMatchLineupGroupByPayload<T extends TeamMatchLineupGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TeamMatchLineupGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TeamMatchLineupGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TeamMatchLineupGroupByOutputType[P]>
+            : GetScalarType<T[P], TeamMatchLineupGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TeamMatchLineupSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    matchId?: boolean
+    registrationId?: boolean
+    teamId?: boolean
+    memberUserIds?: boolean
+    representativeUserId?: boolean
+    submittedByUserId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    match?: boolean | MatchDefaultArgs<ExtArgs>
+    registration?: boolean | RegistrationDefaultArgs<ExtArgs>
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["teamMatchLineup"]>
+
+  export type TeamMatchLineupSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    matchId?: boolean
+    registrationId?: boolean
+    teamId?: boolean
+    memberUserIds?: boolean
+    representativeUserId?: boolean
+    submittedByUserId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    match?: boolean | MatchDefaultArgs<ExtArgs>
+    registration?: boolean | RegistrationDefaultArgs<ExtArgs>
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["teamMatchLineup"]>
+
+  export type TeamMatchLineupSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    matchId?: boolean
+    registrationId?: boolean
+    teamId?: boolean
+    memberUserIds?: boolean
+    representativeUserId?: boolean
+    submittedByUserId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    match?: boolean | MatchDefaultArgs<ExtArgs>
+    registration?: boolean | RegistrationDefaultArgs<ExtArgs>
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["teamMatchLineup"]>
+
+  export type TeamMatchLineupSelectScalar = {
+    id?: boolean
+    matchId?: boolean
+    registrationId?: boolean
+    teamId?: boolean
+    memberUserIds?: boolean
+    representativeUserId?: boolean
+    submittedByUserId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TeamMatchLineupOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "matchId" | "registrationId" | "teamId" | "memberUserIds" | "representativeUserId" | "submittedByUserId" | "createdAt" | "updatedAt", ExtArgs["result"]["teamMatchLineup"]>
+  export type TeamMatchLineupInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    match?: boolean | MatchDefaultArgs<ExtArgs>
+    registration?: boolean | RegistrationDefaultArgs<ExtArgs>
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }
+  export type TeamMatchLineupIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    match?: boolean | MatchDefaultArgs<ExtArgs>
+    registration?: boolean | RegistrationDefaultArgs<ExtArgs>
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }
+  export type TeamMatchLineupIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    match?: boolean | MatchDefaultArgs<ExtArgs>
+    registration?: boolean | RegistrationDefaultArgs<ExtArgs>
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }
+
+  export type $TeamMatchLineupPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TeamMatchLineup"
+    objects: {
+      match: Prisma.$MatchPayload<ExtArgs>
+      registration: Prisma.$RegistrationPayload<ExtArgs>
+      team: Prisma.$TeamPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      matchId: string
+      registrationId: string
+      teamId: string
+      memberUserIds: Prisma.JsonValue
+      representativeUserId: string
+      submittedByUserId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["teamMatchLineup"]>
+    composites: {}
+  }
+
+  type TeamMatchLineupGetPayload<S extends boolean | null | undefined | TeamMatchLineupDefaultArgs> = $Result.GetResult<Prisma.$TeamMatchLineupPayload, S>
+
+  type TeamMatchLineupCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TeamMatchLineupFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TeamMatchLineupCountAggregateInputType | true
+    }
+
+  export interface TeamMatchLineupDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TeamMatchLineup'], meta: { name: 'TeamMatchLineup' } }
+    /**
+     * Find zero or one TeamMatchLineup that matches the filter.
+     * @param {TeamMatchLineupFindUniqueArgs} args - Arguments to find a TeamMatchLineup
+     * @example
+     * // Get one TeamMatchLineup
+     * const teamMatchLineup = await prisma.teamMatchLineup.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TeamMatchLineupFindUniqueArgs>(args: SelectSubset<T, TeamMatchLineupFindUniqueArgs<ExtArgs>>): Prisma__TeamMatchLineupClient<$Result.GetResult<Prisma.$TeamMatchLineupPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TeamMatchLineup that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TeamMatchLineupFindUniqueOrThrowArgs} args - Arguments to find a TeamMatchLineup
+     * @example
+     * // Get one TeamMatchLineup
+     * const teamMatchLineup = await prisma.teamMatchLineup.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TeamMatchLineupFindUniqueOrThrowArgs>(args: SelectSubset<T, TeamMatchLineupFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TeamMatchLineupClient<$Result.GetResult<Prisma.$TeamMatchLineupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TeamMatchLineup that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamMatchLineupFindFirstArgs} args - Arguments to find a TeamMatchLineup
+     * @example
+     * // Get one TeamMatchLineup
+     * const teamMatchLineup = await prisma.teamMatchLineup.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TeamMatchLineupFindFirstArgs>(args?: SelectSubset<T, TeamMatchLineupFindFirstArgs<ExtArgs>>): Prisma__TeamMatchLineupClient<$Result.GetResult<Prisma.$TeamMatchLineupPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TeamMatchLineup that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamMatchLineupFindFirstOrThrowArgs} args - Arguments to find a TeamMatchLineup
+     * @example
+     * // Get one TeamMatchLineup
+     * const teamMatchLineup = await prisma.teamMatchLineup.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TeamMatchLineupFindFirstOrThrowArgs>(args?: SelectSubset<T, TeamMatchLineupFindFirstOrThrowArgs<ExtArgs>>): Prisma__TeamMatchLineupClient<$Result.GetResult<Prisma.$TeamMatchLineupPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TeamMatchLineups that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamMatchLineupFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TeamMatchLineups
+     * const teamMatchLineups = await prisma.teamMatchLineup.findMany()
+     * 
+     * // Get first 10 TeamMatchLineups
+     * const teamMatchLineups = await prisma.teamMatchLineup.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const teamMatchLineupWithIdOnly = await prisma.teamMatchLineup.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TeamMatchLineupFindManyArgs>(args?: SelectSubset<T, TeamMatchLineupFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMatchLineupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TeamMatchLineup.
+     * @param {TeamMatchLineupCreateArgs} args - Arguments to create a TeamMatchLineup.
+     * @example
+     * // Create one TeamMatchLineup
+     * const TeamMatchLineup = await prisma.teamMatchLineup.create({
+     *   data: {
+     *     // ... data to create a TeamMatchLineup
+     *   }
+     * })
+     * 
+     */
+    create<T extends TeamMatchLineupCreateArgs>(args: SelectSubset<T, TeamMatchLineupCreateArgs<ExtArgs>>): Prisma__TeamMatchLineupClient<$Result.GetResult<Prisma.$TeamMatchLineupPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TeamMatchLineups.
+     * @param {TeamMatchLineupCreateManyArgs} args - Arguments to create many TeamMatchLineups.
+     * @example
+     * // Create many TeamMatchLineups
+     * const teamMatchLineup = await prisma.teamMatchLineup.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TeamMatchLineupCreateManyArgs>(args?: SelectSubset<T, TeamMatchLineupCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TeamMatchLineups and returns the data saved in the database.
+     * @param {TeamMatchLineupCreateManyAndReturnArgs} args - Arguments to create many TeamMatchLineups.
+     * @example
+     * // Create many TeamMatchLineups
+     * const teamMatchLineup = await prisma.teamMatchLineup.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TeamMatchLineups and only return the `id`
+     * const teamMatchLineupWithIdOnly = await prisma.teamMatchLineup.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TeamMatchLineupCreateManyAndReturnArgs>(args?: SelectSubset<T, TeamMatchLineupCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMatchLineupPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TeamMatchLineup.
+     * @param {TeamMatchLineupDeleteArgs} args - Arguments to delete one TeamMatchLineup.
+     * @example
+     * // Delete one TeamMatchLineup
+     * const TeamMatchLineup = await prisma.teamMatchLineup.delete({
+     *   where: {
+     *     // ... filter to delete one TeamMatchLineup
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TeamMatchLineupDeleteArgs>(args: SelectSubset<T, TeamMatchLineupDeleteArgs<ExtArgs>>): Prisma__TeamMatchLineupClient<$Result.GetResult<Prisma.$TeamMatchLineupPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TeamMatchLineup.
+     * @param {TeamMatchLineupUpdateArgs} args - Arguments to update one TeamMatchLineup.
+     * @example
+     * // Update one TeamMatchLineup
+     * const teamMatchLineup = await prisma.teamMatchLineup.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TeamMatchLineupUpdateArgs>(args: SelectSubset<T, TeamMatchLineupUpdateArgs<ExtArgs>>): Prisma__TeamMatchLineupClient<$Result.GetResult<Prisma.$TeamMatchLineupPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TeamMatchLineups.
+     * @param {TeamMatchLineupDeleteManyArgs} args - Arguments to filter TeamMatchLineups to delete.
+     * @example
+     * // Delete a few TeamMatchLineups
+     * const { count } = await prisma.teamMatchLineup.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TeamMatchLineupDeleteManyArgs>(args?: SelectSubset<T, TeamMatchLineupDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TeamMatchLineups.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamMatchLineupUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TeamMatchLineups
+     * const teamMatchLineup = await prisma.teamMatchLineup.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TeamMatchLineupUpdateManyArgs>(args: SelectSubset<T, TeamMatchLineupUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TeamMatchLineups and returns the data updated in the database.
+     * @param {TeamMatchLineupUpdateManyAndReturnArgs} args - Arguments to update many TeamMatchLineups.
+     * @example
+     * // Update many TeamMatchLineups
+     * const teamMatchLineup = await prisma.teamMatchLineup.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TeamMatchLineups and only return the `id`
+     * const teamMatchLineupWithIdOnly = await prisma.teamMatchLineup.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TeamMatchLineupUpdateManyAndReturnArgs>(args: SelectSubset<T, TeamMatchLineupUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMatchLineupPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TeamMatchLineup.
+     * @param {TeamMatchLineupUpsertArgs} args - Arguments to update or create a TeamMatchLineup.
+     * @example
+     * // Update or create a TeamMatchLineup
+     * const teamMatchLineup = await prisma.teamMatchLineup.upsert({
+     *   create: {
+     *     // ... data to create a TeamMatchLineup
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TeamMatchLineup we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TeamMatchLineupUpsertArgs>(args: SelectSubset<T, TeamMatchLineupUpsertArgs<ExtArgs>>): Prisma__TeamMatchLineupClient<$Result.GetResult<Prisma.$TeamMatchLineupPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TeamMatchLineups.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamMatchLineupCountArgs} args - Arguments to filter TeamMatchLineups to count.
+     * @example
+     * // Count the number of TeamMatchLineups
+     * const count = await prisma.teamMatchLineup.count({
+     *   where: {
+     *     // ... the filter for the TeamMatchLineups we want to count
+     *   }
+     * })
+    **/
+    count<T extends TeamMatchLineupCountArgs>(
+      args?: Subset<T, TeamMatchLineupCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TeamMatchLineupCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TeamMatchLineup.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamMatchLineupAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TeamMatchLineupAggregateArgs>(args: Subset<T, TeamMatchLineupAggregateArgs>): Prisma.PrismaPromise<GetTeamMatchLineupAggregateType<T>>
+
+    /**
+     * Group by TeamMatchLineup.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamMatchLineupGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TeamMatchLineupGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TeamMatchLineupGroupByArgs['orderBy'] }
+        : { orderBy?: TeamMatchLineupGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TeamMatchLineupGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTeamMatchLineupGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TeamMatchLineup model
+   */
+  readonly fields: TeamMatchLineupFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TeamMatchLineup.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TeamMatchLineupClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    match<T extends MatchDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MatchDefaultArgs<ExtArgs>>): Prisma__MatchClient<$Result.GetResult<Prisma.$MatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    registration<T extends RegistrationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RegistrationDefaultArgs<ExtArgs>>): Prisma__RegistrationClient<$Result.GetResult<Prisma.$RegistrationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    team<T extends TeamDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TeamDefaultArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TeamMatchLineup model
+   */
+  interface TeamMatchLineupFieldRefs {
+    readonly id: FieldRef<"TeamMatchLineup", 'String'>
+    readonly matchId: FieldRef<"TeamMatchLineup", 'String'>
+    readonly registrationId: FieldRef<"TeamMatchLineup", 'String'>
+    readonly teamId: FieldRef<"TeamMatchLineup", 'String'>
+    readonly memberUserIds: FieldRef<"TeamMatchLineup", 'Json'>
+    readonly representativeUserId: FieldRef<"TeamMatchLineup", 'String'>
+    readonly submittedByUserId: FieldRef<"TeamMatchLineup", 'String'>
+    readonly createdAt: FieldRef<"TeamMatchLineup", 'DateTime'>
+    readonly updatedAt: FieldRef<"TeamMatchLineup", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TeamMatchLineup findUnique
+   */
+  export type TeamMatchLineupFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMatchLineup
+     */
+    select?: TeamMatchLineupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMatchLineup
+     */
+    omit?: TeamMatchLineupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMatchLineupInclude<ExtArgs> | null
+    /**
+     * Filter, which TeamMatchLineup to fetch.
+     */
+    where: TeamMatchLineupWhereUniqueInput
+  }
+
+  /**
+   * TeamMatchLineup findUniqueOrThrow
+   */
+  export type TeamMatchLineupFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMatchLineup
+     */
+    select?: TeamMatchLineupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMatchLineup
+     */
+    omit?: TeamMatchLineupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMatchLineupInclude<ExtArgs> | null
+    /**
+     * Filter, which TeamMatchLineup to fetch.
+     */
+    where: TeamMatchLineupWhereUniqueInput
+  }
+
+  /**
+   * TeamMatchLineup findFirst
+   */
+  export type TeamMatchLineupFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMatchLineup
+     */
+    select?: TeamMatchLineupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMatchLineup
+     */
+    omit?: TeamMatchLineupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMatchLineupInclude<ExtArgs> | null
+    /**
+     * Filter, which TeamMatchLineup to fetch.
+     */
+    where?: TeamMatchLineupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeamMatchLineups to fetch.
+     */
+    orderBy?: TeamMatchLineupOrderByWithRelationInput | TeamMatchLineupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TeamMatchLineups.
+     */
+    cursor?: TeamMatchLineupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeamMatchLineups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeamMatchLineups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TeamMatchLineups.
+     */
+    distinct?: TeamMatchLineupScalarFieldEnum | TeamMatchLineupScalarFieldEnum[]
+  }
+
+  /**
+   * TeamMatchLineup findFirstOrThrow
+   */
+  export type TeamMatchLineupFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMatchLineup
+     */
+    select?: TeamMatchLineupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMatchLineup
+     */
+    omit?: TeamMatchLineupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMatchLineupInclude<ExtArgs> | null
+    /**
+     * Filter, which TeamMatchLineup to fetch.
+     */
+    where?: TeamMatchLineupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeamMatchLineups to fetch.
+     */
+    orderBy?: TeamMatchLineupOrderByWithRelationInput | TeamMatchLineupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TeamMatchLineups.
+     */
+    cursor?: TeamMatchLineupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeamMatchLineups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeamMatchLineups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TeamMatchLineups.
+     */
+    distinct?: TeamMatchLineupScalarFieldEnum | TeamMatchLineupScalarFieldEnum[]
+  }
+
+  /**
+   * TeamMatchLineup findMany
+   */
+  export type TeamMatchLineupFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMatchLineup
+     */
+    select?: TeamMatchLineupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMatchLineup
+     */
+    omit?: TeamMatchLineupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMatchLineupInclude<ExtArgs> | null
+    /**
+     * Filter, which TeamMatchLineups to fetch.
+     */
+    where?: TeamMatchLineupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeamMatchLineups to fetch.
+     */
+    orderBy?: TeamMatchLineupOrderByWithRelationInput | TeamMatchLineupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TeamMatchLineups.
+     */
+    cursor?: TeamMatchLineupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeamMatchLineups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeamMatchLineups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TeamMatchLineups.
+     */
+    distinct?: TeamMatchLineupScalarFieldEnum | TeamMatchLineupScalarFieldEnum[]
+  }
+
+  /**
+   * TeamMatchLineup create
+   */
+  export type TeamMatchLineupCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMatchLineup
+     */
+    select?: TeamMatchLineupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMatchLineup
+     */
+    omit?: TeamMatchLineupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMatchLineupInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TeamMatchLineup.
+     */
+    data: XOR<TeamMatchLineupCreateInput, TeamMatchLineupUncheckedCreateInput>
+  }
+
+  /**
+   * TeamMatchLineup createMany
+   */
+  export type TeamMatchLineupCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TeamMatchLineups.
+     */
+    data: TeamMatchLineupCreateManyInput | TeamMatchLineupCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TeamMatchLineup createManyAndReturn
+   */
+  export type TeamMatchLineupCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMatchLineup
+     */
+    select?: TeamMatchLineupSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMatchLineup
+     */
+    omit?: TeamMatchLineupOmit<ExtArgs> | null
+    /**
+     * The data used to create many TeamMatchLineups.
+     */
+    data: TeamMatchLineupCreateManyInput | TeamMatchLineupCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMatchLineupIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TeamMatchLineup update
+   */
+  export type TeamMatchLineupUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMatchLineup
+     */
+    select?: TeamMatchLineupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMatchLineup
+     */
+    omit?: TeamMatchLineupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMatchLineupInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TeamMatchLineup.
+     */
+    data: XOR<TeamMatchLineupUpdateInput, TeamMatchLineupUncheckedUpdateInput>
+    /**
+     * Choose, which TeamMatchLineup to update.
+     */
+    where: TeamMatchLineupWhereUniqueInput
+  }
+
+  /**
+   * TeamMatchLineup updateMany
+   */
+  export type TeamMatchLineupUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TeamMatchLineups.
+     */
+    data: XOR<TeamMatchLineupUpdateManyMutationInput, TeamMatchLineupUncheckedUpdateManyInput>
+    /**
+     * Filter which TeamMatchLineups to update
+     */
+    where?: TeamMatchLineupWhereInput
+    /**
+     * Limit how many TeamMatchLineups to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TeamMatchLineup updateManyAndReturn
+   */
+  export type TeamMatchLineupUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMatchLineup
+     */
+    select?: TeamMatchLineupSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMatchLineup
+     */
+    omit?: TeamMatchLineupOmit<ExtArgs> | null
+    /**
+     * The data used to update TeamMatchLineups.
+     */
+    data: XOR<TeamMatchLineupUpdateManyMutationInput, TeamMatchLineupUncheckedUpdateManyInput>
+    /**
+     * Filter which TeamMatchLineups to update
+     */
+    where?: TeamMatchLineupWhereInput
+    /**
+     * Limit how many TeamMatchLineups to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMatchLineupIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TeamMatchLineup upsert
+   */
+  export type TeamMatchLineupUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMatchLineup
+     */
+    select?: TeamMatchLineupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMatchLineup
+     */
+    omit?: TeamMatchLineupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMatchLineupInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TeamMatchLineup to update in case it exists.
+     */
+    where: TeamMatchLineupWhereUniqueInput
+    /**
+     * In case the TeamMatchLineup found by the `where` argument doesn't exist, create a new TeamMatchLineup with this data.
+     */
+    create: XOR<TeamMatchLineupCreateInput, TeamMatchLineupUncheckedCreateInput>
+    /**
+     * In case the TeamMatchLineup was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TeamMatchLineupUpdateInput, TeamMatchLineupUncheckedUpdateInput>
+  }
+
+  /**
+   * TeamMatchLineup delete
+   */
+  export type TeamMatchLineupDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMatchLineup
+     */
+    select?: TeamMatchLineupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMatchLineup
+     */
+    omit?: TeamMatchLineupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMatchLineupInclude<ExtArgs> | null
+    /**
+     * Filter which TeamMatchLineup to delete.
+     */
+    where: TeamMatchLineupWhereUniqueInput
+  }
+
+  /**
+   * TeamMatchLineup deleteMany
+   */
+  export type TeamMatchLineupDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TeamMatchLineups to delete
+     */
+    where?: TeamMatchLineupWhereInput
+    /**
+     * Limit how many TeamMatchLineups to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TeamMatchLineup without action
+   */
+  export type TeamMatchLineupDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMatchLineup
+     */
+    select?: TeamMatchLineupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMatchLineup
+     */
+    omit?: TeamMatchLineupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMatchLineupInclude<ExtArgs> | null
   }
 
 
@@ -22683,6 +28679,5701 @@ export namespace Prisma {
 
 
   /**
+   * Model PenaltyShootoutResult
+   */
+
+  export type AggregatePenaltyShootoutResult = {
+    _count: PenaltyShootoutResultCountAggregateOutputType | null
+    _avg: PenaltyShootoutResultAvgAggregateOutputType | null
+    _sum: PenaltyShootoutResultSumAggregateOutputType | null
+    _min: PenaltyShootoutResultMinAggregateOutputType | null
+    _max: PenaltyShootoutResultMaxAggregateOutputType | null
+  }
+
+  export type PenaltyShootoutResultAvgAggregateOutputType = {
+    score: number | null
+    suddenDeathScore: number | null
+    totalShots: number | null
+    auditVersion: number | null
+  }
+
+  export type PenaltyShootoutResultSumAggregateOutputType = {
+    score: number | null
+    suddenDeathScore: number | null
+    totalShots: number | null
+    auditVersion: number | null
+  }
+
+  export type PenaltyShootoutResultMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    matchId: string | null
+    score: number | null
+    suddenDeathScore: number | null
+    totalShots: number | null
+    isWinner: boolean | null
+    auditVersion: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PenaltyShootoutResultMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    matchId: string | null
+    score: number | null
+    suddenDeathScore: number | null
+    totalShots: number | null
+    isWinner: boolean | null
+    auditVersion: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PenaltyShootoutResultCountAggregateOutputType = {
+    id: number
+    userId: number
+    matchId: number
+    score: number
+    suddenDeathScore: number
+    totalShots: number
+    shotsJson: number
+    suddenDeathShotsJson: number
+    isWinner: number
+    auditVersion: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PenaltyShootoutResultAvgAggregateInputType = {
+    score?: true
+    suddenDeathScore?: true
+    totalShots?: true
+    auditVersion?: true
+  }
+
+  export type PenaltyShootoutResultSumAggregateInputType = {
+    score?: true
+    suddenDeathScore?: true
+    totalShots?: true
+    auditVersion?: true
+  }
+
+  export type PenaltyShootoutResultMinAggregateInputType = {
+    id?: true
+    userId?: true
+    matchId?: true
+    score?: true
+    suddenDeathScore?: true
+    totalShots?: true
+    isWinner?: true
+    auditVersion?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PenaltyShootoutResultMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    matchId?: true
+    score?: true
+    suddenDeathScore?: true
+    totalShots?: true
+    isWinner?: true
+    auditVersion?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PenaltyShootoutResultCountAggregateInputType = {
+    id?: true
+    userId?: true
+    matchId?: true
+    score?: true
+    suddenDeathScore?: true
+    totalShots?: true
+    shotsJson?: true
+    suddenDeathShotsJson?: true
+    isWinner?: true
+    auditVersion?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PenaltyShootoutResultAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PenaltyShootoutResult to aggregate.
+     */
+    where?: PenaltyShootoutResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PenaltyShootoutResults to fetch.
+     */
+    orderBy?: PenaltyShootoutResultOrderByWithRelationInput | PenaltyShootoutResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PenaltyShootoutResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PenaltyShootoutResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PenaltyShootoutResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PenaltyShootoutResults
+    **/
+    _count?: true | PenaltyShootoutResultCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PenaltyShootoutResultAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PenaltyShootoutResultSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PenaltyShootoutResultMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PenaltyShootoutResultMaxAggregateInputType
+  }
+
+  export type GetPenaltyShootoutResultAggregateType<T extends PenaltyShootoutResultAggregateArgs> = {
+        [P in keyof T & keyof AggregatePenaltyShootoutResult]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePenaltyShootoutResult[P]>
+      : GetScalarType<T[P], AggregatePenaltyShootoutResult[P]>
+  }
+
+
+
+
+  export type PenaltyShootoutResultGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PenaltyShootoutResultWhereInput
+    orderBy?: PenaltyShootoutResultOrderByWithAggregationInput | PenaltyShootoutResultOrderByWithAggregationInput[]
+    by: PenaltyShootoutResultScalarFieldEnum[] | PenaltyShootoutResultScalarFieldEnum
+    having?: PenaltyShootoutResultScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PenaltyShootoutResultCountAggregateInputType | true
+    _avg?: PenaltyShootoutResultAvgAggregateInputType
+    _sum?: PenaltyShootoutResultSumAggregateInputType
+    _min?: PenaltyShootoutResultMinAggregateInputType
+    _max?: PenaltyShootoutResultMaxAggregateInputType
+  }
+
+  export type PenaltyShootoutResultGroupByOutputType = {
+    id: string
+    userId: string
+    matchId: string | null
+    score: number
+    suddenDeathScore: number
+    totalShots: number
+    shotsJson: JsonValue
+    suddenDeathShotsJson: JsonValue
+    isWinner: boolean
+    auditVersion: number
+    createdAt: Date
+    updatedAt: Date
+    _count: PenaltyShootoutResultCountAggregateOutputType | null
+    _avg: PenaltyShootoutResultAvgAggregateOutputType | null
+    _sum: PenaltyShootoutResultSumAggregateOutputType | null
+    _min: PenaltyShootoutResultMinAggregateOutputType | null
+    _max: PenaltyShootoutResultMaxAggregateOutputType | null
+  }
+
+  type GetPenaltyShootoutResultGroupByPayload<T extends PenaltyShootoutResultGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PenaltyShootoutResultGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PenaltyShootoutResultGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PenaltyShootoutResultGroupByOutputType[P]>
+            : GetScalarType<T[P], PenaltyShootoutResultGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PenaltyShootoutResultSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    matchId?: boolean
+    score?: boolean
+    suddenDeathScore?: boolean
+    totalShots?: boolean
+    shotsJson?: boolean
+    suddenDeathShotsJson?: boolean
+    isWinner?: boolean
+    auditVersion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    match?: boolean | PenaltyShootoutResult$matchArgs<ExtArgs>
+  }, ExtArgs["result"]["penaltyShootoutResult"]>
+
+  export type PenaltyShootoutResultSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    matchId?: boolean
+    score?: boolean
+    suddenDeathScore?: boolean
+    totalShots?: boolean
+    shotsJson?: boolean
+    suddenDeathShotsJson?: boolean
+    isWinner?: boolean
+    auditVersion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    match?: boolean | PenaltyShootoutResult$matchArgs<ExtArgs>
+  }, ExtArgs["result"]["penaltyShootoutResult"]>
+
+  export type PenaltyShootoutResultSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    matchId?: boolean
+    score?: boolean
+    suddenDeathScore?: boolean
+    totalShots?: boolean
+    shotsJson?: boolean
+    suddenDeathShotsJson?: boolean
+    isWinner?: boolean
+    auditVersion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    match?: boolean | PenaltyShootoutResult$matchArgs<ExtArgs>
+  }, ExtArgs["result"]["penaltyShootoutResult"]>
+
+  export type PenaltyShootoutResultSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    matchId?: boolean
+    score?: boolean
+    suddenDeathScore?: boolean
+    totalShots?: boolean
+    shotsJson?: boolean
+    suddenDeathShotsJson?: boolean
+    isWinner?: boolean
+    auditVersion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PenaltyShootoutResultOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "matchId" | "score" | "suddenDeathScore" | "totalShots" | "shotsJson" | "suddenDeathShotsJson" | "isWinner" | "auditVersion" | "createdAt" | "updatedAt", ExtArgs["result"]["penaltyShootoutResult"]>
+  export type PenaltyShootoutResultInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    match?: boolean | PenaltyShootoutResult$matchArgs<ExtArgs>
+  }
+  export type PenaltyShootoutResultIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    match?: boolean | PenaltyShootoutResult$matchArgs<ExtArgs>
+  }
+  export type PenaltyShootoutResultIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    match?: boolean | PenaltyShootoutResult$matchArgs<ExtArgs>
+  }
+
+  export type $PenaltyShootoutResultPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PenaltyShootoutResult"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      match: Prisma.$MatchPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      matchId: string | null
+      score: number
+      suddenDeathScore: number
+      totalShots: number
+      shotsJson: Prisma.JsonValue
+      suddenDeathShotsJson: Prisma.JsonValue
+      isWinner: boolean
+      auditVersion: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["penaltyShootoutResult"]>
+    composites: {}
+  }
+
+  type PenaltyShootoutResultGetPayload<S extends boolean | null | undefined | PenaltyShootoutResultDefaultArgs> = $Result.GetResult<Prisma.$PenaltyShootoutResultPayload, S>
+
+  type PenaltyShootoutResultCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PenaltyShootoutResultFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PenaltyShootoutResultCountAggregateInputType | true
+    }
+
+  export interface PenaltyShootoutResultDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PenaltyShootoutResult'], meta: { name: 'PenaltyShootoutResult' } }
+    /**
+     * Find zero or one PenaltyShootoutResult that matches the filter.
+     * @param {PenaltyShootoutResultFindUniqueArgs} args - Arguments to find a PenaltyShootoutResult
+     * @example
+     * // Get one PenaltyShootoutResult
+     * const penaltyShootoutResult = await prisma.penaltyShootoutResult.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PenaltyShootoutResultFindUniqueArgs>(args: SelectSubset<T, PenaltyShootoutResultFindUniqueArgs<ExtArgs>>): Prisma__PenaltyShootoutResultClient<$Result.GetResult<Prisma.$PenaltyShootoutResultPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PenaltyShootoutResult that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PenaltyShootoutResultFindUniqueOrThrowArgs} args - Arguments to find a PenaltyShootoutResult
+     * @example
+     * // Get one PenaltyShootoutResult
+     * const penaltyShootoutResult = await prisma.penaltyShootoutResult.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PenaltyShootoutResultFindUniqueOrThrowArgs>(args: SelectSubset<T, PenaltyShootoutResultFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PenaltyShootoutResultClient<$Result.GetResult<Prisma.$PenaltyShootoutResultPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PenaltyShootoutResult that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenaltyShootoutResultFindFirstArgs} args - Arguments to find a PenaltyShootoutResult
+     * @example
+     * // Get one PenaltyShootoutResult
+     * const penaltyShootoutResult = await prisma.penaltyShootoutResult.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PenaltyShootoutResultFindFirstArgs>(args?: SelectSubset<T, PenaltyShootoutResultFindFirstArgs<ExtArgs>>): Prisma__PenaltyShootoutResultClient<$Result.GetResult<Prisma.$PenaltyShootoutResultPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PenaltyShootoutResult that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenaltyShootoutResultFindFirstOrThrowArgs} args - Arguments to find a PenaltyShootoutResult
+     * @example
+     * // Get one PenaltyShootoutResult
+     * const penaltyShootoutResult = await prisma.penaltyShootoutResult.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PenaltyShootoutResultFindFirstOrThrowArgs>(args?: SelectSubset<T, PenaltyShootoutResultFindFirstOrThrowArgs<ExtArgs>>): Prisma__PenaltyShootoutResultClient<$Result.GetResult<Prisma.$PenaltyShootoutResultPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PenaltyShootoutResults that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenaltyShootoutResultFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PenaltyShootoutResults
+     * const penaltyShootoutResults = await prisma.penaltyShootoutResult.findMany()
+     * 
+     * // Get first 10 PenaltyShootoutResults
+     * const penaltyShootoutResults = await prisma.penaltyShootoutResult.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const penaltyShootoutResultWithIdOnly = await prisma.penaltyShootoutResult.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PenaltyShootoutResultFindManyArgs>(args?: SelectSubset<T, PenaltyShootoutResultFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PenaltyShootoutResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PenaltyShootoutResult.
+     * @param {PenaltyShootoutResultCreateArgs} args - Arguments to create a PenaltyShootoutResult.
+     * @example
+     * // Create one PenaltyShootoutResult
+     * const PenaltyShootoutResult = await prisma.penaltyShootoutResult.create({
+     *   data: {
+     *     // ... data to create a PenaltyShootoutResult
+     *   }
+     * })
+     * 
+     */
+    create<T extends PenaltyShootoutResultCreateArgs>(args: SelectSubset<T, PenaltyShootoutResultCreateArgs<ExtArgs>>): Prisma__PenaltyShootoutResultClient<$Result.GetResult<Prisma.$PenaltyShootoutResultPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PenaltyShootoutResults.
+     * @param {PenaltyShootoutResultCreateManyArgs} args - Arguments to create many PenaltyShootoutResults.
+     * @example
+     * // Create many PenaltyShootoutResults
+     * const penaltyShootoutResult = await prisma.penaltyShootoutResult.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PenaltyShootoutResultCreateManyArgs>(args?: SelectSubset<T, PenaltyShootoutResultCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PenaltyShootoutResults and returns the data saved in the database.
+     * @param {PenaltyShootoutResultCreateManyAndReturnArgs} args - Arguments to create many PenaltyShootoutResults.
+     * @example
+     * // Create many PenaltyShootoutResults
+     * const penaltyShootoutResult = await prisma.penaltyShootoutResult.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PenaltyShootoutResults and only return the `id`
+     * const penaltyShootoutResultWithIdOnly = await prisma.penaltyShootoutResult.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PenaltyShootoutResultCreateManyAndReturnArgs>(args?: SelectSubset<T, PenaltyShootoutResultCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PenaltyShootoutResultPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PenaltyShootoutResult.
+     * @param {PenaltyShootoutResultDeleteArgs} args - Arguments to delete one PenaltyShootoutResult.
+     * @example
+     * // Delete one PenaltyShootoutResult
+     * const PenaltyShootoutResult = await prisma.penaltyShootoutResult.delete({
+     *   where: {
+     *     // ... filter to delete one PenaltyShootoutResult
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PenaltyShootoutResultDeleteArgs>(args: SelectSubset<T, PenaltyShootoutResultDeleteArgs<ExtArgs>>): Prisma__PenaltyShootoutResultClient<$Result.GetResult<Prisma.$PenaltyShootoutResultPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PenaltyShootoutResult.
+     * @param {PenaltyShootoutResultUpdateArgs} args - Arguments to update one PenaltyShootoutResult.
+     * @example
+     * // Update one PenaltyShootoutResult
+     * const penaltyShootoutResult = await prisma.penaltyShootoutResult.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PenaltyShootoutResultUpdateArgs>(args: SelectSubset<T, PenaltyShootoutResultUpdateArgs<ExtArgs>>): Prisma__PenaltyShootoutResultClient<$Result.GetResult<Prisma.$PenaltyShootoutResultPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PenaltyShootoutResults.
+     * @param {PenaltyShootoutResultDeleteManyArgs} args - Arguments to filter PenaltyShootoutResults to delete.
+     * @example
+     * // Delete a few PenaltyShootoutResults
+     * const { count } = await prisma.penaltyShootoutResult.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PenaltyShootoutResultDeleteManyArgs>(args?: SelectSubset<T, PenaltyShootoutResultDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PenaltyShootoutResults.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenaltyShootoutResultUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PenaltyShootoutResults
+     * const penaltyShootoutResult = await prisma.penaltyShootoutResult.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PenaltyShootoutResultUpdateManyArgs>(args: SelectSubset<T, PenaltyShootoutResultUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PenaltyShootoutResults and returns the data updated in the database.
+     * @param {PenaltyShootoutResultUpdateManyAndReturnArgs} args - Arguments to update many PenaltyShootoutResults.
+     * @example
+     * // Update many PenaltyShootoutResults
+     * const penaltyShootoutResult = await prisma.penaltyShootoutResult.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PenaltyShootoutResults and only return the `id`
+     * const penaltyShootoutResultWithIdOnly = await prisma.penaltyShootoutResult.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PenaltyShootoutResultUpdateManyAndReturnArgs>(args: SelectSubset<T, PenaltyShootoutResultUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PenaltyShootoutResultPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PenaltyShootoutResult.
+     * @param {PenaltyShootoutResultUpsertArgs} args - Arguments to update or create a PenaltyShootoutResult.
+     * @example
+     * // Update or create a PenaltyShootoutResult
+     * const penaltyShootoutResult = await prisma.penaltyShootoutResult.upsert({
+     *   create: {
+     *     // ... data to create a PenaltyShootoutResult
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PenaltyShootoutResult we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PenaltyShootoutResultUpsertArgs>(args: SelectSubset<T, PenaltyShootoutResultUpsertArgs<ExtArgs>>): Prisma__PenaltyShootoutResultClient<$Result.GetResult<Prisma.$PenaltyShootoutResultPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PenaltyShootoutResults.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenaltyShootoutResultCountArgs} args - Arguments to filter PenaltyShootoutResults to count.
+     * @example
+     * // Count the number of PenaltyShootoutResults
+     * const count = await prisma.penaltyShootoutResult.count({
+     *   where: {
+     *     // ... the filter for the PenaltyShootoutResults we want to count
+     *   }
+     * })
+    **/
+    count<T extends PenaltyShootoutResultCountArgs>(
+      args?: Subset<T, PenaltyShootoutResultCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PenaltyShootoutResultCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PenaltyShootoutResult.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenaltyShootoutResultAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PenaltyShootoutResultAggregateArgs>(args: Subset<T, PenaltyShootoutResultAggregateArgs>): Prisma.PrismaPromise<GetPenaltyShootoutResultAggregateType<T>>
+
+    /**
+     * Group by PenaltyShootoutResult.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenaltyShootoutResultGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PenaltyShootoutResultGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PenaltyShootoutResultGroupByArgs['orderBy'] }
+        : { orderBy?: PenaltyShootoutResultGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PenaltyShootoutResultGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPenaltyShootoutResultGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PenaltyShootoutResult model
+   */
+  readonly fields: PenaltyShootoutResultFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PenaltyShootoutResult.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PenaltyShootoutResultClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    match<T extends PenaltyShootoutResult$matchArgs<ExtArgs> = {}>(args?: Subset<T, PenaltyShootoutResult$matchArgs<ExtArgs>>): Prisma__MatchClient<$Result.GetResult<Prisma.$MatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PenaltyShootoutResult model
+   */
+  interface PenaltyShootoutResultFieldRefs {
+    readonly id: FieldRef<"PenaltyShootoutResult", 'String'>
+    readonly userId: FieldRef<"PenaltyShootoutResult", 'String'>
+    readonly matchId: FieldRef<"PenaltyShootoutResult", 'String'>
+    readonly score: FieldRef<"PenaltyShootoutResult", 'Int'>
+    readonly suddenDeathScore: FieldRef<"PenaltyShootoutResult", 'Int'>
+    readonly totalShots: FieldRef<"PenaltyShootoutResult", 'Int'>
+    readonly shotsJson: FieldRef<"PenaltyShootoutResult", 'Json'>
+    readonly suddenDeathShotsJson: FieldRef<"PenaltyShootoutResult", 'Json'>
+    readonly isWinner: FieldRef<"PenaltyShootoutResult", 'Boolean'>
+    readonly auditVersion: FieldRef<"PenaltyShootoutResult", 'Int'>
+    readonly createdAt: FieldRef<"PenaltyShootoutResult", 'DateTime'>
+    readonly updatedAt: FieldRef<"PenaltyShootoutResult", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PenaltyShootoutResult findUnique
+   */
+  export type PenaltyShootoutResultFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutResult
+     */
+    select?: PenaltyShootoutResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutResult
+     */
+    omit?: PenaltyShootoutResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutResultInclude<ExtArgs> | null
+    /**
+     * Filter, which PenaltyShootoutResult to fetch.
+     */
+    where: PenaltyShootoutResultWhereUniqueInput
+  }
+
+  /**
+   * PenaltyShootoutResult findUniqueOrThrow
+   */
+  export type PenaltyShootoutResultFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutResult
+     */
+    select?: PenaltyShootoutResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutResult
+     */
+    omit?: PenaltyShootoutResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutResultInclude<ExtArgs> | null
+    /**
+     * Filter, which PenaltyShootoutResult to fetch.
+     */
+    where: PenaltyShootoutResultWhereUniqueInput
+  }
+
+  /**
+   * PenaltyShootoutResult findFirst
+   */
+  export type PenaltyShootoutResultFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutResult
+     */
+    select?: PenaltyShootoutResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutResult
+     */
+    omit?: PenaltyShootoutResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutResultInclude<ExtArgs> | null
+    /**
+     * Filter, which PenaltyShootoutResult to fetch.
+     */
+    where?: PenaltyShootoutResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PenaltyShootoutResults to fetch.
+     */
+    orderBy?: PenaltyShootoutResultOrderByWithRelationInput | PenaltyShootoutResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PenaltyShootoutResults.
+     */
+    cursor?: PenaltyShootoutResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PenaltyShootoutResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PenaltyShootoutResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PenaltyShootoutResults.
+     */
+    distinct?: PenaltyShootoutResultScalarFieldEnum | PenaltyShootoutResultScalarFieldEnum[]
+  }
+
+  /**
+   * PenaltyShootoutResult findFirstOrThrow
+   */
+  export type PenaltyShootoutResultFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutResult
+     */
+    select?: PenaltyShootoutResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutResult
+     */
+    omit?: PenaltyShootoutResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutResultInclude<ExtArgs> | null
+    /**
+     * Filter, which PenaltyShootoutResult to fetch.
+     */
+    where?: PenaltyShootoutResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PenaltyShootoutResults to fetch.
+     */
+    orderBy?: PenaltyShootoutResultOrderByWithRelationInput | PenaltyShootoutResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PenaltyShootoutResults.
+     */
+    cursor?: PenaltyShootoutResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PenaltyShootoutResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PenaltyShootoutResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PenaltyShootoutResults.
+     */
+    distinct?: PenaltyShootoutResultScalarFieldEnum | PenaltyShootoutResultScalarFieldEnum[]
+  }
+
+  /**
+   * PenaltyShootoutResult findMany
+   */
+  export type PenaltyShootoutResultFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutResult
+     */
+    select?: PenaltyShootoutResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutResult
+     */
+    omit?: PenaltyShootoutResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutResultInclude<ExtArgs> | null
+    /**
+     * Filter, which PenaltyShootoutResults to fetch.
+     */
+    where?: PenaltyShootoutResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PenaltyShootoutResults to fetch.
+     */
+    orderBy?: PenaltyShootoutResultOrderByWithRelationInput | PenaltyShootoutResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PenaltyShootoutResults.
+     */
+    cursor?: PenaltyShootoutResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PenaltyShootoutResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PenaltyShootoutResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PenaltyShootoutResults.
+     */
+    distinct?: PenaltyShootoutResultScalarFieldEnum | PenaltyShootoutResultScalarFieldEnum[]
+  }
+
+  /**
+   * PenaltyShootoutResult create
+   */
+  export type PenaltyShootoutResultCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutResult
+     */
+    select?: PenaltyShootoutResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutResult
+     */
+    omit?: PenaltyShootoutResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutResultInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PenaltyShootoutResult.
+     */
+    data: XOR<PenaltyShootoutResultCreateInput, PenaltyShootoutResultUncheckedCreateInput>
+  }
+
+  /**
+   * PenaltyShootoutResult createMany
+   */
+  export type PenaltyShootoutResultCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PenaltyShootoutResults.
+     */
+    data: PenaltyShootoutResultCreateManyInput | PenaltyShootoutResultCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PenaltyShootoutResult createManyAndReturn
+   */
+  export type PenaltyShootoutResultCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutResult
+     */
+    select?: PenaltyShootoutResultSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutResult
+     */
+    omit?: PenaltyShootoutResultOmit<ExtArgs> | null
+    /**
+     * The data used to create many PenaltyShootoutResults.
+     */
+    data: PenaltyShootoutResultCreateManyInput | PenaltyShootoutResultCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutResultIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PenaltyShootoutResult update
+   */
+  export type PenaltyShootoutResultUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutResult
+     */
+    select?: PenaltyShootoutResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutResult
+     */
+    omit?: PenaltyShootoutResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutResultInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PenaltyShootoutResult.
+     */
+    data: XOR<PenaltyShootoutResultUpdateInput, PenaltyShootoutResultUncheckedUpdateInput>
+    /**
+     * Choose, which PenaltyShootoutResult to update.
+     */
+    where: PenaltyShootoutResultWhereUniqueInput
+  }
+
+  /**
+   * PenaltyShootoutResult updateMany
+   */
+  export type PenaltyShootoutResultUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PenaltyShootoutResults.
+     */
+    data: XOR<PenaltyShootoutResultUpdateManyMutationInput, PenaltyShootoutResultUncheckedUpdateManyInput>
+    /**
+     * Filter which PenaltyShootoutResults to update
+     */
+    where?: PenaltyShootoutResultWhereInput
+    /**
+     * Limit how many PenaltyShootoutResults to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PenaltyShootoutResult updateManyAndReturn
+   */
+  export type PenaltyShootoutResultUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutResult
+     */
+    select?: PenaltyShootoutResultSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutResult
+     */
+    omit?: PenaltyShootoutResultOmit<ExtArgs> | null
+    /**
+     * The data used to update PenaltyShootoutResults.
+     */
+    data: XOR<PenaltyShootoutResultUpdateManyMutationInput, PenaltyShootoutResultUncheckedUpdateManyInput>
+    /**
+     * Filter which PenaltyShootoutResults to update
+     */
+    where?: PenaltyShootoutResultWhereInput
+    /**
+     * Limit how many PenaltyShootoutResults to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutResultIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PenaltyShootoutResult upsert
+   */
+  export type PenaltyShootoutResultUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutResult
+     */
+    select?: PenaltyShootoutResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutResult
+     */
+    omit?: PenaltyShootoutResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutResultInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PenaltyShootoutResult to update in case it exists.
+     */
+    where: PenaltyShootoutResultWhereUniqueInput
+    /**
+     * In case the PenaltyShootoutResult found by the `where` argument doesn't exist, create a new PenaltyShootoutResult with this data.
+     */
+    create: XOR<PenaltyShootoutResultCreateInput, PenaltyShootoutResultUncheckedCreateInput>
+    /**
+     * In case the PenaltyShootoutResult was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PenaltyShootoutResultUpdateInput, PenaltyShootoutResultUncheckedUpdateInput>
+  }
+
+  /**
+   * PenaltyShootoutResult delete
+   */
+  export type PenaltyShootoutResultDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutResult
+     */
+    select?: PenaltyShootoutResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutResult
+     */
+    omit?: PenaltyShootoutResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutResultInclude<ExtArgs> | null
+    /**
+     * Filter which PenaltyShootoutResult to delete.
+     */
+    where: PenaltyShootoutResultWhereUniqueInput
+  }
+
+  /**
+   * PenaltyShootoutResult deleteMany
+   */
+  export type PenaltyShootoutResultDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PenaltyShootoutResults to delete
+     */
+    where?: PenaltyShootoutResultWhereInput
+    /**
+     * Limit how many PenaltyShootoutResults to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PenaltyShootoutResult.match
+   */
+  export type PenaltyShootoutResult$matchArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Match
+     */
+    select?: MatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Match
+     */
+    omit?: MatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatchInclude<ExtArgs> | null
+    where?: MatchWhereInput
+  }
+
+  /**
+   * PenaltyShootoutResult without action
+   */
+  export type PenaltyShootoutResultDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutResult
+     */
+    select?: PenaltyShootoutResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutResult
+     */
+    omit?: PenaltyShootoutResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutResultInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PenaltyShootoutTrainingAttempt
+   */
+
+  export type AggregatePenaltyShootoutTrainingAttempt = {
+    _count: PenaltyShootoutTrainingAttemptCountAggregateOutputType | null
+    _avg: PenaltyShootoutTrainingAttemptAvgAggregateOutputType | null
+    _sum: PenaltyShootoutTrainingAttemptSumAggregateOutputType | null
+    _min: PenaltyShootoutTrainingAttemptMinAggregateOutputType | null
+    _max: PenaltyShootoutTrainingAttemptMaxAggregateOutputType | null
+  }
+
+  export type PenaltyShootoutTrainingAttemptAvgAggregateOutputType = {
+    score: number | null
+    totalShots: number | null
+  }
+
+  export type PenaltyShootoutTrainingAttemptSumAggregateOutputType = {
+    score: number | null
+    totalShots: number | null
+  }
+
+  export type PenaltyShootoutTrainingAttemptMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    score: number | null
+    totalShots: number | null
+    createdAt: Date | null
+  }
+
+  export type PenaltyShootoutTrainingAttemptMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    score: number | null
+    totalShots: number | null
+    createdAt: Date | null
+  }
+
+  export type PenaltyShootoutTrainingAttemptCountAggregateOutputType = {
+    id: number
+    userId: number
+    score: number
+    totalShots: number
+    shotsJson: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PenaltyShootoutTrainingAttemptAvgAggregateInputType = {
+    score?: true
+    totalShots?: true
+  }
+
+  export type PenaltyShootoutTrainingAttemptSumAggregateInputType = {
+    score?: true
+    totalShots?: true
+  }
+
+  export type PenaltyShootoutTrainingAttemptMinAggregateInputType = {
+    id?: true
+    userId?: true
+    score?: true
+    totalShots?: true
+    createdAt?: true
+  }
+
+  export type PenaltyShootoutTrainingAttemptMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    score?: true
+    totalShots?: true
+    createdAt?: true
+  }
+
+  export type PenaltyShootoutTrainingAttemptCountAggregateInputType = {
+    id?: true
+    userId?: true
+    score?: true
+    totalShots?: true
+    shotsJson?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PenaltyShootoutTrainingAttemptAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PenaltyShootoutTrainingAttempt to aggregate.
+     */
+    where?: PenaltyShootoutTrainingAttemptWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PenaltyShootoutTrainingAttempts to fetch.
+     */
+    orderBy?: PenaltyShootoutTrainingAttemptOrderByWithRelationInput | PenaltyShootoutTrainingAttemptOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PenaltyShootoutTrainingAttemptWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PenaltyShootoutTrainingAttempts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PenaltyShootoutTrainingAttempts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PenaltyShootoutTrainingAttempts
+    **/
+    _count?: true | PenaltyShootoutTrainingAttemptCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PenaltyShootoutTrainingAttemptAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PenaltyShootoutTrainingAttemptSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PenaltyShootoutTrainingAttemptMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PenaltyShootoutTrainingAttemptMaxAggregateInputType
+  }
+
+  export type GetPenaltyShootoutTrainingAttemptAggregateType<T extends PenaltyShootoutTrainingAttemptAggregateArgs> = {
+        [P in keyof T & keyof AggregatePenaltyShootoutTrainingAttempt]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePenaltyShootoutTrainingAttempt[P]>
+      : GetScalarType<T[P], AggregatePenaltyShootoutTrainingAttempt[P]>
+  }
+
+
+
+
+  export type PenaltyShootoutTrainingAttemptGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PenaltyShootoutTrainingAttemptWhereInput
+    orderBy?: PenaltyShootoutTrainingAttemptOrderByWithAggregationInput | PenaltyShootoutTrainingAttemptOrderByWithAggregationInput[]
+    by: PenaltyShootoutTrainingAttemptScalarFieldEnum[] | PenaltyShootoutTrainingAttemptScalarFieldEnum
+    having?: PenaltyShootoutTrainingAttemptScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PenaltyShootoutTrainingAttemptCountAggregateInputType | true
+    _avg?: PenaltyShootoutTrainingAttemptAvgAggregateInputType
+    _sum?: PenaltyShootoutTrainingAttemptSumAggregateInputType
+    _min?: PenaltyShootoutTrainingAttemptMinAggregateInputType
+    _max?: PenaltyShootoutTrainingAttemptMaxAggregateInputType
+  }
+
+  export type PenaltyShootoutTrainingAttemptGroupByOutputType = {
+    id: string
+    userId: string
+    score: number
+    totalShots: number
+    shotsJson: JsonValue
+    createdAt: Date
+    _count: PenaltyShootoutTrainingAttemptCountAggregateOutputType | null
+    _avg: PenaltyShootoutTrainingAttemptAvgAggregateOutputType | null
+    _sum: PenaltyShootoutTrainingAttemptSumAggregateOutputType | null
+    _min: PenaltyShootoutTrainingAttemptMinAggregateOutputType | null
+    _max: PenaltyShootoutTrainingAttemptMaxAggregateOutputType | null
+  }
+
+  type GetPenaltyShootoutTrainingAttemptGroupByPayload<T extends PenaltyShootoutTrainingAttemptGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PenaltyShootoutTrainingAttemptGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PenaltyShootoutTrainingAttemptGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PenaltyShootoutTrainingAttemptGroupByOutputType[P]>
+            : GetScalarType<T[P], PenaltyShootoutTrainingAttemptGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PenaltyShootoutTrainingAttemptSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    score?: boolean
+    totalShots?: boolean
+    shotsJson?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["penaltyShootoutTrainingAttempt"]>
+
+  export type PenaltyShootoutTrainingAttemptSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    score?: boolean
+    totalShots?: boolean
+    shotsJson?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["penaltyShootoutTrainingAttempt"]>
+
+  export type PenaltyShootoutTrainingAttemptSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    score?: boolean
+    totalShots?: boolean
+    shotsJson?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["penaltyShootoutTrainingAttempt"]>
+
+  export type PenaltyShootoutTrainingAttemptSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    score?: boolean
+    totalShots?: boolean
+    shotsJson?: boolean
+    createdAt?: boolean
+  }
+
+  export type PenaltyShootoutTrainingAttemptOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "score" | "totalShots" | "shotsJson" | "createdAt", ExtArgs["result"]["penaltyShootoutTrainingAttempt"]>
+  export type PenaltyShootoutTrainingAttemptInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PenaltyShootoutTrainingAttemptIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PenaltyShootoutTrainingAttemptIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PenaltyShootoutTrainingAttemptPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PenaltyShootoutTrainingAttempt"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      score: number
+      totalShots: number
+      shotsJson: Prisma.JsonValue
+      createdAt: Date
+    }, ExtArgs["result"]["penaltyShootoutTrainingAttempt"]>
+    composites: {}
+  }
+
+  type PenaltyShootoutTrainingAttemptGetPayload<S extends boolean | null | undefined | PenaltyShootoutTrainingAttemptDefaultArgs> = $Result.GetResult<Prisma.$PenaltyShootoutTrainingAttemptPayload, S>
+
+  type PenaltyShootoutTrainingAttemptCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PenaltyShootoutTrainingAttemptFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PenaltyShootoutTrainingAttemptCountAggregateInputType | true
+    }
+
+  export interface PenaltyShootoutTrainingAttemptDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PenaltyShootoutTrainingAttempt'], meta: { name: 'PenaltyShootoutTrainingAttempt' } }
+    /**
+     * Find zero or one PenaltyShootoutTrainingAttempt that matches the filter.
+     * @param {PenaltyShootoutTrainingAttemptFindUniqueArgs} args - Arguments to find a PenaltyShootoutTrainingAttempt
+     * @example
+     * // Get one PenaltyShootoutTrainingAttempt
+     * const penaltyShootoutTrainingAttempt = await prisma.penaltyShootoutTrainingAttempt.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PenaltyShootoutTrainingAttemptFindUniqueArgs>(args: SelectSubset<T, PenaltyShootoutTrainingAttemptFindUniqueArgs<ExtArgs>>): Prisma__PenaltyShootoutTrainingAttemptClient<$Result.GetResult<Prisma.$PenaltyShootoutTrainingAttemptPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PenaltyShootoutTrainingAttempt that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PenaltyShootoutTrainingAttemptFindUniqueOrThrowArgs} args - Arguments to find a PenaltyShootoutTrainingAttempt
+     * @example
+     * // Get one PenaltyShootoutTrainingAttempt
+     * const penaltyShootoutTrainingAttempt = await prisma.penaltyShootoutTrainingAttempt.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PenaltyShootoutTrainingAttemptFindUniqueOrThrowArgs>(args: SelectSubset<T, PenaltyShootoutTrainingAttemptFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PenaltyShootoutTrainingAttemptClient<$Result.GetResult<Prisma.$PenaltyShootoutTrainingAttemptPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PenaltyShootoutTrainingAttempt that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenaltyShootoutTrainingAttemptFindFirstArgs} args - Arguments to find a PenaltyShootoutTrainingAttempt
+     * @example
+     * // Get one PenaltyShootoutTrainingAttempt
+     * const penaltyShootoutTrainingAttempt = await prisma.penaltyShootoutTrainingAttempt.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PenaltyShootoutTrainingAttemptFindFirstArgs>(args?: SelectSubset<T, PenaltyShootoutTrainingAttemptFindFirstArgs<ExtArgs>>): Prisma__PenaltyShootoutTrainingAttemptClient<$Result.GetResult<Prisma.$PenaltyShootoutTrainingAttemptPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PenaltyShootoutTrainingAttempt that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenaltyShootoutTrainingAttemptFindFirstOrThrowArgs} args - Arguments to find a PenaltyShootoutTrainingAttempt
+     * @example
+     * // Get one PenaltyShootoutTrainingAttempt
+     * const penaltyShootoutTrainingAttempt = await prisma.penaltyShootoutTrainingAttempt.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PenaltyShootoutTrainingAttemptFindFirstOrThrowArgs>(args?: SelectSubset<T, PenaltyShootoutTrainingAttemptFindFirstOrThrowArgs<ExtArgs>>): Prisma__PenaltyShootoutTrainingAttemptClient<$Result.GetResult<Prisma.$PenaltyShootoutTrainingAttemptPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PenaltyShootoutTrainingAttempts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenaltyShootoutTrainingAttemptFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PenaltyShootoutTrainingAttempts
+     * const penaltyShootoutTrainingAttempts = await prisma.penaltyShootoutTrainingAttempt.findMany()
+     * 
+     * // Get first 10 PenaltyShootoutTrainingAttempts
+     * const penaltyShootoutTrainingAttempts = await prisma.penaltyShootoutTrainingAttempt.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const penaltyShootoutTrainingAttemptWithIdOnly = await prisma.penaltyShootoutTrainingAttempt.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PenaltyShootoutTrainingAttemptFindManyArgs>(args?: SelectSubset<T, PenaltyShootoutTrainingAttemptFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PenaltyShootoutTrainingAttemptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PenaltyShootoutTrainingAttempt.
+     * @param {PenaltyShootoutTrainingAttemptCreateArgs} args - Arguments to create a PenaltyShootoutTrainingAttempt.
+     * @example
+     * // Create one PenaltyShootoutTrainingAttempt
+     * const PenaltyShootoutTrainingAttempt = await prisma.penaltyShootoutTrainingAttempt.create({
+     *   data: {
+     *     // ... data to create a PenaltyShootoutTrainingAttempt
+     *   }
+     * })
+     * 
+     */
+    create<T extends PenaltyShootoutTrainingAttemptCreateArgs>(args: SelectSubset<T, PenaltyShootoutTrainingAttemptCreateArgs<ExtArgs>>): Prisma__PenaltyShootoutTrainingAttemptClient<$Result.GetResult<Prisma.$PenaltyShootoutTrainingAttemptPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PenaltyShootoutTrainingAttempts.
+     * @param {PenaltyShootoutTrainingAttemptCreateManyArgs} args - Arguments to create many PenaltyShootoutTrainingAttempts.
+     * @example
+     * // Create many PenaltyShootoutTrainingAttempts
+     * const penaltyShootoutTrainingAttempt = await prisma.penaltyShootoutTrainingAttempt.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PenaltyShootoutTrainingAttemptCreateManyArgs>(args?: SelectSubset<T, PenaltyShootoutTrainingAttemptCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PenaltyShootoutTrainingAttempts and returns the data saved in the database.
+     * @param {PenaltyShootoutTrainingAttemptCreateManyAndReturnArgs} args - Arguments to create many PenaltyShootoutTrainingAttempts.
+     * @example
+     * // Create many PenaltyShootoutTrainingAttempts
+     * const penaltyShootoutTrainingAttempt = await prisma.penaltyShootoutTrainingAttempt.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PenaltyShootoutTrainingAttempts and only return the `id`
+     * const penaltyShootoutTrainingAttemptWithIdOnly = await prisma.penaltyShootoutTrainingAttempt.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PenaltyShootoutTrainingAttemptCreateManyAndReturnArgs>(args?: SelectSubset<T, PenaltyShootoutTrainingAttemptCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PenaltyShootoutTrainingAttemptPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PenaltyShootoutTrainingAttempt.
+     * @param {PenaltyShootoutTrainingAttemptDeleteArgs} args - Arguments to delete one PenaltyShootoutTrainingAttempt.
+     * @example
+     * // Delete one PenaltyShootoutTrainingAttempt
+     * const PenaltyShootoutTrainingAttempt = await prisma.penaltyShootoutTrainingAttempt.delete({
+     *   where: {
+     *     // ... filter to delete one PenaltyShootoutTrainingAttempt
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PenaltyShootoutTrainingAttemptDeleteArgs>(args: SelectSubset<T, PenaltyShootoutTrainingAttemptDeleteArgs<ExtArgs>>): Prisma__PenaltyShootoutTrainingAttemptClient<$Result.GetResult<Prisma.$PenaltyShootoutTrainingAttemptPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PenaltyShootoutTrainingAttempt.
+     * @param {PenaltyShootoutTrainingAttemptUpdateArgs} args - Arguments to update one PenaltyShootoutTrainingAttempt.
+     * @example
+     * // Update one PenaltyShootoutTrainingAttempt
+     * const penaltyShootoutTrainingAttempt = await prisma.penaltyShootoutTrainingAttempt.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PenaltyShootoutTrainingAttemptUpdateArgs>(args: SelectSubset<T, PenaltyShootoutTrainingAttemptUpdateArgs<ExtArgs>>): Prisma__PenaltyShootoutTrainingAttemptClient<$Result.GetResult<Prisma.$PenaltyShootoutTrainingAttemptPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PenaltyShootoutTrainingAttempts.
+     * @param {PenaltyShootoutTrainingAttemptDeleteManyArgs} args - Arguments to filter PenaltyShootoutTrainingAttempts to delete.
+     * @example
+     * // Delete a few PenaltyShootoutTrainingAttempts
+     * const { count } = await prisma.penaltyShootoutTrainingAttempt.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PenaltyShootoutTrainingAttemptDeleteManyArgs>(args?: SelectSubset<T, PenaltyShootoutTrainingAttemptDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PenaltyShootoutTrainingAttempts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenaltyShootoutTrainingAttemptUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PenaltyShootoutTrainingAttempts
+     * const penaltyShootoutTrainingAttempt = await prisma.penaltyShootoutTrainingAttempt.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PenaltyShootoutTrainingAttemptUpdateManyArgs>(args: SelectSubset<T, PenaltyShootoutTrainingAttemptUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PenaltyShootoutTrainingAttempts and returns the data updated in the database.
+     * @param {PenaltyShootoutTrainingAttemptUpdateManyAndReturnArgs} args - Arguments to update many PenaltyShootoutTrainingAttempts.
+     * @example
+     * // Update many PenaltyShootoutTrainingAttempts
+     * const penaltyShootoutTrainingAttempt = await prisma.penaltyShootoutTrainingAttempt.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PenaltyShootoutTrainingAttempts and only return the `id`
+     * const penaltyShootoutTrainingAttemptWithIdOnly = await prisma.penaltyShootoutTrainingAttempt.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PenaltyShootoutTrainingAttemptUpdateManyAndReturnArgs>(args: SelectSubset<T, PenaltyShootoutTrainingAttemptUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PenaltyShootoutTrainingAttemptPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PenaltyShootoutTrainingAttempt.
+     * @param {PenaltyShootoutTrainingAttemptUpsertArgs} args - Arguments to update or create a PenaltyShootoutTrainingAttempt.
+     * @example
+     * // Update or create a PenaltyShootoutTrainingAttempt
+     * const penaltyShootoutTrainingAttempt = await prisma.penaltyShootoutTrainingAttempt.upsert({
+     *   create: {
+     *     // ... data to create a PenaltyShootoutTrainingAttempt
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PenaltyShootoutTrainingAttempt we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PenaltyShootoutTrainingAttemptUpsertArgs>(args: SelectSubset<T, PenaltyShootoutTrainingAttemptUpsertArgs<ExtArgs>>): Prisma__PenaltyShootoutTrainingAttemptClient<$Result.GetResult<Prisma.$PenaltyShootoutTrainingAttemptPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PenaltyShootoutTrainingAttempts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenaltyShootoutTrainingAttemptCountArgs} args - Arguments to filter PenaltyShootoutTrainingAttempts to count.
+     * @example
+     * // Count the number of PenaltyShootoutTrainingAttempts
+     * const count = await prisma.penaltyShootoutTrainingAttempt.count({
+     *   where: {
+     *     // ... the filter for the PenaltyShootoutTrainingAttempts we want to count
+     *   }
+     * })
+    **/
+    count<T extends PenaltyShootoutTrainingAttemptCountArgs>(
+      args?: Subset<T, PenaltyShootoutTrainingAttemptCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PenaltyShootoutTrainingAttemptCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PenaltyShootoutTrainingAttempt.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenaltyShootoutTrainingAttemptAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PenaltyShootoutTrainingAttemptAggregateArgs>(args: Subset<T, PenaltyShootoutTrainingAttemptAggregateArgs>): Prisma.PrismaPromise<GetPenaltyShootoutTrainingAttemptAggregateType<T>>
+
+    /**
+     * Group by PenaltyShootoutTrainingAttempt.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenaltyShootoutTrainingAttemptGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PenaltyShootoutTrainingAttemptGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PenaltyShootoutTrainingAttemptGroupByArgs['orderBy'] }
+        : { orderBy?: PenaltyShootoutTrainingAttemptGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PenaltyShootoutTrainingAttemptGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPenaltyShootoutTrainingAttemptGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PenaltyShootoutTrainingAttempt model
+   */
+  readonly fields: PenaltyShootoutTrainingAttemptFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PenaltyShootoutTrainingAttempt.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PenaltyShootoutTrainingAttemptClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PenaltyShootoutTrainingAttempt model
+   */
+  interface PenaltyShootoutTrainingAttemptFieldRefs {
+    readonly id: FieldRef<"PenaltyShootoutTrainingAttempt", 'String'>
+    readonly userId: FieldRef<"PenaltyShootoutTrainingAttempt", 'String'>
+    readonly score: FieldRef<"PenaltyShootoutTrainingAttempt", 'Int'>
+    readonly totalShots: FieldRef<"PenaltyShootoutTrainingAttempt", 'Int'>
+    readonly shotsJson: FieldRef<"PenaltyShootoutTrainingAttempt", 'Json'>
+    readonly createdAt: FieldRef<"PenaltyShootoutTrainingAttempt", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PenaltyShootoutTrainingAttempt findUnique
+   */
+  export type PenaltyShootoutTrainingAttemptFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutTrainingAttempt
+     */
+    select?: PenaltyShootoutTrainingAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutTrainingAttempt
+     */
+    omit?: PenaltyShootoutTrainingAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutTrainingAttemptInclude<ExtArgs> | null
+    /**
+     * Filter, which PenaltyShootoutTrainingAttempt to fetch.
+     */
+    where: PenaltyShootoutTrainingAttemptWhereUniqueInput
+  }
+
+  /**
+   * PenaltyShootoutTrainingAttempt findUniqueOrThrow
+   */
+  export type PenaltyShootoutTrainingAttemptFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutTrainingAttempt
+     */
+    select?: PenaltyShootoutTrainingAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutTrainingAttempt
+     */
+    omit?: PenaltyShootoutTrainingAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutTrainingAttemptInclude<ExtArgs> | null
+    /**
+     * Filter, which PenaltyShootoutTrainingAttempt to fetch.
+     */
+    where: PenaltyShootoutTrainingAttemptWhereUniqueInput
+  }
+
+  /**
+   * PenaltyShootoutTrainingAttempt findFirst
+   */
+  export type PenaltyShootoutTrainingAttemptFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutTrainingAttempt
+     */
+    select?: PenaltyShootoutTrainingAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutTrainingAttempt
+     */
+    omit?: PenaltyShootoutTrainingAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutTrainingAttemptInclude<ExtArgs> | null
+    /**
+     * Filter, which PenaltyShootoutTrainingAttempt to fetch.
+     */
+    where?: PenaltyShootoutTrainingAttemptWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PenaltyShootoutTrainingAttempts to fetch.
+     */
+    orderBy?: PenaltyShootoutTrainingAttemptOrderByWithRelationInput | PenaltyShootoutTrainingAttemptOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PenaltyShootoutTrainingAttempts.
+     */
+    cursor?: PenaltyShootoutTrainingAttemptWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PenaltyShootoutTrainingAttempts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PenaltyShootoutTrainingAttempts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PenaltyShootoutTrainingAttempts.
+     */
+    distinct?: PenaltyShootoutTrainingAttemptScalarFieldEnum | PenaltyShootoutTrainingAttemptScalarFieldEnum[]
+  }
+
+  /**
+   * PenaltyShootoutTrainingAttempt findFirstOrThrow
+   */
+  export type PenaltyShootoutTrainingAttemptFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutTrainingAttempt
+     */
+    select?: PenaltyShootoutTrainingAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutTrainingAttempt
+     */
+    omit?: PenaltyShootoutTrainingAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutTrainingAttemptInclude<ExtArgs> | null
+    /**
+     * Filter, which PenaltyShootoutTrainingAttempt to fetch.
+     */
+    where?: PenaltyShootoutTrainingAttemptWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PenaltyShootoutTrainingAttempts to fetch.
+     */
+    orderBy?: PenaltyShootoutTrainingAttemptOrderByWithRelationInput | PenaltyShootoutTrainingAttemptOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PenaltyShootoutTrainingAttempts.
+     */
+    cursor?: PenaltyShootoutTrainingAttemptWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PenaltyShootoutTrainingAttempts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PenaltyShootoutTrainingAttempts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PenaltyShootoutTrainingAttempts.
+     */
+    distinct?: PenaltyShootoutTrainingAttemptScalarFieldEnum | PenaltyShootoutTrainingAttemptScalarFieldEnum[]
+  }
+
+  /**
+   * PenaltyShootoutTrainingAttempt findMany
+   */
+  export type PenaltyShootoutTrainingAttemptFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutTrainingAttempt
+     */
+    select?: PenaltyShootoutTrainingAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutTrainingAttempt
+     */
+    omit?: PenaltyShootoutTrainingAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutTrainingAttemptInclude<ExtArgs> | null
+    /**
+     * Filter, which PenaltyShootoutTrainingAttempts to fetch.
+     */
+    where?: PenaltyShootoutTrainingAttemptWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PenaltyShootoutTrainingAttempts to fetch.
+     */
+    orderBy?: PenaltyShootoutTrainingAttemptOrderByWithRelationInput | PenaltyShootoutTrainingAttemptOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PenaltyShootoutTrainingAttempts.
+     */
+    cursor?: PenaltyShootoutTrainingAttemptWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PenaltyShootoutTrainingAttempts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PenaltyShootoutTrainingAttempts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PenaltyShootoutTrainingAttempts.
+     */
+    distinct?: PenaltyShootoutTrainingAttemptScalarFieldEnum | PenaltyShootoutTrainingAttemptScalarFieldEnum[]
+  }
+
+  /**
+   * PenaltyShootoutTrainingAttempt create
+   */
+  export type PenaltyShootoutTrainingAttemptCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutTrainingAttempt
+     */
+    select?: PenaltyShootoutTrainingAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutTrainingAttempt
+     */
+    omit?: PenaltyShootoutTrainingAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutTrainingAttemptInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PenaltyShootoutTrainingAttempt.
+     */
+    data: XOR<PenaltyShootoutTrainingAttemptCreateInput, PenaltyShootoutTrainingAttemptUncheckedCreateInput>
+  }
+
+  /**
+   * PenaltyShootoutTrainingAttempt createMany
+   */
+  export type PenaltyShootoutTrainingAttemptCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PenaltyShootoutTrainingAttempts.
+     */
+    data: PenaltyShootoutTrainingAttemptCreateManyInput | PenaltyShootoutTrainingAttemptCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PenaltyShootoutTrainingAttempt createManyAndReturn
+   */
+  export type PenaltyShootoutTrainingAttemptCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutTrainingAttempt
+     */
+    select?: PenaltyShootoutTrainingAttemptSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutTrainingAttempt
+     */
+    omit?: PenaltyShootoutTrainingAttemptOmit<ExtArgs> | null
+    /**
+     * The data used to create many PenaltyShootoutTrainingAttempts.
+     */
+    data: PenaltyShootoutTrainingAttemptCreateManyInput | PenaltyShootoutTrainingAttemptCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutTrainingAttemptIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PenaltyShootoutTrainingAttempt update
+   */
+  export type PenaltyShootoutTrainingAttemptUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutTrainingAttempt
+     */
+    select?: PenaltyShootoutTrainingAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutTrainingAttempt
+     */
+    omit?: PenaltyShootoutTrainingAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutTrainingAttemptInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PenaltyShootoutTrainingAttempt.
+     */
+    data: XOR<PenaltyShootoutTrainingAttemptUpdateInput, PenaltyShootoutTrainingAttemptUncheckedUpdateInput>
+    /**
+     * Choose, which PenaltyShootoutTrainingAttempt to update.
+     */
+    where: PenaltyShootoutTrainingAttemptWhereUniqueInput
+  }
+
+  /**
+   * PenaltyShootoutTrainingAttempt updateMany
+   */
+  export type PenaltyShootoutTrainingAttemptUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PenaltyShootoutTrainingAttempts.
+     */
+    data: XOR<PenaltyShootoutTrainingAttemptUpdateManyMutationInput, PenaltyShootoutTrainingAttemptUncheckedUpdateManyInput>
+    /**
+     * Filter which PenaltyShootoutTrainingAttempts to update
+     */
+    where?: PenaltyShootoutTrainingAttemptWhereInput
+    /**
+     * Limit how many PenaltyShootoutTrainingAttempts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PenaltyShootoutTrainingAttempt updateManyAndReturn
+   */
+  export type PenaltyShootoutTrainingAttemptUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutTrainingAttempt
+     */
+    select?: PenaltyShootoutTrainingAttemptSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutTrainingAttempt
+     */
+    omit?: PenaltyShootoutTrainingAttemptOmit<ExtArgs> | null
+    /**
+     * The data used to update PenaltyShootoutTrainingAttempts.
+     */
+    data: XOR<PenaltyShootoutTrainingAttemptUpdateManyMutationInput, PenaltyShootoutTrainingAttemptUncheckedUpdateManyInput>
+    /**
+     * Filter which PenaltyShootoutTrainingAttempts to update
+     */
+    where?: PenaltyShootoutTrainingAttemptWhereInput
+    /**
+     * Limit how many PenaltyShootoutTrainingAttempts to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutTrainingAttemptIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PenaltyShootoutTrainingAttempt upsert
+   */
+  export type PenaltyShootoutTrainingAttemptUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutTrainingAttempt
+     */
+    select?: PenaltyShootoutTrainingAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutTrainingAttempt
+     */
+    omit?: PenaltyShootoutTrainingAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutTrainingAttemptInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PenaltyShootoutTrainingAttempt to update in case it exists.
+     */
+    where: PenaltyShootoutTrainingAttemptWhereUniqueInput
+    /**
+     * In case the PenaltyShootoutTrainingAttempt found by the `where` argument doesn't exist, create a new PenaltyShootoutTrainingAttempt with this data.
+     */
+    create: XOR<PenaltyShootoutTrainingAttemptCreateInput, PenaltyShootoutTrainingAttemptUncheckedCreateInput>
+    /**
+     * In case the PenaltyShootoutTrainingAttempt was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PenaltyShootoutTrainingAttemptUpdateInput, PenaltyShootoutTrainingAttemptUncheckedUpdateInput>
+  }
+
+  /**
+   * PenaltyShootoutTrainingAttempt delete
+   */
+  export type PenaltyShootoutTrainingAttemptDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutTrainingAttempt
+     */
+    select?: PenaltyShootoutTrainingAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutTrainingAttempt
+     */
+    omit?: PenaltyShootoutTrainingAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutTrainingAttemptInclude<ExtArgs> | null
+    /**
+     * Filter which PenaltyShootoutTrainingAttempt to delete.
+     */
+    where: PenaltyShootoutTrainingAttemptWhereUniqueInput
+  }
+
+  /**
+   * PenaltyShootoutTrainingAttempt deleteMany
+   */
+  export type PenaltyShootoutTrainingAttemptDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PenaltyShootoutTrainingAttempts to delete
+     */
+    where?: PenaltyShootoutTrainingAttemptWhereInput
+    /**
+     * Limit how many PenaltyShootoutTrainingAttempts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PenaltyShootoutTrainingAttempt without action
+   */
+  export type PenaltyShootoutTrainingAttemptDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutTrainingAttempt
+     */
+    select?: PenaltyShootoutTrainingAttemptSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutTrainingAttempt
+     */
+    omit?: PenaltyShootoutTrainingAttemptOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PenaltyShootoutTrainingAttemptInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PenaltyShootoutAdminAction
+   */
+
+  export type AggregatePenaltyShootoutAdminAction = {
+    _count: PenaltyShootoutAdminActionCountAggregateOutputType | null
+    _min: PenaltyShootoutAdminActionMinAggregateOutputType | null
+    _max: PenaltyShootoutAdminActionMaxAggregateOutputType | null
+  }
+
+  export type PenaltyShootoutAdminActionMinAggregateOutputType = {
+    id: string | null
+    matchId: string | null
+    resultId: string | null
+    actionType: $Enums.PenaltyShootoutAdminActionType | null
+    adminName: string | null
+    reason: string | null
+    createdAt: Date | null
+  }
+
+  export type PenaltyShootoutAdminActionMaxAggregateOutputType = {
+    id: string | null
+    matchId: string | null
+    resultId: string | null
+    actionType: $Enums.PenaltyShootoutAdminActionType | null
+    adminName: string | null
+    reason: string | null
+    createdAt: Date | null
+  }
+
+  export type PenaltyShootoutAdminActionCountAggregateOutputType = {
+    id: number
+    matchId: number
+    resultId: number
+    actionType: number
+    adminName: number
+    reason: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PenaltyShootoutAdminActionMinAggregateInputType = {
+    id?: true
+    matchId?: true
+    resultId?: true
+    actionType?: true
+    adminName?: true
+    reason?: true
+    createdAt?: true
+  }
+
+  export type PenaltyShootoutAdminActionMaxAggregateInputType = {
+    id?: true
+    matchId?: true
+    resultId?: true
+    actionType?: true
+    adminName?: true
+    reason?: true
+    createdAt?: true
+  }
+
+  export type PenaltyShootoutAdminActionCountAggregateInputType = {
+    id?: true
+    matchId?: true
+    resultId?: true
+    actionType?: true
+    adminName?: true
+    reason?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PenaltyShootoutAdminActionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PenaltyShootoutAdminAction to aggregate.
+     */
+    where?: PenaltyShootoutAdminActionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PenaltyShootoutAdminActions to fetch.
+     */
+    orderBy?: PenaltyShootoutAdminActionOrderByWithRelationInput | PenaltyShootoutAdminActionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PenaltyShootoutAdminActionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PenaltyShootoutAdminActions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PenaltyShootoutAdminActions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PenaltyShootoutAdminActions
+    **/
+    _count?: true | PenaltyShootoutAdminActionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PenaltyShootoutAdminActionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PenaltyShootoutAdminActionMaxAggregateInputType
+  }
+
+  export type GetPenaltyShootoutAdminActionAggregateType<T extends PenaltyShootoutAdminActionAggregateArgs> = {
+        [P in keyof T & keyof AggregatePenaltyShootoutAdminAction]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePenaltyShootoutAdminAction[P]>
+      : GetScalarType<T[P], AggregatePenaltyShootoutAdminAction[P]>
+  }
+
+
+
+
+  export type PenaltyShootoutAdminActionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PenaltyShootoutAdminActionWhereInput
+    orderBy?: PenaltyShootoutAdminActionOrderByWithAggregationInput | PenaltyShootoutAdminActionOrderByWithAggregationInput[]
+    by: PenaltyShootoutAdminActionScalarFieldEnum[] | PenaltyShootoutAdminActionScalarFieldEnum
+    having?: PenaltyShootoutAdminActionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PenaltyShootoutAdminActionCountAggregateInputType | true
+    _min?: PenaltyShootoutAdminActionMinAggregateInputType
+    _max?: PenaltyShootoutAdminActionMaxAggregateInputType
+  }
+
+  export type PenaltyShootoutAdminActionGroupByOutputType = {
+    id: string
+    matchId: string
+    resultId: string | null
+    actionType: $Enums.PenaltyShootoutAdminActionType
+    adminName: string
+    reason: string
+    createdAt: Date
+    _count: PenaltyShootoutAdminActionCountAggregateOutputType | null
+    _min: PenaltyShootoutAdminActionMinAggregateOutputType | null
+    _max: PenaltyShootoutAdminActionMaxAggregateOutputType | null
+  }
+
+  type GetPenaltyShootoutAdminActionGroupByPayload<T extends PenaltyShootoutAdminActionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PenaltyShootoutAdminActionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PenaltyShootoutAdminActionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PenaltyShootoutAdminActionGroupByOutputType[P]>
+            : GetScalarType<T[P], PenaltyShootoutAdminActionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PenaltyShootoutAdminActionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    matchId?: boolean
+    resultId?: boolean
+    actionType?: boolean
+    adminName?: boolean
+    reason?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["penaltyShootoutAdminAction"]>
+
+  export type PenaltyShootoutAdminActionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    matchId?: boolean
+    resultId?: boolean
+    actionType?: boolean
+    adminName?: boolean
+    reason?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["penaltyShootoutAdminAction"]>
+
+  export type PenaltyShootoutAdminActionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    matchId?: boolean
+    resultId?: boolean
+    actionType?: boolean
+    adminName?: boolean
+    reason?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["penaltyShootoutAdminAction"]>
+
+  export type PenaltyShootoutAdminActionSelectScalar = {
+    id?: boolean
+    matchId?: boolean
+    resultId?: boolean
+    actionType?: boolean
+    adminName?: boolean
+    reason?: boolean
+    createdAt?: boolean
+  }
+
+  export type PenaltyShootoutAdminActionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "matchId" | "resultId" | "actionType" | "adminName" | "reason" | "createdAt", ExtArgs["result"]["penaltyShootoutAdminAction"]>
+
+  export type $PenaltyShootoutAdminActionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PenaltyShootoutAdminAction"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      matchId: string
+      resultId: string | null
+      actionType: $Enums.PenaltyShootoutAdminActionType
+      adminName: string
+      reason: string
+      createdAt: Date
+    }, ExtArgs["result"]["penaltyShootoutAdminAction"]>
+    composites: {}
+  }
+
+  type PenaltyShootoutAdminActionGetPayload<S extends boolean | null | undefined | PenaltyShootoutAdminActionDefaultArgs> = $Result.GetResult<Prisma.$PenaltyShootoutAdminActionPayload, S>
+
+  type PenaltyShootoutAdminActionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PenaltyShootoutAdminActionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PenaltyShootoutAdminActionCountAggregateInputType | true
+    }
+
+  export interface PenaltyShootoutAdminActionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PenaltyShootoutAdminAction'], meta: { name: 'PenaltyShootoutAdminAction' } }
+    /**
+     * Find zero or one PenaltyShootoutAdminAction that matches the filter.
+     * @param {PenaltyShootoutAdminActionFindUniqueArgs} args - Arguments to find a PenaltyShootoutAdminAction
+     * @example
+     * // Get one PenaltyShootoutAdminAction
+     * const penaltyShootoutAdminAction = await prisma.penaltyShootoutAdminAction.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PenaltyShootoutAdminActionFindUniqueArgs>(args: SelectSubset<T, PenaltyShootoutAdminActionFindUniqueArgs<ExtArgs>>): Prisma__PenaltyShootoutAdminActionClient<$Result.GetResult<Prisma.$PenaltyShootoutAdminActionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PenaltyShootoutAdminAction that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PenaltyShootoutAdminActionFindUniqueOrThrowArgs} args - Arguments to find a PenaltyShootoutAdminAction
+     * @example
+     * // Get one PenaltyShootoutAdminAction
+     * const penaltyShootoutAdminAction = await prisma.penaltyShootoutAdminAction.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PenaltyShootoutAdminActionFindUniqueOrThrowArgs>(args: SelectSubset<T, PenaltyShootoutAdminActionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PenaltyShootoutAdminActionClient<$Result.GetResult<Prisma.$PenaltyShootoutAdminActionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PenaltyShootoutAdminAction that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenaltyShootoutAdminActionFindFirstArgs} args - Arguments to find a PenaltyShootoutAdminAction
+     * @example
+     * // Get one PenaltyShootoutAdminAction
+     * const penaltyShootoutAdminAction = await prisma.penaltyShootoutAdminAction.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PenaltyShootoutAdminActionFindFirstArgs>(args?: SelectSubset<T, PenaltyShootoutAdminActionFindFirstArgs<ExtArgs>>): Prisma__PenaltyShootoutAdminActionClient<$Result.GetResult<Prisma.$PenaltyShootoutAdminActionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PenaltyShootoutAdminAction that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenaltyShootoutAdminActionFindFirstOrThrowArgs} args - Arguments to find a PenaltyShootoutAdminAction
+     * @example
+     * // Get one PenaltyShootoutAdminAction
+     * const penaltyShootoutAdminAction = await prisma.penaltyShootoutAdminAction.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PenaltyShootoutAdminActionFindFirstOrThrowArgs>(args?: SelectSubset<T, PenaltyShootoutAdminActionFindFirstOrThrowArgs<ExtArgs>>): Prisma__PenaltyShootoutAdminActionClient<$Result.GetResult<Prisma.$PenaltyShootoutAdminActionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PenaltyShootoutAdminActions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenaltyShootoutAdminActionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PenaltyShootoutAdminActions
+     * const penaltyShootoutAdminActions = await prisma.penaltyShootoutAdminAction.findMany()
+     * 
+     * // Get first 10 PenaltyShootoutAdminActions
+     * const penaltyShootoutAdminActions = await prisma.penaltyShootoutAdminAction.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const penaltyShootoutAdminActionWithIdOnly = await prisma.penaltyShootoutAdminAction.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PenaltyShootoutAdminActionFindManyArgs>(args?: SelectSubset<T, PenaltyShootoutAdminActionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PenaltyShootoutAdminActionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PenaltyShootoutAdminAction.
+     * @param {PenaltyShootoutAdminActionCreateArgs} args - Arguments to create a PenaltyShootoutAdminAction.
+     * @example
+     * // Create one PenaltyShootoutAdminAction
+     * const PenaltyShootoutAdminAction = await prisma.penaltyShootoutAdminAction.create({
+     *   data: {
+     *     // ... data to create a PenaltyShootoutAdminAction
+     *   }
+     * })
+     * 
+     */
+    create<T extends PenaltyShootoutAdminActionCreateArgs>(args: SelectSubset<T, PenaltyShootoutAdminActionCreateArgs<ExtArgs>>): Prisma__PenaltyShootoutAdminActionClient<$Result.GetResult<Prisma.$PenaltyShootoutAdminActionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PenaltyShootoutAdminActions.
+     * @param {PenaltyShootoutAdminActionCreateManyArgs} args - Arguments to create many PenaltyShootoutAdminActions.
+     * @example
+     * // Create many PenaltyShootoutAdminActions
+     * const penaltyShootoutAdminAction = await prisma.penaltyShootoutAdminAction.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PenaltyShootoutAdminActionCreateManyArgs>(args?: SelectSubset<T, PenaltyShootoutAdminActionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PenaltyShootoutAdminActions and returns the data saved in the database.
+     * @param {PenaltyShootoutAdminActionCreateManyAndReturnArgs} args - Arguments to create many PenaltyShootoutAdminActions.
+     * @example
+     * // Create many PenaltyShootoutAdminActions
+     * const penaltyShootoutAdminAction = await prisma.penaltyShootoutAdminAction.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PenaltyShootoutAdminActions and only return the `id`
+     * const penaltyShootoutAdminActionWithIdOnly = await prisma.penaltyShootoutAdminAction.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PenaltyShootoutAdminActionCreateManyAndReturnArgs>(args?: SelectSubset<T, PenaltyShootoutAdminActionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PenaltyShootoutAdminActionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PenaltyShootoutAdminAction.
+     * @param {PenaltyShootoutAdminActionDeleteArgs} args - Arguments to delete one PenaltyShootoutAdminAction.
+     * @example
+     * // Delete one PenaltyShootoutAdminAction
+     * const PenaltyShootoutAdminAction = await prisma.penaltyShootoutAdminAction.delete({
+     *   where: {
+     *     // ... filter to delete one PenaltyShootoutAdminAction
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PenaltyShootoutAdminActionDeleteArgs>(args: SelectSubset<T, PenaltyShootoutAdminActionDeleteArgs<ExtArgs>>): Prisma__PenaltyShootoutAdminActionClient<$Result.GetResult<Prisma.$PenaltyShootoutAdminActionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PenaltyShootoutAdminAction.
+     * @param {PenaltyShootoutAdminActionUpdateArgs} args - Arguments to update one PenaltyShootoutAdminAction.
+     * @example
+     * // Update one PenaltyShootoutAdminAction
+     * const penaltyShootoutAdminAction = await prisma.penaltyShootoutAdminAction.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PenaltyShootoutAdminActionUpdateArgs>(args: SelectSubset<T, PenaltyShootoutAdminActionUpdateArgs<ExtArgs>>): Prisma__PenaltyShootoutAdminActionClient<$Result.GetResult<Prisma.$PenaltyShootoutAdminActionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PenaltyShootoutAdminActions.
+     * @param {PenaltyShootoutAdminActionDeleteManyArgs} args - Arguments to filter PenaltyShootoutAdminActions to delete.
+     * @example
+     * // Delete a few PenaltyShootoutAdminActions
+     * const { count } = await prisma.penaltyShootoutAdminAction.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PenaltyShootoutAdminActionDeleteManyArgs>(args?: SelectSubset<T, PenaltyShootoutAdminActionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PenaltyShootoutAdminActions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenaltyShootoutAdminActionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PenaltyShootoutAdminActions
+     * const penaltyShootoutAdminAction = await prisma.penaltyShootoutAdminAction.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PenaltyShootoutAdminActionUpdateManyArgs>(args: SelectSubset<T, PenaltyShootoutAdminActionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PenaltyShootoutAdminActions and returns the data updated in the database.
+     * @param {PenaltyShootoutAdminActionUpdateManyAndReturnArgs} args - Arguments to update many PenaltyShootoutAdminActions.
+     * @example
+     * // Update many PenaltyShootoutAdminActions
+     * const penaltyShootoutAdminAction = await prisma.penaltyShootoutAdminAction.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PenaltyShootoutAdminActions and only return the `id`
+     * const penaltyShootoutAdminActionWithIdOnly = await prisma.penaltyShootoutAdminAction.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PenaltyShootoutAdminActionUpdateManyAndReturnArgs>(args: SelectSubset<T, PenaltyShootoutAdminActionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PenaltyShootoutAdminActionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PenaltyShootoutAdminAction.
+     * @param {PenaltyShootoutAdminActionUpsertArgs} args - Arguments to update or create a PenaltyShootoutAdminAction.
+     * @example
+     * // Update or create a PenaltyShootoutAdminAction
+     * const penaltyShootoutAdminAction = await prisma.penaltyShootoutAdminAction.upsert({
+     *   create: {
+     *     // ... data to create a PenaltyShootoutAdminAction
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PenaltyShootoutAdminAction we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PenaltyShootoutAdminActionUpsertArgs>(args: SelectSubset<T, PenaltyShootoutAdminActionUpsertArgs<ExtArgs>>): Prisma__PenaltyShootoutAdminActionClient<$Result.GetResult<Prisma.$PenaltyShootoutAdminActionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PenaltyShootoutAdminActions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenaltyShootoutAdminActionCountArgs} args - Arguments to filter PenaltyShootoutAdminActions to count.
+     * @example
+     * // Count the number of PenaltyShootoutAdminActions
+     * const count = await prisma.penaltyShootoutAdminAction.count({
+     *   where: {
+     *     // ... the filter for the PenaltyShootoutAdminActions we want to count
+     *   }
+     * })
+    **/
+    count<T extends PenaltyShootoutAdminActionCountArgs>(
+      args?: Subset<T, PenaltyShootoutAdminActionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PenaltyShootoutAdminActionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PenaltyShootoutAdminAction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenaltyShootoutAdminActionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PenaltyShootoutAdminActionAggregateArgs>(args: Subset<T, PenaltyShootoutAdminActionAggregateArgs>): Prisma.PrismaPromise<GetPenaltyShootoutAdminActionAggregateType<T>>
+
+    /**
+     * Group by PenaltyShootoutAdminAction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PenaltyShootoutAdminActionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PenaltyShootoutAdminActionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PenaltyShootoutAdminActionGroupByArgs['orderBy'] }
+        : { orderBy?: PenaltyShootoutAdminActionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PenaltyShootoutAdminActionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPenaltyShootoutAdminActionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PenaltyShootoutAdminAction model
+   */
+  readonly fields: PenaltyShootoutAdminActionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PenaltyShootoutAdminAction.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PenaltyShootoutAdminActionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PenaltyShootoutAdminAction model
+   */
+  interface PenaltyShootoutAdminActionFieldRefs {
+    readonly id: FieldRef<"PenaltyShootoutAdminAction", 'String'>
+    readonly matchId: FieldRef<"PenaltyShootoutAdminAction", 'String'>
+    readonly resultId: FieldRef<"PenaltyShootoutAdminAction", 'String'>
+    readonly actionType: FieldRef<"PenaltyShootoutAdminAction", 'PenaltyShootoutAdminActionType'>
+    readonly adminName: FieldRef<"PenaltyShootoutAdminAction", 'String'>
+    readonly reason: FieldRef<"PenaltyShootoutAdminAction", 'String'>
+    readonly createdAt: FieldRef<"PenaltyShootoutAdminAction", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PenaltyShootoutAdminAction findUnique
+   */
+  export type PenaltyShootoutAdminActionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutAdminAction
+     */
+    select?: PenaltyShootoutAdminActionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutAdminAction
+     */
+    omit?: PenaltyShootoutAdminActionOmit<ExtArgs> | null
+    /**
+     * Filter, which PenaltyShootoutAdminAction to fetch.
+     */
+    where: PenaltyShootoutAdminActionWhereUniqueInput
+  }
+
+  /**
+   * PenaltyShootoutAdminAction findUniqueOrThrow
+   */
+  export type PenaltyShootoutAdminActionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutAdminAction
+     */
+    select?: PenaltyShootoutAdminActionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutAdminAction
+     */
+    omit?: PenaltyShootoutAdminActionOmit<ExtArgs> | null
+    /**
+     * Filter, which PenaltyShootoutAdminAction to fetch.
+     */
+    where: PenaltyShootoutAdminActionWhereUniqueInput
+  }
+
+  /**
+   * PenaltyShootoutAdminAction findFirst
+   */
+  export type PenaltyShootoutAdminActionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutAdminAction
+     */
+    select?: PenaltyShootoutAdminActionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutAdminAction
+     */
+    omit?: PenaltyShootoutAdminActionOmit<ExtArgs> | null
+    /**
+     * Filter, which PenaltyShootoutAdminAction to fetch.
+     */
+    where?: PenaltyShootoutAdminActionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PenaltyShootoutAdminActions to fetch.
+     */
+    orderBy?: PenaltyShootoutAdminActionOrderByWithRelationInput | PenaltyShootoutAdminActionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PenaltyShootoutAdminActions.
+     */
+    cursor?: PenaltyShootoutAdminActionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PenaltyShootoutAdminActions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PenaltyShootoutAdminActions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PenaltyShootoutAdminActions.
+     */
+    distinct?: PenaltyShootoutAdminActionScalarFieldEnum | PenaltyShootoutAdminActionScalarFieldEnum[]
+  }
+
+  /**
+   * PenaltyShootoutAdminAction findFirstOrThrow
+   */
+  export type PenaltyShootoutAdminActionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutAdminAction
+     */
+    select?: PenaltyShootoutAdminActionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutAdminAction
+     */
+    omit?: PenaltyShootoutAdminActionOmit<ExtArgs> | null
+    /**
+     * Filter, which PenaltyShootoutAdminAction to fetch.
+     */
+    where?: PenaltyShootoutAdminActionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PenaltyShootoutAdminActions to fetch.
+     */
+    orderBy?: PenaltyShootoutAdminActionOrderByWithRelationInput | PenaltyShootoutAdminActionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PenaltyShootoutAdminActions.
+     */
+    cursor?: PenaltyShootoutAdminActionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PenaltyShootoutAdminActions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PenaltyShootoutAdminActions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PenaltyShootoutAdminActions.
+     */
+    distinct?: PenaltyShootoutAdminActionScalarFieldEnum | PenaltyShootoutAdminActionScalarFieldEnum[]
+  }
+
+  /**
+   * PenaltyShootoutAdminAction findMany
+   */
+  export type PenaltyShootoutAdminActionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutAdminAction
+     */
+    select?: PenaltyShootoutAdminActionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutAdminAction
+     */
+    omit?: PenaltyShootoutAdminActionOmit<ExtArgs> | null
+    /**
+     * Filter, which PenaltyShootoutAdminActions to fetch.
+     */
+    where?: PenaltyShootoutAdminActionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PenaltyShootoutAdminActions to fetch.
+     */
+    orderBy?: PenaltyShootoutAdminActionOrderByWithRelationInput | PenaltyShootoutAdminActionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PenaltyShootoutAdminActions.
+     */
+    cursor?: PenaltyShootoutAdminActionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PenaltyShootoutAdminActions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PenaltyShootoutAdminActions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PenaltyShootoutAdminActions.
+     */
+    distinct?: PenaltyShootoutAdminActionScalarFieldEnum | PenaltyShootoutAdminActionScalarFieldEnum[]
+  }
+
+  /**
+   * PenaltyShootoutAdminAction create
+   */
+  export type PenaltyShootoutAdminActionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutAdminAction
+     */
+    select?: PenaltyShootoutAdminActionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutAdminAction
+     */
+    omit?: PenaltyShootoutAdminActionOmit<ExtArgs> | null
+    /**
+     * The data needed to create a PenaltyShootoutAdminAction.
+     */
+    data: XOR<PenaltyShootoutAdminActionCreateInput, PenaltyShootoutAdminActionUncheckedCreateInput>
+  }
+
+  /**
+   * PenaltyShootoutAdminAction createMany
+   */
+  export type PenaltyShootoutAdminActionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PenaltyShootoutAdminActions.
+     */
+    data: PenaltyShootoutAdminActionCreateManyInput | PenaltyShootoutAdminActionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PenaltyShootoutAdminAction createManyAndReturn
+   */
+  export type PenaltyShootoutAdminActionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutAdminAction
+     */
+    select?: PenaltyShootoutAdminActionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutAdminAction
+     */
+    omit?: PenaltyShootoutAdminActionOmit<ExtArgs> | null
+    /**
+     * The data used to create many PenaltyShootoutAdminActions.
+     */
+    data: PenaltyShootoutAdminActionCreateManyInput | PenaltyShootoutAdminActionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PenaltyShootoutAdminAction update
+   */
+  export type PenaltyShootoutAdminActionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutAdminAction
+     */
+    select?: PenaltyShootoutAdminActionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutAdminAction
+     */
+    omit?: PenaltyShootoutAdminActionOmit<ExtArgs> | null
+    /**
+     * The data needed to update a PenaltyShootoutAdminAction.
+     */
+    data: XOR<PenaltyShootoutAdminActionUpdateInput, PenaltyShootoutAdminActionUncheckedUpdateInput>
+    /**
+     * Choose, which PenaltyShootoutAdminAction to update.
+     */
+    where: PenaltyShootoutAdminActionWhereUniqueInput
+  }
+
+  /**
+   * PenaltyShootoutAdminAction updateMany
+   */
+  export type PenaltyShootoutAdminActionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PenaltyShootoutAdminActions.
+     */
+    data: XOR<PenaltyShootoutAdminActionUpdateManyMutationInput, PenaltyShootoutAdminActionUncheckedUpdateManyInput>
+    /**
+     * Filter which PenaltyShootoutAdminActions to update
+     */
+    where?: PenaltyShootoutAdminActionWhereInput
+    /**
+     * Limit how many PenaltyShootoutAdminActions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PenaltyShootoutAdminAction updateManyAndReturn
+   */
+  export type PenaltyShootoutAdminActionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutAdminAction
+     */
+    select?: PenaltyShootoutAdminActionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutAdminAction
+     */
+    omit?: PenaltyShootoutAdminActionOmit<ExtArgs> | null
+    /**
+     * The data used to update PenaltyShootoutAdminActions.
+     */
+    data: XOR<PenaltyShootoutAdminActionUpdateManyMutationInput, PenaltyShootoutAdminActionUncheckedUpdateManyInput>
+    /**
+     * Filter which PenaltyShootoutAdminActions to update
+     */
+    where?: PenaltyShootoutAdminActionWhereInput
+    /**
+     * Limit how many PenaltyShootoutAdminActions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PenaltyShootoutAdminAction upsert
+   */
+  export type PenaltyShootoutAdminActionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutAdminAction
+     */
+    select?: PenaltyShootoutAdminActionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutAdminAction
+     */
+    omit?: PenaltyShootoutAdminActionOmit<ExtArgs> | null
+    /**
+     * The filter to search for the PenaltyShootoutAdminAction to update in case it exists.
+     */
+    where: PenaltyShootoutAdminActionWhereUniqueInput
+    /**
+     * In case the PenaltyShootoutAdminAction found by the `where` argument doesn't exist, create a new PenaltyShootoutAdminAction with this data.
+     */
+    create: XOR<PenaltyShootoutAdminActionCreateInput, PenaltyShootoutAdminActionUncheckedCreateInput>
+    /**
+     * In case the PenaltyShootoutAdminAction was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PenaltyShootoutAdminActionUpdateInput, PenaltyShootoutAdminActionUncheckedUpdateInput>
+  }
+
+  /**
+   * PenaltyShootoutAdminAction delete
+   */
+  export type PenaltyShootoutAdminActionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutAdminAction
+     */
+    select?: PenaltyShootoutAdminActionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutAdminAction
+     */
+    omit?: PenaltyShootoutAdminActionOmit<ExtArgs> | null
+    /**
+     * Filter which PenaltyShootoutAdminAction to delete.
+     */
+    where: PenaltyShootoutAdminActionWhereUniqueInput
+  }
+
+  /**
+   * PenaltyShootoutAdminAction deleteMany
+   */
+  export type PenaltyShootoutAdminActionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PenaltyShootoutAdminActions to delete
+     */
+    where?: PenaltyShootoutAdminActionWhereInput
+    /**
+     * Limit how many PenaltyShootoutAdminActions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PenaltyShootoutAdminAction without action
+   */
+  export type PenaltyShootoutAdminActionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PenaltyShootoutAdminAction
+     */
+    select?: PenaltyShootoutAdminActionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PenaltyShootoutAdminAction
+     */
+    omit?: PenaltyShootoutAdminActionOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Season
+   */
+
+  export type AggregateSeason = {
+    _count: SeasonCountAggregateOutputType | null
+    _min: SeasonMinAggregateOutputType | null
+    _max: SeasonMaxAggregateOutputType | null
+  }
+
+  export type SeasonMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    startDate: Date | null
+    endDate: Date | null
+    active: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SeasonMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    startDate: Date | null
+    endDate: Date | null
+    active: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SeasonCountAggregateOutputType = {
+    id: number
+    name: number
+    startDate: number
+    endDate: number
+    active: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SeasonMinAggregateInputType = {
+    id?: true
+    name?: true
+    startDate?: true
+    endDate?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SeasonMaxAggregateInputType = {
+    id?: true
+    name?: true
+    startDate?: true
+    endDate?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SeasonCountAggregateInputType = {
+    id?: true
+    name?: true
+    startDate?: true
+    endDate?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SeasonAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Season to aggregate.
+     */
+    where?: SeasonWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Seasons to fetch.
+     */
+    orderBy?: SeasonOrderByWithRelationInput | SeasonOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SeasonWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Seasons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Seasons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Seasons
+    **/
+    _count?: true | SeasonCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SeasonMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SeasonMaxAggregateInputType
+  }
+
+  export type GetSeasonAggregateType<T extends SeasonAggregateArgs> = {
+        [P in keyof T & keyof AggregateSeason]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSeason[P]>
+      : GetScalarType<T[P], AggregateSeason[P]>
+  }
+
+
+
+
+  export type SeasonGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SeasonWhereInput
+    orderBy?: SeasonOrderByWithAggregationInput | SeasonOrderByWithAggregationInput[]
+    by: SeasonScalarFieldEnum[] | SeasonScalarFieldEnum
+    having?: SeasonScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SeasonCountAggregateInputType | true
+    _min?: SeasonMinAggregateInputType
+    _max?: SeasonMaxAggregateInputType
+  }
+
+  export type SeasonGroupByOutputType = {
+    id: string
+    name: string
+    startDate: Date
+    endDate: Date
+    active: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: SeasonCountAggregateOutputType | null
+    _min: SeasonMinAggregateOutputType | null
+    _max: SeasonMaxAggregateOutputType | null
+  }
+
+  type GetSeasonGroupByPayload<T extends SeasonGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SeasonGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SeasonGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SeasonGroupByOutputType[P]>
+            : GetScalarType<T[P], SeasonGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SeasonSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    ratings?: boolean | Season$ratingsArgs<ExtArgs>
+    _count?: boolean | SeasonCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["season"]>
+
+  export type SeasonSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["season"]>
+
+  export type SeasonSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["season"]>
+
+  export type SeasonSelectScalar = {
+    id?: boolean
+    name?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SeasonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "startDate" | "endDate" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["season"]>
+  export type SeasonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ratings?: boolean | Season$ratingsArgs<ExtArgs>
+    _count?: boolean | SeasonCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type SeasonIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type SeasonIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $SeasonPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Season"
+    objects: {
+      ratings: Prisma.$PlayerRatingPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      startDate: Date
+      endDate: Date
+      active: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["season"]>
+    composites: {}
+  }
+
+  type SeasonGetPayload<S extends boolean | null | undefined | SeasonDefaultArgs> = $Result.GetResult<Prisma.$SeasonPayload, S>
+
+  type SeasonCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SeasonFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SeasonCountAggregateInputType | true
+    }
+
+  export interface SeasonDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Season'], meta: { name: 'Season' } }
+    /**
+     * Find zero or one Season that matches the filter.
+     * @param {SeasonFindUniqueArgs} args - Arguments to find a Season
+     * @example
+     * // Get one Season
+     * const season = await prisma.season.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SeasonFindUniqueArgs>(args: SelectSubset<T, SeasonFindUniqueArgs<ExtArgs>>): Prisma__SeasonClient<$Result.GetResult<Prisma.$SeasonPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Season that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SeasonFindUniqueOrThrowArgs} args - Arguments to find a Season
+     * @example
+     * // Get one Season
+     * const season = await prisma.season.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SeasonFindUniqueOrThrowArgs>(args: SelectSubset<T, SeasonFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SeasonClient<$Result.GetResult<Prisma.$SeasonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Season that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeasonFindFirstArgs} args - Arguments to find a Season
+     * @example
+     * // Get one Season
+     * const season = await prisma.season.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SeasonFindFirstArgs>(args?: SelectSubset<T, SeasonFindFirstArgs<ExtArgs>>): Prisma__SeasonClient<$Result.GetResult<Prisma.$SeasonPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Season that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeasonFindFirstOrThrowArgs} args - Arguments to find a Season
+     * @example
+     * // Get one Season
+     * const season = await prisma.season.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SeasonFindFirstOrThrowArgs>(args?: SelectSubset<T, SeasonFindFirstOrThrowArgs<ExtArgs>>): Prisma__SeasonClient<$Result.GetResult<Prisma.$SeasonPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Seasons that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeasonFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Seasons
+     * const seasons = await prisma.season.findMany()
+     * 
+     * // Get first 10 Seasons
+     * const seasons = await prisma.season.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const seasonWithIdOnly = await prisma.season.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SeasonFindManyArgs>(args?: SelectSubset<T, SeasonFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeasonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Season.
+     * @param {SeasonCreateArgs} args - Arguments to create a Season.
+     * @example
+     * // Create one Season
+     * const Season = await prisma.season.create({
+     *   data: {
+     *     // ... data to create a Season
+     *   }
+     * })
+     * 
+     */
+    create<T extends SeasonCreateArgs>(args: SelectSubset<T, SeasonCreateArgs<ExtArgs>>): Prisma__SeasonClient<$Result.GetResult<Prisma.$SeasonPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Seasons.
+     * @param {SeasonCreateManyArgs} args - Arguments to create many Seasons.
+     * @example
+     * // Create many Seasons
+     * const season = await prisma.season.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SeasonCreateManyArgs>(args?: SelectSubset<T, SeasonCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Seasons and returns the data saved in the database.
+     * @param {SeasonCreateManyAndReturnArgs} args - Arguments to create many Seasons.
+     * @example
+     * // Create many Seasons
+     * const season = await prisma.season.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Seasons and only return the `id`
+     * const seasonWithIdOnly = await prisma.season.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SeasonCreateManyAndReturnArgs>(args?: SelectSubset<T, SeasonCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeasonPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Season.
+     * @param {SeasonDeleteArgs} args - Arguments to delete one Season.
+     * @example
+     * // Delete one Season
+     * const Season = await prisma.season.delete({
+     *   where: {
+     *     // ... filter to delete one Season
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SeasonDeleteArgs>(args: SelectSubset<T, SeasonDeleteArgs<ExtArgs>>): Prisma__SeasonClient<$Result.GetResult<Prisma.$SeasonPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Season.
+     * @param {SeasonUpdateArgs} args - Arguments to update one Season.
+     * @example
+     * // Update one Season
+     * const season = await prisma.season.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SeasonUpdateArgs>(args: SelectSubset<T, SeasonUpdateArgs<ExtArgs>>): Prisma__SeasonClient<$Result.GetResult<Prisma.$SeasonPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Seasons.
+     * @param {SeasonDeleteManyArgs} args - Arguments to filter Seasons to delete.
+     * @example
+     * // Delete a few Seasons
+     * const { count } = await prisma.season.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SeasonDeleteManyArgs>(args?: SelectSubset<T, SeasonDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Seasons.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeasonUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Seasons
+     * const season = await prisma.season.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SeasonUpdateManyArgs>(args: SelectSubset<T, SeasonUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Seasons and returns the data updated in the database.
+     * @param {SeasonUpdateManyAndReturnArgs} args - Arguments to update many Seasons.
+     * @example
+     * // Update many Seasons
+     * const season = await prisma.season.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Seasons and only return the `id`
+     * const seasonWithIdOnly = await prisma.season.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SeasonUpdateManyAndReturnArgs>(args: SelectSubset<T, SeasonUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeasonPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Season.
+     * @param {SeasonUpsertArgs} args - Arguments to update or create a Season.
+     * @example
+     * // Update or create a Season
+     * const season = await prisma.season.upsert({
+     *   create: {
+     *     // ... data to create a Season
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Season we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SeasonUpsertArgs>(args: SelectSubset<T, SeasonUpsertArgs<ExtArgs>>): Prisma__SeasonClient<$Result.GetResult<Prisma.$SeasonPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Seasons.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeasonCountArgs} args - Arguments to filter Seasons to count.
+     * @example
+     * // Count the number of Seasons
+     * const count = await prisma.season.count({
+     *   where: {
+     *     // ... the filter for the Seasons we want to count
+     *   }
+     * })
+    **/
+    count<T extends SeasonCountArgs>(
+      args?: Subset<T, SeasonCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SeasonCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Season.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeasonAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SeasonAggregateArgs>(args: Subset<T, SeasonAggregateArgs>): Prisma.PrismaPromise<GetSeasonAggregateType<T>>
+
+    /**
+     * Group by Season.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeasonGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SeasonGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SeasonGroupByArgs['orderBy'] }
+        : { orderBy?: SeasonGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SeasonGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSeasonGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Season model
+   */
+  readonly fields: SeasonFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Season.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SeasonClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    ratings<T extends Season$ratingsArgs<ExtArgs> = {}>(args?: Subset<T, Season$ratingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlayerRatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Season model
+   */
+  interface SeasonFieldRefs {
+    readonly id: FieldRef<"Season", 'String'>
+    readonly name: FieldRef<"Season", 'String'>
+    readonly startDate: FieldRef<"Season", 'DateTime'>
+    readonly endDate: FieldRef<"Season", 'DateTime'>
+    readonly active: FieldRef<"Season", 'Boolean'>
+    readonly createdAt: FieldRef<"Season", 'DateTime'>
+    readonly updatedAt: FieldRef<"Season", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Season findUnique
+   */
+  export type SeasonFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Season
+     */
+    select?: SeasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Season
+     */
+    omit?: SeasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeasonInclude<ExtArgs> | null
+    /**
+     * Filter, which Season to fetch.
+     */
+    where: SeasonWhereUniqueInput
+  }
+
+  /**
+   * Season findUniqueOrThrow
+   */
+  export type SeasonFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Season
+     */
+    select?: SeasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Season
+     */
+    omit?: SeasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeasonInclude<ExtArgs> | null
+    /**
+     * Filter, which Season to fetch.
+     */
+    where: SeasonWhereUniqueInput
+  }
+
+  /**
+   * Season findFirst
+   */
+  export type SeasonFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Season
+     */
+    select?: SeasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Season
+     */
+    omit?: SeasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeasonInclude<ExtArgs> | null
+    /**
+     * Filter, which Season to fetch.
+     */
+    where?: SeasonWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Seasons to fetch.
+     */
+    orderBy?: SeasonOrderByWithRelationInput | SeasonOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Seasons.
+     */
+    cursor?: SeasonWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Seasons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Seasons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Seasons.
+     */
+    distinct?: SeasonScalarFieldEnum | SeasonScalarFieldEnum[]
+  }
+
+  /**
+   * Season findFirstOrThrow
+   */
+  export type SeasonFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Season
+     */
+    select?: SeasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Season
+     */
+    omit?: SeasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeasonInclude<ExtArgs> | null
+    /**
+     * Filter, which Season to fetch.
+     */
+    where?: SeasonWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Seasons to fetch.
+     */
+    orderBy?: SeasonOrderByWithRelationInput | SeasonOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Seasons.
+     */
+    cursor?: SeasonWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Seasons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Seasons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Seasons.
+     */
+    distinct?: SeasonScalarFieldEnum | SeasonScalarFieldEnum[]
+  }
+
+  /**
+   * Season findMany
+   */
+  export type SeasonFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Season
+     */
+    select?: SeasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Season
+     */
+    omit?: SeasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeasonInclude<ExtArgs> | null
+    /**
+     * Filter, which Seasons to fetch.
+     */
+    where?: SeasonWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Seasons to fetch.
+     */
+    orderBy?: SeasonOrderByWithRelationInput | SeasonOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Seasons.
+     */
+    cursor?: SeasonWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Seasons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Seasons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Seasons.
+     */
+    distinct?: SeasonScalarFieldEnum | SeasonScalarFieldEnum[]
+  }
+
+  /**
+   * Season create
+   */
+  export type SeasonCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Season
+     */
+    select?: SeasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Season
+     */
+    omit?: SeasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeasonInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Season.
+     */
+    data: XOR<SeasonCreateInput, SeasonUncheckedCreateInput>
+  }
+
+  /**
+   * Season createMany
+   */
+  export type SeasonCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Seasons.
+     */
+    data: SeasonCreateManyInput | SeasonCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Season createManyAndReturn
+   */
+  export type SeasonCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Season
+     */
+    select?: SeasonSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Season
+     */
+    omit?: SeasonOmit<ExtArgs> | null
+    /**
+     * The data used to create many Seasons.
+     */
+    data: SeasonCreateManyInput | SeasonCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Season update
+   */
+  export type SeasonUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Season
+     */
+    select?: SeasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Season
+     */
+    omit?: SeasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeasonInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Season.
+     */
+    data: XOR<SeasonUpdateInput, SeasonUncheckedUpdateInput>
+    /**
+     * Choose, which Season to update.
+     */
+    where: SeasonWhereUniqueInput
+  }
+
+  /**
+   * Season updateMany
+   */
+  export type SeasonUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Seasons.
+     */
+    data: XOR<SeasonUpdateManyMutationInput, SeasonUncheckedUpdateManyInput>
+    /**
+     * Filter which Seasons to update
+     */
+    where?: SeasonWhereInput
+    /**
+     * Limit how many Seasons to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Season updateManyAndReturn
+   */
+  export type SeasonUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Season
+     */
+    select?: SeasonSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Season
+     */
+    omit?: SeasonOmit<ExtArgs> | null
+    /**
+     * The data used to update Seasons.
+     */
+    data: XOR<SeasonUpdateManyMutationInput, SeasonUncheckedUpdateManyInput>
+    /**
+     * Filter which Seasons to update
+     */
+    where?: SeasonWhereInput
+    /**
+     * Limit how many Seasons to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Season upsert
+   */
+  export type SeasonUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Season
+     */
+    select?: SeasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Season
+     */
+    omit?: SeasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeasonInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Season to update in case it exists.
+     */
+    where: SeasonWhereUniqueInput
+    /**
+     * In case the Season found by the `where` argument doesn't exist, create a new Season with this data.
+     */
+    create: XOR<SeasonCreateInput, SeasonUncheckedCreateInput>
+    /**
+     * In case the Season was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SeasonUpdateInput, SeasonUncheckedUpdateInput>
+  }
+
+  /**
+   * Season delete
+   */
+  export type SeasonDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Season
+     */
+    select?: SeasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Season
+     */
+    omit?: SeasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeasonInclude<ExtArgs> | null
+    /**
+     * Filter which Season to delete.
+     */
+    where: SeasonWhereUniqueInput
+  }
+
+  /**
+   * Season deleteMany
+   */
+  export type SeasonDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Seasons to delete
+     */
+    where?: SeasonWhereInput
+    /**
+     * Limit how many Seasons to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Season.ratings
+   */
+  export type Season$ratingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerRating
+     */
+    select?: PlayerRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlayerRating
+     */
+    omit?: PlayerRatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerRatingInclude<ExtArgs> | null
+    where?: PlayerRatingWhereInput
+    orderBy?: PlayerRatingOrderByWithRelationInput | PlayerRatingOrderByWithRelationInput[]
+    cursor?: PlayerRatingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PlayerRatingScalarFieldEnum | PlayerRatingScalarFieldEnum[]
+  }
+
+  /**
+   * Season without action
+   */
+  export type SeasonDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Season
+     */
+    select?: SeasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Season
+     */
+    omit?: SeasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeasonInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PlayerRating
+   */
+
+  export type AggregatePlayerRating = {
+    _count: PlayerRatingCountAggregateOutputType | null
+    _avg: PlayerRatingAvgAggregateOutputType | null
+    _sum: PlayerRatingSumAggregateOutputType | null
+    _min: PlayerRatingMinAggregateOutputType | null
+    _max: PlayerRatingMaxAggregateOutputType | null
+  }
+
+  export type PlayerRatingAvgAggregateOutputType = {
+    matchesPlayed: number | null
+    wins: number | null
+    losses: number | null
+    goalsScored: number | null
+    goalsConceded: number | null
+    currentRating: number | null
+    highestRating: number | null
+  }
+
+  export type PlayerRatingSumAggregateOutputType = {
+    matchesPlayed: number | null
+    wins: number | null
+    losses: number | null
+    goalsScored: number | null
+    goalsConceded: number | null
+    currentRating: number | null
+    highestRating: number | null
+  }
+
+  export type PlayerRatingMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    seasonId: string | null
+    matchesPlayed: number | null
+    wins: number | null
+    losses: number | null
+    goalsScored: number | null
+    goalsConceded: number | null
+    currentRating: number | null
+    highestRating: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PlayerRatingMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    seasonId: string | null
+    matchesPlayed: number | null
+    wins: number | null
+    losses: number | null
+    goalsScored: number | null
+    goalsConceded: number | null
+    currentRating: number | null
+    highestRating: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PlayerRatingCountAggregateOutputType = {
+    id: number
+    userId: number
+    seasonId: number
+    matchesPlayed: number
+    wins: number
+    losses: number
+    goalsScored: number
+    goalsConceded: number
+    currentRating: number
+    highestRating: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PlayerRatingAvgAggregateInputType = {
+    matchesPlayed?: true
+    wins?: true
+    losses?: true
+    goalsScored?: true
+    goalsConceded?: true
+    currentRating?: true
+    highestRating?: true
+  }
+
+  export type PlayerRatingSumAggregateInputType = {
+    matchesPlayed?: true
+    wins?: true
+    losses?: true
+    goalsScored?: true
+    goalsConceded?: true
+    currentRating?: true
+    highestRating?: true
+  }
+
+  export type PlayerRatingMinAggregateInputType = {
+    id?: true
+    userId?: true
+    seasonId?: true
+    matchesPlayed?: true
+    wins?: true
+    losses?: true
+    goalsScored?: true
+    goalsConceded?: true
+    currentRating?: true
+    highestRating?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PlayerRatingMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    seasonId?: true
+    matchesPlayed?: true
+    wins?: true
+    losses?: true
+    goalsScored?: true
+    goalsConceded?: true
+    currentRating?: true
+    highestRating?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PlayerRatingCountAggregateInputType = {
+    id?: true
+    userId?: true
+    seasonId?: true
+    matchesPlayed?: true
+    wins?: true
+    losses?: true
+    goalsScored?: true
+    goalsConceded?: true
+    currentRating?: true
+    highestRating?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PlayerRatingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlayerRating to aggregate.
+     */
+    where?: PlayerRatingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlayerRatings to fetch.
+     */
+    orderBy?: PlayerRatingOrderByWithRelationInput | PlayerRatingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PlayerRatingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlayerRatings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlayerRatings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PlayerRatings
+    **/
+    _count?: true | PlayerRatingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PlayerRatingAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PlayerRatingSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PlayerRatingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PlayerRatingMaxAggregateInputType
+  }
+
+  export type GetPlayerRatingAggregateType<T extends PlayerRatingAggregateArgs> = {
+        [P in keyof T & keyof AggregatePlayerRating]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePlayerRating[P]>
+      : GetScalarType<T[P], AggregatePlayerRating[P]>
+  }
+
+
+
+
+  export type PlayerRatingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlayerRatingWhereInput
+    orderBy?: PlayerRatingOrderByWithAggregationInput | PlayerRatingOrderByWithAggregationInput[]
+    by: PlayerRatingScalarFieldEnum[] | PlayerRatingScalarFieldEnum
+    having?: PlayerRatingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PlayerRatingCountAggregateInputType | true
+    _avg?: PlayerRatingAvgAggregateInputType
+    _sum?: PlayerRatingSumAggregateInputType
+    _min?: PlayerRatingMinAggregateInputType
+    _max?: PlayerRatingMaxAggregateInputType
+  }
+
+  export type PlayerRatingGroupByOutputType = {
+    id: string
+    userId: string
+    seasonId: string | null
+    matchesPlayed: number
+    wins: number
+    losses: number
+    goalsScored: number
+    goalsConceded: number
+    currentRating: number
+    highestRating: number
+    createdAt: Date
+    updatedAt: Date
+    _count: PlayerRatingCountAggregateOutputType | null
+    _avg: PlayerRatingAvgAggregateOutputType | null
+    _sum: PlayerRatingSumAggregateOutputType | null
+    _min: PlayerRatingMinAggregateOutputType | null
+    _max: PlayerRatingMaxAggregateOutputType | null
+  }
+
+  type GetPlayerRatingGroupByPayload<T extends PlayerRatingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PlayerRatingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PlayerRatingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PlayerRatingGroupByOutputType[P]>
+            : GetScalarType<T[P], PlayerRatingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PlayerRatingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    seasonId?: boolean
+    matchesPlayed?: boolean
+    wins?: boolean
+    losses?: boolean
+    goalsScored?: boolean
+    goalsConceded?: boolean
+    currentRating?: boolean
+    highestRating?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    season?: boolean | PlayerRating$seasonArgs<ExtArgs>
+  }, ExtArgs["result"]["playerRating"]>
+
+  export type PlayerRatingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    seasonId?: boolean
+    matchesPlayed?: boolean
+    wins?: boolean
+    losses?: boolean
+    goalsScored?: boolean
+    goalsConceded?: boolean
+    currentRating?: boolean
+    highestRating?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    season?: boolean | PlayerRating$seasonArgs<ExtArgs>
+  }, ExtArgs["result"]["playerRating"]>
+
+  export type PlayerRatingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    seasonId?: boolean
+    matchesPlayed?: boolean
+    wins?: boolean
+    losses?: boolean
+    goalsScored?: boolean
+    goalsConceded?: boolean
+    currentRating?: boolean
+    highestRating?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    season?: boolean | PlayerRating$seasonArgs<ExtArgs>
+  }, ExtArgs["result"]["playerRating"]>
+
+  export type PlayerRatingSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    seasonId?: boolean
+    matchesPlayed?: boolean
+    wins?: boolean
+    losses?: boolean
+    goalsScored?: boolean
+    goalsConceded?: boolean
+    currentRating?: boolean
+    highestRating?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PlayerRatingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "seasonId" | "matchesPlayed" | "wins" | "losses" | "goalsScored" | "goalsConceded" | "currentRating" | "highestRating" | "createdAt" | "updatedAt", ExtArgs["result"]["playerRating"]>
+  export type PlayerRatingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    season?: boolean | PlayerRating$seasonArgs<ExtArgs>
+  }
+  export type PlayerRatingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    season?: boolean | PlayerRating$seasonArgs<ExtArgs>
+  }
+  export type PlayerRatingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    season?: boolean | PlayerRating$seasonArgs<ExtArgs>
+  }
+
+  export type $PlayerRatingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PlayerRating"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      season: Prisma.$SeasonPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      seasonId: string | null
+      matchesPlayed: number
+      wins: number
+      losses: number
+      goalsScored: number
+      goalsConceded: number
+      currentRating: number
+      highestRating: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["playerRating"]>
+    composites: {}
+  }
+
+  type PlayerRatingGetPayload<S extends boolean | null | undefined | PlayerRatingDefaultArgs> = $Result.GetResult<Prisma.$PlayerRatingPayload, S>
+
+  type PlayerRatingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PlayerRatingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PlayerRatingCountAggregateInputType | true
+    }
+
+  export interface PlayerRatingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PlayerRating'], meta: { name: 'PlayerRating' } }
+    /**
+     * Find zero or one PlayerRating that matches the filter.
+     * @param {PlayerRatingFindUniqueArgs} args - Arguments to find a PlayerRating
+     * @example
+     * // Get one PlayerRating
+     * const playerRating = await prisma.playerRating.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PlayerRatingFindUniqueArgs>(args: SelectSubset<T, PlayerRatingFindUniqueArgs<ExtArgs>>): Prisma__PlayerRatingClient<$Result.GetResult<Prisma.$PlayerRatingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PlayerRating that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PlayerRatingFindUniqueOrThrowArgs} args - Arguments to find a PlayerRating
+     * @example
+     * // Get one PlayerRating
+     * const playerRating = await prisma.playerRating.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PlayerRatingFindUniqueOrThrowArgs>(args: SelectSubset<T, PlayerRatingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PlayerRatingClient<$Result.GetResult<Prisma.$PlayerRatingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PlayerRating that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlayerRatingFindFirstArgs} args - Arguments to find a PlayerRating
+     * @example
+     * // Get one PlayerRating
+     * const playerRating = await prisma.playerRating.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PlayerRatingFindFirstArgs>(args?: SelectSubset<T, PlayerRatingFindFirstArgs<ExtArgs>>): Prisma__PlayerRatingClient<$Result.GetResult<Prisma.$PlayerRatingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PlayerRating that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlayerRatingFindFirstOrThrowArgs} args - Arguments to find a PlayerRating
+     * @example
+     * // Get one PlayerRating
+     * const playerRating = await prisma.playerRating.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PlayerRatingFindFirstOrThrowArgs>(args?: SelectSubset<T, PlayerRatingFindFirstOrThrowArgs<ExtArgs>>): Prisma__PlayerRatingClient<$Result.GetResult<Prisma.$PlayerRatingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PlayerRatings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlayerRatingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PlayerRatings
+     * const playerRatings = await prisma.playerRating.findMany()
+     * 
+     * // Get first 10 PlayerRatings
+     * const playerRatings = await prisma.playerRating.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const playerRatingWithIdOnly = await prisma.playerRating.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PlayerRatingFindManyArgs>(args?: SelectSubset<T, PlayerRatingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlayerRatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PlayerRating.
+     * @param {PlayerRatingCreateArgs} args - Arguments to create a PlayerRating.
+     * @example
+     * // Create one PlayerRating
+     * const PlayerRating = await prisma.playerRating.create({
+     *   data: {
+     *     // ... data to create a PlayerRating
+     *   }
+     * })
+     * 
+     */
+    create<T extends PlayerRatingCreateArgs>(args: SelectSubset<T, PlayerRatingCreateArgs<ExtArgs>>): Prisma__PlayerRatingClient<$Result.GetResult<Prisma.$PlayerRatingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PlayerRatings.
+     * @param {PlayerRatingCreateManyArgs} args - Arguments to create many PlayerRatings.
+     * @example
+     * // Create many PlayerRatings
+     * const playerRating = await prisma.playerRating.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PlayerRatingCreateManyArgs>(args?: SelectSubset<T, PlayerRatingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PlayerRatings and returns the data saved in the database.
+     * @param {PlayerRatingCreateManyAndReturnArgs} args - Arguments to create many PlayerRatings.
+     * @example
+     * // Create many PlayerRatings
+     * const playerRating = await prisma.playerRating.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PlayerRatings and only return the `id`
+     * const playerRatingWithIdOnly = await prisma.playerRating.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PlayerRatingCreateManyAndReturnArgs>(args?: SelectSubset<T, PlayerRatingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlayerRatingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PlayerRating.
+     * @param {PlayerRatingDeleteArgs} args - Arguments to delete one PlayerRating.
+     * @example
+     * // Delete one PlayerRating
+     * const PlayerRating = await prisma.playerRating.delete({
+     *   where: {
+     *     // ... filter to delete one PlayerRating
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PlayerRatingDeleteArgs>(args: SelectSubset<T, PlayerRatingDeleteArgs<ExtArgs>>): Prisma__PlayerRatingClient<$Result.GetResult<Prisma.$PlayerRatingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PlayerRating.
+     * @param {PlayerRatingUpdateArgs} args - Arguments to update one PlayerRating.
+     * @example
+     * // Update one PlayerRating
+     * const playerRating = await prisma.playerRating.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PlayerRatingUpdateArgs>(args: SelectSubset<T, PlayerRatingUpdateArgs<ExtArgs>>): Prisma__PlayerRatingClient<$Result.GetResult<Prisma.$PlayerRatingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PlayerRatings.
+     * @param {PlayerRatingDeleteManyArgs} args - Arguments to filter PlayerRatings to delete.
+     * @example
+     * // Delete a few PlayerRatings
+     * const { count } = await prisma.playerRating.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PlayerRatingDeleteManyArgs>(args?: SelectSubset<T, PlayerRatingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PlayerRatings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlayerRatingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PlayerRatings
+     * const playerRating = await prisma.playerRating.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PlayerRatingUpdateManyArgs>(args: SelectSubset<T, PlayerRatingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PlayerRatings and returns the data updated in the database.
+     * @param {PlayerRatingUpdateManyAndReturnArgs} args - Arguments to update many PlayerRatings.
+     * @example
+     * // Update many PlayerRatings
+     * const playerRating = await prisma.playerRating.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PlayerRatings and only return the `id`
+     * const playerRatingWithIdOnly = await prisma.playerRating.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PlayerRatingUpdateManyAndReturnArgs>(args: SelectSubset<T, PlayerRatingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlayerRatingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PlayerRating.
+     * @param {PlayerRatingUpsertArgs} args - Arguments to update or create a PlayerRating.
+     * @example
+     * // Update or create a PlayerRating
+     * const playerRating = await prisma.playerRating.upsert({
+     *   create: {
+     *     // ... data to create a PlayerRating
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PlayerRating we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PlayerRatingUpsertArgs>(args: SelectSubset<T, PlayerRatingUpsertArgs<ExtArgs>>): Prisma__PlayerRatingClient<$Result.GetResult<Prisma.$PlayerRatingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PlayerRatings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlayerRatingCountArgs} args - Arguments to filter PlayerRatings to count.
+     * @example
+     * // Count the number of PlayerRatings
+     * const count = await prisma.playerRating.count({
+     *   where: {
+     *     // ... the filter for the PlayerRatings we want to count
+     *   }
+     * })
+    **/
+    count<T extends PlayerRatingCountArgs>(
+      args?: Subset<T, PlayerRatingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PlayerRatingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PlayerRating.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlayerRatingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PlayerRatingAggregateArgs>(args: Subset<T, PlayerRatingAggregateArgs>): Prisma.PrismaPromise<GetPlayerRatingAggregateType<T>>
+
+    /**
+     * Group by PlayerRating.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlayerRatingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PlayerRatingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PlayerRatingGroupByArgs['orderBy'] }
+        : { orderBy?: PlayerRatingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PlayerRatingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPlayerRatingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PlayerRating model
+   */
+  readonly fields: PlayerRatingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PlayerRating.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PlayerRatingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    season<T extends PlayerRating$seasonArgs<ExtArgs> = {}>(args?: Subset<T, PlayerRating$seasonArgs<ExtArgs>>): Prisma__SeasonClient<$Result.GetResult<Prisma.$SeasonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PlayerRating model
+   */
+  interface PlayerRatingFieldRefs {
+    readonly id: FieldRef<"PlayerRating", 'String'>
+    readonly userId: FieldRef<"PlayerRating", 'String'>
+    readonly seasonId: FieldRef<"PlayerRating", 'String'>
+    readonly matchesPlayed: FieldRef<"PlayerRating", 'Int'>
+    readonly wins: FieldRef<"PlayerRating", 'Int'>
+    readonly losses: FieldRef<"PlayerRating", 'Int'>
+    readonly goalsScored: FieldRef<"PlayerRating", 'Int'>
+    readonly goalsConceded: FieldRef<"PlayerRating", 'Int'>
+    readonly currentRating: FieldRef<"PlayerRating", 'Int'>
+    readonly highestRating: FieldRef<"PlayerRating", 'Int'>
+    readonly createdAt: FieldRef<"PlayerRating", 'DateTime'>
+    readonly updatedAt: FieldRef<"PlayerRating", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PlayerRating findUnique
+   */
+  export type PlayerRatingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerRating
+     */
+    select?: PlayerRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlayerRating
+     */
+    omit?: PlayerRatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerRatingInclude<ExtArgs> | null
+    /**
+     * Filter, which PlayerRating to fetch.
+     */
+    where: PlayerRatingWhereUniqueInput
+  }
+
+  /**
+   * PlayerRating findUniqueOrThrow
+   */
+  export type PlayerRatingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerRating
+     */
+    select?: PlayerRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlayerRating
+     */
+    omit?: PlayerRatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerRatingInclude<ExtArgs> | null
+    /**
+     * Filter, which PlayerRating to fetch.
+     */
+    where: PlayerRatingWhereUniqueInput
+  }
+
+  /**
+   * PlayerRating findFirst
+   */
+  export type PlayerRatingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerRating
+     */
+    select?: PlayerRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlayerRating
+     */
+    omit?: PlayerRatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerRatingInclude<ExtArgs> | null
+    /**
+     * Filter, which PlayerRating to fetch.
+     */
+    where?: PlayerRatingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlayerRatings to fetch.
+     */
+    orderBy?: PlayerRatingOrderByWithRelationInput | PlayerRatingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlayerRatings.
+     */
+    cursor?: PlayerRatingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlayerRatings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlayerRatings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlayerRatings.
+     */
+    distinct?: PlayerRatingScalarFieldEnum | PlayerRatingScalarFieldEnum[]
+  }
+
+  /**
+   * PlayerRating findFirstOrThrow
+   */
+  export type PlayerRatingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerRating
+     */
+    select?: PlayerRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlayerRating
+     */
+    omit?: PlayerRatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerRatingInclude<ExtArgs> | null
+    /**
+     * Filter, which PlayerRating to fetch.
+     */
+    where?: PlayerRatingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlayerRatings to fetch.
+     */
+    orderBy?: PlayerRatingOrderByWithRelationInput | PlayerRatingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlayerRatings.
+     */
+    cursor?: PlayerRatingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlayerRatings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlayerRatings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlayerRatings.
+     */
+    distinct?: PlayerRatingScalarFieldEnum | PlayerRatingScalarFieldEnum[]
+  }
+
+  /**
+   * PlayerRating findMany
+   */
+  export type PlayerRatingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerRating
+     */
+    select?: PlayerRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlayerRating
+     */
+    omit?: PlayerRatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerRatingInclude<ExtArgs> | null
+    /**
+     * Filter, which PlayerRatings to fetch.
+     */
+    where?: PlayerRatingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlayerRatings to fetch.
+     */
+    orderBy?: PlayerRatingOrderByWithRelationInput | PlayerRatingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PlayerRatings.
+     */
+    cursor?: PlayerRatingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlayerRatings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlayerRatings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlayerRatings.
+     */
+    distinct?: PlayerRatingScalarFieldEnum | PlayerRatingScalarFieldEnum[]
+  }
+
+  /**
+   * PlayerRating create
+   */
+  export type PlayerRatingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerRating
+     */
+    select?: PlayerRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlayerRating
+     */
+    omit?: PlayerRatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerRatingInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PlayerRating.
+     */
+    data: XOR<PlayerRatingCreateInput, PlayerRatingUncheckedCreateInput>
+  }
+
+  /**
+   * PlayerRating createMany
+   */
+  export type PlayerRatingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PlayerRatings.
+     */
+    data: PlayerRatingCreateManyInput | PlayerRatingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PlayerRating createManyAndReturn
+   */
+  export type PlayerRatingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerRating
+     */
+    select?: PlayerRatingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlayerRating
+     */
+    omit?: PlayerRatingOmit<ExtArgs> | null
+    /**
+     * The data used to create many PlayerRatings.
+     */
+    data: PlayerRatingCreateManyInput | PlayerRatingCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerRatingIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PlayerRating update
+   */
+  export type PlayerRatingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerRating
+     */
+    select?: PlayerRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlayerRating
+     */
+    omit?: PlayerRatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerRatingInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PlayerRating.
+     */
+    data: XOR<PlayerRatingUpdateInput, PlayerRatingUncheckedUpdateInput>
+    /**
+     * Choose, which PlayerRating to update.
+     */
+    where: PlayerRatingWhereUniqueInput
+  }
+
+  /**
+   * PlayerRating updateMany
+   */
+  export type PlayerRatingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PlayerRatings.
+     */
+    data: XOR<PlayerRatingUpdateManyMutationInput, PlayerRatingUncheckedUpdateManyInput>
+    /**
+     * Filter which PlayerRatings to update
+     */
+    where?: PlayerRatingWhereInput
+    /**
+     * Limit how many PlayerRatings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PlayerRating updateManyAndReturn
+   */
+  export type PlayerRatingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerRating
+     */
+    select?: PlayerRatingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlayerRating
+     */
+    omit?: PlayerRatingOmit<ExtArgs> | null
+    /**
+     * The data used to update PlayerRatings.
+     */
+    data: XOR<PlayerRatingUpdateManyMutationInput, PlayerRatingUncheckedUpdateManyInput>
+    /**
+     * Filter which PlayerRatings to update
+     */
+    where?: PlayerRatingWhereInput
+    /**
+     * Limit how many PlayerRatings to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerRatingIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PlayerRating upsert
+   */
+  export type PlayerRatingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerRating
+     */
+    select?: PlayerRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlayerRating
+     */
+    omit?: PlayerRatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerRatingInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PlayerRating to update in case it exists.
+     */
+    where: PlayerRatingWhereUniqueInput
+    /**
+     * In case the PlayerRating found by the `where` argument doesn't exist, create a new PlayerRating with this data.
+     */
+    create: XOR<PlayerRatingCreateInput, PlayerRatingUncheckedCreateInput>
+    /**
+     * In case the PlayerRating was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PlayerRatingUpdateInput, PlayerRatingUncheckedUpdateInput>
+  }
+
+  /**
+   * PlayerRating delete
+   */
+  export type PlayerRatingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerRating
+     */
+    select?: PlayerRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlayerRating
+     */
+    omit?: PlayerRatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerRatingInclude<ExtArgs> | null
+    /**
+     * Filter which PlayerRating to delete.
+     */
+    where: PlayerRatingWhereUniqueInput
+  }
+
+  /**
+   * PlayerRating deleteMany
+   */
+  export type PlayerRatingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlayerRatings to delete
+     */
+    where?: PlayerRatingWhereInput
+    /**
+     * Limit how many PlayerRatings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PlayerRating.season
+   */
+  export type PlayerRating$seasonArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Season
+     */
+    select?: SeasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Season
+     */
+    omit?: SeasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeasonInclude<ExtArgs> | null
+    where?: SeasonWhereInput
+  }
+
+  /**
+   * PlayerRating without action
+   */
+  export type PlayerRatingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerRating
+     */
+    select?: PlayerRatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlayerRating
+     */
+    omit?: PlayerRatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerRatingInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -22749,6 +34440,9 @@ export namespace Prisma {
     streamPlatform: 'streamPlatform',
     description: 'description',
     rules: 'rules',
+    prizePayoutPaid: 'prizePayoutPaid',
+    prizePayoutPaidAt: 'prizePayoutPaidAt',
+    prizePayoutNote: 'prizePayoutNote',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -22809,6 +34503,7 @@ export namespace Prisma {
     awayScore: 'awayScore',
     aggregateMatchId: 'aggregateMatchId',
     aggregateWinnerRegistrationId: 'aggregateWinnerRegistrationId',
+    penaltyRatingApplied: 'penaltyRatingApplied',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -22891,6 +34586,55 @@ export namespace Prisma {
   export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
 
 
+  export const WalletScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    balance: 'balance',
+    currency: 'currency',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type WalletScalarFieldEnum = (typeof WalletScalarFieldEnum)[keyof typeof WalletScalarFieldEnum]
+
+
+  export const WalletTransactionScalarFieldEnum: {
+    id: 'id',
+    walletId: 'walletId',
+    userId: 'userId',
+    type: 'type',
+    amount: 'amount',
+    balanceAfter: 'balanceAfter',
+    description: 'description',
+    reference: 'reference',
+    registrationId: 'registrationId',
+    tournamentId: 'tournamentId',
+    adminName: 'adminName',
+    createdAt: 'createdAt'
+  };
+
+  export type WalletTransactionScalarFieldEnum = (typeof WalletTransactionScalarFieldEnum)[keyof typeof WalletTransactionScalarFieldEnum]
+
+
+  export const WalletFundingRequestScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    amount: 'amount',
+    currency: 'currency',
+    paymentMethod: 'paymentMethod',
+    senderName: 'senderName',
+    receiptUrl: 'receiptUrl',
+    status: 'status',
+    adminNote: 'adminNote',
+    approvedBy: 'approvedBy',
+    creditedTransactionId: 'creditedTransactionId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type WalletFundingRequestScalarFieldEnum = (typeof WalletFundingRequestScalarFieldEnum)[keyof typeof WalletFundingRequestScalarFieldEnum]
+
+
   export const LeaderboardSeasonScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -22967,6 +34711,21 @@ export namespace Prisma {
   export type TeamMemberScalarFieldEnum = (typeof TeamMemberScalarFieldEnum)[keyof typeof TeamMemberScalarFieldEnum]
 
 
+  export const TeamMatchLineupScalarFieldEnum: {
+    id: 'id',
+    matchId: 'matchId',
+    registrationId: 'registrationId',
+    teamId: 'teamId',
+    memberUserIds: 'memberUserIds',
+    representativeUserId: 'representativeUserId',
+    submittedByUserId: 'submittedByUserId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TeamMatchLineupScalarFieldEnum = (typeof TeamMatchLineupScalarFieldEnum)[keyof typeof TeamMatchLineupScalarFieldEnum]
+
+
   export const WebsiteSettingScalarFieldEnum: {
     id: 'id',
     key: 'key',
@@ -22993,12 +34752,93 @@ export namespace Prisma {
   export type TournamentAutomationSettingScalarFieldEnum = (typeof TournamentAutomationSettingScalarFieldEnum)[keyof typeof TournamentAutomationSettingScalarFieldEnum]
 
 
+  export const PenaltyShootoutResultScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    matchId: 'matchId',
+    score: 'score',
+    suddenDeathScore: 'suddenDeathScore',
+    totalShots: 'totalShots',
+    shotsJson: 'shotsJson',
+    suddenDeathShotsJson: 'suddenDeathShotsJson',
+    isWinner: 'isWinner',
+    auditVersion: 'auditVersion',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PenaltyShootoutResultScalarFieldEnum = (typeof PenaltyShootoutResultScalarFieldEnum)[keyof typeof PenaltyShootoutResultScalarFieldEnum]
+
+
+  export const PenaltyShootoutTrainingAttemptScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    score: 'score',
+    totalShots: 'totalShots',
+    shotsJson: 'shotsJson',
+    createdAt: 'createdAt'
+  };
+
+  export type PenaltyShootoutTrainingAttemptScalarFieldEnum = (typeof PenaltyShootoutTrainingAttemptScalarFieldEnum)[keyof typeof PenaltyShootoutTrainingAttemptScalarFieldEnum]
+
+
+  export const PenaltyShootoutAdminActionScalarFieldEnum: {
+    id: 'id',
+    matchId: 'matchId',
+    resultId: 'resultId',
+    actionType: 'actionType',
+    adminName: 'adminName',
+    reason: 'reason',
+    createdAt: 'createdAt'
+  };
+
+  export type PenaltyShootoutAdminActionScalarFieldEnum = (typeof PenaltyShootoutAdminActionScalarFieldEnum)[keyof typeof PenaltyShootoutAdminActionScalarFieldEnum]
+
+
+  export const SeasonScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    startDate: 'startDate',
+    endDate: 'endDate',
+    active: 'active',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SeasonScalarFieldEnum = (typeof SeasonScalarFieldEnum)[keyof typeof SeasonScalarFieldEnum]
+
+
+  export const PlayerRatingScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    seasonId: 'seasonId',
+    matchesPlayed: 'matchesPlayed',
+    wins: 'wins',
+    losses: 'losses',
+    goalsScored: 'goalsScored',
+    goalsConceded: 'goalsConceded',
+    currentRating: 'currentRating',
+    highestRating: 'highestRating',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PlayerRatingScalarFieldEnum = (typeof PlayerRatingScalarFieldEnum)[keyof typeof PlayerRatingScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
   export const QueryMode: {
@@ -23015,6 +34855,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -23296,6 +35145,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'WalletTransactionType'
+   */
+  export type EnumWalletTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WalletTransactionType'>
+    
+
+
+  /**
+   * Reference to a field of type 'WalletTransactionType[]'
+   */
+  export type ListEnumWalletTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WalletTransactionType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'WalletFundingRequestStatus'
+   */
+  export type EnumWalletFundingRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WalletFundingRequestStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'WalletFundingRequestStatus[]'
+   */
+  export type ListEnumWalletFundingRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WalletFundingRequestStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'TeamRole'
    */
   export type EnumTeamRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TeamRole'>
@@ -23324,6 +35201,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
    * Reference to a field of type 'WebsiteSettingType'
    */
   export type EnumWebsiteSettingTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WebsiteSettingType'>
@@ -23334,6 +35225,20 @@ export namespace Prisma {
    * Reference to a field of type 'WebsiteSettingType[]'
    */
   export type ListEnumWebsiteSettingTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WebsiteSettingType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'PenaltyShootoutAdminActionType'
+   */
+  export type EnumPenaltyShootoutAdminActionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PenaltyShootoutAdminActionType'>
+    
+
+
+  /**
+   * Reference to a field of type 'PenaltyShootoutAdminActionType[]'
+   */
+  export type ListEnumPenaltyShootoutAdminActionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PenaltyShootoutAdminActionType[]'>
     
 
 
@@ -23389,6 +35294,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberListRelationFilter
     rankingHistory?: RankingHistoryListRelationFilter
     achievements?: PlayerAchievementListRelationFilter
+    penaltyShootoutResults?: PenaltyShootoutResultListRelationFilter
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptListRelationFilter
+    playerRatings?: PlayerRatingListRelationFilter
+    wallet?: XOR<WalletNullableScalarRelationFilter, WalletWhereInput> | null
+    walletTransactions?: WalletTransactionListRelationFilter
+    walletFundingRequests?: WalletFundingRequestListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -23423,6 +35334,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberOrderByRelationAggregateInput
     rankingHistory?: RankingHistoryOrderByRelationAggregateInput
     achievements?: PlayerAchievementOrderByRelationAggregateInput
+    penaltyShootoutResults?: PenaltyShootoutResultOrderByRelationAggregateInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptOrderByRelationAggregateInput
+    playerRatings?: PlayerRatingOrderByRelationAggregateInput
+    wallet?: WalletOrderByWithRelationInput
+    walletTransactions?: WalletTransactionOrderByRelationAggregateInput
+    walletFundingRequests?: WalletFundingRequestOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -23460,6 +35377,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberListRelationFilter
     rankingHistory?: RankingHistoryListRelationFilter
     achievements?: PlayerAchievementListRelationFilter
+    penaltyShootoutResults?: PenaltyShootoutResultListRelationFilter
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptListRelationFilter
+    playerRatings?: PlayerRatingListRelationFilter
+    wallet?: XOR<WalletNullableScalarRelationFilter, WalletWhereInput> | null
+    walletTransactions?: WalletTransactionListRelationFilter
+    walletFundingRequests?: WalletFundingRequestListRelationFilter
   }, "id" | "email" | "platformId">
 
   export type UserOrderByWithAggregationInput = {
@@ -23550,6 +35473,9 @@ export namespace Prisma {
     streamPlatform?: EnumStreamPlatformNullableFilter<"Tournament"> | $Enums.StreamPlatform | null
     description?: StringFilter<"Tournament"> | string
     rules?: StringNullableListFilter<"Tournament">
+    prizePayoutPaid?: BoolFilter<"Tournament"> | boolean
+    prizePayoutPaidAt?: DateTimeNullableFilter<"Tournament"> | Date | string | null
+    prizePayoutNote?: StringNullableFilter<"Tournament"> | string | null
     createdAt?: DateTimeFilter<"Tournament"> | Date | string
     updatedAt?: DateTimeFilter<"Tournament"> | Date | string
     registrations?: RegistrationListRelationFilter
@@ -23581,6 +35507,9 @@ export namespace Prisma {
     streamPlatform?: SortOrderInput | SortOrder
     description?: SortOrder
     rules?: SortOrder
+    prizePayoutPaid?: SortOrder
+    prizePayoutPaidAt?: SortOrderInput | SortOrder
+    prizePayoutNote?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     registrations?: RegistrationOrderByRelationAggregateInput
@@ -23615,6 +35544,9 @@ export namespace Prisma {
     streamPlatform?: EnumStreamPlatformNullableFilter<"Tournament"> | $Enums.StreamPlatform | null
     description?: StringFilter<"Tournament"> | string
     rules?: StringNullableListFilter<"Tournament">
+    prizePayoutPaid?: BoolFilter<"Tournament"> | boolean
+    prizePayoutPaidAt?: DateTimeNullableFilter<"Tournament"> | Date | string | null
+    prizePayoutNote?: StringNullableFilter<"Tournament"> | string | null
     createdAt?: DateTimeFilter<"Tournament"> | Date | string
     updatedAt?: DateTimeFilter<"Tournament"> | Date | string
     registrations?: RegistrationListRelationFilter
@@ -23646,6 +35578,9 @@ export namespace Prisma {
     streamPlatform?: SortOrderInput | SortOrder
     description?: SortOrder
     rules?: SortOrder
+    prizePayoutPaid?: SortOrder
+    prizePayoutPaidAt?: SortOrderInput | SortOrder
+    prizePayoutNote?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: TournamentCountOrderByAggregateInput
@@ -23681,6 +35616,9 @@ export namespace Prisma {
     streamPlatform?: EnumStreamPlatformNullableWithAggregatesFilter<"Tournament"> | $Enums.StreamPlatform | null
     description?: StringWithAggregatesFilter<"Tournament"> | string
     rules?: StringNullableListFilter<"Tournament">
+    prizePayoutPaid?: BoolWithAggregatesFilter<"Tournament"> | boolean
+    prizePayoutPaidAt?: DateTimeNullableWithAggregatesFilter<"Tournament"> | Date | string | null
+    prizePayoutNote?: StringNullableWithAggregatesFilter<"Tournament"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Tournament"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Tournament"> | Date | string
   }
@@ -23713,6 +35651,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingListRelationFilter
     matchResultSubmissions?: MatchResultSubmissionListRelationFilter
     payments?: PaymentListRelationFilter
+    teamLineups?: TeamMatchLineupListRelationFilter
   }
 
   export type RegistrationOrderByWithRelationInput = {
@@ -23740,6 +35679,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingOrderByRelationAggregateInput
     matchResultSubmissions?: MatchResultSubmissionOrderByRelationAggregateInput
     payments?: PaymentOrderByRelationAggregateInput
+    teamLineups?: TeamMatchLineupOrderByRelationAggregateInput
   }
 
   export type RegistrationWhereUniqueInput = Prisma.AtLeast<{
@@ -23771,6 +35711,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingListRelationFilter
     matchResultSubmissions?: MatchResultSubmissionListRelationFilter
     payments?: PaymentListRelationFilter
+    teamLineups?: TeamMatchLineupListRelationFilter
   }, "id" | "userId_tournamentId">
 
   export type RegistrationOrderByWithAggregationInput = {
@@ -23847,6 +35788,7 @@ export namespace Prisma {
     awayScore?: IntNullableFilter<"Match"> | number | null
     aggregateMatchId?: StringNullableFilter<"Match"> | string | null
     aggregateWinnerRegistrationId?: StringNullableFilter<"Match"> | string | null
+    penaltyRatingApplied?: BoolFilter<"Match"> | boolean
     createdAt?: DateTimeFilter<"Match"> | Date | string
     updatedAt?: DateTimeFilter<"Match"> | Date | string
     tournament?: XOR<TournamentScalarRelationFilter, TournamentWhereInput>
@@ -23860,6 +35802,8 @@ export namespace Prisma {
     aggregateLegs?: MatchListRelationFilter
     aggregateWinnerRegistration?: XOR<RegistrationNullableScalarRelationFilter, RegistrationWhereInput> | null
     resultSubmissions?: MatchResultSubmissionListRelationFilter
+    penaltyShootoutResults?: PenaltyShootoutResultListRelationFilter
+    teamLineups?: TeamMatchLineupListRelationFilter
   }
 
   export type MatchOrderByWithRelationInput = {
@@ -23897,6 +35841,7 @@ export namespace Prisma {
     awayScore?: SortOrderInput | SortOrder
     aggregateMatchId?: SortOrderInput | SortOrder
     aggregateWinnerRegistrationId?: SortOrderInput | SortOrder
+    penaltyRatingApplied?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tournament?: TournamentOrderByWithRelationInput
@@ -23910,6 +35855,8 @@ export namespace Prisma {
     aggregateLegs?: MatchOrderByRelationAggregateInput
     aggregateWinnerRegistration?: RegistrationOrderByWithRelationInput
     resultSubmissions?: MatchResultSubmissionOrderByRelationAggregateInput
+    penaltyShootoutResults?: PenaltyShootoutResultOrderByRelationAggregateInput
+    teamLineups?: TeamMatchLineupOrderByRelationAggregateInput
   }
 
   export type MatchWhereUniqueInput = Prisma.AtLeast<{
@@ -23950,6 +35897,7 @@ export namespace Prisma {
     awayScore?: IntNullableFilter<"Match"> | number | null
     aggregateMatchId?: StringNullableFilter<"Match"> | string | null
     aggregateWinnerRegistrationId?: StringNullableFilter<"Match"> | string | null
+    penaltyRatingApplied?: BoolFilter<"Match"> | boolean
     createdAt?: DateTimeFilter<"Match"> | Date | string
     updatedAt?: DateTimeFilter<"Match"> | Date | string
     tournament?: XOR<TournamentScalarRelationFilter, TournamentWhereInput>
@@ -23963,6 +35911,8 @@ export namespace Prisma {
     aggregateLegs?: MatchListRelationFilter
     aggregateWinnerRegistration?: XOR<RegistrationNullableScalarRelationFilter, RegistrationWhereInput> | null
     resultSubmissions?: MatchResultSubmissionListRelationFilter
+    penaltyShootoutResults?: PenaltyShootoutResultListRelationFilter
+    teamLineups?: TeamMatchLineupListRelationFilter
   }, "id">
 
   export type MatchOrderByWithAggregationInput = {
@@ -24000,6 +35950,7 @@ export namespace Prisma {
     awayScore?: SortOrderInput | SortOrder
     aggregateMatchId?: SortOrderInput | SortOrder
     aggregateWinnerRegistrationId?: SortOrderInput | SortOrder
+    penaltyRatingApplied?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: MatchCountOrderByAggregateInput
@@ -24047,6 +35998,7 @@ export namespace Prisma {
     awayScore?: IntNullableWithAggregatesFilter<"Match"> | number | null
     aggregateMatchId?: StringNullableWithAggregatesFilter<"Match"> | string | null
     aggregateWinnerRegistrationId?: StringNullableWithAggregatesFilter<"Match"> | string | null
+    penaltyRatingApplied?: BoolWithAggregatesFilter<"Match"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Match"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Match"> | Date | string
   }
@@ -24437,6 +36389,263 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
   }
 
+  export type WalletWhereInput = {
+    AND?: WalletWhereInput | WalletWhereInput[]
+    OR?: WalletWhereInput[]
+    NOT?: WalletWhereInput | WalletWhereInput[]
+    id?: StringFilter<"Wallet"> | string
+    userId?: StringFilter<"Wallet"> | string
+    balance?: IntFilter<"Wallet"> | number
+    currency?: StringFilter<"Wallet"> | string
+    createdAt?: DateTimeFilter<"Wallet"> | Date | string
+    updatedAt?: DateTimeFilter<"Wallet"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    transactions?: WalletTransactionListRelationFilter
+  }
+
+  export type WalletOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    balance?: SortOrder
+    currency?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    transactions?: WalletTransactionOrderByRelationAggregateInput
+  }
+
+  export type WalletWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: WalletWhereInput | WalletWhereInput[]
+    OR?: WalletWhereInput[]
+    NOT?: WalletWhereInput | WalletWhereInput[]
+    balance?: IntFilter<"Wallet"> | number
+    currency?: StringFilter<"Wallet"> | string
+    createdAt?: DateTimeFilter<"Wallet"> | Date | string
+    updatedAt?: DateTimeFilter<"Wallet"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    transactions?: WalletTransactionListRelationFilter
+  }, "id" | "userId">
+
+  export type WalletOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    balance?: SortOrder
+    currency?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: WalletCountOrderByAggregateInput
+    _avg?: WalletAvgOrderByAggregateInput
+    _max?: WalletMaxOrderByAggregateInput
+    _min?: WalletMinOrderByAggregateInput
+    _sum?: WalletSumOrderByAggregateInput
+  }
+
+  export type WalletScalarWhereWithAggregatesInput = {
+    AND?: WalletScalarWhereWithAggregatesInput | WalletScalarWhereWithAggregatesInput[]
+    OR?: WalletScalarWhereWithAggregatesInput[]
+    NOT?: WalletScalarWhereWithAggregatesInput | WalletScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Wallet"> | string
+    userId?: StringWithAggregatesFilter<"Wallet"> | string
+    balance?: IntWithAggregatesFilter<"Wallet"> | number
+    currency?: StringWithAggregatesFilter<"Wallet"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Wallet"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Wallet"> | Date | string
+  }
+
+  export type WalletTransactionWhereInput = {
+    AND?: WalletTransactionWhereInput | WalletTransactionWhereInput[]
+    OR?: WalletTransactionWhereInput[]
+    NOT?: WalletTransactionWhereInput | WalletTransactionWhereInput[]
+    id?: StringFilter<"WalletTransaction"> | string
+    walletId?: StringFilter<"WalletTransaction"> | string
+    userId?: StringFilter<"WalletTransaction"> | string
+    type?: EnumWalletTransactionTypeFilter<"WalletTransaction"> | $Enums.WalletTransactionType
+    amount?: IntFilter<"WalletTransaction"> | number
+    balanceAfter?: IntFilter<"WalletTransaction"> | number
+    description?: StringFilter<"WalletTransaction"> | string
+    reference?: StringNullableFilter<"WalletTransaction"> | string | null
+    registrationId?: StringNullableFilter<"WalletTransaction"> | string | null
+    tournamentId?: StringNullableFilter<"WalletTransaction"> | string | null
+    adminName?: StringNullableFilter<"WalletTransaction"> | string | null
+    createdAt?: DateTimeFilter<"WalletTransaction"> | Date | string
+    wallet?: XOR<WalletScalarRelationFilter, WalletWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type WalletTransactionOrderByWithRelationInput = {
+    id?: SortOrder
+    walletId?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    amount?: SortOrder
+    balanceAfter?: SortOrder
+    description?: SortOrder
+    reference?: SortOrderInput | SortOrder
+    registrationId?: SortOrderInput | SortOrder
+    tournamentId?: SortOrderInput | SortOrder
+    adminName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    wallet?: WalletOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type WalletTransactionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: WalletTransactionWhereInput | WalletTransactionWhereInput[]
+    OR?: WalletTransactionWhereInput[]
+    NOT?: WalletTransactionWhereInput | WalletTransactionWhereInput[]
+    walletId?: StringFilter<"WalletTransaction"> | string
+    userId?: StringFilter<"WalletTransaction"> | string
+    type?: EnumWalletTransactionTypeFilter<"WalletTransaction"> | $Enums.WalletTransactionType
+    amount?: IntFilter<"WalletTransaction"> | number
+    balanceAfter?: IntFilter<"WalletTransaction"> | number
+    description?: StringFilter<"WalletTransaction"> | string
+    reference?: StringNullableFilter<"WalletTransaction"> | string | null
+    registrationId?: StringNullableFilter<"WalletTransaction"> | string | null
+    tournamentId?: StringNullableFilter<"WalletTransaction"> | string | null
+    adminName?: StringNullableFilter<"WalletTransaction"> | string | null
+    createdAt?: DateTimeFilter<"WalletTransaction"> | Date | string
+    wallet?: XOR<WalletScalarRelationFilter, WalletWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type WalletTransactionOrderByWithAggregationInput = {
+    id?: SortOrder
+    walletId?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    amount?: SortOrder
+    balanceAfter?: SortOrder
+    description?: SortOrder
+    reference?: SortOrderInput | SortOrder
+    registrationId?: SortOrderInput | SortOrder
+    tournamentId?: SortOrderInput | SortOrder
+    adminName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: WalletTransactionCountOrderByAggregateInput
+    _avg?: WalletTransactionAvgOrderByAggregateInput
+    _max?: WalletTransactionMaxOrderByAggregateInput
+    _min?: WalletTransactionMinOrderByAggregateInput
+    _sum?: WalletTransactionSumOrderByAggregateInput
+  }
+
+  export type WalletTransactionScalarWhereWithAggregatesInput = {
+    AND?: WalletTransactionScalarWhereWithAggregatesInput | WalletTransactionScalarWhereWithAggregatesInput[]
+    OR?: WalletTransactionScalarWhereWithAggregatesInput[]
+    NOT?: WalletTransactionScalarWhereWithAggregatesInput | WalletTransactionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"WalletTransaction"> | string
+    walletId?: StringWithAggregatesFilter<"WalletTransaction"> | string
+    userId?: StringWithAggregatesFilter<"WalletTransaction"> | string
+    type?: EnumWalletTransactionTypeWithAggregatesFilter<"WalletTransaction"> | $Enums.WalletTransactionType
+    amount?: IntWithAggregatesFilter<"WalletTransaction"> | number
+    balanceAfter?: IntWithAggregatesFilter<"WalletTransaction"> | number
+    description?: StringWithAggregatesFilter<"WalletTransaction"> | string
+    reference?: StringNullableWithAggregatesFilter<"WalletTransaction"> | string | null
+    registrationId?: StringNullableWithAggregatesFilter<"WalletTransaction"> | string | null
+    tournamentId?: StringNullableWithAggregatesFilter<"WalletTransaction"> | string | null
+    adminName?: StringNullableWithAggregatesFilter<"WalletTransaction"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"WalletTransaction"> | Date | string
+  }
+
+  export type WalletFundingRequestWhereInput = {
+    AND?: WalletFundingRequestWhereInput | WalletFundingRequestWhereInput[]
+    OR?: WalletFundingRequestWhereInput[]
+    NOT?: WalletFundingRequestWhereInput | WalletFundingRequestWhereInput[]
+    id?: StringFilter<"WalletFundingRequest"> | string
+    userId?: StringFilter<"WalletFundingRequest"> | string
+    amount?: IntFilter<"WalletFundingRequest"> | number
+    currency?: StringFilter<"WalletFundingRequest"> | string
+    paymentMethod?: StringFilter<"WalletFundingRequest"> | string
+    senderName?: StringFilter<"WalletFundingRequest"> | string
+    receiptUrl?: StringNullableFilter<"WalletFundingRequest"> | string | null
+    status?: EnumWalletFundingRequestStatusFilter<"WalletFundingRequest"> | $Enums.WalletFundingRequestStatus
+    adminNote?: StringNullableFilter<"WalletFundingRequest"> | string | null
+    approvedBy?: StringNullableFilter<"WalletFundingRequest"> | string | null
+    creditedTransactionId?: StringNullableFilter<"WalletFundingRequest"> | string | null
+    createdAt?: DateTimeFilter<"WalletFundingRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"WalletFundingRequest"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type WalletFundingRequestOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    paymentMethod?: SortOrder
+    senderName?: SortOrder
+    receiptUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
+    adminNote?: SortOrderInput | SortOrder
+    approvedBy?: SortOrderInput | SortOrder
+    creditedTransactionId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type WalletFundingRequestWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    creditedTransactionId?: string
+    AND?: WalletFundingRequestWhereInput | WalletFundingRequestWhereInput[]
+    OR?: WalletFundingRequestWhereInput[]
+    NOT?: WalletFundingRequestWhereInput | WalletFundingRequestWhereInput[]
+    userId?: StringFilter<"WalletFundingRequest"> | string
+    amount?: IntFilter<"WalletFundingRequest"> | number
+    currency?: StringFilter<"WalletFundingRequest"> | string
+    paymentMethod?: StringFilter<"WalletFundingRequest"> | string
+    senderName?: StringFilter<"WalletFundingRequest"> | string
+    receiptUrl?: StringNullableFilter<"WalletFundingRequest"> | string | null
+    status?: EnumWalletFundingRequestStatusFilter<"WalletFundingRequest"> | $Enums.WalletFundingRequestStatus
+    adminNote?: StringNullableFilter<"WalletFundingRequest"> | string | null
+    approvedBy?: StringNullableFilter<"WalletFundingRequest"> | string | null
+    createdAt?: DateTimeFilter<"WalletFundingRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"WalletFundingRequest"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "creditedTransactionId">
+
+  export type WalletFundingRequestOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    paymentMethod?: SortOrder
+    senderName?: SortOrder
+    receiptUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
+    adminNote?: SortOrderInput | SortOrder
+    approvedBy?: SortOrderInput | SortOrder
+    creditedTransactionId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: WalletFundingRequestCountOrderByAggregateInput
+    _avg?: WalletFundingRequestAvgOrderByAggregateInput
+    _max?: WalletFundingRequestMaxOrderByAggregateInput
+    _min?: WalletFundingRequestMinOrderByAggregateInput
+    _sum?: WalletFundingRequestSumOrderByAggregateInput
+  }
+
+  export type WalletFundingRequestScalarWhereWithAggregatesInput = {
+    AND?: WalletFundingRequestScalarWhereWithAggregatesInput | WalletFundingRequestScalarWhereWithAggregatesInput[]
+    OR?: WalletFundingRequestScalarWhereWithAggregatesInput[]
+    NOT?: WalletFundingRequestScalarWhereWithAggregatesInput | WalletFundingRequestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"WalletFundingRequest"> | string
+    userId?: StringWithAggregatesFilter<"WalletFundingRequest"> | string
+    amount?: IntWithAggregatesFilter<"WalletFundingRequest"> | number
+    currency?: StringWithAggregatesFilter<"WalletFundingRequest"> | string
+    paymentMethod?: StringWithAggregatesFilter<"WalletFundingRequest"> | string
+    senderName?: StringWithAggregatesFilter<"WalletFundingRequest"> | string
+    receiptUrl?: StringNullableWithAggregatesFilter<"WalletFundingRequest"> | string | null
+    status?: EnumWalletFundingRequestStatusWithAggregatesFilter<"WalletFundingRequest"> | $Enums.WalletFundingRequestStatus
+    adminNote?: StringNullableWithAggregatesFilter<"WalletFundingRequest"> | string | null
+    approvedBy?: StringNullableWithAggregatesFilter<"WalletFundingRequest"> | string | null
+    creditedTransactionId?: StringNullableWithAggregatesFilter<"WalletFundingRequest"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"WalletFundingRequest"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"WalletFundingRequest"> | Date | string
+  }
+
   export type LeaderboardSeasonWhereInput = {
     AND?: LeaderboardSeasonWhereInput | LeaderboardSeasonWhereInput[]
     OR?: LeaderboardSeasonWhereInput[]
@@ -24707,6 +36916,7 @@ export namespace Prisma {
     captain?: XOR<UserScalarRelationFilter, UserWhereInput>
     members?: TeamMemberListRelationFilter
     registrations?: RegistrationListRelationFilter
+    matchLineups?: TeamMatchLineupListRelationFilter
   }
 
   export type TeamOrderByWithRelationInput = {
@@ -24722,6 +36932,7 @@ export namespace Prisma {
     captain?: UserOrderByWithRelationInput
     members?: TeamMemberOrderByRelationAggregateInput
     registrations?: RegistrationOrderByRelationAggregateInput
+    matchLineups?: TeamMatchLineupOrderByRelationAggregateInput
   }
 
   export type TeamWhereUniqueInput = Prisma.AtLeast<{
@@ -24740,6 +36951,7 @@ export namespace Prisma {
     captain?: XOR<UserScalarRelationFilter, UserWhereInput>
     members?: TeamMemberListRelationFilter
     registrations?: RegistrationListRelationFilter
+    matchLineups?: TeamMatchLineupListRelationFilter
   }, "id" | "tag">
 
   export type TeamOrderByWithAggregationInput = {
@@ -24834,6 +37046,88 @@ export namespace Prisma {
     role?: EnumTeamRoleWithAggregatesFilter<"TeamMember"> | $Enums.TeamRole
     status?: EnumTeamMemberStatusWithAggregatesFilter<"TeamMember"> | $Enums.TeamMemberStatus
     joinedAt?: DateTimeWithAggregatesFilter<"TeamMember"> | Date | string
+  }
+
+  export type TeamMatchLineupWhereInput = {
+    AND?: TeamMatchLineupWhereInput | TeamMatchLineupWhereInput[]
+    OR?: TeamMatchLineupWhereInput[]
+    NOT?: TeamMatchLineupWhereInput | TeamMatchLineupWhereInput[]
+    id?: StringFilter<"TeamMatchLineup"> | string
+    matchId?: StringFilter<"TeamMatchLineup"> | string
+    registrationId?: StringFilter<"TeamMatchLineup"> | string
+    teamId?: StringFilter<"TeamMatchLineup"> | string
+    memberUserIds?: JsonFilter<"TeamMatchLineup">
+    representativeUserId?: StringFilter<"TeamMatchLineup"> | string
+    submittedByUserId?: StringFilter<"TeamMatchLineup"> | string
+    createdAt?: DateTimeFilter<"TeamMatchLineup"> | Date | string
+    updatedAt?: DateTimeFilter<"TeamMatchLineup"> | Date | string
+    match?: XOR<MatchScalarRelationFilter, MatchWhereInput>
+    registration?: XOR<RegistrationScalarRelationFilter, RegistrationWhereInput>
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+  }
+
+  export type TeamMatchLineupOrderByWithRelationInput = {
+    id?: SortOrder
+    matchId?: SortOrder
+    registrationId?: SortOrder
+    teamId?: SortOrder
+    memberUserIds?: SortOrder
+    representativeUserId?: SortOrder
+    submittedByUserId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    match?: MatchOrderByWithRelationInput
+    registration?: RegistrationOrderByWithRelationInput
+    team?: TeamOrderByWithRelationInput
+  }
+
+  export type TeamMatchLineupWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    matchId_registrationId?: TeamMatchLineupMatchIdRegistrationIdCompoundUniqueInput
+    AND?: TeamMatchLineupWhereInput | TeamMatchLineupWhereInput[]
+    OR?: TeamMatchLineupWhereInput[]
+    NOT?: TeamMatchLineupWhereInput | TeamMatchLineupWhereInput[]
+    matchId?: StringFilter<"TeamMatchLineup"> | string
+    registrationId?: StringFilter<"TeamMatchLineup"> | string
+    teamId?: StringFilter<"TeamMatchLineup"> | string
+    memberUserIds?: JsonFilter<"TeamMatchLineup">
+    representativeUserId?: StringFilter<"TeamMatchLineup"> | string
+    submittedByUserId?: StringFilter<"TeamMatchLineup"> | string
+    createdAt?: DateTimeFilter<"TeamMatchLineup"> | Date | string
+    updatedAt?: DateTimeFilter<"TeamMatchLineup"> | Date | string
+    match?: XOR<MatchScalarRelationFilter, MatchWhereInput>
+    registration?: XOR<RegistrationScalarRelationFilter, RegistrationWhereInput>
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+  }, "id" | "matchId_registrationId">
+
+  export type TeamMatchLineupOrderByWithAggregationInput = {
+    id?: SortOrder
+    matchId?: SortOrder
+    registrationId?: SortOrder
+    teamId?: SortOrder
+    memberUserIds?: SortOrder
+    representativeUserId?: SortOrder
+    submittedByUserId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TeamMatchLineupCountOrderByAggregateInput
+    _max?: TeamMatchLineupMaxOrderByAggregateInput
+    _min?: TeamMatchLineupMinOrderByAggregateInput
+  }
+
+  export type TeamMatchLineupScalarWhereWithAggregatesInput = {
+    AND?: TeamMatchLineupScalarWhereWithAggregatesInput | TeamMatchLineupScalarWhereWithAggregatesInput[]
+    OR?: TeamMatchLineupScalarWhereWithAggregatesInput[]
+    NOT?: TeamMatchLineupScalarWhereWithAggregatesInput | TeamMatchLineupScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TeamMatchLineup"> | string
+    matchId?: StringWithAggregatesFilter<"TeamMatchLineup"> | string
+    registrationId?: StringWithAggregatesFilter<"TeamMatchLineup"> | string
+    teamId?: StringWithAggregatesFilter<"TeamMatchLineup"> | string
+    memberUserIds?: JsonWithAggregatesFilter<"TeamMatchLineup">
+    representativeUserId?: StringWithAggregatesFilter<"TeamMatchLineup"> | string
+    submittedByUserId?: StringWithAggregatesFilter<"TeamMatchLineup"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"TeamMatchLineup"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"TeamMatchLineup"> | Date | string
   }
 
   export type WebsiteSettingWhereInput = {
@@ -24963,6 +37257,387 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"TournamentAutomationSetting"> | Date | string
   }
 
+  export type PenaltyShootoutResultWhereInput = {
+    AND?: PenaltyShootoutResultWhereInput | PenaltyShootoutResultWhereInput[]
+    OR?: PenaltyShootoutResultWhereInput[]
+    NOT?: PenaltyShootoutResultWhereInput | PenaltyShootoutResultWhereInput[]
+    id?: StringFilter<"PenaltyShootoutResult"> | string
+    userId?: StringFilter<"PenaltyShootoutResult"> | string
+    matchId?: StringNullableFilter<"PenaltyShootoutResult"> | string | null
+    score?: IntFilter<"PenaltyShootoutResult"> | number
+    suddenDeathScore?: IntFilter<"PenaltyShootoutResult"> | number
+    totalShots?: IntFilter<"PenaltyShootoutResult"> | number
+    shotsJson?: JsonFilter<"PenaltyShootoutResult">
+    suddenDeathShotsJson?: JsonFilter<"PenaltyShootoutResult">
+    isWinner?: BoolFilter<"PenaltyShootoutResult"> | boolean
+    auditVersion?: IntFilter<"PenaltyShootoutResult"> | number
+    createdAt?: DateTimeFilter<"PenaltyShootoutResult"> | Date | string
+    updatedAt?: DateTimeFilter<"PenaltyShootoutResult"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    match?: XOR<MatchNullableScalarRelationFilter, MatchWhereInput> | null
+  }
+
+  export type PenaltyShootoutResultOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    matchId?: SortOrderInput | SortOrder
+    score?: SortOrder
+    suddenDeathScore?: SortOrder
+    totalShots?: SortOrder
+    shotsJson?: SortOrder
+    suddenDeathShotsJson?: SortOrder
+    isWinner?: SortOrder
+    auditVersion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    match?: MatchOrderByWithRelationInput
+  }
+
+  export type PenaltyShootoutResultWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_matchId?: PenaltyShootoutResultUserIdMatchIdCompoundUniqueInput
+    AND?: PenaltyShootoutResultWhereInput | PenaltyShootoutResultWhereInput[]
+    OR?: PenaltyShootoutResultWhereInput[]
+    NOT?: PenaltyShootoutResultWhereInput | PenaltyShootoutResultWhereInput[]
+    userId?: StringFilter<"PenaltyShootoutResult"> | string
+    matchId?: StringNullableFilter<"PenaltyShootoutResult"> | string | null
+    score?: IntFilter<"PenaltyShootoutResult"> | number
+    suddenDeathScore?: IntFilter<"PenaltyShootoutResult"> | number
+    totalShots?: IntFilter<"PenaltyShootoutResult"> | number
+    shotsJson?: JsonFilter<"PenaltyShootoutResult">
+    suddenDeathShotsJson?: JsonFilter<"PenaltyShootoutResult">
+    isWinner?: BoolFilter<"PenaltyShootoutResult"> | boolean
+    auditVersion?: IntFilter<"PenaltyShootoutResult"> | number
+    createdAt?: DateTimeFilter<"PenaltyShootoutResult"> | Date | string
+    updatedAt?: DateTimeFilter<"PenaltyShootoutResult"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    match?: XOR<MatchNullableScalarRelationFilter, MatchWhereInput> | null
+  }, "id" | "userId_matchId">
+
+  export type PenaltyShootoutResultOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    matchId?: SortOrderInput | SortOrder
+    score?: SortOrder
+    suddenDeathScore?: SortOrder
+    totalShots?: SortOrder
+    shotsJson?: SortOrder
+    suddenDeathShotsJson?: SortOrder
+    isWinner?: SortOrder
+    auditVersion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PenaltyShootoutResultCountOrderByAggregateInput
+    _avg?: PenaltyShootoutResultAvgOrderByAggregateInput
+    _max?: PenaltyShootoutResultMaxOrderByAggregateInput
+    _min?: PenaltyShootoutResultMinOrderByAggregateInput
+    _sum?: PenaltyShootoutResultSumOrderByAggregateInput
+  }
+
+  export type PenaltyShootoutResultScalarWhereWithAggregatesInput = {
+    AND?: PenaltyShootoutResultScalarWhereWithAggregatesInput | PenaltyShootoutResultScalarWhereWithAggregatesInput[]
+    OR?: PenaltyShootoutResultScalarWhereWithAggregatesInput[]
+    NOT?: PenaltyShootoutResultScalarWhereWithAggregatesInput | PenaltyShootoutResultScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PenaltyShootoutResult"> | string
+    userId?: StringWithAggregatesFilter<"PenaltyShootoutResult"> | string
+    matchId?: StringNullableWithAggregatesFilter<"PenaltyShootoutResult"> | string | null
+    score?: IntWithAggregatesFilter<"PenaltyShootoutResult"> | number
+    suddenDeathScore?: IntWithAggregatesFilter<"PenaltyShootoutResult"> | number
+    totalShots?: IntWithAggregatesFilter<"PenaltyShootoutResult"> | number
+    shotsJson?: JsonWithAggregatesFilter<"PenaltyShootoutResult">
+    suddenDeathShotsJson?: JsonWithAggregatesFilter<"PenaltyShootoutResult">
+    isWinner?: BoolWithAggregatesFilter<"PenaltyShootoutResult"> | boolean
+    auditVersion?: IntWithAggregatesFilter<"PenaltyShootoutResult"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"PenaltyShootoutResult"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PenaltyShootoutResult"> | Date | string
+  }
+
+  export type PenaltyShootoutTrainingAttemptWhereInput = {
+    AND?: PenaltyShootoutTrainingAttemptWhereInput | PenaltyShootoutTrainingAttemptWhereInput[]
+    OR?: PenaltyShootoutTrainingAttemptWhereInput[]
+    NOT?: PenaltyShootoutTrainingAttemptWhereInput | PenaltyShootoutTrainingAttemptWhereInput[]
+    id?: StringFilter<"PenaltyShootoutTrainingAttempt"> | string
+    userId?: StringFilter<"PenaltyShootoutTrainingAttempt"> | string
+    score?: IntFilter<"PenaltyShootoutTrainingAttempt"> | number
+    totalShots?: IntFilter<"PenaltyShootoutTrainingAttempt"> | number
+    shotsJson?: JsonFilter<"PenaltyShootoutTrainingAttempt">
+    createdAt?: DateTimeFilter<"PenaltyShootoutTrainingAttempt"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type PenaltyShootoutTrainingAttemptOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    score?: SortOrder
+    totalShots?: SortOrder
+    shotsJson?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type PenaltyShootoutTrainingAttemptWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PenaltyShootoutTrainingAttemptWhereInput | PenaltyShootoutTrainingAttemptWhereInput[]
+    OR?: PenaltyShootoutTrainingAttemptWhereInput[]
+    NOT?: PenaltyShootoutTrainingAttemptWhereInput | PenaltyShootoutTrainingAttemptWhereInput[]
+    userId?: StringFilter<"PenaltyShootoutTrainingAttempt"> | string
+    score?: IntFilter<"PenaltyShootoutTrainingAttempt"> | number
+    totalShots?: IntFilter<"PenaltyShootoutTrainingAttempt"> | number
+    shotsJson?: JsonFilter<"PenaltyShootoutTrainingAttempt">
+    createdAt?: DateTimeFilter<"PenaltyShootoutTrainingAttempt"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type PenaltyShootoutTrainingAttemptOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    score?: SortOrder
+    totalShots?: SortOrder
+    shotsJson?: SortOrder
+    createdAt?: SortOrder
+    _count?: PenaltyShootoutTrainingAttemptCountOrderByAggregateInput
+    _avg?: PenaltyShootoutTrainingAttemptAvgOrderByAggregateInput
+    _max?: PenaltyShootoutTrainingAttemptMaxOrderByAggregateInput
+    _min?: PenaltyShootoutTrainingAttemptMinOrderByAggregateInput
+    _sum?: PenaltyShootoutTrainingAttemptSumOrderByAggregateInput
+  }
+
+  export type PenaltyShootoutTrainingAttemptScalarWhereWithAggregatesInput = {
+    AND?: PenaltyShootoutTrainingAttemptScalarWhereWithAggregatesInput | PenaltyShootoutTrainingAttemptScalarWhereWithAggregatesInput[]
+    OR?: PenaltyShootoutTrainingAttemptScalarWhereWithAggregatesInput[]
+    NOT?: PenaltyShootoutTrainingAttemptScalarWhereWithAggregatesInput | PenaltyShootoutTrainingAttemptScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PenaltyShootoutTrainingAttempt"> | string
+    userId?: StringWithAggregatesFilter<"PenaltyShootoutTrainingAttempt"> | string
+    score?: IntWithAggregatesFilter<"PenaltyShootoutTrainingAttempt"> | number
+    totalShots?: IntWithAggregatesFilter<"PenaltyShootoutTrainingAttempt"> | number
+    shotsJson?: JsonWithAggregatesFilter<"PenaltyShootoutTrainingAttempt">
+    createdAt?: DateTimeWithAggregatesFilter<"PenaltyShootoutTrainingAttempt"> | Date | string
+  }
+
+  export type PenaltyShootoutAdminActionWhereInput = {
+    AND?: PenaltyShootoutAdminActionWhereInput | PenaltyShootoutAdminActionWhereInput[]
+    OR?: PenaltyShootoutAdminActionWhereInput[]
+    NOT?: PenaltyShootoutAdminActionWhereInput | PenaltyShootoutAdminActionWhereInput[]
+    id?: StringFilter<"PenaltyShootoutAdminAction"> | string
+    matchId?: StringFilter<"PenaltyShootoutAdminAction"> | string
+    resultId?: StringNullableFilter<"PenaltyShootoutAdminAction"> | string | null
+    actionType?: EnumPenaltyShootoutAdminActionTypeFilter<"PenaltyShootoutAdminAction"> | $Enums.PenaltyShootoutAdminActionType
+    adminName?: StringFilter<"PenaltyShootoutAdminAction"> | string
+    reason?: StringFilter<"PenaltyShootoutAdminAction"> | string
+    createdAt?: DateTimeFilter<"PenaltyShootoutAdminAction"> | Date | string
+  }
+
+  export type PenaltyShootoutAdminActionOrderByWithRelationInput = {
+    id?: SortOrder
+    matchId?: SortOrder
+    resultId?: SortOrderInput | SortOrder
+    actionType?: SortOrder
+    adminName?: SortOrder
+    reason?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PenaltyShootoutAdminActionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PenaltyShootoutAdminActionWhereInput | PenaltyShootoutAdminActionWhereInput[]
+    OR?: PenaltyShootoutAdminActionWhereInput[]
+    NOT?: PenaltyShootoutAdminActionWhereInput | PenaltyShootoutAdminActionWhereInput[]
+    matchId?: StringFilter<"PenaltyShootoutAdminAction"> | string
+    resultId?: StringNullableFilter<"PenaltyShootoutAdminAction"> | string | null
+    actionType?: EnumPenaltyShootoutAdminActionTypeFilter<"PenaltyShootoutAdminAction"> | $Enums.PenaltyShootoutAdminActionType
+    adminName?: StringFilter<"PenaltyShootoutAdminAction"> | string
+    reason?: StringFilter<"PenaltyShootoutAdminAction"> | string
+    createdAt?: DateTimeFilter<"PenaltyShootoutAdminAction"> | Date | string
+  }, "id">
+
+  export type PenaltyShootoutAdminActionOrderByWithAggregationInput = {
+    id?: SortOrder
+    matchId?: SortOrder
+    resultId?: SortOrderInput | SortOrder
+    actionType?: SortOrder
+    adminName?: SortOrder
+    reason?: SortOrder
+    createdAt?: SortOrder
+    _count?: PenaltyShootoutAdminActionCountOrderByAggregateInput
+    _max?: PenaltyShootoutAdminActionMaxOrderByAggregateInput
+    _min?: PenaltyShootoutAdminActionMinOrderByAggregateInput
+  }
+
+  export type PenaltyShootoutAdminActionScalarWhereWithAggregatesInput = {
+    AND?: PenaltyShootoutAdminActionScalarWhereWithAggregatesInput | PenaltyShootoutAdminActionScalarWhereWithAggregatesInput[]
+    OR?: PenaltyShootoutAdminActionScalarWhereWithAggregatesInput[]
+    NOT?: PenaltyShootoutAdminActionScalarWhereWithAggregatesInput | PenaltyShootoutAdminActionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PenaltyShootoutAdminAction"> | string
+    matchId?: StringWithAggregatesFilter<"PenaltyShootoutAdminAction"> | string
+    resultId?: StringNullableWithAggregatesFilter<"PenaltyShootoutAdminAction"> | string | null
+    actionType?: EnumPenaltyShootoutAdminActionTypeWithAggregatesFilter<"PenaltyShootoutAdminAction"> | $Enums.PenaltyShootoutAdminActionType
+    adminName?: StringWithAggregatesFilter<"PenaltyShootoutAdminAction"> | string
+    reason?: StringWithAggregatesFilter<"PenaltyShootoutAdminAction"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"PenaltyShootoutAdminAction"> | Date | string
+  }
+
+  export type SeasonWhereInput = {
+    AND?: SeasonWhereInput | SeasonWhereInput[]
+    OR?: SeasonWhereInput[]
+    NOT?: SeasonWhereInput | SeasonWhereInput[]
+    id?: StringFilter<"Season"> | string
+    name?: StringFilter<"Season"> | string
+    startDate?: DateTimeFilter<"Season"> | Date | string
+    endDate?: DateTimeFilter<"Season"> | Date | string
+    active?: BoolFilter<"Season"> | boolean
+    createdAt?: DateTimeFilter<"Season"> | Date | string
+    updatedAt?: DateTimeFilter<"Season"> | Date | string
+    ratings?: PlayerRatingListRelationFilter
+  }
+
+  export type SeasonOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    ratings?: PlayerRatingOrderByRelationAggregateInput
+  }
+
+  export type SeasonWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SeasonWhereInput | SeasonWhereInput[]
+    OR?: SeasonWhereInput[]
+    NOT?: SeasonWhereInput | SeasonWhereInput[]
+    name?: StringFilter<"Season"> | string
+    startDate?: DateTimeFilter<"Season"> | Date | string
+    endDate?: DateTimeFilter<"Season"> | Date | string
+    active?: BoolFilter<"Season"> | boolean
+    createdAt?: DateTimeFilter<"Season"> | Date | string
+    updatedAt?: DateTimeFilter<"Season"> | Date | string
+    ratings?: PlayerRatingListRelationFilter
+  }, "id">
+
+  export type SeasonOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SeasonCountOrderByAggregateInput
+    _max?: SeasonMaxOrderByAggregateInput
+    _min?: SeasonMinOrderByAggregateInput
+  }
+
+  export type SeasonScalarWhereWithAggregatesInput = {
+    AND?: SeasonScalarWhereWithAggregatesInput | SeasonScalarWhereWithAggregatesInput[]
+    OR?: SeasonScalarWhereWithAggregatesInput[]
+    NOT?: SeasonScalarWhereWithAggregatesInput | SeasonScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Season"> | string
+    name?: StringWithAggregatesFilter<"Season"> | string
+    startDate?: DateTimeWithAggregatesFilter<"Season"> | Date | string
+    endDate?: DateTimeWithAggregatesFilter<"Season"> | Date | string
+    active?: BoolWithAggregatesFilter<"Season"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Season"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Season"> | Date | string
+  }
+
+  export type PlayerRatingWhereInput = {
+    AND?: PlayerRatingWhereInput | PlayerRatingWhereInput[]
+    OR?: PlayerRatingWhereInput[]
+    NOT?: PlayerRatingWhereInput | PlayerRatingWhereInput[]
+    id?: StringFilter<"PlayerRating"> | string
+    userId?: StringFilter<"PlayerRating"> | string
+    seasonId?: StringNullableFilter<"PlayerRating"> | string | null
+    matchesPlayed?: IntFilter<"PlayerRating"> | number
+    wins?: IntFilter<"PlayerRating"> | number
+    losses?: IntFilter<"PlayerRating"> | number
+    goalsScored?: IntFilter<"PlayerRating"> | number
+    goalsConceded?: IntFilter<"PlayerRating"> | number
+    currentRating?: IntFilter<"PlayerRating"> | number
+    highestRating?: IntFilter<"PlayerRating"> | number
+    createdAt?: DateTimeFilter<"PlayerRating"> | Date | string
+    updatedAt?: DateTimeFilter<"PlayerRating"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    season?: XOR<SeasonNullableScalarRelationFilter, SeasonWhereInput> | null
+  }
+
+  export type PlayerRatingOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    seasonId?: SortOrderInput | SortOrder
+    matchesPlayed?: SortOrder
+    wins?: SortOrder
+    losses?: SortOrder
+    goalsScored?: SortOrder
+    goalsConceded?: SortOrder
+    currentRating?: SortOrder
+    highestRating?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    season?: SeasonOrderByWithRelationInput
+  }
+
+  export type PlayerRatingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_seasonId?: PlayerRatingUserIdSeasonIdCompoundUniqueInput
+    AND?: PlayerRatingWhereInput | PlayerRatingWhereInput[]
+    OR?: PlayerRatingWhereInput[]
+    NOT?: PlayerRatingWhereInput | PlayerRatingWhereInput[]
+    userId?: StringFilter<"PlayerRating"> | string
+    seasonId?: StringNullableFilter<"PlayerRating"> | string | null
+    matchesPlayed?: IntFilter<"PlayerRating"> | number
+    wins?: IntFilter<"PlayerRating"> | number
+    losses?: IntFilter<"PlayerRating"> | number
+    goalsScored?: IntFilter<"PlayerRating"> | number
+    goalsConceded?: IntFilter<"PlayerRating"> | number
+    currentRating?: IntFilter<"PlayerRating"> | number
+    highestRating?: IntFilter<"PlayerRating"> | number
+    createdAt?: DateTimeFilter<"PlayerRating"> | Date | string
+    updatedAt?: DateTimeFilter<"PlayerRating"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    season?: XOR<SeasonNullableScalarRelationFilter, SeasonWhereInput> | null
+  }, "id" | "userId_seasonId">
+
+  export type PlayerRatingOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    seasonId?: SortOrderInput | SortOrder
+    matchesPlayed?: SortOrder
+    wins?: SortOrder
+    losses?: SortOrder
+    goalsScored?: SortOrder
+    goalsConceded?: SortOrder
+    currentRating?: SortOrder
+    highestRating?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PlayerRatingCountOrderByAggregateInput
+    _avg?: PlayerRatingAvgOrderByAggregateInput
+    _max?: PlayerRatingMaxOrderByAggregateInput
+    _min?: PlayerRatingMinOrderByAggregateInput
+    _sum?: PlayerRatingSumOrderByAggregateInput
+  }
+
+  export type PlayerRatingScalarWhereWithAggregatesInput = {
+    AND?: PlayerRatingScalarWhereWithAggregatesInput | PlayerRatingScalarWhereWithAggregatesInput[]
+    OR?: PlayerRatingScalarWhereWithAggregatesInput[]
+    NOT?: PlayerRatingScalarWhereWithAggregatesInput | PlayerRatingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PlayerRating"> | string
+    userId?: StringWithAggregatesFilter<"PlayerRating"> | string
+    seasonId?: StringNullableWithAggregatesFilter<"PlayerRating"> | string | null
+    matchesPlayed?: IntWithAggregatesFilter<"PlayerRating"> | number
+    wins?: IntWithAggregatesFilter<"PlayerRating"> | number
+    losses?: IntWithAggregatesFilter<"PlayerRating"> | number
+    goalsScored?: IntWithAggregatesFilter<"PlayerRating"> | number
+    goalsConceded?: IntWithAggregatesFilter<"PlayerRating"> | number
+    currentRating?: IntWithAggregatesFilter<"PlayerRating"> | number
+    highestRating?: IntWithAggregatesFilter<"PlayerRating"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"PlayerRating"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PlayerRating"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     fullName: string
@@ -24995,6 +37670,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     rankingHistory?: RankingHistoryCreateNestedManyWithoutUserInput
     achievements?: PlayerAchievementCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingCreateNestedManyWithoutUserInput
+    wallet?: WalletCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -25029,6 +37710,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     rankingHistory?: RankingHistoryUncheckedCreateNestedManyWithoutUserInput
     achievements?: PlayerAchievementUncheckedCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingUncheckedCreateNestedManyWithoutUserInput
+    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionUncheckedCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -25063,6 +37750,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     rankingHistory?: RankingHistoryUpdateManyWithoutUserNestedInput
     achievements?: PlayerAchievementUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUpdateManyWithoutUserNestedInput
+    wallet?: WalletUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -25097,6 +37790,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     rankingHistory?: RankingHistoryUncheckedUpdateManyWithoutUserNestedInput
     achievements?: PlayerAchievementUncheckedUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUncheckedUpdateManyWithoutUserNestedInput
+    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUncheckedUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -25203,6 +37902,9 @@ export namespace Prisma {
     streamPlatform?: $Enums.StreamPlatform | null
     description: string
     rules?: TournamentCreaterulesInput | string[]
+    prizePayoutPaid?: boolean
+    prizePayoutPaidAt?: Date | string | null
+    prizePayoutNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     registrations?: RegistrationCreateNestedManyWithoutTournamentInput
@@ -25234,6 +37936,9 @@ export namespace Prisma {
     streamPlatform?: $Enums.StreamPlatform | null
     description: string
     rules?: TournamentCreaterulesInput | string[]
+    prizePayoutPaid?: boolean
+    prizePayoutPaidAt?: Date | string | null
+    prizePayoutNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     registrations?: RegistrationUncheckedCreateNestedManyWithoutTournamentInput
@@ -25265,6 +37970,9 @@ export namespace Prisma {
     streamPlatform?: NullableEnumStreamPlatformFieldUpdateOperationsInput | $Enums.StreamPlatform | null
     description?: StringFieldUpdateOperationsInput | string
     rules?: TournamentUpdaterulesInput | string[]
+    prizePayoutPaid?: BoolFieldUpdateOperationsInput | boolean
+    prizePayoutPaidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    prizePayoutNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     registrations?: RegistrationUpdateManyWithoutTournamentNestedInput
@@ -25296,6 +38004,9 @@ export namespace Prisma {
     streamPlatform?: NullableEnumStreamPlatformFieldUpdateOperationsInput | $Enums.StreamPlatform | null
     description?: StringFieldUpdateOperationsInput | string
     rules?: TournamentUpdaterulesInput | string[]
+    prizePayoutPaid?: BoolFieldUpdateOperationsInput | boolean
+    prizePayoutPaidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    prizePayoutNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     registrations?: RegistrationUncheckedUpdateManyWithoutTournamentNestedInput
@@ -25327,6 +38038,9 @@ export namespace Prisma {
     streamPlatform?: $Enums.StreamPlatform | null
     description: string
     rules?: TournamentCreaterulesInput | string[]
+    prizePayoutPaid?: boolean
+    prizePayoutPaidAt?: Date | string | null
+    prizePayoutNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -25354,6 +38068,9 @@ export namespace Prisma {
     streamPlatform?: NullableEnumStreamPlatformFieldUpdateOperationsInput | $Enums.StreamPlatform | null
     description?: StringFieldUpdateOperationsInput | string
     rules?: TournamentUpdaterulesInput | string[]
+    prizePayoutPaid?: BoolFieldUpdateOperationsInput | boolean
+    prizePayoutPaidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    prizePayoutNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25381,6 +38098,9 @@ export namespace Prisma {
     streamPlatform?: NullableEnumStreamPlatformFieldUpdateOperationsInput | $Enums.StreamPlatform | null
     description?: StringFieldUpdateOperationsInput | string
     rules?: TournamentUpdaterulesInput | string[]
+    prizePayoutPaid?: BoolFieldUpdateOperationsInput | boolean
+    prizePayoutPaidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    prizePayoutNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25407,6 +38127,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutRegistrationInput
     payments?: PaymentCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationUncheckedCreateInput = {
@@ -25431,6 +38152,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUncheckedCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutRegistrationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationUpdateInput = {
@@ -25455,6 +38177,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutRegistrationNestedInput
   }
 
   export type RegistrationUncheckedUpdateInput = {
@@ -25479,6 +38202,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUncheckedUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutRegistrationNestedInput
   }
 
   export type RegistrationCreateManyInput = {
@@ -25549,6 +38273,7 @@ export namespace Prisma {
     legNumber?: number | null
     homeScore?: number | null
     awayScore?: number | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     tournament: TournamentCreateNestedOneWithoutMatchesInput
@@ -25562,6 +38287,8 @@ export namespace Prisma {
     aggregateLegs?: MatchCreateNestedManyWithoutAggregateMatchInput
     aggregateWinnerRegistration?: RegistrationCreateNestedOneWithoutAggregateWonMatchesInput
     resultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutMatchInput
   }
 
   export type MatchUncheckedCreateInput = {
@@ -25599,10 +38326,13 @@ export namespace Prisma {
     awayScore?: number | null
     aggregateMatchId?: string | null
     aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     aggregateLegs?: MatchUncheckedCreateNestedManyWithoutAggregateMatchInput
     resultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutMatchInput
   }
 
   export type MatchUpdateInput = {
@@ -25631,6 +38361,7 @@ export namespace Prisma {
     legNumber?: NullableIntFieldUpdateOperationsInput | number | null
     homeScore?: NullableIntFieldUpdateOperationsInput | number | null
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tournament?: TournamentUpdateOneRequiredWithoutMatchesNestedInput
@@ -25644,6 +38375,8 @@ export namespace Prisma {
     aggregateLegs?: MatchUpdateManyWithoutAggregateMatchNestedInput
     aggregateWinnerRegistration?: RegistrationUpdateOneWithoutAggregateWonMatchesNestedInput
     resultSubmissions?: MatchResultSubmissionUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateInput = {
@@ -25681,10 +38414,13 @@ export namespace Prisma {
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
     aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     aggregateLegs?: MatchUncheckedUpdateManyWithoutAggregateMatchNestedInput
     resultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchCreateManyInput = {
@@ -25722,6 +38458,7 @@ export namespace Prisma {
     awayScore?: number | null
     aggregateMatchId?: string | null
     aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -25752,6 +38489,7 @@ export namespace Prisma {
     legNumber?: NullableIntFieldUpdateOperationsInput | number | null
     homeScore?: NullableIntFieldUpdateOperationsInput | number | null
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25791,6 +38529,7 @@ export namespace Prisma {
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
     aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -26230,6 +38969,286 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type WalletCreateInput = {
+    id?: string
+    balance?: number
+    currency?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutWalletInput
+    transactions?: WalletTransactionCreateNestedManyWithoutWalletInput
+  }
+
+  export type WalletUncheckedCreateInput = {
+    id?: string
+    userId: string
+    balance?: number
+    currency?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    transactions?: WalletTransactionUncheckedCreateNestedManyWithoutWalletInput
+  }
+
+  export type WalletUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    balance?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutWalletNestedInput
+    transactions?: WalletTransactionUpdateManyWithoutWalletNestedInput
+  }
+
+  export type WalletUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    balance?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transactions?: WalletTransactionUncheckedUpdateManyWithoutWalletNestedInput
+  }
+
+  export type WalletCreateManyInput = {
+    id?: string
+    userId: string
+    balance?: number
+    currency?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WalletUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    balance?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WalletUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    balance?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WalletTransactionCreateInput = {
+    id?: string
+    type: $Enums.WalletTransactionType
+    amount: number
+    balanceAfter: number
+    description: string
+    reference?: string | null
+    registrationId?: string | null
+    tournamentId?: string | null
+    adminName?: string | null
+    createdAt?: Date | string
+    wallet: WalletCreateNestedOneWithoutTransactionsInput
+    user: UserCreateNestedOneWithoutWalletTransactionsInput
+  }
+
+  export type WalletTransactionUncheckedCreateInput = {
+    id?: string
+    walletId: string
+    userId: string
+    type: $Enums.WalletTransactionType
+    amount: number
+    balanceAfter: number
+    description: string
+    reference?: string | null
+    registrationId?: string | null
+    tournamentId?: string | null
+    adminName?: string | null
+    createdAt?: Date | string
+  }
+
+  export type WalletTransactionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumWalletTransactionTypeFieldUpdateOperationsInput | $Enums.WalletTransactionType
+    amount?: IntFieldUpdateOperationsInput | number
+    balanceAfter?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    tournamentId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    wallet?: WalletUpdateOneRequiredWithoutTransactionsNestedInput
+    user?: UserUpdateOneRequiredWithoutWalletTransactionsNestedInput
+  }
+
+  export type WalletTransactionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    walletId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumWalletTransactionTypeFieldUpdateOperationsInput | $Enums.WalletTransactionType
+    amount?: IntFieldUpdateOperationsInput | number
+    balanceAfter?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    tournamentId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WalletTransactionCreateManyInput = {
+    id?: string
+    walletId: string
+    userId: string
+    type: $Enums.WalletTransactionType
+    amount: number
+    balanceAfter: number
+    description: string
+    reference?: string | null
+    registrationId?: string | null
+    tournamentId?: string | null
+    adminName?: string | null
+    createdAt?: Date | string
+  }
+
+  export type WalletTransactionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumWalletTransactionTypeFieldUpdateOperationsInput | $Enums.WalletTransactionType
+    amount?: IntFieldUpdateOperationsInput | number
+    balanceAfter?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    tournamentId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WalletTransactionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    walletId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumWalletTransactionTypeFieldUpdateOperationsInput | $Enums.WalletTransactionType
+    amount?: IntFieldUpdateOperationsInput | number
+    balanceAfter?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    tournamentId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WalletFundingRequestCreateInput = {
+    id?: string
+    amount: number
+    currency?: string
+    paymentMethod: string
+    senderName: string
+    receiptUrl?: string | null
+    status?: $Enums.WalletFundingRequestStatus
+    adminNote?: string | null
+    approvedBy?: string | null
+    creditedTransactionId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutWalletFundingRequestsInput
+  }
+
+  export type WalletFundingRequestUncheckedCreateInput = {
+    id?: string
+    userId: string
+    amount: number
+    currency?: string
+    paymentMethod: string
+    senderName: string
+    receiptUrl?: string | null
+    status?: $Enums.WalletFundingRequestStatus
+    adminNote?: string | null
+    approvedBy?: string | null
+    creditedTransactionId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WalletFundingRequestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    senderName?: StringFieldUpdateOperationsInput | string
+    receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumWalletFundingRequestStatusFieldUpdateOperationsInput | $Enums.WalletFundingRequestStatus
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    creditedTransactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutWalletFundingRequestsNestedInput
+  }
+
+  export type WalletFundingRequestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    senderName?: StringFieldUpdateOperationsInput | string
+    receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumWalletFundingRequestStatusFieldUpdateOperationsInput | $Enums.WalletFundingRequestStatus
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    creditedTransactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WalletFundingRequestCreateManyInput = {
+    id?: string
+    userId: string
+    amount: number
+    currency?: string
+    paymentMethod: string
+    senderName: string
+    receiptUrl?: string | null
+    status?: $Enums.WalletFundingRequestStatus
+    adminNote?: string | null
+    approvedBy?: string | null
+    creditedTransactionId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WalletFundingRequestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    senderName?: StringFieldUpdateOperationsInput | string
+    receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumWalletFundingRequestStatusFieldUpdateOperationsInput | $Enums.WalletFundingRequestStatus
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    creditedTransactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WalletFundingRequestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    senderName?: StringFieldUpdateOperationsInput | string
+    receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumWalletFundingRequestStatusFieldUpdateOperationsInput | $Enums.WalletFundingRequestStatus
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    creditedTransactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type LeaderboardSeasonCreateInput = {
     id?: string
     name: string
@@ -26505,6 +39524,7 @@ export namespace Prisma {
     captain: UserCreateNestedOneWithoutCaptainTeamsInput
     members?: TeamMemberCreateNestedManyWithoutTeamInput
     registrations?: RegistrationCreateNestedManyWithoutTeamInput
+    matchLineups?: TeamMatchLineupCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateInput = {
@@ -26519,6 +39539,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
     registrations?: RegistrationUncheckedCreateNestedManyWithoutTeamInput
+    matchLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUpdateInput = {
@@ -26533,6 +39554,7 @@ export namespace Prisma {
     captain?: UserUpdateOneRequiredWithoutCaptainTeamsNestedInput
     members?: TeamMemberUpdateManyWithoutTeamNestedInput
     registrations?: RegistrationUpdateManyWithoutTeamNestedInput
+    matchLineups?: TeamMatchLineupUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateInput = {
@@ -26547,6 +39569,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
     registrations?: RegistrationUncheckedUpdateManyWithoutTeamNestedInput
+    matchLineups?: TeamMatchLineupUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamCreateManyInput = {
@@ -26643,6 +39666,87 @@ export namespace Prisma {
     role?: EnumTeamRoleFieldUpdateOperationsInput | $Enums.TeamRole
     status?: EnumTeamMemberStatusFieldUpdateOperationsInput | $Enums.TeamMemberStatus
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeamMatchLineupCreateInput = {
+    id?: string
+    memberUserIds: JsonNullValueInput | InputJsonValue
+    representativeUserId: string
+    submittedByUserId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    match: MatchCreateNestedOneWithoutTeamLineupsInput
+    registration: RegistrationCreateNestedOneWithoutTeamLineupsInput
+    team: TeamCreateNestedOneWithoutMatchLineupsInput
+  }
+
+  export type TeamMatchLineupUncheckedCreateInput = {
+    id?: string
+    matchId: string
+    registrationId: string
+    teamId: string
+    memberUserIds: JsonNullValueInput | InputJsonValue
+    representativeUserId: string
+    submittedByUserId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TeamMatchLineupUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    memberUserIds?: JsonNullValueInput | InputJsonValue
+    representativeUserId?: StringFieldUpdateOperationsInput | string
+    submittedByUserId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    match?: MatchUpdateOneRequiredWithoutTeamLineupsNestedInput
+    registration?: RegistrationUpdateOneRequiredWithoutTeamLineupsNestedInput
+    team?: TeamUpdateOneRequiredWithoutMatchLineupsNestedInput
+  }
+
+  export type TeamMatchLineupUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matchId?: StringFieldUpdateOperationsInput | string
+    registrationId?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    memberUserIds?: JsonNullValueInput | InputJsonValue
+    representativeUserId?: StringFieldUpdateOperationsInput | string
+    submittedByUserId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeamMatchLineupCreateManyInput = {
+    id?: string
+    matchId: string
+    registrationId: string
+    teamId: string
+    memberUserIds: JsonNullValueInput | InputJsonValue
+    representativeUserId: string
+    submittedByUserId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TeamMatchLineupUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    memberUserIds?: JsonNullValueInput | InputJsonValue
+    representativeUserId?: StringFieldUpdateOperationsInput | string
+    submittedByUserId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeamMatchLineupUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matchId?: StringFieldUpdateOperationsInput | string
+    registrationId?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    memberUserIds?: JsonNullValueInput | InputJsonValue
+    representativeUserId?: StringFieldUpdateOperationsInput | string
+    submittedByUserId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type WebsiteSettingCreateInput = {
@@ -26784,6 +39888,418 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PenaltyShootoutResultCreateInput = {
+    id?: string
+    score: number
+    suddenDeathScore?: number
+    totalShots?: number
+    shotsJson: JsonNullValueInput | InputJsonValue
+    suddenDeathShotsJson?: JsonNullValueInput | InputJsonValue
+    isWinner?: boolean
+    auditVersion?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPenaltyShootoutResultsInput
+    match?: MatchCreateNestedOneWithoutPenaltyShootoutResultsInput
+  }
+
+  export type PenaltyShootoutResultUncheckedCreateInput = {
+    id?: string
+    userId: string
+    matchId?: string | null
+    score: number
+    suddenDeathScore?: number
+    totalShots?: number
+    shotsJson: JsonNullValueInput | InputJsonValue
+    suddenDeathShotsJson?: JsonNullValueInput | InputJsonValue
+    isWinner?: boolean
+    auditVersion?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PenaltyShootoutResultUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    suddenDeathScore?: IntFieldUpdateOperationsInput | number
+    totalShots?: IntFieldUpdateOperationsInput | number
+    shotsJson?: JsonNullValueInput | InputJsonValue
+    suddenDeathShotsJson?: JsonNullValueInput | InputJsonValue
+    isWinner?: BoolFieldUpdateOperationsInput | boolean
+    auditVersion?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPenaltyShootoutResultsNestedInput
+    match?: MatchUpdateOneWithoutPenaltyShootoutResultsNestedInput
+  }
+
+  export type PenaltyShootoutResultUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    matchId?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: IntFieldUpdateOperationsInput | number
+    suddenDeathScore?: IntFieldUpdateOperationsInput | number
+    totalShots?: IntFieldUpdateOperationsInput | number
+    shotsJson?: JsonNullValueInput | InputJsonValue
+    suddenDeathShotsJson?: JsonNullValueInput | InputJsonValue
+    isWinner?: BoolFieldUpdateOperationsInput | boolean
+    auditVersion?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PenaltyShootoutResultCreateManyInput = {
+    id?: string
+    userId: string
+    matchId?: string | null
+    score: number
+    suddenDeathScore?: number
+    totalShots?: number
+    shotsJson: JsonNullValueInput | InputJsonValue
+    suddenDeathShotsJson?: JsonNullValueInput | InputJsonValue
+    isWinner?: boolean
+    auditVersion?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PenaltyShootoutResultUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    suddenDeathScore?: IntFieldUpdateOperationsInput | number
+    totalShots?: IntFieldUpdateOperationsInput | number
+    shotsJson?: JsonNullValueInput | InputJsonValue
+    suddenDeathShotsJson?: JsonNullValueInput | InputJsonValue
+    isWinner?: BoolFieldUpdateOperationsInput | boolean
+    auditVersion?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PenaltyShootoutResultUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    matchId?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: IntFieldUpdateOperationsInput | number
+    suddenDeathScore?: IntFieldUpdateOperationsInput | number
+    totalShots?: IntFieldUpdateOperationsInput | number
+    shotsJson?: JsonNullValueInput | InputJsonValue
+    suddenDeathShotsJson?: JsonNullValueInput | InputJsonValue
+    isWinner?: BoolFieldUpdateOperationsInput | boolean
+    auditVersion?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PenaltyShootoutTrainingAttemptCreateInput = {
+    id?: string
+    score: number
+    totalShots?: number
+    shotsJson: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutPenaltyTrainingAttemptsInput
+  }
+
+  export type PenaltyShootoutTrainingAttemptUncheckedCreateInput = {
+    id?: string
+    userId: string
+    score: number
+    totalShots?: number
+    shotsJson: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type PenaltyShootoutTrainingAttemptUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    totalShots?: IntFieldUpdateOperationsInput | number
+    shotsJson?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPenaltyTrainingAttemptsNestedInput
+  }
+
+  export type PenaltyShootoutTrainingAttemptUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    totalShots?: IntFieldUpdateOperationsInput | number
+    shotsJson?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PenaltyShootoutTrainingAttemptCreateManyInput = {
+    id?: string
+    userId: string
+    score: number
+    totalShots?: number
+    shotsJson: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type PenaltyShootoutTrainingAttemptUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    totalShots?: IntFieldUpdateOperationsInput | number
+    shotsJson?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PenaltyShootoutTrainingAttemptUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    totalShots?: IntFieldUpdateOperationsInput | number
+    shotsJson?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PenaltyShootoutAdminActionCreateInput = {
+    id?: string
+    matchId: string
+    resultId?: string | null
+    actionType: $Enums.PenaltyShootoutAdminActionType
+    adminName: string
+    reason: string
+    createdAt?: Date | string
+  }
+
+  export type PenaltyShootoutAdminActionUncheckedCreateInput = {
+    id?: string
+    matchId: string
+    resultId?: string | null
+    actionType: $Enums.PenaltyShootoutAdminActionType
+    adminName: string
+    reason: string
+    createdAt?: Date | string
+  }
+
+  export type PenaltyShootoutAdminActionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matchId?: StringFieldUpdateOperationsInput | string
+    resultId?: NullableStringFieldUpdateOperationsInput | string | null
+    actionType?: EnumPenaltyShootoutAdminActionTypeFieldUpdateOperationsInput | $Enums.PenaltyShootoutAdminActionType
+    adminName?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PenaltyShootoutAdminActionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matchId?: StringFieldUpdateOperationsInput | string
+    resultId?: NullableStringFieldUpdateOperationsInput | string | null
+    actionType?: EnumPenaltyShootoutAdminActionTypeFieldUpdateOperationsInput | $Enums.PenaltyShootoutAdminActionType
+    adminName?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PenaltyShootoutAdminActionCreateManyInput = {
+    id?: string
+    matchId: string
+    resultId?: string | null
+    actionType: $Enums.PenaltyShootoutAdminActionType
+    adminName: string
+    reason: string
+    createdAt?: Date | string
+  }
+
+  export type PenaltyShootoutAdminActionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matchId?: StringFieldUpdateOperationsInput | string
+    resultId?: NullableStringFieldUpdateOperationsInput | string | null
+    actionType?: EnumPenaltyShootoutAdminActionTypeFieldUpdateOperationsInput | $Enums.PenaltyShootoutAdminActionType
+    adminName?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PenaltyShootoutAdminActionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matchId?: StringFieldUpdateOperationsInput | string
+    resultId?: NullableStringFieldUpdateOperationsInput | string | null
+    actionType?: EnumPenaltyShootoutAdminActionTypeFieldUpdateOperationsInput | $Enums.PenaltyShootoutAdminActionType
+    adminName?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeasonCreateInput = {
+    id?: string
+    name: string
+    startDate: Date | string
+    endDate: Date | string
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ratings?: PlayerRatingCreateNestedManyWithoutSeasonInput
+  }
+
+  export type SeasonUncheckedCreateInput = {
+    id?: string
+    name: string
+    startDate: Date | string
+    endDate: Date | string
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ratings?: PlayerRatingUncheckedCreateNestedManyWithoutSeasonInput
+  }
+
+  export type SeasonUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ratings?: PlayerRatingUpdateManyWithoutSeasonNestedInput
+  }
+
+  export type SeasonUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ratings?: PlayerRatingUncheckedUpdateManyWithoutSeasonNestedInput
+  }
+
+  export type SeasonCreateManyInput = {
+    id?: string
+    name: string
+    startDate: Date | string
+    endDate: Date | string
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SeasonUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeasonUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlayerRatingCreateInput = {
+    id?: string
+    matchesPlayed?: number
+    wins?: number
+    losses?: number
+    goalsScored?: number
+    goalsConceded?: number
+    currentRating?: number
+    highestRating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPlayerRatingsInput
+    season?: SeasonCreateNestedOneWithoutRatingsInput
+  }
+
+  export type PlayerRatingUncheckedCreateInput = {
+    id?: string
+    userId: string
+    seasonId?: string | null
+    matchesPlayed?: number
+    wins?: number
+    losses?: number
+    goalsScored?: number
+    goalsConceded?: number
+    currentRating?: number
+    highestRating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PlayerRatingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matchesPlayed?: IntFieldUpdateOperationsInput | number
+    wins?: IntFieldUpdateOperationsInput | number
+    losses?: IntFieldUpdateOperationsInput | number
+    goalsScored?: IntFieldUpdateOperationsInput | number
+    goalsConceded?: IntFieldUpdateOperationsInput | number
+    currentRating?: IntFieldUpdateOperationsInput | number
+    highestRating?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPlayerRatingsNestedInput
+    season?: SeasonUpdateOneWithoutRatingsNestedInput
+  }
+
+  export type PlayerRatingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    seasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    matchesPlayed?: IntFieldUpdateOperationsInput | number
+    wins?: IntFieldUpdateOperationsInput | number
+    losses?: IntFieldUpdateOperationsInput | number
+    goalsScored?: IntFieldUpdateOperationsInput | number
+    goalsConceded?: IntFieldUpdateOperationsInput | number
+    currentRating?: IntFieldUpdateOperationsInput | number
+    highestRating?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlayerRatingCreateManyInput = {
+    id?: string
+    userId: string
+    seasonId?: string | null
+    matchesPlayed?: number
+    wins?: number
+    losses?: number
+    goalsScored?: number
+    goalsConceded?: number
+    currentRating?: number
+    highestRating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PlayerRatingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matchesPlayed?: IntFieldUpdateOperationsInput | number
+    wins?: IntFieldUpdateOperationsInput | number
+    losses?: IntFieldUpdateOperationsInput | number
+    goalsScored?: IntFieldUpdateOperationsInput | number
+    goalsConceded?: IntFieldUpdateOperationsInput | number
+    currentRating?: IntFieldUpdateOperationsInput | number
+    highestRating?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlayerRatingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    seasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    matchesPlayed?: IntFieldUpdateOperationsInput | number
+    wins?: IntFieldUpdateOperationsInput | number
+    losses?: IntFieldUpdateOperationsInput | number
+    goalsScored?: IntFieldUpdateOperationsInput | number
+    goalsConceded?: IntFieldUpdateOperationsInput | number
+    currentRating?: IntFieldUpdateOperationsInput | number
+    highestRating?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -26908,6 +40424,41 @@ export namespace Prisma {
     none?: PlayerAchievementWhereInput
   }
 
+  export type PenaltyShootoutResultListRelationFilter = {
+    every?: PenaltyShootoutResultWhereInput
+    some?: PenaltyShootoutResultWhereInput
+    none?: PenaltyShootoutResultWhereInput
+  }
+
+  export type PenaltyShootoutTrainingAttemptListRelationFilter = {
+    every?: PenaltyShootoutTrainingAttemptWhereInput
+    some?: PenaltyShootoutTrainingAttemptWhereInput
+    none?: PenaltyShootoutTrainingAttemptWhereInput
+  }
+
+  export type PlayerRatingListRelationFilter = {
+    every?: PlayerRatingWhereInput
+    some?: PlayerRatingWhereInput
+    none?: PlayerRatingWhereInput
+  }
+
+  export type WalletNullableScalarRelationFilter = {
+    is?: WalletWhereInput | null
+    isNot?: WalletWhereInput | null
+  }
+
+  export type WalletTransactionListRelationFilter = {
+    every?: WalletTransactionWhereInput
+    some?: WalletTransactionWhereInput
+    none?: WalletTransactionWhereInput
+  }
+
+  export type WalletFundingRequestListRelationFilter = {
+    every?: WalletFundingRequestWhereInput
+    some?: WalletFundingRequestWhereInput
+    none?: WalletFundingRequestWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -26938,6 +40489,26 @@ export namespace Prisma {
   }
 
   export type PlayerAchievementOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PenaltyShootoutResultOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PenaltyShootoutTrainingAttemptOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PlayerRatingOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WalletTransactionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WalletFundingRequestOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -27195,6 +40766,17 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type LeagueStandingListRelationFilter = {
     every?: LeagueStandingWhereInput
     some?: LeagueStandingWhereInput
@@ -27233,6 +40815,9 @@ export namespace Prisma {
     streamPlatform?: SortOrder
     description?: SortOrder
     rules?: SortOrder
+    prizePayoutPaid?: SortOrder
+    prizePayoutPaidAt?: SortOrder
+    prizePayoutNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -27268,6 +40853,9 @@ export namespace Prisma {
     livestreamUrl?: SortOrder
     streamPlatform?: SortOrder
     description?: SortOrder
+    prizePayoutPaid?: SortOrder
+    prizePayoutPaidAt?: SortOrder
+    prizePayoutNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -27294,6 +40882,9 @@ export namespace Prisma {
     livestreamUrl?: SortOrder
     streamPlatform?: SortOrder
     description?: SortOrder
+    prizePayoutPaid?: SortOrder
+    prizePayoutPaidAt?: SortOrder
+    prizePayoutNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -27357,6 +40948,20 @@ export namespace Prisma {
     _max?: NestedEnumStreamPlatformNullableFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type EnumPaymentStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
     in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
@@ -27398,11 +41003,21 @@ export namespace Prisma {
     none?: PaymentWhereInput
   }
 
+  export type TeamMatchLineupListRelationFilter = {
+    every?: TeamMatchLineupWhereInput
+    some?: TeamMatchLineupWhereInput
+    none?: TeamMatchLineupWhereInput
+  }
+
   export type MatchResultSubmissionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type PaymentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TeamMatchLineupOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -27490,17 +41105,6 @@ export namespace Prisma {
     not?: NestedEnumMatchLiveStatusFilter<$PrismaModel> | $Enums.MatchLiveStatus
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type EnumMatchStreamModeFilter<$PrismaModel = never> = {
     equals?: $Enums.MatchStreamMode | EnumMatchStreamModeFieldRefInput<$PrismaModel>
     in?: $Enums.MatchStreamMode[] | ListEnumMatchStreamModeFieldRefInput<$PrismaModel>
@@ -27558,6 +41162,7 @@ export namespace Prisma {
     awayScore?: SortOrder
     aggregateMatchId?: SortOrder
     aggregateWinnerRegistrationId?: SortOrder
+    penaltyRatingApplied?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -27610,6 +41215,7 @@ export namespace Prisma {
     awayScore?: SortOrder
     aggregateMatchId?: SortOrder
     aggregateWinnerRegistrationId?: SortOrder
+    penaltyRatingApplied?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -27649,6 +41255,7 @@ export namespace Prisma {
     awayScore?: SortOrder
     aggregateMatchId?: SortOrder
     aggregateWinnerRegistrationId?: SortOrder
+    penaltyRatingApplied?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -27684,20 +41291,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumMatchLiveStatusFilter<$PrismaModel>
     _max?: NestedEnumMatchLiveStatusFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type EnumMatchStreamModeWithAggregatesFilter<$PrismaModel = never> = {
@@ -28030,6 +41623,191 @@ export namespace Prisma {
     _max?: NestedEnumPaymentRecordStatusFilter<$PrismaModel>
   }
 
+  export type WalletCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    balance?: SortOrder
+    currency?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WalletAvgOrderByAggregateInput = {
+    balance?: SortOrder
+  }
+
+  export type WalletMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    balance?: SortOrder
+    currency?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WalletMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    balance?: SortOrder
+    currency?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WalletSumOrderByAggregateInput = {
+    balance?: SortOrder
+  }
+
+  export type EnumWalletTransactionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.WalletTransactionType | EnumWalletTransactionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.WalletTransactionType[] | ListEnumWalletTransactionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WalletTransactionType[] | ListEnumWalletTransactionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumWalletTransactionTypeFilter<$PrismaModel> | $Enums.WalletTransactionType
+  }
+
+  export type WalletScalarRelationFilter = {
+    is?: WalletWhereInput
+    isNot?: WalletWhereInput
+  }
+
+  export type WalletTransactionCountOrderByAggregateInput = {
+    id?: SortOrder
+    walletId?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    amount?: SortOrder
+    balanceAfter?: SortOrder
+    description?: SortOrder
+    reference?: SortOrder
+    registrationId?: SortOrder
+    tournamentId?: SortOrder
+    adminName?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WalletTransactionAvgOrderByAggregateInput = {
+    amount?: SortOrder
+    balanceAfter?: SortOrder
+  }
+
+  export type WalletTransactionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    walletId?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    amount?: SortOrder
+    balanceAfter?: SortOrder
+    description?: SortOrder
+    reference?: SortOrder
+    registrationId?: SortOrder
+    tournamentId?: SortOrder
+    adminName?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WalletTransactionMinOrderByAggregateInput = {
+    id?: SortOrder
+    walletId?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    amount?: SortOrder
+    balanceAfter?: SortOrder
+    description?: SortOrder
+    reference?: SortOrder
+    registrationId?: SortOrder
+    tournamentId?: SortOrder
+    adminName?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WalletTransactionSumOrderByAggregateInput = {
+    amount?: SortOrder
+    balanceAfter?: SortOrder
+  }
+
+  export type EnumWalletTransactionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WalletTransactionType | EnumWalletTransactionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.WalletTransactionType[] | ListEnumWalletTransactionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WalletTransactionType[] | ListEnumWalletTransactionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumWalletTransactionTypeWithAggregatesFilter<$PrismaModel> | $Enums.WalletTransactionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWalletTransactionTypeFilter<$PrismaModel>
+    _max?: NestedEnumWalletTransactionTypeFilter<$PrismaModel>
+  }
+
+  export type EnumWalletFundingRequestStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.WalletFundingRequestStatus | EnumWalletFundingRequestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WalletFundingRequestStatus[] | ListEnumWalletFundingRequestStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WalletFundingRequestStatus[] | ListEnumWalletFundingRequestStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWalletFundingRequestStatusFilter<$PrismaModel> | $Enums.WalletFundingRequestStatus
+  }
+
+  export type WalletFundingRequestCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    paymentMethod?: SortOrder
+    senderName?: SortOrder
+    receiptUrl?: SortOrder
+    status?: SortOrder
+    adminNote?: SortOrder
+    approvedBy?: SortOrder
+    creditedTransactionId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WalletFundingRequestAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type WalletFundingRequestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    paymentMethod?: SortOrder
+    senderName?: SortOrder
+    receiptUrl?: SortOrder
+    status?: SortOrder
+    adminNote?: SortOrder
+    approvedBy?: SortOrder
+    creditedTransactionId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WalletFundingRequestMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    paymentMethod?: SortOrder
+    senderName?: SortOrder
+    receiptUrl?: SortOrder
+    status?: SortOrder
+    adminNote?: SortOrder
+    approvedBy?: SortOrder
+    creditedTransactionId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WalletFundingRequestSumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type EnumWalletFundingRequestStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WalletFundingRequestStatus | EnumWalletFundingRequestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WalletFundingRequestStatus[] | ListEnumWalletFundingRequestStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WalletFundingRequestStatus[] | ListEnumWalletFundingRequestStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWalletFundingRequestStatusWithAggregatesFilter<$PrismaModel> | $Enums.WalletFundingRequestStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWalletFundingRequestStatusFilter<$PrismaModel>
+    _max?: NestedEnumWalletFundingRequestStatusFilter<$PrismaModel>
+  }
+
   export type LeaderboardSeasonCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -28276,6 +42054,94 @@ export namespace Prisma {
     _min?: NestedEnumTeamMemberStatusFilter<$PrismaModel>
     _max?: NestedEnumTeamMemberStatusFilter<$PrismaModel>
   }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type TeamMatchLineupMatchIdRegistrationIdCompoundUniqueInput = {
+    matchId: string
+    registrationId: string
+  }
+
+  export type TeamMatchLineupCountOrderByAggregateInput = {
+    id?: SortOrder
+    matchId?: SortOrder
+    registrationId?: SortOrder
+    teamId?: SortOrder
+    memberUserIds?: SortOrder
+    representativeUserId?: SortOrder
+    submittedByUserId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TeamMatchLineupMaxOrderByAggregateInput = {
+    id?: SortOrder
+    matchId?: SortOrder
+    registrationId?: SortOrder
+    teamId?: SortOrder
+    representativeUserId?: SortOrder
+    submittedByUserId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TeamMatchLineupMinOrderByAggregateInput = {
+    id?: SortOrder
+    matchId?: SortOrder
+    registrationId?: SortOrder
+    teamId?: SortOrder
+    representativeUserId?: SortOrder
+    submittedByUserId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
 
   export type EnumWebsiteSettingTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.WebsiteSettingType | EnumWebsiteSettingTypeFieldRefInput<$PrismaModel>
@@ -28354,6 +42220,253 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type PenaltyShootoutResultUserIdMatchIdCompoundUniqueInput = {
+    userId: string
+    matchId: string
+  }
+
+  export type PenaltyShootoutResultCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    matchId?: SortOrder
+    score?: SortOrder
+    suddenDeathScore?: SortOrder
+    totalShots?: SortOrder
+    shotsJson?: SortOrder
+    suddenDeathShotsJson?: SortOrder
+    isWinner?: SortOrder
+    auditVersion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PenaltyShootoutResultAvgOrderByAggregateInput = {
+    score?: SortOrder
+    suddenDeathScore?: SortOrder
+    totalShots?: SortOrder
+    auditVersion?: SortOrder
+  }
+
+  export type PenaltyShootoutResultMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    matchId?: SortOrder
+    score?: SortOrder
+    suddenDeathScore?: SortOrder
+    totalShots?: SortOrder
+    isWinner?: SortOrder
+    auditVersion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PenaltyShootoutResultMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    matchId?: SortOrder
+    score?: SortOrder
+    suddenDeathScore?: SortOrder
+    totalShots?: SortOrder
+    isWinner?: SortOrder
+    auditVersion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PenaltyShootoutResultSumOrderByAggregateInput = {
+    score?: SortOrder
+    suddenDeathScore?: SortOrder
+    totalShots?: SortOrder
+    auditVersion?: SortOrder
+  }
+
+  export type PenaltyShootoutTrainingAttemptCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    score?: SortOrder
+    totalShots?: SortOrder
+    shotsJson?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PenaltyShootoutTrainingAttemptAvgOrderByAggregateInput = {
+    score?: SortOrder
+    totalShots?: SortOrder
+  }
+
+  export type PenaltyShootoutTrainingAttemptMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    score?: SortOrder
+    totalShots?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PenaltyShootoutTrainingAttemptMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    score?: SortOrder
+    totalShots?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PenaltyShootoutTrainingAttemptSumOrderByAggregateInput = {
+    score?: SortOrder
+    totalShots?: SortOrder
+  }
+
+  export type EnumPenaltyShootoutAdminActionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.PenaltyShootoutAdminActionType | EnumPenaltyShootoutAdminActionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.PenaltyShootoutAdminActionType[] | ListEnumPenaltyShootoutAdminActionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PenaltyShootoutAdminActionType[] | ListEnumPenaltyShootoutAdminActionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumPenaltyShootoutAdminActionTypeFilter<$PrismaModel> | $Enums.PenaltyShootoutAdminActionType
+  }
+
+  export type PenaltyShootoutAdminActionCountOrderByAggregateInput = {
+    id?: SortOrder
+    matchId?: SortOrder
+    resultId?: SortOrder
+    actionType?: SortOrder
+    adminName?: SortOrder
+    reason?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PenaltyShootoutAdminActionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    matchId?: SortOrder
+    resultId?: SortOrder
+    actionType?: SortOrder
+    adminName?: SortOrder
+    reason?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PenaltyShootoutAdminActionMinOrderByAggregateInput = {
+    id?: SortOrder
+    matchId?: SortOrder
+    resultId?: SortOrder
+    actionType?: SortOrder
+    adminName?: SortOrder
+    reason?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumPenaltyShootoutAdminActionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PenaltyShootoutAdminActionType | EnumPenaltyShootoutAdminActionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.PenaltyShootoutAdminActionType[] | ListEnumPenaltyShootoutAdminActionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PenaltyShootoutAdminActionType[] | ListEnumPenaltyShootoutAdminActionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumPenaltyShootoutAdminActionTypeWithAggregatesFilter<$PrismaModel> | $Enums.PenaltyShootoutAdminActionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPenaltyShootoutAdminActionTypeFilter<$PrismaModel>
+    _max?: NestedEnumPenaltyShootoutAdminActionTypeFilter<$PrismaModel>
+  }
+
+  export type SeasonCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SeasonMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SeasonMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SeasonNullableScalarRelationFilter = {
+    is?: SeasonWhereInput | null
+    isNot?: SeasonWhereInput | null
+  }
+
+  export type PlayerRatingUserIdSeasonIdCompoundUniqueInput = {
+    userId: string
+    seasonId: string
+  }
+
+  export type PlayerRatingCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    seasonId?: SortOrder
+    matchesPlayed?: SortOrder
+    wins?: SortOrder
+    losses?: SortOrder
+    goalsScored?: SortOrder
+    goalsConceded?: SortOrder
+    currentRating?: SortOrder
+    highestRating?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PlayerRatingAvgOrderByAggregateInput = {
+    matchesPlayed?: SortOrder
+    wins?: SortOrder
+    losses?: SortOrder
+    goalsScored?: SortOrder
+    goalsConceded?: SortOrder
+    currentRating?: SortOrder
+    highestRating?: SortOrder
+  }
+
+  export type PlayerRatingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    seasonId?: SortOrder
+    matchesPlayed?: SortOrder
+    wins?: SortOrder
+    losses?: SortOrder
+    goalsScored?: SortOrder
+    goalsConceded?: SortOrder
+    currentRating?: SortOrder
+    highestRating?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PlayerRatingMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    seasonId?: SortOrder
+    matchesPlayed?: SortOrder
+    wins?: SortOrder
+    losses?: SortOrder
+    goalsScored?: SortOrder
+    goalsConceded?: SortOrder
+    currentRating?: SortOrder
+    highestRating?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PlayerRatingSumOrderByAggregateInput = {
+    matchesPlayed?: SortOrder
+    wins?: SortOrder
+    losses?: SortOrder
+    goalsScored?: SortOrder
+    goalsConceded?: SortOrder
+    currentRating?: SortOrder
+    highestRating?: SortOrder
+  }
+
   export type RegistrationCreateNestedManyWithoutUserInput = {
     create?: XOR<RegistrationCreateWithoutUserInput, RegistrationUncheckedCreateWithoutUserInput> | RegistrationCreateWithoutUserInput[] | RegistrationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RegistrationCreateOrConnectWithoutUserInput | RegistrationCreateOrConnectWithoutUserInput[]
@@ -28403,6 +42516,47 @@ export namespace Prisma {
     connect?: PlayerAchievementWhereUniqueInput | PlayerAchievementWhereUniqueInput[]
   }
 
+  export type PenaltyShootoutResultCreateNestedManyWithoutUserInput = {
+    create?: XOR<PenaltyShootoutResultCreateWithoutUserInput, PenaltyShootoutResultUncheckedCreateWithoutUserInput> | PenaltyShootoutResultCreateWithoutUserInput[] | PenaltyShootoutResultUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PenaltyShootoutResultCreateOrConnectWithoutUserInput | PenaltyShootoutResultCreateOrConnectWithoutUserInput[]
+    createMany?: PenaltyShootoutResultCreateManyUserInputEnvelope
+    connect?: PenaltyShootoutResultWhereUniqueInput | PenaltyShootoutResultWhereUniqueInput[]
+  }
+
+  export type PenaltyShootoutTrainingAttemptCreateNestedManyWithoutUserInput = {
+    create?: XOR<PenaltyShootoutTrainingAttemptCreateWithoutUserInput, PenaltyShootoutTrainingAttemptUncheckedCreateWithoutUserInput> | PenaltyShootoutTrainingAttemptCreateWithoutUserInput[] | PenaltyShootoutTrainingAttemptUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PenaltyShootoutTrainingAttemptCreateOrConnectWithoutUserInput | PenaltyShootoutTrainingAttemptCreateOrConnectWithoutUserInput[]
+    createMany?: PenaltyShootoutTrainingAttemptCreateManyUserInputEnvelope
+    connect?: PenaltyShootoutTrainingAttemptWhereUniqueInput | PenaltyShootoutTrainingAttemptWhereUniqueInput[]
+  }
+
+  export type PlayerRatingCreateNestedManyWithoutUserInput = {
+    create?: XOR<PlayerRatingCreateWithoutUserInput, PlayerRatingUncheckedCreateWithoutUserInput> | PlayerRatingCreateWithoutUserInput[] | PlayerRatingUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PlayerRatingCreateOrConnectWithoutUserInput | PlayerRatingCreateOrConnectWithoutUserInput[]
+    createMany?: PlayerRatingCreateManyUserInputEnvelope
+    connect?: PlayerRatingWhereUniqueInput | PlayerRatingWhereUniqueInput[]
+  }
+
+  export type WalletCreateNestedOneWithoutUserInput = {
+    create?: XOR<WalletCreateWithoutUserInput, WalletUncheckedCreateWithoutUserInput>
+    connectOrCreate?: WalletCreateOrConnectWithoutUserInput
+    connect?: WalletWhereUniqueInput
+  }
+
+  export type WalletTransactionCreateNestedManyWithoutUserInput = {
+    create?: XOR<WalletTransactionCreateWithoutUserInput, WalletTransactionUncheckedCreateWithoutUserInput> | WalletTransactionCreateWithoutUserInput[] | WalletTransactionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WalletTransactionCreateOrConnectWithoutUserInput | WalletTransactionCreateOrConnectWithoutUserInput[]
+    createMany?: WalletTransactionCreateManyUserInputEnvelope
+    connect?: WalletTransactionWhereUniqueInput | WalletTransactionWhereUniqueInput[]
+  }
+
+  export type WalletFundingRequestCreateNestedManyWithoutUserInput = {
+    create?: XOR<WalletFundingRequestCreateWithoutUserInput, WalletFundingRequestUncheckedCreateWithoutUserInput> | WalletFundingRequestCreateWithoutUserInput[] | WalletFundingRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WalletFundingRequestCreateOrConnectWithoutUserInput | WalletFundingRequestCreateOrConnectWithoutUserInput[]
+    createMany?: WalletFundingRequestCreateManyUserInputEnvelope
+    connect?: WalletFundingRequestWhereUniqueInput | WalletFundingRequestWhereUniqueInput[]
+  }
+
   export type RegistrationUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<RegistrationCreateWithoutUserInput, RegistrationUncheckedCreateWithoutUserInput> | RegistrationCreateWithoutUserInput[] | RegistrationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RegistrationCreateOrConnectWithoutUserInput | RegistrationCreateOrConnectWithoutUserInput[]
@@ -28450,6 +42604,47 @@ export namespace Prisma {
     connectOrCreate?: PlayerAchievementCreateOrConnectWithoutUserInput | PlayerAchievementCreateOrConnectWithoutUserInput[]
     createMany?: PlayerAchievementCreateManyUserInputEnvelope
     connect?: PlayerAchievementWhereUniqueInput | PlayerAchievementWhereUniqueInput[]
+  }
+
+  export type PenaltyShootoutResultUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PenaltyShootoutResultCreateWithoutUserInput, PenaltyShootoutResultUncheckedCreateWithoutUserInput> | PenaltyShootoutResultCreateWithoutUserInput[] | PenaltyShootoutResultUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PenaltyShootoutResultCreateOrConnectWithoutUserInput | PenaltyShootoutResultCreateOrConnectWithoutUserInput[]
+    createMany?: PenaltyShootoutResultCreateManyUserInputEnvelope
+    connect?: PenaltyShootoutResultWhereUniqueInput | PenaltyShootoutResultWhereUniqueInput[]
+  }
+
+  export type PenaltyShootoutTrainingAttemptUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PenaltyShootoutTrainingAttemptCreateWithoutUserInput, PenaltyShootoutTrainingAttemptUncheckedCreateWithoutUserInput> | PenaltyShootoutTrainingAttemptCreateWithoutUserInput[] | PenaltyShootoutTrainingAttemptUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PenaltyShootoutTrainingAttemptCreateOrConnectWithoutUserInput | PenaltyShootoutTrainingAttemptCreateOrConnectWithoutUserInput[]
+    createMany?: PenaltyShootoutTrainingAttemptCreateManyUserInputEnvelope
+    connect?: PenaltyShootoutTrainingAttemptWhereUniqueInput | PenaltyShootoutTrainingAttemptWhereUniqueInput[]
+  }
+
+  export type PlayerRatingUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PlayerRatingCreateWithoutUserInput, PlayerRatingUncheckedCreateWithoutUserInput> | PlayerRatingCreateWithoutUserInput[] | PlayerRatingUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PlayerRatingCreateOrConnectWithoutUserInput | PlayerRatingCreateOrConnectWithoutUserInput[]
+    createMany?: PlayerRatingCreateManyUserInputEnvelope
+    connect?: PlayerRatingWhereUniqueInput | PlayerRatingWhereUniqueInput[]
+  }
+
+  export type WalletUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<WalletCreateWithoutUserInput, WalletUncheckedCreateWithoutUserInput>
+    connectOrCreate?: WalletCreateOrConnectWithoutUserInput
+    connect?: WalletWhereUniqueInput
+  }
+
+  export type WalletTransactionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<WalletTransactionCreateWithoutUserInput, WalletTransactionUncheckedCreateWithoutUserInput> | WalletTransactionCreateWithoutUserInput[] | WalletTransactionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WalletTransactionCreateOrConnectWithoutUserInput | WalletTransactionCreateOrConnectWithoutUserInput[]
+    createMany?: WalletTransactionCreateManyUserInputEnvelope
+    connect?: WalletTransactionWhereUniqueInput | WalletTransactionWhereUniqueInput[]
+  }
+
+  export type WalletFundingRequestUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<WalletFundingRequestCreateWithoutUserInput, WalletFundingRequestUncheckedCreateWithoutUserInput> | WalletFundingRequestCreateWithoutUserInput[] | WalletFundingRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WalletFundingRequestCreateOrConnectWithoutUserInput | WalletFundingRequestCreateOrConnectWithoutUserInput[]
+    createMany?: WalletFundingRequestCreateManyUserInputEnvelope
+    connect?: WalletFundingRequestWhereUniqueInput | WalletFundingRequestWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -28590,6 +42785,86 @@ export namespace Prisma {
     deleteMany?: PlayerAchievementScalarWhereInput | PlayerAchievementScalarWhereInput[]
   }
 
+  export type PenaltyShootoutResultUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PenaltyShootoutResultCreateWithoutUserInput, PenaltyShootoutResultUncheckedCreateWithoutUserInput> | PenaltyShootoutResultCreateWithoutUserInput[] | PenaltyShootoutResultUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PenaltyShootoutResultCreateOrConnectWithoutUserInput | PenaltyShootoutResultCreateOrConnectWithoutUserInput[]
+    upsert?: PenaltyShootoutResultUpsertWithWhereUniqueWithoutUserInput | PenaltyShootoutResultUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PenaltyShootoutResultCreateManyUserInputEnvelope
+    set?: PenaltyShootoutResultWhereUniqueInput | PenaltyShootoutResultWhereUniqueInput[]
+    disconnect?: PenaltyShootoutResultWhereUniqueInput | PenaltyShootoutResultWhereUniqueInput[]
+    delete?: PenaltyShootoutResultWhereUniqueInput | PenaltyShootoutResultWhereUniqueInput[]
+    connect?: PenaltyShootoutResultWhereUniqueInput | PenaltyShootoutResultWhereUniqueInput[]
+    update?: PenaltyShootoutResultUpdateWithWhereUniqueWithoutUserInput | PenaltyShootoutResultUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PenaltyShootoutResultUpdateManyWithWhereWithoutUserInput | PenaltyShootoutResultUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PenaltyShootoutResultScalarWhereInput | PenaltyShootoutResultScalarWhereInput[]
+  }
+
+  export type PenaltyShootoutTrainingAttemptUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PenaltyShootoutTrainingAttemptCreateWithoutUserInput, PenaltyShootoutTrainingAttemptUncheckedCreateWithoutUserInput> | PenaltyShootoutTrainingAttemptCreateWithoutUserInput[] | PenaltyShootoutTrainingAttemptUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PenaltyShootoutTrainingAttemptCreateOrConnectWithoutUserInput | PenaltyShootoutTrainingAttemptCreateOrConnectWithoutUserInput[]
+    upsert?: PenaltyShootoutTrainingAttemptUpsertWithWhereUniqueWithoutUserInput | PenaltyShootoutTrainingAttemptUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PenaltyShootoutTrainingAttemptCreateManyUserInputEnvelope
+    set?: PenaltyShootoutTrainingAttemptWhereUniqueInput | PenaltyShootoutTrainingAttemptWhereUniqueInput[]
+    disconnect?: PenaltyShootoutTrainingAttemptWhereUniqueInput | PenaltyShootoutTrainingAttemptWhereUniqueInput[]
+    delete?: PenaltyShootoutTrainingAttemptWhereUniqueInput | PenaltyShootoutTrainingAttemptWhereUniqueInput[]
+    connect?: PenaltyShootoutTrainingAttemptWhereUniqueInput | PenaltyShootoutTrainingAttemptWhereUniqueInput[]
+    update?: PenaltyShootoutTrainingAttemptUpdateWithWhereUniqueWithoutUserInput | PenaltyShootoutTrainingAttemptUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PenaltyShootoutTrainingAttemptUpdateManyWithWhereWithoutUserInput | PenaltyShootoutTrainingAttemptUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PenaltyShootoutTrainingAttemptScalarWhereInput | PenaltyShootoutTrainingAttemptScalarWhereInput[]
+  }
+
+  export type PlayerRatingUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PlayerRatingCreateWithoutUserInput, PlayerRatingUncheckedCreateWithoutUserInput> | PlayerRatingCreateWithoutUserInput[] | PlayerRatingUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PlayerRatingCreateOrConnectWithoutUserInput | PlayerRatingCreateOrConnectWithoutUserInput[]
+    upsert?: PlayerRatingUpsertWithWhereUniqueWithoutUserInput | PlayerRatingUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PlayerRatingCreateManyUserInputEnvelope
+    set?: PlayerRatingWhereUniqueInput | PlayerRatingWhereUniqueInput[]
+    disconnect?: PlayerRatingWhereUniqueInput | PlayerRatingWhereUniqueInput[]
+    delete?: PlayerRatingWhereUniqueInput | PlayerRatingWhereUniqueInput[]
+    connect?: PlayerRatingWhereUniqueInput | PlayerRatingWhereUniqueInput[]
+    update?: PlayerRatingUpdateWithWhereUniqueWithoutUserInput | PlayerRatingUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PlayerRatingUpdateManyWithWhereWithoutUserInput | PlayerRatingUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PlayerRatingScalarWhereInput | PlayerRatingScalarWhereInput[]
+  }
+
+  export type WalletUpdateOneWithoutUserNestedInput = {
+    create?: XOR<WalletCreateWithoutUserInput, WalletUncheckedCreateWithoutUserInput>
+    connectOrCreate?: WalletCreateOrConnectWithoutUserInput
+    upsert?: WalletUpsertWithoutUserInput
+    disconnect?: WalletWhereInput | boolean
+    delete?: WalletWhereInput | boolean
+    connect?: WalletWhereUniqueInput
+    update?: XOR<XOR<WalletUpdateToOneWithWhereWithoutUserInput, WalletUpdateWithoutUserInput>, WalletUncheckedUpdateWithoutUserInput>
+  }
+
+  export type WalletTransactionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<WalletTransactionCreateWithoutUserInput, WalletTransactionUncheckedCreateWithoutUserInput> | WalletTransactionCreateWithoutUserInput[] | WalletTransactionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WalletTransactionCreateOrConnectWithoutUserInput | WalletTransactionCreateOrConnectWithoutUserInput[]
+    upsert?: WalletTransactionUpsertWithWhereUniqueWithoutUserInput | WalletTransactionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: WalletTransactionCreateManyUserInputEnvelope
+    set?: WalletTransactionWhereUniqueInput | WalletTransactionWhereUniqueInput[]
+    disconnect?: WalletTransactionWhereUniqueInput | WalletTransactionWhereUniqueInput[]
+    delete?: WalletTransactionWhereUniqueInput | WalletTransactionWhereUniqueInput[]
+    connect?: WalletTransactionWhereUniqueInput | WalletTransactionWhereUniqueInput[]
+    update?: WalletTransactionUpdateWithWhereUniqueWithoutUserInput | WalletTransactionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: WalletTransactionUpdateManyWithWhereWithoutUserInput | WalletTransactionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: WalletTransactionScalarWhereInput | WalletTransactionScalarWhereInput[]
+  }
+
+  export type WalletFundingRequestUpdateManyWithoutUserNestedInput = {
+    create?: XOR<WalletFundingRequestCreateWithoutUserInput, WalletFundingRequestUncheckedCreateWithoutUserInput> | WalletFundingRequestCreateWithoutUserInput[] | WalletFundingRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WalletFundingRequestCreateOrConnectWithoutUserInput | WalletFundingRequestCreateOrConnectWithoutUserInput[]
+    upsert?: WalletFundingRequestUpsertWithWhereUniqueWithoutUserInput | WalletFundingRequestUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: WalletFundingRequestCreateManyUserInputEnvelope
+    set?: WalletFundingRequestWhereUniqueInput | WalletFundingRequestWhereUniqueInput[]
+    disconnect?: WalletFundingRequestWhereUniqueInput | WalletFundingRequestWhereUniqueInput[]
+    delete?: WalletFundingRequestWhereUniqueInput | WalletFundingRequestWhereUniqueInput[]
+    connect?: WalletFundingRequestWhereUniqueInput | WalletFundingRequestWhereUniqueInput[]
+    update?: WalletFundingRequestUpdateWithWhereUniqueWithoutUserInput | WalletFundingRequestUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: WalletFundingRequestUpdateManyWithWhereWithoutUserInput | WalletFundingRequestUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: WalletFundingRequestScalarWhereInput | WalletFundingRequestScalarWhereInput[]
+  }
+
   export type RegistrationUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<RegistrationCreateWithoutUserInput, RegistrationUncheckedCreateWithoutUserInput> | RegistrationCreateWithoutUserInput[] | RegistrationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RegistrationCreateOrConnectWithoutUserInput | RegistrationCreateOrConnectWithoutUserInput[]
@@ -28688,6 +42963,86 @@ export namespace Prisma {
     deleteMany?: PlayerAchievementScalarWhereInput | PlayerAchievementScalarWhereInput[]
   }
 
+  export type PenaltyShootoutResultUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PenaltyShootoutResultCreateWithoutUserInput, PenaltyShootoutResultUncheckedCreateWithoutUserInput> | PenaltyShootoutResultCreateWithoutUserInput[] | PenaltyShootoutResultUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PenaltyShootoutResultCreateOrConnectWithoutUserInput | PenaltyShootoutResultCreateOrConnectWithoutUserInput[]
+    upsert?: PenaltyShootoutResultUpsertWithWhereUniqueWithoutUserInput | PenaltyShootoutResultUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PenaltyShootoutResultCreateManyUserInputEnvelope
+    set?: PenaltyShootoutResultWhereUniqueInput | PenaltyShootoutResultWhereUniqueInput[]
+    disconnect?: PenaltyShootoutResultWhereUniqueInput | PenaltyShootoutResultWhereUniqueInput[]
+    delete?: PenaltyShootoutResultWhereUniqueInput | PenaltyShootoutResultWhereUniqueInput[]
+    connect?: PenaltyShootoutResultWhereUniqueInput | PenaltyShootoutResultWhereUniqueInput[]
+    update?: PenaltyShootoutResultUpdateWithWhereUniqueWithoutUserInput | PenaltyShootoutResultUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PenaltyShootoutResultUpdateManyWithWhereWithoutUserInput | PenaltyShootoutResultUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PenaltyShootoutResultScalarWhereInput | PenaltyShootoutResultScalarWhereInput[]
+  }
+
+  export type PenaltyShootoutTrainingAttemptUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PenaltyShootoutTrainingAttemptCreateWithoutUserInput, PenaltyShootoutTrainingAttemptUncheckedCreateWithoutUserInput> | PenaltyShootoutTrainingAttemptCreateWithoutUserInput[] | PenaltyShootoutTrainingAttemptUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PenaltyShootoutTrainingAttemptCreateOrConnectWithoutUserInput | PenaltyShootoutTrainingAttemptCreateOrConnectWithoutUserInput[]
+    upsert?: PenaltyShootoutTrainingAttemptUpsertWithWhereUniqueWithoutUserInput | PenaltyShootoutTrainingAttemptUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PenaltyShootoutTrainingAttemptCreateManyUserInputEnvelope
+    set?: PenaltyShootoutTrainingAttemptWhereUniqueInput | PenaltyShootoutTrainingAttemptWhereUniqueInput[]
+    disconnect?: PenaltyShootoutTrainingAttemptWhereUniqueInput | PenaltyShootoutTrainingAttemptWhereUniqueInput[]
+    delete?: PenaltyShootoutTrainingAttemptWhereUniqueInput | PenaltyShootoutTrainingAttemptWhereUniqueInput[]
+    connect?: PenaltyShootoutTrainingAttemptWhereUniqueInput | PenaltyShootoutTrainingAttemptWhereUniqueInput[]
+    update?: PenaltyShootoutTrainingAttemptUpdateWithWhereUniqueWithoutUserInput | PenaltyShootoutTrainingAttemptUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PenaltyShootoutTrainingAttemptUpdateManyWithWhereWithoutUserInput | PenaltyShootoutTrainingAttemptUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PenaltyShootoutTrainingAttemptScalarWhereInput | PenaltyShootoutTrainingAttemptScalarWhereInput[]
+  }
+
+  export type PlayerRatingUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PlayerRatingCreateWithoutUserInput, PlayerRatingUncheckedCreateWithoutUserInput> | PlayerRatingCreateWithoutUserInput[] | PlayerRatingUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PlayerRatingCreateOrConnectWithoutUserInput | PlayerRatingCreateOrConnectWithoutUserInput[]
+    upsert?: PlayerRatingUpsertWithWhereUniqueWithoutUserInput | PlayerRatingUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PlayerRatingCreateManyUserInputEnvelope
+    set?: PlayerRatingWhereUniqueInput | PlayerRatingWhereUniqueInput[]
+    disconnect?: PlayerRatingWhereUniqueInput | PlayerRatingWhereUniqueInput[]
+    delete?: PlayerRatingWhereUniqueInput | PlayerRatingWhereUniqueInput[]
+    connect?: PlayerRatingWhereUniqueInput | PlayerRatingWhereUniqueInput[]
+    update?: PlayerRatingUpdateWithWhereUniqueWithoutUserInput | PlayerRatingUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PlayerRatingUpdateManyWithWhereWithoutUserInput | PlayerRatingUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PlayerRatingScalarWhereInput | PlayerRatingScalarWhereInput[]
+  }
+
+  export type WalletUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<WalletCreateWithoutUserInput, WalletUncheckedCreateWithoutUserInput>
+    connectOrCreate?: WalletCreateOrConnectWithoutUserInput
+    upsert?: WalletUpsertWithoutUserInput
+    disconnect?: WalletWhereInput | boolean
+    delete?: WalletWhereInput | boolean
+    connect?: WalletWhereUniqueInput
+    update?: XOR<XOR<WalletUpdateToOneWithWhereWithoutUserInput, WalletUpdateWithoutUserInput>, WalletUncheckedUpdateWithoutUserInput>
+  }
+
+  export type WalletTransactionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<WalletTransactionCreateWithoutUserInput, WalletTransactionUncheckedCreateWithoutUserInput> | WalletTransactionCreateWithoutUserInput[] | WalletTransactionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WalletTransactionCreateOrConnectWithoutUserInput | WalletTransactionCreateOrConnectWithoutUserInput[]
+    upsert?: WalletTransactionUpsertWithWhereUniqueWithoutUserInput | WalletTransactionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: WalletTransactionCreateManyUserInputEnvelope
+    set?: WalletTransactionWhereUniqueInput | WalletTransactionWhereUniqueInput[]
+    disconnect?: WalletTransactionWhereUniqueInput | WalletTransactionWhereUniqueInput[]
+    delete?: WalletTransactionWhereUniqueInput | WalletTransactionWhereUniqueInput[]
+    connect?: WalletTransactionWhereUniqueInput | WalletTransactionWhereUniqueInput[]
+    update?: WalletTransactionUpdateWithWhereUniqueWithoutUserInput | WalletTransactionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: WalletTransactionUpdateManyWithWhereWithoutUserInput | WalletTransactionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: WalletTransactionScalarWhereInput | WalletTransactionScalarWhereInput[]
+  }
+
+  export type WalletFundingRequestUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<WalletFundingRequestCreateWithoutUserInput, WalletFundingRequestUncheckedCreateWithoutUserInput> | WalletFundingRequestCreateWithoutUserInput[] | WalletFundingRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WalletFundingRequestCreateOrConnectWithoutUserInput | WalletFundingRequestCreateOrConnectWithoutUserInput[]
+    upsert?: WalletFundingRequestUpsertWithWhereUniqueWithoutUserInput | WalletFundingRequestUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: WalletFundingRequestCreateManyUserInputEnvelope
+    set?: WalletFundingRequestWhereUniqueInput | WalletFundingRequestWhereUniqueInput[]
+    disconnect?: WalletFundingRequestWhereUniqueInput | WalletFundingRequestWhereUniqueInput[]
+    delete?: WalletFundingRequestWhereUniqueInput | WalletFundingRequestWhereUniqueInput[]
+    connect?: WalletFundingRequestWhereUniqueInput | WalletFundingRequestWhereUniqueInput[]
+    update?: WalletFundingRequestUpdateWithWhereUniqueWithoutUserInput | WalletFundingRequestUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: WalletFundingRequestUpdateManyWithWhereWithoutUserInput | WalletFundingRequestUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: WalletFundingRequestScalarWhereInput | WalletFundingRequestScalarWhereInput[]
+  }
+
   export type TournamentCreaterulesInput = {
     set: string[]
   }
@@ -28769,6 +43124,10 @@ export namespace Prisma {
   export type TournamentUpdaterulesInput = {
     set?: string[]
     push?: string | string[]
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type RegistrationUpdateManyWithoutTournamentNestedInput = {
@@ -28956,6 +43315,13 @@ export namespace Prisma {
     connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
   }
 
+  export type TeamMatchLineupCreateNestedManyWithoutRegistrationInput = {
+    create?: XOR<TeamMatchLineupCreateWithoutRegistrationInput, TeamMatchLineupUncheckedCreateWithoutRegistrationInput> | TeamMatchLineupCreateWithoutRegistrationInput[] | TeamMatchLineupUncheckedCreateWithoutRegistrationInput[]
+    connectOrCreate?: TeamMatchLineupCreateOrConnectWithoutRegistrationInput | TeamMatchLineupCreateOrConnectWithoutRegistrationInput[]
+    createMany?: TeamMatchLineupCreateManyRegistrationInputEnvelope
+    connect?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+  }
+
   export type MatchUncheckedCreateNestedManyWithoutPlayerOneRegistrationInput = {
     create?: XOR<MatchCreateWithoutPlayerOneRegistrationInput, MatchUncheckedCreateWithoutPlayerOneRegistrationInput> | MatchCreateWithoutPlayerOneRegistrationInput[] | MatchUncheckedCreateWithoutPlayerOneRegistrationInput[]
     connectOrCreate?: MatchCreateOrConnectWithoutPlayerOneRegistrationInput | MatchCreateOrConnectWithoutPlayerOneRegistrationInput[]
@@ -29017,6 +43383,13 @@ export namespace Prisma {
     connectOrCreate?: PaymentCreateOrConnectWithoutRegistrationInput | PaymentCreateOrConnectWithoutRegistrationInput[]
     createMany?: PaymentCreateManyRegistrationInputEnvelope
     connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
+  export type TeamMatchLineupUncheckedCreateNestedManyWithoutRegistrationInput = {
+    create?: XOR<TeamMatchLineupCreateWithoutRegistrationInput, TeamMatchLineupUncheckedCreateWithoutRegistrationInput> | TeamMatchLineupCreateWithoutRegistrationInput[] | TeamMatchLineupUncheckedCreateWithoutRegistrationInput[]
+    connectOrCreate?: TeamMatchLineupCreateOrConnectWithoutRegistrationInput | TeamMatchLineupCreateOrConnectWithoutRegistrationInput[]
+    createMany?: TeamMatchLineupCreateManyRegistrationInputEnvelope
+    connect?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
   }
 
   export type EnumPaymentStatusFieldUpdateOperationsInput = {
@@ -29179,6 +43552,20 @@ export namespace Prisma {
     deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
   }
 
+  export type TeamMatchLineupUpdateManyWithoutRegistrationNestedInput = {
+    create?: XOR<TeamMatchLineupCreateWithoutRegistrationInput, TeamMatchLineupUncheckedCreateWithoutRegistrationInput> | TeamMatchLineupCreateWithoutRegistrationInput[] | TeamMatchLineupUncheckedCreateWithoutRegistrationInput[]
+    connectOrCreate?: TeamMatchLineupCreateOrConnectWithoutRegistrationInput | TeamMatchLineupCreateOrConnectWithoutRegistrationInput[]
+    upsert?: TeamMatchLineupUpsertWithWhereUniqueWithoutRegistrationInput | TeamMatchLineupUpsertWithWhereUniqueWithoutRegistrationInput[]
+    createMany?: TeamMatchLineupCreateManyRegistrationInputEnvelope
+    set?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    disconnect?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    delete?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    connect?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    update?: TeamMatchLineupUpdateWithWhereUniqueWithoutRegistrationInput | TeamMatchLineupUpdateWithWhereUniqueWithoutRegistrationInput[]
+    updateMany?: TeamMatchLineupUpdateManyWithWhereWithoutRegistrationInput | TeamMatchLineupUpdateManyWithWhereWithoutRegistrationInput[]
+    deleteMany?: TeamMatchLineupScalarWhereInput | TeamMatchLineupScalarWhereInput[]
+  }
+
   export type MatchUncheckedUpdateManyWithoutPlayerOneRegistrationNestedInput = {
     create?: XOR<MatchCreateWithoutPlayerOneRegistrationInput, MatchUncheckedCreateWithoutPlayerOneRegistrationInput> | MatchCreateWithoutPlayerOneRegistrationInput[] | MatchUncheckedCreateWithoutPlayerOneRegistrationInput[]
     connectOrCreate?: MatchCreateOrConnectWithoutPlayerOneRegistrationInput | MatchCreateOrConnectWithoutPlayerOneRegistrationInput[]
@@ -29305,6 +43692,20 @@ export namespace Prisma {
     deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
   }
 
+  export type TeamMatchLineupUncheckedUpdateManyWithoutRegistrationNestedInput = {
+    create?: XOR<TeamMatchLineupCreateWithoutRegistrationInput, TeamMatchLineupUncheckedCreateWithoutRegistrationInput> | TeamMatchLineupCreateWithoutRegistrationInput[] | TeamMatchLineupUncheckedCreateWithoutRegistrationInput[]
+    connectOrCreate?: TeamMatchLineupCreateOrConnectWithoutRegistrationInput | TeamMatchLineupCreateOrConnectWithoutRegistrationInput[]
+    upsert?: TeamMatchLineupUpsertWithWhereUniqueWithoutRegistrationInput | TeamMatchLineupUpsertWithWhereUniqueWithoutRegistrationInput[]
+    createMany?: TeamMatchLineupCreateManyRegistrationInputEnvelope
+    set?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    disconnect?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    delete?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    connect?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    update?: TeamMatchLineupUpdateWithWhereUniqueWithoutRegistrationInput | TeamMatchLineupUpdateWithWhereUniqueWithoutRegistrationInput[]
+    updateMany?: TeamMatchLineupUpdateManyWithWhereWithoutRegistrationInput | TeamMatchLineupUpdateManyWithWhereWithoutRegistrationInput[]
+    deleteMany?: TeamMatchLineupScalarWhereInput | TeamMatchLineupScalarWhereInput[]
+  }
+
   export type TournamentCreateNestedOneWithoutMatchesInput = {
     create?: XOR<TournamentCreateWithoutMatchesInput, TournamentUncheckedCreateWithoutMatchesInput>
     connectOrCreate?: TournamentCreateOrConnectWithoutMatchesInput
@@ -29373,6 +43774,20 @@ export namespace Prisma {
     connect?: MatchResultSubmissionWhereUniqueInput | MatchResultSubmissionWhereUniqueInput[]
   }
 
+  export type PenaltyShootoutResultCreateNestedManyWithoutMatchInput = {
+    create?: XOR<PenaltyShootoutResultCreateWithoutMatchInput, PenaltyShootoutResultUncheckedCreateWithoutMatchInput> | PenaltyShootoutResultCreateWithoutMatchInput[] | PenaltyShootoutResultUncheckedCreateWithoutMatchInput[]
+    connectOrCreate?: PenaltyShootoutResultCreateOrConnectWithoutMatchInput | PenaltyShootoutResultCreateOrConnectWithoutMatchInput[]
+    createMany?: PenaltyShootoutResultCreateManyMatchInputEnvelope
+    connect?: PenaltyShootoutResultWhereUniqueInput | PenaltyShootoutResultWhereUniqueInput[]
+  }
+
+  export type TeamMatchLineupCreateNestedManyWithoutMatchInput = {
+    create?: XOR<TeamMatchLineupCreateWithoutMatchInput, TeamMatchLineupUncheckedCreateWithoutMatchInput> | TeamMatchLineupCreateWithoutMatchInput[] | TeamMatchLineupUncheckedCreateWithoutMatchInput[]
+    connectOrCreate?: TeamMatchLineupCreateOrConnectWithoutMatchInput | TeamMatchLineupCreateOrConnectWithoutMatchInput[]
+    createMany?: TeamMatchLineupCreateManyMatchInputEnvelope
+    connect?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+  }
+
   export type MatchUncheckedCreateNestedManyWithoutAggregateMatchInput = {
     create?: XOR<MatchCreateWithoutAggregateMatchInput, MatchUncheckedCreateWithoutAggregateMatchInput> | MatchCreateWithoutAggregateMatchInput[] | MatchUncheckedCreateWithoutAggregateMatchInput[]
     connectOrCreate?: MatchCreateOrConnectWithoutAggregateMatchInput | MatchCreateOrConnectWithoutAggregateMatchInput[]
@@ -29387,16 +43802,26 @@ export namespace Prisma {
     connect?: MatchResultSubmissionWhereUniqueInput | MatchResultSubmissionWhereUniqueInput[]
   }
 
+  export type PenaltyShootoutResultUncheckedCreateNestedManyWithoutMatchInput = {
+    create?: XOR<PenaltyShootoutResultCreateWithoutMatchInput, PenaltyShootoutResultUncheckedCreateWithoutMatchInput> | PenaltyShootoutResultCreateWithoutMatchInput[] | PenaltyShootoutResultUncheckedCreateWithoutMatchInput[]
+    connectOrCreate?: PenaltyShootoutResultCreateOrConnectWithoutMatchInput | PenaltyShootoutResultCreateOrConnectWithoutMatchInput[]
+    createMany?: PenaltyShootoutResultCreateManyMatchInputEnvelope
+    connect?: PenaltyShootoutResultWhereUniqueInput | PenaltyShootoutResultWhereUniqueInput[]
+  }
+
+  export type TeamMatchLineupUncheckedCreateNestedManyWithoutMatchInput = {
+    create?: XOR<TeamMatchLineupCreateWithoutMatchInput, TeamMatchLineupUncheckedCreateWithoutMatchInput> | TeamMatchLineupCreateWithoutMatchInput[] | TeamMatchLineupUncheckedCreateWithoutMatchInput[]
+    connectOrCreate?: TeamMatchLineupCreateOrConnectWithoutMatchInput | TeamMatchLineupCreateOrConnectWithoutMatchInput[]
+    createMany?: TeamMatchLineupCreateManyMatchInputEnvelope
+    connect?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+  }
+
   export type EnumMatchStatusFieldUpdateOperationsInput = {
     set?: $Enums.MatchStatus
   }
 
   export type EnumMatchLiveStatusFieldUpdateOperationsInput = {
     set?: $Enums.MatchLiveStatus
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type EnumMatchStreamModeFieldUpdateOperationsInput = {
@@ -29519,6 +43944,34 @@ export namespace Prisma {
     deleteMany?: MatchResultSubmissionScalarWhereInput | MatchResultSubmissionScalarWhereInput[]
   }
 
+  export type PenaltyShootoutResultUpdateManyWithoutMatchNestedInput = {
+    create?: XOR<PenaltyShootoutResultCreateWithoutMatchInput, PenaltyShootoutResultUncheckedCreateWithoutMatchInput> | PenaltyShootoutResultCreateWithoutMatchInput[] | PenaltyShootoutResultUncheckedCreateWithoutMatchInput[]
+    connectOrCreate?: PenaltyShootoutResultCreateOrConnectWithoutMatchInput | PenaltyShootoutResultCreateOrConnectWithoutMatchInput[]
+    upsert?: PenaltyShootoutResultUpsertWithWhereUniqueWithoutMatchInput | PenaltyShootoutResultUpsertWithWhereUniqueWithoutMatchInput[]
+    createMany?: PenaltyShootoutResultCreateManyMatchInputEnvelope
+    set?: PenaltyShootoutResultWhereUniqueInput | PenaltyShootoutResultWhereUniqueInput[]
+    disconnect?: PenaltyShootoutResultWhereUniqueInput | PenaltyShootoutResultWhereUniqueInput[]
+    delete?: PenaltyShootoutResultWhereUniqueInput | PenaltyShootoutResultWhereUniqueInput[]
+    connect?: PenaltyShootoutResultWhereUniqueInput | PenaltyShootoutResultWhereUniqueInput[]
+    update?: PenaltyShootoutResultUpdateWithWhereUniqueWithoutMatchInput | PenaltyShootoutResultUpdateWithWhereUniqueWithoutMatchInput[]
+    updateMany?: PenaltyShootoutResultUpdateManyWithWhereWithoutMatchInput | PenaltyShootoutResultUpdateManyWithWhereWithoutMatchInput[]
+    deleteMany?: PenaltyShootoutResultScalarWhereInput | PenaltyShootoutResultScalarWhereInput[]
+  }
+
+  export type TeamMatchLineupUpdateManyWithoutMatchNestedInput = {
+    create?: XOR<TeamMatchLineupCreateWithoutMatchInput, TeamMatchLineupUncheckedCreateWithoutMatchInput> | TeamMatchLineupCreateWithoutMatchInput[] | TeamMatchLineupUncheckedCreateWithoutMatchInput[]
+    connectOrCreate?: TeamMatchLineupCreateOrConnectWithoutMatchInput | TeamMatchLineupCreateOrConnectWithoutMatchInput[]
+    upsert?: TeamMatchLineupUpsertWithWhereUniqueWithoutMatchInput | TeamMatchLineupUpsertWithWhereUniqueWithoutMatchInput[]
+    createMany?: TeamMatchLineupCreateManyMatchInputEnvelope
+    set?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    disconnect?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    delete?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    connect?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    update?: TeamMatchLineupUpdateWithWhereUniqueWithoutMatchInput | TeamMatchLineupUpdateWithWhereUniqueWithoutMatchInput[]
+    updateMany?: TeamMatchLineupUpdateManyWithWhereWithoutMatchInput | TeamMatchLineupUpdateManyWithWhereWithoutMatchInput[]
+    deleteMany?: TeamMatchLineupScalarWhereInput | TeamMatchLineupScalarWhereInput[]
+  }
+
   export type MatchUncheckedUpdateManyWithoutAggregateMatchNestedInput = {
     create?: XOR<MatchCreateWithoutAggregateMatchInput, MatchUncheckedCreateWithoutAggregateMatchInput> | MatchCreateWithoutAggregateMatchInput[] | MatchUncheckedCreateWithoutAggregateMatchInput[]
     connectOrCreate?: MatchCreateOrConnectWithoutAggregateMatchInput | MatchCreateOrConnectWithoutAggregateMatchInput[]
@@ -29545,6 +43998,34 @@ export namespace Prisma {
     update?: MatchResultSubmissionUpdateWithWhereUniqueWithoutMatchInput | MatchResultSubmissionUpdateWithWhereUniqueWithoutMatchInput[]
     updateMany?: MatchResultSubmissionUpdateManyWithWhereWithoutMatchInput | MatchResultSubmissionUpdateManyWithWhereWithoutMatchInput[]
     deleteMany?: MatchResultSubmissionScalarWhereInput | MatchResultSubmissionScalarWhereInput[]
+  }
+
+  export type PenaltyShootoutResultUncheckedUpdateManyWithoutMatchNestedInput = {
+    create?: XOR<PenaltyShootoutResultCreateWithoutMatchInput, PenaltyShootoutResultUncheckedCreateWithoutMatchInput> | PenaltyShootoutResultCreateWithoutMatchInput[] | PenaltyShootoutResultUncheckedCreateWithoutMatchInput[]
+    connectOrCreate?: PenaltyShootoutResultCreateOrConnectWithoutMatchInput | PenaltyShootoutResultCreateOrConnectWithoutMatchInput[]
+    upsert?: PenaltyShootoutResultUpsertWithWhereUniqueWithoutMatchInput | PenaltyShootoutResultUpsertWithWhereUniqueWithoutMatchInput[]
+    createMany?: PenaltyShootoutResultCreateManyMatchInputEnvelope
+    set?: PenaltyShootoutResultWhereUniqueInput | PenaltyShootoutResultWhereUniqueInput[]
+    disconnect?: PenaltyShootoutResultWhereUniqueInput | PenaltyShootoutResultWhereUniqueInput[]
+    delete?: PenaltyShootoutResultWhereUniqueInput | PenaltyShootoutResultWhereUniqueInput[]
+    connect?: PenaltyShootoutResultWhereUniqueInput | PenaltyShootoutResultWhereUniqueInput[]
+    update?: PenaltyShootoutResultUpdateWithWhereUniqueWithoutMatchInput | PenaltyShootoutResultUpdateWithWhereUniqueWithoutMatchInput[]
+    updateMany?: PenaltyShootoutResultUpdateManyWithWhereWithoutMatchInput | PenaltyShootoutResultUpdateManyWithWhereWithoutMatchInput[]
+    deleteMany?: PenaltyShootoutResultScalarWhereInput | PenaltyShootoutResultScalarWhereInput[]
+  }
+
+  export type TeamMatchLineupUncheckedUpdateManyWithoutMatchNestedInput = {
+    create?: XOR<TeamMatchLineupCreateWithoutMatchInput, TeamMatchLineupUncheckedCreateWithoutMatchInput> | TeamMatchLineupCreateWithoutMatchInput[] | TeamMatchLineupUncheckedCreateWithoutMatchInput[]
+    connectOrCreate?: TeamMatchLineupCreateOrConnectWithoutMatchInput | TeamMatchLineupCreateOrConnectWithoutMatchInput[]
+    upsert?: TeamMatchLineupUpsertWithWhereUniqueWithoutMatchInput | TeamMatchLineupUpsertWithWhereUniqueWithoutMatchInput[]
+    createMany?: TeamMatchLineupCreateManyMatchInputEnvelope
+    set?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    disconnect?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    delete?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    connect?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    update?: TeamMatchLineupUpdateWithWhereUniqueWithoutMatchInput | TeamMatchLineupUpdateWithWhereUniqueWithoutMatchInput[]
+    updateMany?: TeamMatchLineupUpdateManyWithWhereWithoutMatchInput | TeamMatchLineupUpdateManyWithWhereWithoutMatchInput[]
+    deleteMany?: TeamMatchLineupScalarWhereInput | TeamMatchLineupScalarWhereInput[]
   }
 
   export type TournamentCreateNestedOneWithoutLeagueStandingsInput = {
@@ -29649,6 +44130,112 @@ export namespace Prisma {
     upsert?: RegistrationUpsertWithoutPaymentsInput
     connect?: RegistrationWhereUniqueInput
     update?: XOR<XOR<RegistrationUpdateToOneWithWhereWithoutPaymentsInput, RegistrationUpdateWithoutPaymentsInput>, RegistrationUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type UserCreateNestedOneWithoutWalletInput = {
+    create?: XOR<UserCreateWithoutWalletInput, UserUncheckedCreateWithoutWalletInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWalletInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type WalletTransactionCreateNestedManyWithoutWalletInput = {
+    create?: XOR<WalletTransactionCreateWithoutWalletInput, WalletTransactionUncheckedCreateWithoutWalletInput> | WalletTransactionCreateWithoutWalletInput[] | WalletTransactionUncheckedCreateWithoutWalletInput[]
+    connectOrCreate?: WalletTransactionCreateOrConnectWithoutWalletInput | WalletTransactionCreateOrConnectWithoutWalletInput[]
+    createMany?: WalletTransactionCreateManyWalletInputEnvelope
+    connect?: WalletTransactionWhereUniqueInput | WalletTransactionWhereUniqueInput[]
+  }
+
+  export type WalletTransactionUncheckedCreateNestedManyWithoutWalletInput = {
+    create?: XOR<WalletTransactionCreateWithoutWalletInput, WalletTransactionUncheckedCreateWithoutWalletInput> | WalletTransactionCreateWithoutWalletInput[] | WalletTransactionUncheckedCreateWithoutWalletInput[]
+    connectOrCreate?: WalletTransactionCreateOrConnectWithoutWalletInput | WalletTransactionCreateOrConnectWithoutWalletInput[]
+    createMany?: WalletTransactionCreateManyWalletInputEnvelope
+    connect?: WalletTransactionWhereUniqueInput | WalletTransactionWhereUniqueInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutWalletNestedInput = {
+    create?: XOR<UserCreateWithoutWalletInput, UserUncheckedCreateWithoutWalletInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWalletInput
+    upsert?: UserUpsertWithoutWalletInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWalletInput, UserUpdateWithoutWalletInput>, UserUncheckedUpdateWithoutWalletInput>
+  }
+
+  export type WalletTransactionUpdateManyWithoutWalletNestedInput = {
+    create?: XOR<WalletTransactionCreateWithoutWalletInput, WalletTransactionUncheckedCreateWithoutWalletInput> | WalletTransactionCreateWithoutWalletInput[] | WalletTransactionUncheckedCreateWithoutWalletInput[]
+    connectOrCreate?: WalletTransactionCreateOrConnectWithoutWalletInput | WalletTransactionCreateOrConnectWithoutWalletInput[]
+    upsert?: WalletTransactionUpsertWithWhereUniqueWithoutWalletInput | WalletTransactionUpsertWithWhereUniqueWithoutWalletInput[]
+    createMany?: WalletTransactionCreateManyWalletInputEnvelope
+    set?: WalletTransactionWhereUniqueInput | WalletTransactionWhereUniqueInput[]
+    disconnect?: WalletTransactionWhereUniqueInput | WalletTransactionWhereUniqueInput[]
+    delete?: WalletTransactionWhereUniqueInput | WalletTransactionWhereUniqueInput[]
+    connect?: WalletTransactionWhereUniqueInput | WalletTransactionWhereUniqueInput[]
+    update?: WalletTransactionUpdateWithWhereUniqueWithoutWalletInput | WalletTransactionUpdateWithWhereUniqueWithoutWalletInput[]
+    updateMany?: WalletTransactionUpdateManyWithWhereWithoutWalletInput | WalletTransactionUpdateManyWithWhereWithoutWalletInput[]
+    deleteMany?: WalletTransactionScalarWhereInput | WalletTransactionScalarWhereInput[]
+  }
+
+  export type WalletTransactionUncheckedUpdateManyWithoutWalletNestedInput = {
+    create?: XOR<WalletTransactionCreateWithoutWalletInput, WalletTransactionUncheckedCreateWithoutWalletInput> | WalletTransactionCreateWithoutWalletInput[] | WalletTransactionUncheckedCreateWithoutWalletInput[]
+    connectOrCreate?: WalletTransactionCreateOrConnectWithoutWalletInput | WalletTransactionCreateOrConnectWithoutWalletInput[]
+    upsert?: WalletTransactionUpsertWithWhereUniqueWithoutWalletInput | WalletTransactionUpsertWithWhereUniqueWithoutWalletInput[]
+    createMany?: WalletTransactionCreateManyWalletInputEnvelope
+    set?: WalletTransactionWhereUniqueInput | WalletTransactionWhereUniqueInput[]
+    disconnect?: WalletTransactionWhereUniqueInput | WalletTransactionWhereUniqueInput[]
+    delete?: WalletTransactionWhereUniqueInput | WalletTransactionWhereUniqueInput[]
+    connect?: WalletTransactionWhereUniqueInput | WalletTransactionWhereUniqueInput[]
+    update?: WalletTransactionUpdateWithWhereUniqueWithoutWalletInput | WalletTransactionUpdateWithWhereUniqueWithoutWalletInput[]
+    updateMany?: WalletTransactionUpdateManyWithWhereWithoutWalletInput | WalletTransactionUpdateManyWithWhereWithoutWalletInput[]
+    deleteMany?: WalletTransactionScalarWhereInput | WalletTransactionScalarWhereInput[]
+  }
+
+  export type WalletCreateNestedOneWithoutTransactionsInput = {
+    create?: XOR<WalletCreateWithoutTransactionsInput, WalletUncheckedCreateWithoutTransactionsInput>
+    connectOrCreate?: WalletCreateOrConnectWithoutTransactionsInput
+    connect?: WalletWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutWalletTransactionsInput = {
+    create?: XOR<UserCreateWithoutWalletTransactionsInput, UserUncheckedCreateWithoutWalletTransactionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWalletTransactionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumWalletTransactionTypeFieldUpdateOperationsInput = {
+    set?: $Enums.WalletTransactionType
+  }
+
+  export type WalletUpdateOneRequiredWithoutTransactionsNestedInput = {
+    create?: XOR<WalletCreateWithoutTransactionsInput, WalletUncheckedCreateWithoutTransactionsInput>
+    connectOrCreate?: WalletCreateOrConnectWithoutTransactionsInput
+    upsert?: WalletUpsertWithoutTransactionsInput
+    connect?: WalletWhereUniqueInput
+    update?: XOR<XOR<WalletUpdateToOneWithWhereWithoutTransactionsInput, WalletUpdateWithoutTransactionsInput>, WalletUncheckedUpdateWithoutTransactionsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutWalletTransactionsNestedInput = {
+    create?: XOR<UserCreateWithoutWalletTransactionsInput, UserUncheckedCreateWithoutWalletTransactionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWalletTransactionsInput
+    upsert?: UserUpsertWithoutWalletTransactionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWalletTransactionsInput, UserUpdateWithoutWalletTransactionsInput>, UserUncheckedUpdateWithoutWalletTransactionsInput>
+  }
+
+  export type UserCreateNestedOneWithoutWalletFundingRequestsInput = {
+    create?: XOR<UserCreateWithoutWalletFundingRequestsInput, UserUncheckedCreateWithoutWalletFundingRequestsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWalletFundingRequestsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumWalletFundingRequestStatusFieldUpdateOperationsInput = {
+    set?: $Enums.WalletFundingRequestStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutWalletFundingRequestsNestedInput = {
+    create?: XOR<UserCreateWithoutWalletFundingRequestsInput, UserUncheckedCreateWithoutWalletFundingRequestsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWalletFundingRequestsInput
+    upsert?: UserUpsertWithoutWalletFundingRequestsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWalletFundingRequestsInput, UserUpdateWithoutWalletFundingRequestsInput>, UserUncheckedUpdateWithoutWalletFundingRequestsInput>
   }
 
   export type RankingHistoryCreateNestedManyWithoutSeasonInput = {
@@ -29813,6 +44400,13 @@ export namespace Prisma {
     connect?: RegistrationWhereUniqueInput | RegistrationWhereUniqueInput[]
   }
 
+  export type TeamMatchLineupCreateNestedManyWithoutTeamInput = {
+    create?: XOR<TeamMatchLineupCreateWithoutTeamInput, TeamMatchLineupUncheckedCreateWithoutTeamInput> | TeamMatchLineupCreateWithoutTeamInput[] | TeamMatchLineupUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: TeamMatchLineupCreateOrConnectWithoutTeamInput | TeamMatchLineupCreateOrConnectWithoutTeamInput[]
+    createMany?: TeamMatchLineupCreateManyTeamInputEnvelope
+    connect?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+  }
+
   export type TeamMemberUncheckedCreateNestedManyWithoutTeamInput = {
     create?: XOR<TeamMemberCreateWithoutTeamInput, TeamMemberUncheckedCreateWithoutTeamInput> | TeamMemberCreateWithoutTeamInput[] | TeamMemberUncheckedCreateWithoutTeamInput[]
     connectOrCreate?: TeamMemberCreateOrConnectWithoutTeamInput | TeamMemberCreateOrConnectWithoutTeamInput[]
@@ -29825,6 +44419,13 @@ export namespace Prisma {
     connectOrCreate?: RegistrationCreateOrConnectWithoutTeamInput | RegistrationCreateOrConnectWithoutTeamInput[]
     createMany?: RegistrationCreateManyTeamInputEnvelope
     connect?: RegistrationWhereUniqueInput | RegistrationWhereUniqueInput[]
+  }
+
+  export type TeamMatchLineupUncheckedCreateNestedManyWithoutTeamInput = {
+    create?: XOR<TeamMatchLineupCreateWithoutTeamInput, TeamMatchLineupUncheckedCreateWithoutTeamInput> | TeamMatchLineupCreateWithoutTeamInput[] | TeamMatchLineupUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: TeamMatchLineupCreateOrConnectWithoutTeamInput | TeamMatchLineupCreateOrConnectWithoutTeamInput[]
+    createMany?: TeamMatchLineupCreateManyTeamInputEnvelope
+    connect?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutCaptainTeamsNestedInput = {
@@ -29863,6 +44464,20 @@ export namespace Prisma {
     deleteMany?: RegistrationScalarWhereInput | RegistrationScalarWhereInput[]
   }
 
+  export type TeamMatchLineupUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<TeamMatchLineupCreateWithoutTeamInput, TeamMatchLineupUncheckedCreateWithoutTeamInput> | TeamMatchLineupCreateWithoutTeamInput[] | TeamMatchLineupUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: TeamMatchLineupCreateOrConnectWithoutTeamInput | TeamMatchLineupCreateOrConnectWithoutTeamInput[]
+    upsert?: TeamMatchLineupUpsertWithWhereUniqueWithoutTeamInput | TeamMatchLineupUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: TeamMatchLineupCreateManyTeamInputEnvelope
+    set?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    disconnect?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    delete?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    connect?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    update?: TeamMatchLineupUpdateWithWhereUniqueWithoutTeamInput | TeamMatchLineupUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: TeamMatchLineupUpdateManyWithWhereWithoutTeamInput | TeamMatchLineupUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: TeamMatchLineupScalarWhereInput | TeamMatchLineupScalarWhereInput[]
+  }
+
   export type TeamMemberUncheckedUpdateManyWithoutTeamNestedInput = {
     create?: XOR<TeamMemberCreateWithoutTeamInput, TeamMemberUncheckedCreateWithoutTeamInput> | TeamMemberCreateWithoutTeamInput[] | TeamMemberUncheckedCreateWithoutTeamInput[]
     connectOrCreate?: TeamMemberCreateOrConnectWithoutTeamInput | TeamMemberCreateOrConnectWithoutTeamInput[]
@@ -29889,6 +44504,20 @@ export namespace Prisma {
     update?: RegistrationUpdateWithWhereUniqueWithoutTeamInput | RegistrationUpdateWithWhereUniqueWithoutTeamInput[]
     updateMany?: RegistrationUpdateManyWithWhereWithoutTeamInput | RegistrationUpdateManyWithWhereWithoutTeamInput[]
     deleteMany?: RegistrationScalarWhereInput | RegistrationScalarWhereInput[]
+  }
+
+  export type TeamMatchLineupUncheckedUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<TeamMatchLineupCreateWithoutTeamInput, TeamMatchLineupUncheckedCreateWithoutTeamInput> | TeamMatchLineupCreateWithoutTeamInput[] | TeamMatchLineupUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: TeamMatchLineupCreateOrConnectWithoutTeamInput | TeamMatchLineupCreateOrConnectWithoutTeamInput[]
+    upsert?: TeamMatchLineupUpsertWithWhereUniqueWithoutTeamInput | TeamMatchLineupUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: TeamMatchLineupCreateManyTeamInputEnvelope
+    set?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    disconnect?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    delete?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    connect?: TeamMatchLineupWhereUniqueInput | TeamMatchLineupWhereUniqueInput[]
+    update?: TeamMatchLineupUpdateWithWhereUniqueWithoutTeamInput | TeamMatchLineupUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: TeamMatchLineupUpdateManyWithWhereWithoutTeamInput | TeamMatchLineupUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: TeamMatchLineupScalarWhereInput | TeamMatchLineupScalarWhereInput[]
   }
 
   export type TeamCreateNestedOneWithoutMembersInput = {
@@ -29927,6 +44556,48 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTeamMembershipsInput, UserUpdateWithoutTeamMembershipsInput>, UserUncheckedUpdateWithoutTeamMembershipsInput>
   }
 
+  export type MatchCreateNestedOneWithoutTeamLineupsInput = {
+    create?: XOR<MatchCreateWithoutTeamLineupsInput, MatchUncheckedCreateWithoutTeamLineupsInput>
+    connectOrCreate?: MatchCreateOrConnectWithoutTeamLineupsInput
+    connect?: MatchWhereUniqueInput
+  }
+
+  export type RegistrationCreateNestedOneWithoutTeamLineupsInput = {
+    create?: XOR<RegistrationCreateWithoutTeamLineupsInput, RegistrationUncheckedCreateWithoutTeamLineupsInput>
+    connectOrCreate?: RegistrationCreateOrConnectWithoutTeamLineupsInput
+    connect?: RegistrationWhereUniqueInput
+  }
+
+  export type TeamCreateNestedOneWithoutMatchLineupsInput = {
+    create?: XOR<TeamCreateWithoutMatchLineupsInput, TeamUncheckedCreateWithoutMatchLineupsInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutMatchLineupsInput
+    connect?: TeamWhereUniqueInput
+  }
+
+  export type MatchUpdateOneRequiredWithoutTeamLineupsNestedInput = {
+    create?: XOR<MatchCreateWithoutTeamLineupsInput, MatchUncheckedCreateWithoutTeamLineupsInput>
+    connectOrCreate?: MatchCreateOrConnectWithoutTeamLineupsInput
+    upsert?: MatchUpsertWithoutTeamLineupsInput
+    connect?: MatchWhereUniqueInput
+    update?: XOR<XOR<MatchUpdateToOneWithWhereWithoutTeamLineupsInput, MatchUpdateWithoutTeamLineupsInput>, MatchUncheckedUpdateWithoutTeamLineupsInput>
+  }
+
+  export type RegistrationUpdateOneRequiredWithoutTeamLineupsNestedInput = {
+    create?: XOR<RegistrationCreateWithoutTeamLineupsInput, RegistrationUncheckedCreateWithoutTeamLineupsInput>
+    connectOrCreate?: RegistrationCreateOrConnectWithoutTeamLineupsInput
+    upsert?: RegistrationUpsertWithoutTeamLineupsInput
+    connect?: RegistrationWhereUniqueInput
+    update?: XOR<XOR<RegistrationUpdateToOneWithWhereWithoutTeamLineupsInput, RegistrationUpdateWithoutTeamLineupsInput>, RegistrationUncheckedUpdateWithoutTeamLineupsInput>
+  }
+
+  export type TeamUpdateOneRequiredWithoutMatchLineupsNestedInput = {
+    create?: XOR<TeamCreateWithoutMatchLineupsInput, TeamUncheckedCreateWithoutMatchLineupsInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutMatchLineupsInput
+    upsert?: TeamUpsertWithoutMatchLineupsInput
+    connect?: TeamWhereUniqueInput
+    update?: XOR<XOR<TeamUpdateToOneWithWhereWithoutMatchLineupsInput, TeamUpdateWithoutMatchLineupsInput>, TeamUncheckedUpdateWithoutMatchLineupsInput>
+  }
+
   export type EnumWebsiteSettingTypeFieldUpdateOperationsInput = {
     set?: $Enums.WebsiteSettingType
   }
@@ -29943,6 +44614,126 @@ export namespace Prisma {
     upsert?: TournamentUpsertWithoutAutomationSettingInput
     connect?: TournamentWhereUniqueInput
     update?: XOR<XOR<TournamentUpdateToOneWithWhereWithoutAutomationSettingInput, TournamentUpdateWithoutAutomationSettingInput>, TournamentUncheckedUpdateWithoutAutomationSettingInput>
+  }
+
+  export type UserCreateNestedOneWithoutPenaltyShootoutResultsInput = {
+    create?: XOR<UserCreateWithoutPenaltyShootoutResultsInput, UserUncheckedCreateWithoutPenaltyShootoutResultsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPenaltyShootoutResultsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type MatchCreateNestedOneWithoutPenaltyShootoutResultsInput = {
+    create?: XOR<MatchCreateWithoutPenaltyShootoutResultsInput, MatchUncheckedCreateWithoutPenaltyShootoutResultsInput>
+    connectOrCreate?: MatchCreateOrConnectWithoutPenaltyShootoutResultsInput
+    connect?: MatchWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutPenaltyShootoutResultsNestedInput = {
+    create?: XOR<UserCreateWithoutPenaltyShootoutResultsInput, UserUncheckedCreateWithoutPenaltyShootoutResultsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPenaltyShootoutResultsInput
+    upsert?: UserUpsertWithoutPenaltyShootoutResultsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPenaltyShootoutResultsInput, UserUpdateWithoutPenaltyShootoutResultsInput>, UserUncheckedUpdateWithoutPenaltyShootoutResultsInput>
+  }
+
+  export type MatchUpdateOneWithoutPenaltyShootoutResultsNestedInput = {
+    create?: XOR<MatchCreateWithoutPenaltyShootoutResultsInput, MatchUncheckedCreateWithoutPenaltyShootoutResultsInput>
+    connectOrCreate?: MatchCreateOrConnectWithoutPenaltyShootoutResultsInput
+    upsert?: MatchUpsertWithoutPenaltyShootoutResultsInput
+    disconnect?: MatchWhereInput | boolean
+    delete?: MatchWhereInput | boolean
+    connect?: MatchWhereUniqueInput
+    update?: XOR<XOR<MatchUpdateToOneWithWhereWithoutPenaltyShootoutResultsInput, MatchUpdateWithoutPenaltyShootoutResultsInput>, MatchUncheckedUpdateWithoutPenaltyShootoutResultsInput>
+  }
+
+  export type UserCreateNestedOneWithoutPenaltyTrainingAttemptsInput = {
+    create?: XOR<UserCreateWithoutPenaltyTrainingAttemptsInput, UserUncheckedCreateWithoutPenaltyTrainingAttemptsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPenaltyTrainingAttemptsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutPenaltyTrainingAttemptsNestedInput = {
+    create?: XOR<UserCreateWithoutPenaltyTrainingAttemptsInput, UserUncheckedCreateWithoutPenaltyTrainingAttemptsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPenaltyTrainingAttemptsInput
+    upsert?: UserUpsertWithoutPenaltyTrainingAttemptsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPenaltyTrainingAttemptsInput, UserUpdateWithoutPenaltyTrainingAttemptsInput>, UserUncheckedUpdateWithoutPenaltyTrainingAttemptsInput>
+  }
+
+  export type EnumPenaltyShootoutAdminActionTypeFieldUpdateOperationsInput = {
+    set?: $Enums.PenaltyShootoutAdminActionType
+  }
+
+  export type PlayerRatingCreateNestedManyWithoutSeasonInput = {
+    create?: XOR<PlayerRatingCreateWithoutSeasonInput, PlayerRatingUncheckedCreateWithoutSeasonInput> | PlayerRatingCreateWithoutSeasonInput[] | PlayerRatingUncheckedCreateWithoutSeasonInput[]
+    connectOrCreate?: PlayerRatingCreateOrConnectWithoutSeasonInput | PlayerRatingCreateOrConnectWithoutSeasonInput[]
+    createMany?: PlayerRatingCreateManySeasonInputEnvelope
+    connect?: PlayerRatingWhereUniqueInput | PlayerRatingWhereUniqueInput[]
+  }
+
+  export type PlayerRatingUncheckedCreateNestedManyWithoutSeasonInput = {
+    create?: XOR<PlayerRatingCreateWithoutSeasonInput, PlayerRatingUncheckedCreateWithoutSeasonInput> | PlayerRatingCreateWithoutSeasonInput[] | PlayerRatingUncheckedCreateWithoutSeasonInput[]
+    connectOrCreate?: PlayerRatingCreateOrConnectWithoutSeasonInput | PlayerRatingCreateOrConnectWithoutSeasonInput[]
+    createMany?: PlayerRatingCreateManySeasonInputEnvelope
+    connect?: PlayerRatingWhereUniqueInput | PlayerRatingWhereUniqueInput[]
+  }
+
+  export type PlayerRatingUpdateManyWithoutSeasonNestedInput = {
+    create?: XOR<PlayerRatingCreateWithoutSeasonInput, PlayerRatingUncheckedCreateWithoutSeasonInput> | PlayerRatingCreateWithoutSeasonInput[] | PlayerRatingUncheckedCreateWithoutSeasonInput[]
+    connectOrCreate?: PlayerRatingCreateOrConnectWithoutSeasonInput | PlayerRatingCreateOrConnectWithoutSeasonInput[]
+    upsert?: PlayerRatingUpsertWithWhereUniqueWithoutSeasonInput | PlayerRatingUpsertWithWhereUniqueWithoutSeasonInput[]
+    createMany?: PlayerRatingCreateManySeasonInputEnvelope
+    set?: PlayerRatingWhereUniqueInput | PlayerRatingWhereUniqueInput[]
+    disconnect?: PlayerRatingWhereUniqueInput | PlayerRatingWhereUniqueInput[]
+    delete?: PlayerRatingWhereUniqueInput | PlayerRatingWhereUniqueInput[]
+    connect?: PlayerRatingWhereUniqueInput | PlayerRatingWhereUniqueInput[]
+    update?: PlayerRatingUpdateWithWhereUniqueWithoutSeasonInput | PlayerRatingUpdateWithWhereUniqueWithoutSeasonInput[]
+    updateMany?: PlayerRatingUpdateManyWithWhereWithoutSeasonInput | PlayerRatingUpdateManyWithWhereWithoutSeasonInput[]
+    deleteMany?: PlayerRatingScalarWhereInput | PlayerRatingScalarWhereInput[]
+  }
+
+  export type PlayerRatingUncheckedUpdateManyWithoutSeasonNestedInput = {
+    create?: XOR<PlayerRatingCreateWithoutSeasonInput, PlayerRatingUncheckedCreateWithoutSeasonInput> | PlayerRatingCreateWithoutSeasonInput[] | PlayerRatingUncheckedCreateWithoutSeasonInput[]
+    connectOrCreate?: PlayerRatingCreateOrConnectWithoutSeasonInput | PlayerRatingCreateOrConnectWithoutSeasonInput[]
+    upsert?: PlayerRatingUpsertWithWhereUniqueWithoutSeasonInput | PlayerRatingUpsertWithWhereUniqueWithoutSeasonInput[]
+    createMany?: PlayerRatingCreateManySeasonInputEnvelope
+    set?: PlayerRatingWhereUniqueInput | PlayerRatingWhereUniqueInput[]
+    disconnect?: PlayerRatingWhereUniqueInput | PlayerRatingWhereUniqueInput[]
+    delete?: PlayerRatingWhereUniqueInput | PlayerRatingWhereUniqueInput[]
+    connect?: PlayerRatingWhereUniqueInput | PlayerRatingWhereUniqueInput[]
+    update?: PlayerRatingUpdateWithWhereUniqueWithoutSeasonInput | PlayerRatingUpdateWithWhereUniqueWithoutSeasonInput[]
+    updateMany?: PlayerRatingUpdateManyWithWhereWithoutSeasonInput | PlayerRatingUpdateManyWithWhereWithoutSeasonInput[]
+    deleteMany?: PlayerRatingScalarWhereInput | PlayerRatingScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutPlayerRatingsInput = {
+    create?: XOR<UserCreateWithoutPlayerRatingsInput, UserUncheckedCreateWithoutPlayerRatingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPlayerRatingsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type SeasonCreateNestedOneWithoutRatingsInput = {
+    create?: XOR<SeasonCreateWithoutRatingsInput, SeasonUncheckedCreateWithoutRatingsInput>
+    connectOrCreate?: SeasonCreateOrConnectWithoutRatingsInput
+    connect?: SeasonWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutPlayerRatingsNestedInput = {
+    create?: XOR<UserCreateWithoutPlayerRatingsInput, UserUncheckedCreateWithoutPlayerRatingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPlayerRatingsInput
+    upsert?: UserUpsertWithoutPlayerRatingsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPlayerRatingsInput, UserUpdateWithoutPlayerRatingsInput>, UserUncheckedUpdateWithoutPlayerRatingsInput>
+  }
+
+  export type SeasonUpdateOneWithoutRatingsNestedInput = {
+    create?: XOR<SeasonCreateWithoutRatingsInput, SeasonUncheckedCreateWithoutRatingsInput>
+    connectOrCreate?: SeasonCreateOrConnectWithoutRatingsInput
+    upsert?: SeasonUpsertWithoutRatingsInput
+    disconnect?: SeasonWhereInput | boolean
+    delete?: SeasonWhereInput | boolean
+    connect?: SeasonWhereUniqueInput
+    update?: XOR<XOR<SeasonUpdateToOneWithWhereWithoutRatingsInput, SeasonUpdateWithoutRatingsInput>, SeasonUncheckedUpdateWithoutRatingsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -30190,6 +44981,17 @@ export namespace Prisma {
     not?: NestedEnumStreamPlatformNullableFilter<$PrismaModel> | $Enums.StreamPlatform | null
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedEnumGameTitleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.GameTitle | EnumGameTitleFieldRefInput<$PrismaModel>
     in?: $Enums.GameTitle[] | ListEnumGameTitleFieldRefInput<$PrismaModel>
@@ -30240,6 +45042,20 @@ export namespace Prisma {
     _max?: NestedEnumStreamPlatformNullableFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type NestedEnumPaymentStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
     in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
@@ -30288,17 +45104,6 @@ export namespace Prisma {
     not?: NestedEnumMatchLiveStatusFilter<$PrismaModel> | $Enums.MatchLiveStatus
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type NestedEnumMatchStreamModeFilter<$PrismaModel = never> = {
     equals?: $Enums.MatchStreamMode | EnumMatchStreamModeFieldRefInput<$PrismaModel>
     in?: $Enums.MatchStreamMode[] | ListEnumMatchStreamModeFieldRefInput<$PrismaModel>
@@ -30324,20 +45129,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumMatchLiveStatusFilter<$PrismaModel>
     _max?: NestedEnumMatchLiveStatusFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumMatchStreamModeWithAggregatesFilter<$PrismaModel = never> = {
@@ -30435,6 +45226,40 @@ export namespace Prisma {
     _max?: NestedEnumPaymentRecordStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumWalletTransactionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.WalletTransactionType | EnumWalletTransactionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.WalletTransactionType[] | ListEnumWalletTransactionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WalletTransactionType[] | ListEnumWalletTransactionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumWalletTransactionTypeFilter<$PrismaModel> | $Enums.WalletTransactionType
+  }
+
+  export type NestedEnumWalletTransactionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WalletTransactionType | EnumWalletTransactionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.WalletTransactionType[] | ListEnumWalletTransactionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WalletTransactionType[] | ListEnumWalletTransactionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumWalletTransactionTypeWithAggregatesFilter<$PrismaModel> | $Enums.WalletTransactionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWalletTransactionTypeFilter<$PrismaModel>
+    _max?: NestedEnumWalletTransactionTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumWalletFundingRequestStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.WalletFundingRequestStatus | EnumWalletFundingRequestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WalletFundingRequestStatus[] | ListEnumWalletFundingRequestStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WalletFundingRequestStatus[] | ListEnumWalletFundingRequestStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWalletFundingRequestStatusFilter<$PrismaModel> | $Enums.WalletFundingRequestStatus
+  }
+
+  export type NestedEnumWalletFundingRequestStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WalletFundingRequestStatus | EnumWalletFundingRequestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WalletFundingRequestStatus[] | ListEnumWalletFundingRequestStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WalletFundingRequestStatus[] | ListEnumWalletFundingRequestStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWalletFundingRequestStatusWithAggregatesFilter<$PrismaModel> | $Enums.WalletFundingRequestStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWalletFundingRequestStatusFilter<$PrismaModel>
+    _max?: NestedEnumWalletFundingRequestStatusFilter<$PrismaModel>
+  }
+
   export type NestedEnumTeamRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.TeamRole | EnumTeamRoleFieldRefInput<$PrismaModel>
     in?: $Enums.TeamRole[] | ListEnumTeamRoleFieldRefInput<$PrismaModel>
@@ -30468,6 +45293,29 @@ export namespace Prisma {
     _min?: NestedEnumTeamMemberStatusFilter<$PrismaModel>
     _max?: NestedEnumTeamMemberStatusFilter<$PrismaModel>
   }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedEnumWebsiteSettingTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.WebsiteSettingType | EnumWebsiteSettingTypeFieldRefInput<$PrismaModel>
@@ -30484,6 +45332,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumWebsiteSettingTypeFilter<$PrismaModel>
     _max?: NestedEnumWebsiteSettingTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumPenaltyShootoutAdminActionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.PenaltyShootoutAdminActionType | EnumPenaltyShootoutAdminActionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.PenaltyShootoutAdminActionType[] | ListEnumPenaltyShootoutAdminActionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PenaltyShootoutAdminActionType[] | ListEnumPenaltyShootoutAdminActionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumPenaltyShootoutAdminActionTypeFilter<$PrismaModel> | $Enums.PenaltyShootoutAdminActionType
+  }
+
+  export type NestedEnumPenaltyShootoutAdminActionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PenaltyShootoutAdminActionType | EnumPenaltyShootoutAdminActionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.PenaltyShootoutAdminActionType[] | ListEnumPenaltyShootoutAdminActionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PenaltyShootoutAdminActionType[] | ListEnumPenaltyShootoutAdminActionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumPenaltyShootoutAdminActionTypeWithAggregatesFilter<$PrismaModel> | $Enums.PenaltyShootoutAdminActionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPenaltyShootoutAdminActionTypeFilter<$PrismaModel>
+    _max?: NestedEnumPenaltyShootoutAdminActionTypeFilter<$PrismaModel>
   }
 
   export type RegistrationCreateWithoutUserInput = {
@@ -30507,6 +45372,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutRegistrationInput
     payments?: PaymentCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationUncheckedCreateWithoutUserInput = {
@@ -30530,6 +45396,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUncheckedCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutRegistrationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationCreateOrConnectWithoutUserInput = {
@@ -30596,6 +45463,7 @@ export namespace Prisma {
     legNumber?: number | null
     homeScore?: number | null
     awayScore?: number | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     tournament: TournamentCreateNestedOneWithoutMatchesInput
@@ -30608,6 +45476,8 @@ export namespace Prisma {
     aggregateLegs?: MatchCreateNestedManyWithoutAggregateMatchInput
     aggregateWinnerRegistration?: RegistrationCreateNestedOneWithoutAggregateWonMatchesInput
     resultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutMatchInput
   }
 
   export type MatchUncheckedCreateWithoutRefereeInput = {
@@ -30644,10 +45514,13 @@ export namespace Prisma {
     awayScore?: number | null
     aggregateMatchId?: string | null
     aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     aggregateLegs?: MatchUncheckedCreateNestedManyWithoutAggregateMatchInput
     resultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutMatchInput
   }
 
   export type MatchCreateOrConnectWithoutRefereeInput = {
@@ -30671,6 +45544,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: TeamMemberCreateNestedManyWithoutTeamInput
     registrations?: RegistrationCreateNestedManyWithoutTeamInput
+    matchLineups?: TeamMatchLineupCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutCaptainInput = {
@@ -30684,6 +45558,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
     registrations?: RegistrationUncheckedCreateNestedManyWithoutTeamInput
+    matchLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutCaptainInput = {
@@ -30771,6 +45646,209 @@ export namespace Prisma {
 
   export type PlayerAchievementCreateManyUserInputEnvelope = {
     data: PlayerAchievementCreateManyUserInput | PlayerAchievementCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PenaltyShootoutResultCreateWithoutUserInput = {
+    id?: string
+    score: number
+    suddenDeathScore?: number
+    totalShots?: number
+    shotsJson: JsonNullValueInput | InputJsonValue
+    suddenDeathShotsJson?: JsonNullValueInput | InputJsonValue
+    isWinner?: boolean
+    auditVersion?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    match?: MatchCreateNestedOneWithoutPenaltyShootoutResultsInput
+  }
+
+  export type PenaltyShootoutResultUncheckedCreateWithoutUserInput = {
+    id?: string
+    matchId?: string | null
+    score: number
+    suddenDeathScore?: number
+    totalShots?: number
+    shotsJson: JsonNullValueInput | InputJsonValue
+    suddenDeathShotsJson?: JsonNullValueInput | InputJsonValue
+    isWinner?: boolean
+    auditVersion?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PenaltyShootoutResultCreateOrConnectWithoutUserInput = {
+    where: PenaltyShootoutResultWhereUniqueInput
+    create: XOR<PenaltyShootoutResultCreateWithoutUserInput, PenaltyShootoutResultUncheckedCreateWithoutUserInput>
+  }
+
+  export type PenaltyShootoutResultCreateManyUserInputEnvelope = {
+    data: PenaltyShootoutResultCreateManyUserInput | PenaltyShootoutResultCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PenaltyShootoutTrainingAttemptCreateWithoutUserInput = {
+    id?: string
+    score: number
+    totalShots?: number
+    shotsJson: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type PenaltyShootoutTrainingAttemptUncheckedCreateWithoutUserInput = {
+    id?: string
+    score: number
+    totalShots?: number
+    shotsJson: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type PenaltyShootoutTrainingAttemptCreateOrConnectWithoutUserInput = {
+    where: PenaltyShootoutTrainingAttemptWhereUniqueInput
+    create: XOR<PenaltyShootoutTrainingAttemptCreateWithoutUserInput, PenaltyShootoutTrainingAttemptUncheckedCreateWithoutUserInput>
+  }
+
+  export type PenaltyShootoutTrainingAttemptCreateManyUserInputEnvelope = {
+    data: PenaltyShootoutTrainingAttemptCreateManyUserInput | PenaltyShootoutTrainingAttemptCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PlayerRatingCreateWithoutUserInput = {
+    id?: string
+    matchesPlayed?: number
+    wins?: number
+    losses?: number
+    goalsScored?: number
+    goalsConceded?: number
+    currentRating?: number
+    highestRating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    season?: SeasonCreateNestedOneWithoutRatingsInput
+  }
+
+  export type PlayerRatingUncheckedCreateWithoutUserInput = {
+    id?: string
+    seasonId?: string | null
+    matchesPlayed?: number
+    wins?: number
+    losses?: number
+    goalsScored?: number
+    goalsConceded?: number
+    currentRating?: number
+    highestRating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PlayerRatingCreateOrConnectWithoutUserInput = {
+    where: PlayerRatingWhereUniqueInput
+    create: XOR<PlayerRatingCreateWithoutUserInput, PlayerRatingUncheckedCreateWithoutUserInput>
+  }
+
+  export type PlayerRatingCreateManyUserInputEnvelope = {
+    data: PlayerRatingCreateManyUserInput | PlayerRatingCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WalletCreateWithoutUserInput = {
+    id?: string
+    balance?: number
+    currency?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    transactions?: WalletTransactionCreateNestedManyWithoutWalletInput
+  }
+
+  export type WalletUncheckedCreateWithoutUserInput = {
+    id?: string
+    balance?: number
+    currency?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    transactions?: WalletTransactionUncheckedCreateNestedManyWithoutWalletInput
+  }
+
+  export type WalletCreateOrConnectWithoutUserInput = {
+    where: WalletWhereUniqueInput
+    create: XOR<WalletCreateWithoutUserInput, WalletUncheckedCreateWithoutUserInput>
+  }
+
+  export type WalletTransactionCreateWithoutUserInput = {
+    id?: string
+    type: $Enums.WalletTransactionType
+    amount: number
+    balanceAfter: number
+    description: string
+    reference?: string | null
+    registrationId?: string | null
+    tournamentId?: string | null
+    adminName?: string | null
+    createdAt?: Date | string
+    wallet: WalletCreateNestedOneWithoutTransactionsInput
+  }
+
+  export type WalletTransactionUncheckedCreateWithoutUserInput = {
+    id?: string
+    walletId: string
+    type: $Enums.WalletTransactionType
+    amount: number
+    balanceAfter: number
+    description: string
+    reference?: string | null
+    registrationId?: string | null
+    tournamentId?: string | null
+    adminName?: string | null
+    createdAt?: Date | string
+  }
+
+  export type WalletTransactionCreateOrConnectWithoutUserInput = {
+    where: WalletTransactionWhereUniqueInput
+    create: XOR<WalletTransactionCreateWithoutUserInput, WalletTransactionUncheckedCreateWithoutUserInput>
+  }
+
+  export type WalletTransactionCreateManyUserInputEnvelope = {
+    data: WalletTransactionCreateManyUserInput | WalletTransactionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WalletFundingRequestCreateWithoutUserInput = {
+    id?: string
+    amount: number
+    currency?: string
+    paymentMethod: string
+    senderName: string
+    receiptUrl?: string | null
+    status?: $Enums.WalletFundingRequestStatus
+    adminNote?: string | null
+    approvedBy?: string | null
+    creditedTransactionId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WalletFundingRequestUncheckedCreateWithoutUserInput = {
+    id?: string
+    amount: number
+    currency?: string
+    paymentMethod: string
+    senderName: string
+    receiptUrl?: string | null
+    status?: $Enums.WalletFundingRequestStatus
+    adminNote?: string | null
+    approvedBy?: string | null
+    creditedTransactionId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WalletFundingRequestCreateOrConnectWithoutUserInput = {
+    where: WalletFundingRequestWhereUniqueInput
+    create: XOR<WalletFundingRequestCreateWithoutUserInput, WalletFundingRequestUncheckedCreateWithoutUserInput>
+  }
+
+  export type WalletFundingRequestCreateManyUserInputEnvelope = {
+    data: WalletFundingRequestCreateManyUserInput | WalletFundingRequestCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -30891,6 +45969,7 @@ export namespace Prisma {
     awayScore?: IntNullableFilter<"Match"> | number | null
     aggregateMatchId?: StringNullableFilter<"Match"> | string | null
     aggregateWinnerRegistrationId?: StringNullableFilter<"Match"> | string | null
+    penaltyRatingApplied?: BoolFilter<"Match"> | boolean
     createdAt?: DateTimeFilter<"Match"> | Date | string
     updatedAt?: DateTimeFilter<"Match"> | Date | string
   }
@@ -31010,6 +46089,200 @@ export namespace Prisma {
     unlockedAt?: DateTimeFilter<"PlayerAchievement"> | Date | string
   }
 
+  export type PenaltyShootoutResultUpsertWithWhereUniqueWithoutUserInput = {
+    where: PenaltyShootoutResultWhereUniqueInput
+    update: XOR<PenaltyShootoutResultUpdateWithoutUserInput, PenaltyShootoutResultUncheckedUpdateWithoutUserInput>
+    create: XOR<PenaltyShootoutResultCreateWithoutUserInput, PenaltyShootoutResultUncheckedCreateWithoutUserInput>
+  }
+
+  export type PenaltyShootoutResultUpdateWithWhereUniqueWithoutUserInput = {
+    where: PenaltyShootoutResultWhereUniqueInput
+    data: XOR<PenaltyShootoutResultUpdateWithoutUserInput, PenaltyShootoutResultUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PenaltyShootoutResultUpdateManyWithWhereWithoutUserInput = {
+    where: PenaltyShootoutResultScalarWhereInput
+    data: XOR<PenaltyShootoutResultUpdateManyMutationInput, PenaltyShootoutResultUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PenaltyShootoutResultScalarWhereInput = {
+    AND?: PenaltyShootoutResultScalarWhereInput | PenaltyShootoutResultScalarWhereInput[]
+    OR?: PenaltyShootoutResultScalarWhereInput[]
+    NOT?: PenaltyShootoutResultScalarWhereInput | PenaltyShootoutResultScalarWhereInput[]
+    id?: StringFilter<"PenaltyShootoutResult"> | string
+    userId?: StringFilter<"PenaltyShootoutResult"> | string
+    matchId?: StringNullableFilter<"PenaltyShootoutResult"> | string | null
+    score?: IntFilter<"PenaltyShootoutResult"> | number
+    suddenDeathScore?: IntFilter<"PenaltyShootoutResult"> | number
+    totalShots?: IntFilter<"PenaltyShootoutResult"> | number
+    shotsJson?: JsonFilter<"PenaltyShootoutResult">
+    suddenDeathShotsJson?: JsonFilter<"PenaltyShootoutResult">
+    isWinner?: BoolFilter<"PenaltyShootoutResult"> | boolean
+    auditVersion?: IntFilter<"PenaltyShootoutResult"> | number
+    createdAt?: DateTimeFilter<"PenaltyShootoutResult"> | Date | string
+    updatedAt?: DateTimeFilter<"PenaltyShootoutResult"> | Date | string
+  }
+
+  export type PenaltyShootoutTrainingAttemptUpsertWithWhereUniqueWithoutUserInput = {
+    where: PenaltyShootoutTrainingAttemptWhereUniqueInput
+    update: XOR<PenaltyShootoutTrainingAttemptUpdateWithoutUserInput, PenaltyShootoutTrainingAttemptUncheckedUpdateWithoutUserInput>
+    create: XOR<PenaltyShootoutTrainingAttemptCreateWithoutUserInput, PenaltyShootoutTrainingAttemptUncheckedCreateWithoutUserInput>
+  }
+
+  export type PenaltyShootoutTrainingAttemptUpdateWithWhereUniqueWithoutUserInput = {
+    where: PenaltyShootoutTrainingAttemptWhereUniqueInput
+    data: XOR<PenaltyShootoutTrainingAttemptUpdateWithoutUserInput, PenaltyShootoutTrainingAttemptUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PenaltyShootoutTrainingAttemptUpdateManyWithWhereWithoutUserInput = {
+    where: PenaltyShootoutTrainingAttemptScalarWhereInput
+    data: XOR<PenaltyShootoutTrainingAttemptUpdateManyMutationInput, PenaltyShootoutTrainingAttemptUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PenaltyShootoutTrainingAttemptScalarWhereInput = {
+    AND?: PenaltyShootoutTrainingAttemptScalarWhereInput | PenaltyShootoutTrainingAttemptScalarWhereInput[]
+    OR?: PenaltyShootoutTrainingAttemptScalarWhereInput[]
+    NOT?: PenaltyShootoutTrainingAttemptScalarWhereInput | PenaltyShootoutTrainingAttemptScalarWhereInput[]
+    id?: StringFilter<"PenaltyShootoutTrainingAttempt"> | string
+    userId?: StringFilter<"PenaltyShootoutTrainingAttempt"> | string
+    score?: IntFilter<"PenaltyShootoutTrainingAttempt"> | number
+    totalShots?: IntFilter<"PenaltyShootoutTrainingAttempt"> | number
+    shotsJson?: JsonFilter<"PenaltyShootoutTrainingAttempt">
+    createdAt?: DateTimeFilter<"PenaltyShootoutTrainingAttempt"> | Date | string
+  }
+
+  export type PlayerRatingUpsertWithWhereUniqueWithoutUserInput = {
+    where: PlayerRatingWhereUniqueInput
+    update: XOR<PlayerRatingUpdateWithoutUserInput, PlayerRatingUncheckedUpdateWithoutUserInput>
+    create: XOR<PlayerRatingCreateWithoutUserInput, PlayerRatingUncheckedCreateWithoutUserInput>
+  }
+
+  export type PlayerRatingUpdateWithWhereUniqueWithoutUserInput = {
+    where: PlayerRatingWhereUniqueInput
+    data: XOR<PlayerRatingUpdateWithoutUserInput, PlayerRatingUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PlayerRatingUpdateManyWithWhereWithoutUserInput = {
+    where: PlayerRatingScalarWhereInput
+    data: XOR<PlayerRatingUpdateManyMutationInput, PlayerRatingUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PlayerRatingScalarWhereInput = {
+    AND?: PlayerRatingScalarWhereInput | PlayerRatingScalarWhereInput[]
+    OR?: PlayerRatingScalarWhereInput[]
+    NOT?: PlayerRatingScalarWhereInput | PlayerRatingScalarWhereInput[]
+    id?: StringFilter<"PlayerRating"> | string
+    userId?: StringFilter<"PlayerRating"> | string
+    seasonId?: StringNullableFilter<"PlayerRating"> | string | null
+    matchesPlayed?: IntFilter<"PlayerRating"> | number
+    wins?: IntFilter<"PlayerRating"> | number
+    losses?: IntFilter<"PlayerRating"> | number
+    goalsScored?: IntFilter<"PlayerRating"> | number
+    goalsConceded?: IntFilter<"PlayerRating"> | number
+    currentRating?: IntFilter<"PlayerRating"> | number
+    highestRating?: IntFilter<"PlayerRating"> | number
+    createdAt?: DateTimeFilter<"PlayerRating"> | Date | string
+    updatedAt?: DateTimeFilter<"PlayerRating"> | Date | string
+  }
+
+  export type WalletUpsertWithoutUserInput = {
+    update: XOR<WalletUpdateWithoutUserInput, WalletUncheckedUpdateWithoutUserInput>
+    create: XOR<WalletCreateWithoutUserInput, WalletUncheckedCreateWithoutUserInput>
+    where?: WalletWhereInput
+  }
+
+  export type WalletUpdateToOneWithWhereWithoutUserInput = {
+    where?: WalletWhereInput
+    data: XOR<WalletUpdateWithoutUserInput, WalletUncheckedUpdateWithoutUserInput>
+  }
+
+  export type WalletUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    balance?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transactions?: WalletTransactionUpdateManyWithoutWalletNestedInput
+  }
+
+  export type WalletUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    balance?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transactions?: WalletTransactionUncheckedUpdateManyWithoutWalletNestedInput
+  }
+
+  export type WalletTransactionUpsertWithWhereUniqueWithoutUserInput = {
+    where: WalletTransactionWhereUniqueInput
+    update: XOR<WalletTransactionUpdateWithoutUserInput, WalletTransactionUncheckedUpdateWithoutUserInput>
+    create: XOR<WalletTransactionCreateWithoutUserInput, WalletTransactionUncheckedCreateWithoutUserInput>
+  }
+
+  export type WalletTransactionUpdateWithWhereUniqueWithoutUserInput = {
+    where: WalletTransactionWhereUniqueInput
+    data: XOR<WalletTransactionUpdateWithoutUserInput, WalletTransactionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type WalletTransactionUpdateManyWithWhereWithoutUserInput = {
+    where: WalletTransactionScalarWhereInput
+    data: XOR<WalletTransactionUpdateManyMutationInput, WalletTransactionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type WalletTransactionScalarWhereInput = {
+    AND?: WalletTransactionScalarWhereInput | WalletTransactionScalarWhereInput[]
+    OR?: WalletTransactionScalarWhereInput[]
+    NOT?: WalletTransactionScalarWhereInput | WalletTransactionScalarWhereInput[]
+    id?: StringFilter<"WalletTransaction"> | string
+    walletId?: StringFilter<"WalletTransaction"> | string
+    userId?: StringFilter<"WalletTransaction"> | string
+    type?: EnumWalletTransactionTypeFilter<"WalletTransaction"> | $Enums.WalletTransactionType
+    amount?: IntFilter<"WalletTransaction"> | number
+    balanceAfter?: IntFilter<"WalletTransaction"> | number
+    description?: StringFilter<"WalletTransaction"> | string
+    reference?: StringNullableFilter<"WalletTransaction"> | string | null
+    registrationId?: StringNullableFilter<"WalletTransaction"> | string | null
+    tournamentId?: StringNullableFilter<"WalletTransaction"> | string | null
+    adminName?: StringNullableFilter<"WalletTransaction"> | string | null
+    createdAt?: DateTimeFilter<"WalletTransaction"> | Date | string
+  }
+
+  export type WalletFundingRequestUpsertWithWhereUniqueWithoutUserInput = {
+    where: WalletFundingRequestWhereUniqueInput
+    update: XOR<WalletFundingRequestUpdateWithoutUserInput, WalletFundingRequestUncheckedUpdateWithoutUserInput>
+    create: XOR<WalletFundingRequestCreateWithoutUserInput, WalletFundingRequestUncheckedCreateWithoutUserInput>
+  }
+
+  export type WalletFundingRequestUpdateWithWhereUniqueWithoutUserInput = {
+    where: WalletFundingRequestWhereUniqueInput
+    data: XOR<WalletFundingRequestUpdateWithoutUserInput, WalletFundingRequestUncheckedUpdateWithoutUserInput>
+  }
+
+  export type WalletFundingRequestUpdateManyWithWhereWithoutUserInput = {
+    where: WalletFundingRequestScalarWhereInput
+    data: XOR<WalletFundingRequestUpdateManyMutationInput, WalletFundingRequestUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type WalletFundingRequestScalarWhereInput = {
+    AND?: WalletFundingRequestScalarWhereInput | WalletFundingRequestScalarWhereInput[]
+    OR?: WalletFundingRequestScalarWhereInput[]
+    NOT?: WalletFundingRequestScalarWhereInput | WalletFundingRequestScalarWhereInput[]
+    id?: StringFilter<"WalletFundingRequest"> | string
+    userId?: StringFilter<"WalletFundingRequest"> | string
+    amount?: IntFilter<"WalletFundingRequest"> | number
+    currency?: StringFilter<"WalletFundingRequest"> | string
+    paymentMethod?: StringFilter<"WalletFundingRequest"> | string
+    senderName?: StringFilter<"WalletFundingRequest"> | string
+    receiptUrl?: StringNullableFilter<"WalletFundingRequest"> | string | null
+    status?: EnumWalletFundingRequestStatusFilter<"WalletFundingRequest"> | $Enums.WalletFundingRequestStatus
+    adminNote?: StringNullableFilter<"WalletFundingRequest"> | string | null
+    approvedBy?: StringNullableFilter<"WalletFundingRequest"> | string | null
+    creditedTransactionId?: StringNullableFilter<"WalletFundingRequest"> | string | null
+    createdAt?: DateTimeFilter<"WalletFundingRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"WalletFundingRequest"> | Date | string
+  }
+
   export type RegistrationCreateWithoutTournamentInput = {
     id?: string
     platformId: string
@@ -31031,6 +46304,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutRegistrationInput
     payments?: PaymentCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationUncheckedCreateWithoutTournamentInput = {
@@ -31054,6 +46328,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUncheckedCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutRegistrationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationCreateOrConnectWithoutTournamentInput = {
@@ -31092,6 +46367,7 @@ export namespace Prisma {
     legNumber?: number | null
     homeScore?: number | null
     awayScore?: number | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     referee?: UserCreateNestedOneWithoutRefereeMatchesInput
@@ -31104,6 +46380,8 @@ export namespace Prisma {
     aggregateLegs?: MatchCreateNestedManyWithoutAggregateMatchInput
     aggregateWinnerRegistration?: RegistrationCreateNestedOneWithoutAggregateWonMatchesInput
     resultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutMatchInput
   }
 
   export type MatchUncheckedCreateWithoutTournamentInput = {
@@ -31140,10 +46418,13 @@ export namespace Prisma {
     awayScore?: number | null
     aggregateMatchId?: string | null
     aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     aggregateLegs?: MatchUncheckedCreateNestedManyWithoutAggregateMatchInput
     resultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutMatchInput
   }
 
   export type MatchCreateOrConnectWithoutTournamentInput = {
@@ -31357,6 +46638,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     rankingHistory?: RankingHistoryCreateNestedManyWithoutUserInput
     achievements?: PlayerAchievementCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingCreateNestedManyWithoutUserInput
+    wallet?: WalletCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRegistrationsInput = {
@@ -31390,6 +46677,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     rankingHistory?: RankingHistoryUncheckedCreateNestedManyWithoutUserInput
     achievements?: PlayerAchievementUncheckedCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingUncheckedCreateNestedManyWithoutUserInput
+    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionUncheckedCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRegistrationsInput = {
@@ -31420,6 +46713,9 @@ export namespace Prisma {
     streamPlatform?: $Enums.StreamPlatform | null
     description: string
     rules?: TournamentCreaterulesInput | string[]
+    prizePayoutPaid?: boolean
+    prizePayoutPaidAt?: Date | string | null
+    prizePayoutNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     matches?: MatchCreateNestedManyWithoutTournamentInput
@@ -31450,6 +46746,9 @@ export namespace Prisma {
     streamPlatform?: $Enums.StreamPlatform | null
     description: string
     rules?: TournamentCreaterulesInput | string[]
+    prizePayoutPaid?: boolean
+    prizePayoutPaidAt?: Date | string | null
+    prizePayoutNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     matches?: MatchUncheckedCreateNestedManyWithoutTournamentInput
@@ -31473,6 +46772,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     captain: UserCreateNestedOneWithoutCaptainTeamsInput
     members?: TeamMemberCreateNestedManyWithoutTeamInput
+    matchLineups?: TeamMatchLineupCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutRegistrationsInput = {
@@ -31486,6 +46786,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
+    matchLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutRegistrationsInput = {
@@ -31519,6 +46820,7 @@ export namespace Prisma {
     legNumber?: number | null
     homeScore?: number | null
     awayScore?: number | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     tournament: TournamentCreateNestedOneWithoutMatchesInput
@@ -31531,6 +46833,8 @@ export namespace Prisma {
     aggregateLegs?: MatchCreateNestedManyWithoutAggregateMatchInput
     aggregateWinnerRegistration?: RegistrationCreateNestedOneWithoutAggregateWonMatchesInput
     resultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutMatchInput
   }
 
   export type MatchUncheckedCreateWithoutPlayerOneRegistrationInput = {
@@ -31567,10 +46871,13 @@ export namespace Prisma {
     awayScore?: number | null
     aggregateMatchId?: string | null
     aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     aggregateLegs?: MatchUncheckedCreateNestedManyWithoutAggregateMatchInput
     resultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutMatchInput
   }
 
   export type MatchCreateOrConnectWithoutPlayerOneRegistrationInput = {
@@ -31609,6 +46916,7 @@ export namespace Prisma {
     legNumber?: number | null
     homeScore?: number | null
     awayScore?: number | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     tournament: TournamentCreateNestedOneWithoutMatchesInput
@@ -31621,6 +46929,8 @@ export namespace Prisma {
     aggregateLegs?: MatchCreateNestedManyWithoutAggregateMatchInput
     aggregateWinnerRegistration?: RegistrationCreateNestedOneWithoutAggregateWonMatchesInput
     resultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutMatchInput
   }
 
   export type MatchUncheckedCreateWithoutPlayerTwoRegistrationInput = {
@@ -31657,10 +46967,13 @@ export namespace Prisma {
     awayScore?: number | null
     aggregateMatchId?: string | null
     aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     aggregateLegs?: MatchUncheckedCreateNestedManyWithoutAggregateMatchInput
     resultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutMatchInput
   }
 
   export type MatchCreateOrConnectWithoutPlayerTwoRegistrationInput = {
@@ -31699,6 +47012,7 @@ export namespace Prisma {
     legNumber?: number | null
     homeScore?: number | null
     awayScore?: number | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     tournament: TournamentCreateNestedOneWithoutMatchesInput
@@ -31711,6 +47025,8 @@ export namespace Prisma {
     aggregateLegs?: MatchCreateNestedManyWithoutAggregateMatchInput
     aggregateWinnerRegistration?: RegistrationCreateNestedOneWithoutAggregateWonMatchesInput
     resultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutMatchInput
   }
 
   export type MatchUncheckedCreateWithoutWinnerRegistrationInput = {
@@ -31747,10 +47063,13 @@ export namespace Prisma {
     awayScore?: number | null
     aggregateMatchId?: string | null
     aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     aggregateLegs?: MatchUncheckedCreateNestedManyWithoutAggregateMatchInput
     resultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutMatchInput
   }
 
   export type MatchCreateOrConnectWithoutWinnerRegistrationInput = {
@@ -31789,6 +47108,7 @@ export namespace Prisma {
     legNumber?: number | null
     homeScore?: number | null
     awayScore?: number | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     tournament: TournamentCreateNestedOneWithoutMatchesInput
@@ -31801,6 +47121,8 @@ export namespace Prisma {
     aggregateLegs?: MatchCreateNestedManyWithoutAggregateMatchInput
     aggregateWinnerRegistration?: RegistrationCreateNestedOneWithoutAggregateWonMatchesInput
     resultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutMatchInput
   }
 
   export type MatchUncheckedCreateWithoutHomeRegistrationInput = {
@@ -31837,10 +47159,13 @@ export namespace Prisma {
     awayScore?: number | null
     aggregateMatchId?: string | null
     aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     aggregateLegs?: MatchUncheckedCreateNestedManyWithoutAggregateMatchInput
     resultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutMatchInput
   }
 
   export type MatchCreateOrConnectWithoutHomeRegistrationInput = {
@@ -31879,6 +47204,7 @@ export namespace Prisma {
     legNumber?: number | null
     homeScore?: number | null
     awayScore?: number | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     tournament: TournamentCreateNestedOneWithoutMatchesInput
@@ -31891,6 +47217,8 @@ export namespace Prisma {
     aggregateLegs?: MatchCreateNestedManyWithoutAggregateMatchInput
     aggregateWinnerRegistration?: RegistrationCreateNestedOneWithoutAggregateWonMatchesInput
     resultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutMatchInput
   }
 
   export type MatchUncheckedCreateWithoutAwayRegistrationInput = {
@@ -31927,10 +47255,13 @@ export namespace Prisma {
     awayScore?: number | null
     aggregateMatchId?: string | null
     aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     aggregateLegs?: MatchUncheckedCreateNestedManyWithoutAggregateMatchInput
     resultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutMatchInput
   }
 
   export type MatchCreateOrConnectWithoutAwayRegistrationInput = {
@@ -31969,6 +47300,7 @@ export namespace Prisma {
     legNumber?: number | null
     homeScore?: number | null
     awayScore?: number | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     tournament: TournamentCreateNestedOneWithoutMatchesInput
@@ -31981,6 +47313,8 @@ export namespace Prisma {
     aggregateMatch?: MatchCreateNestedOneWithoutAggregateLegsInput
     aggregateLegs?: MatchCreateNestedManyWithoutAggregateMatchInput
     resultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutMatchInput
   }
 
   export type MatchUncheckedCreateWithoutAggregateWinnerRegistrationInput = {
@@ -32017,10 +47351,13 @@ export namespace Prisma {
     homeScore?: number | null
     awayScore?: number | null
     aggregateMatchId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     aggregateLegs?: MatchUncheckedCreateNestedManyWithoutAggregateMatchInput
     resultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutMatchInput
   }
 
   export type MatchCreateOrConnectWithoutAggregateWinnerRegistrationInput = {
@@ -32163,6 +47500,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TeamMatchLineupCreateWithoutRegistrationInput = {
+    id?: string
+    memberUserIds: JsonNullValueInput | InputJsonValue
+    representativeUserId: string
+    submittedByUserId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    match: MatchCreateNestedOneWithoutTeamLineupsInput
+    team: TeamCreateNestedOneWithoutMatchLineupsInput
+  }
+
+  export type TeamMatchLineupUncheckedCreateWithoutRegistrationInput = {
+    id?: string
+    matchId: string
+    teamId: string
+    memberUserIds: JsonNullValueInput | InputJsonValue
+    representativeUserId: string
+    submittedByUserId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TeamMatchLineupCreateOrConnectWithoutRegistrationInput = {
+    where: TeamMatchLineupWhereUniqueInput
+    create: XOR<TeamMatchLineupCreateWithoutRegistrationInput, TeamMatchLineupUncheckedCreateWithoutRegistrationInput>
+  }
+
+  export type TeamMatchLineupCreateManyRegistrationInputEnvelope = {
+    data: TeamMatchLineupCreateManyRegistrationInput | TeamMatchLineupCreateManyRegistrationInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutRegistrationsInput = {
     update: XOR<UserUpdateWithoutRegistrationsInput, UserUncheckedUpdateWithoutRegistrationsInput>
     create: XOR<UserCreateWithoutRegistrationsInput, UserUncheckedCreateWithoutRegistrationsInput>
@@ -32205,6 +47574,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     rankingHistory?: RankingHistoryUpdateManyWithoutUserNestedInput
     achievements?: PlayerAchievementUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUpdateManyWithoutUserNestedInput
+    wallet?: WalletUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRegistrationsInput = {
@@ -32238,6 +47613,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     rankingHistory?: RankingHistoryUncheckedUpdateManyWithoutUserNestedInput
     achievements?: PlayerAchievementUncheckedUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUncheckedUpdateManyWithoutUserNestedInput
+    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUncheckedUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TournamentUpsertWithoutRegistrationsInput = {
@@ -32274,6 +47655,9 @@ export namespace Prisma {
     streamPlatform?: NullableEnumStreamPlatformFieldUpdateOperationsInput | $Enums.StreamPlatform | null
     description?: StringFieldUpdateOperationsInput | string
     rules?: TournamentUpdaterulesInput | string[]
+    prizePayoutPaid?: BoolFieldUpdateOperationsInput | boolean
+    prizePayoutPaidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    prizePayoutNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     matches?: MatchUpdateManyWithoutTournamentNestedInput
@@ -32304,6 +47688,9 @@ export namespace Prisma {
     streamPlatform?: NullableEnumStreamPlatformFieldUpdateOperationsInput | $Enums.StreamPlatform | null
     description?: StringFieldUpdateOperationsInput | string
     rules?: TournamentUpdaterulesInput | string[]
+    prizePayoutPaid?: BoolFieldUpdateOperationsInput | boolean
+    prizePayoutPaidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    prizePayoutNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     matches?: MatchUncheckedUpdateManyWithoutTournamentNestedInput
@@ -32333,6 +47720,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     captain?: UserUpdateOneRequiredWithoutCaptainTeamsNestedInput
     members?: TeamMemberUpdateManyWithoutTeamNestedInput
+    matchLineups?: TeamMatchLineupUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutRegistrationsInput = {
@@ -32346,6 +47734,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+    matchLineups?: TeamMatchLineupUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type MatchUpsertWithWhereUniqueWithoutPlayerOneRegistrationInput = {
@@ -32534,6 +47923,37 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Payment"> | Date | string
   }
 
+  export type TeamMatchLineupUpsertWithWhereUniqueWithoutRegistrationInput = {
+    where: TeamMatchLineupWhereUniqueInput
+    update: XOR<TeamMatchLineupUpdateWithoutRegistrationInput, TeamMatchLineupUncheckedUpdateWithoutRegistrationInput>
+    create: XOR<TeamMatchLineupCreateWithoutRegistrationInput, TeamMatchLineupUncheckedCreateWithoutRegistrationInput>
+  }
+
+  export type TeamMatchLineupUpdateWithWhereUniqueWithoutRegistrationInput = {
+    where: TeamMatchLineupWhereUniqueInput
+    data: XOR<TeamMatchLineupUpdateWithoutRegistrationInput, TeamMatchLineupUncheckedUpdateWithoutRegistrationInput>
+  }
+
+  export type TeamMatchLineupUpdateManyWithWhereWithoutRegistrationInput = {
+    where: TeamMatchLineupScalarWhereInput
+    data: XOR<TeamMatchLineupUpdateManyMutationInput, TeamMatchLineupUncheckedUpdateManyWithoutRegistrationInput>
+  }
+
+  export type TeamMatchLineupScalarWhereInput = {
+    AND?: TeamMatchLineupScalarWhereInput | TeamMatchLineupScalarWhereInput[]
+    OR?: TeamMatchLineupScalarWhereInput[]
+    NOT?: TeamMatchLineupScalarWhereInput | TeamMatchLineupScalarWhereInput[]
+    id?: StringFilter<"TeamMatchLineup"> | string
+    matchId?: StringFilter<"TeamMatchLineup"> | string
+    registrationId?: StringFilter<"TeamMatchLineup"> | string
+    teamId?: StringFilter<"TeamMatchLineup"> | string
+    memberUserIds?: JsonFilter<"TeamMatchLineup">
+    representativeUserId?: StringFilter<"TeamMatchLineup"> | string
+    submittedByUserId?: StringFilter<"TeamMatchLineup"> | string
+    createdAt?: DateTimeFilter<"TeamMatchLineup"> | Date | string
+    updatedAt?: DateTimeFilter<"TeamMatchLineup"> | Date | string
+  }
+
   export type TournamentCreateWithoutMatchesInput = {
     id?: string
     slug: string
@@ -32557,6 +47977,9 @@ export namespace Prisma {
     streamPlatform?: $Enums.StreamPlatform | null
     description: string
     rules?: TournamentCreaterulesInput | string[]
+    prizePayoutPaid?: boolean
+    prizePayoutPaidAt?: Date | string | null
+    prizePayoutNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     registrations?: RegistrationCreateNestedManyWithoutTournamentInput
@@ -32587,6 +48010,9 @@ export namespace Prisma {
     streamPlatform?: $Enums.StreamPlatform | null
     description: string
     rules?: TournamentCreaterulesInput | string[]
+    prizePayoutPaid?: boolean
+    prizePayoutPaidAt?: Date | string | null
+    prizePayoutNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     registrations?: RegistrationUncheckedCreateNestedManyWithoutTournamentInput
@@ -32630,6 +48056,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     rankingHistory?: RankingHistoryCreateNestedManyWithoutUserInput
     achievements?: PlayerAchievementCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingCreateNestedManyWithoutUserInput
+    wallet?: WalletCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRefereeMatchesInput = {
@@ -32663,6 +48095,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     rankingHistory?: RankingHistoryUncheckedCreateNestedManyWithoutUserInput
     achievements?: PlayerAchievementUncheckedCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingUncheckedCreateNestedManyWithoutUserInput
+    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionUncheckedCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRefereeMatchesInput = {
@@ -32691,6 +48129,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutRegistrationInput
     payments?: PaymentCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationUncheckedCreateWithoutPlayerOneMatchesInput = {
@@ -32714,6 +48153,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUncheckedCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutRegistrationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationCreateOrConnectWithoutPlayerOneMatchesInput = {
@@ -32742,6 +48182,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutRegistrationInput
     payments?: PaymentCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationUncheckedCreateWithoutPlayerTwoMatchesInput = {
@@ -32765,6 +48206,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUncheckedCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutRegistrationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationCreateOrConnectWithoutPlayerTwoMatchesInput = {
@@ -32793,6 +48235,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutRegistrationInput
     payments?: PaymentCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationUncheckedCreateWithoutWonMatchesInput = {
@@ -32816,6 +48259,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUncheckedCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutRegistrationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationCreateOrConnectWithoutWonMatchesInput = {
@@ -32844,6 +48288,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutRegistrationInput
     payments?: PaymentCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationUncheckedCreateWithoutHomeMatchesInput = {
@@ -32867,6 +48312,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUncheckedCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutRegistrationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationCreateOrConnectWithoutHomeMatchesInput = {
@@ -32895,6 +48341,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutRegistrationInput
     payments?: PaymentCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationUncheckedCreateWithoutAwayMatchesInput = {
@@ -32918,6 +48365,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUncheckedCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutRegistrationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationCreateOrConnectWithoutAwayMatchesInput = {
@@ -32951,6 +48399,7 @@ export namespace Prisma {
     legNumber?: number | null
     homeScore?: number | null
     awayScore?: number | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     tournament: TournamentCreateNestedOneWithoutMatchesInput
@@ -32963,6 +48412,8 @@ export namespace Prisma {
     aggregateMatch?: MatchCreateNestedOneWithoutAggregateLegsInput
     aggregateWinnerRegistration?: RegistrationCreateNestedOneWithoutAggregateWonMatchesInput
     resultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutMatchInput
   }
 
   export type MatchUncheckedCreateWithoutAggregateLegsInput = {
@@ -33000,9 +48451,12 @@ export namespace Prisma {
     awayScore?: number | null
     aggregateMatchId?: string | null
     aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     resultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutMatchInput
   }
 
   export type MatchCreateOrConnectWithoutAggregateLegsInput = {
@@ -33036,6 +48490,7 @@ export namespace Prisma {
     legNumber?: number | null
     homeScore?: number | null
     awayScore?: number | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     tournament: TournamentCreateNestedOneWithoutMatchesInput
@@ -33048,6 +48503,8 @@ export namespace Prisma {
     aggregateLegs?: MatchCreateNestedManyWithoutAggregateMatchInput
     aggregateWinnerRegistration?: RegistrationCreateNestedOneWithoutAggregateWonMatchesInput
     resultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutMatchInput
   }
 
   export type MatchUncheckedCreateWithoutAggregateMatchInput = {
@@ -33084,10 +48541,13 @@ export namespace Prisma {
     homeScore?: number | null
     awayScore?: number | null
     aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     aggregateLegs?: MatchUncheckedCreateNestedManyWithoutAggregateMatchInput
     resultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutMatchInput
   }
 
   export type MatchCreateOrConnectWithoutAggregateMatchInput = {
@@ -33121,6 +48581,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutRegistrationInput
     payments?: PaymentCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationUncheckedCreateWithoutAggregateWonMatchesInput = {
@@ -33144,6 +48605,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUncheckedCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutRegistrationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationCreateOrConnectWithoutAggregateWonMatchesInput = {
@@ -33193,6 +48655,76 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PenaltyShootoutResultCreateWithoutMatchInput = {
+    id?: string
+    score: number
+    suddenDeathScore?: number
+    totalShots?: number
+    shotsJson: JsonNullValueInput | InputJsonValue
+    suddenDeathShotsJson?: JsonNullValueInput | InputJsonValue
+    isWinner?: boolean
+    auditVersion?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPenaltyShootoutResultsInput
+  }
+
+  export type PenaltyShootoutResultUncheckedCreateWithoutMatchInput = {
+    id?: string
+    userId: string
+    score: number
+    suddenDeathScore?: number
+    totalShots?: number
+    shotsJson: JsonNullValueInput | InputJsonValue
+    suddenDeathShotsJson?: JsonNullValueInput | InputJsonValue
+    isWinner?: boolean
+    auditVersion?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PenaltyShootoutResultCreateOrConnectWithoutMatchInput = {
+    where: PenaltyShootoutResultWhereUniqueInput
+    create: XOR<PenaltyShootoutResultCreateWithoutMatchInput, PenaltyShootoutResultUncheckedCreateWithoutMatchInput>
+  }
+
+  export type PenaltyShootoutResultCreateManyMatchInputEnvelope = {
+    data: PenaltyShootoutResultCreateManyMatchInput | PenaltyShootoutResultCreateManyMatchInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TeamMatchLineupCreateWithoutMatchInput = {
+    id?: string
+    memberUserIds: JsonNullValueInput | InputJsonValue
+    representativeUserId: string
+    submittedByUserId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    registration: RegistrationCreateNestedOneWithoutTeamLineupsInput
+    team: TeamCreateNestedOneWithoutMatchLineupsInput
+  }
+
+  export type TeamMatchLineupUncheckedCreateWithoutMatchInput = {
+    id?: string
+    registrationId: string
+    teamId: string
+    memberUserIds: JsonNullValueInput | InputJsonValue
+    representativeUserId: string
+    submittedByUserId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TeamMatchLineupCreateOrConnectWithoutMatchInput = {
+    where: TeamMatchLineupWhereUniqueInput
+    create: XOR<TeamMatchLineupCreateWithoutMatchInput, TeamMatchLineupUncheckedCreateWithoutMatchInput>
+  }
+
+  export type TeamMatchLineupCreateManyMatchInputEnvelope = {
+    data: TeamMatchLineupCreateManyMatchInput | TeamMatchLineupCreateManyMatchInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TournamentUpsertWithoutMatchesInput = {
     update: XOR<TournamentUpdateWithoutMatchesInput, TournamentUncheckedUpdateWithoutMatchesInput>
     create: XOR<TournamentCreateWithoutMatchesInput, TournamentUncheckedCreateWithoutMatchesInput>
@@ -33227,6 +48759,9 @@ export namespace Prisma {
     streamPlatform?: NullableEnumStreamPlatformFieldUpdateOperationsInput | $Enums.StreamPlatform | null
     description?: StringFieldUpdateOperationsInput | string
     rules?: TournamentUpdaterulesInput | string[]
+    prizePayoutPaid?: BoolFieldUpdateOperationsInput | boolean
+    prizePayoutPaidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    prizePayoutNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     registrations?: RegistrationUpdateManyWithoutTournamentNestedInput
@@ -33257,6 +48792,9 @@ export namespace Prisma {
     streamPlatform?: NullableEnumStreamPlatformFieldUpdateOperationsInput | $Enums.StreamPlatform | null
     description?: StringFieldUpdateOperationsInput | string
     rules?: TournamentUpdaterulesInput | string[]
+    prizePayoutPaid?: BoolFieldUpdateOperationsInput | boolean
+    prizePayoutPaidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    prizePayoutNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     registrations?: RegistrationUncheckedUpdateManyWithoutTournamentNestedInput
@@ -33306,6 +48844,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     rankingHistory?: RankingHistoryUpdateManyWithoutUserNestedInput
     achievements?: PlayerAchievementUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUpdateManyWithoutUserNestedInput
+    wallet?: WalletUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRefereeMatchesInput = {
@@ -33339,6 +48883,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     rankingHistory?: RankingHistoryUncheckedUpdateManyWithoutUserNestedInput
     achievements?: PlayerAchievementUncheckedUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUncheckedUpdateManyWithoutUserNestedInput
+    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUncheckedUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RegistrationUpsertWithoutPlayerOneMatchesInput = {
@@ -33373,6 +48923,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutRegistrationNestedInput
   }
 
   export type RegistrationUncheckedUpdateWithoutPlayerOneMatchesInput = {
@@ -33396,6 +48947,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUncheckedUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutRegistrationNestedInput
   }
 
   export type RegistrationUpsertWithoutPlayerTwoMatchesInput = {
@@ -33430,6 +48982,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutRegistrationNestedInput
   }
 
   export type RegistrationUncheckedUpdateWithoutPlayerTwoMatchesInput = {
@@ -33453,6 +49006,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUncheckedUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutRegistrationNestedInput
   }
 
   export type RegistrationUpsertWithoutWonMatchesInput = {
@@ -33487,6 +49041,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutRegistrationNestedInput
   }
 
   export type RegistrationUncheckedUpdateWithoutWonMatchesInput = {
@@ -33510,6 +49065,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUncheckedUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutRegistrationNestedInput
   }
 
   export type RegistrationUpsertWithoutHomeMatchesInput = {
@@ -33544,6 +49100,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutRegistrationNestedInput
   }
 
   export type RegistrationUncheckedUpdateWithoutHomeMatchesInput = {
@@ -33567,6 +49124,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUncheckedUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutRegistrationNestedInput
   }
 
   export type RegistrationUpsertWithoutAwayMatchesInput = {
@@ -33601,6 +49159,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutRegistrationNestedInput
   }
 
   export type RegistrationUncheckedUpdateWithoutAwayMatchesInput = {
@@ -33624,6 +49183,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUncheckedUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutRegistrationNestedInput
   }
 
   export type MatchUpsertWithoutAggregateLegsInput = {
@@ -33663,6 +49223,7 @@ export namespace Prisma {
     legNumber?: NullableIntFieldUpdateOperationsInput | number | null
     homeScore?: NullableIntFieldUpdateOperationsInput | number | null
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tournament?: TournamentUpdateOneRequiredWithoutMatchesNestedInput
@@ -33675,6 +49236,8 @@ export namespace Prisma {
     aggregateMatch?: MatchUpdateOneWithoutAggregateLegsNestedInput
     aggregateWinnerRegistration?: RegistrationUpdateOneWithoutAggregateWonMatchesNestedInput
     resultSubmissions?: MatchResultSubmissionUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateWithoutAggregateLegsInput = {
@@ -33712,9 +49275,12 @@ export namespace Prisma {
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
     aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     resultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUpsertWithWhereUniqueWithoutAggregateMatchInput = {
@@ -33765,6 +49331,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutRegistrationNestedInput
   }
 
   export type RegistrationUncheckedUpdateWithoutAggregateWonMatchesInput = {
@@ -33788,6 +49355,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUncheckedUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutRegistrationNestedInput
   }
 
   export type MatchResultSubmissionUpsertWithWhereUniqueWithoutMatchInput = {
@@ -33804,6 +49372,38 @@ export namespace Prisma {
   export type MatchResultSubmissionUpdateManyWithWhereWithoutMatchInput = {
     where: MatchResultSubmissionScalarWhereInput
     data: XOR<MatchResultSubmissionUpdateManyMutationInput, MatchResultSubmissionUncheckedUpdateManyWithoutMatchInput>
+  }
+
+  export type PenaltyShootoutResultUpsertWithWhereUniqueWithoutMatchInput = {
+    where: PenaltyShootoutResultWhereUniqueInput
+    update: XOR<PenaltyShootoutResultUpdateWithoutMatchInput, PenaltyShootoutResultUncheckedUpdateWithoutMatchInput>
+    create: XOR<PenaltyShootoutResultCreateWithoutMatchInput, PenaltyShootoutResultUncheckedCreateWithoutMatchInput>
+  }
+
+  export type PenaltyShootoutResultUpdateWithWhereUniqueWithoutMatchInput = {
+    where: PenaltyShootoutResultWhereUniqueInput
+    data: XOR<PenaltyShootoutResultUpdateWithoutMatchInput, PenaltyShootoutResultUncheckedUpdateWithoutMatchInput>
+  }
+
+  export type PenaltyShootoutResultUpdateManyWithWhereWithoutMatchInput = {
+    where: PenaltyShootoutResultScalarWhereInput
+    data: XOR<PenaltyShootoutResultUpdateManyMutationInput, PenaltyShootoutResultUncheckedUpdateManyWithoutMatchInput>
+  }
+
+  export type TeamMatchLineupUpsertWithWhereUniqueWithoutMatchInput = {
+    where: TeamMatchLineupWhereUniqueInput
+    update: XOR<TeamMatchLineupUpdateWithoutMatchInput, TeamMatchLineupUncheckedUpdateWithoutMatchInput>
+    create: XOR<TeamMatchLineupCreateWithoutMatchInput, TeamMatchLineupUncheckedCreateWithoutMatchInput>
+  }
+
+  export type TeamMatchLineupUpdateWithWhereUniqueWithoutMatchInput = {
+    where: TeamMatchLineupWhereUniqueInput
+    data: XOR<TeamMatchLineupUpdateWithoutMatchInput, TeamMatchLineupUncheckedUpdateWithoutMatchInput>
+  }
+
+  export type TeamMatchLineupUpdateManyWithWhereWithoutMatchInput = {
+    where: TeamMatchLineupScalarWhereInput
+    data: XOR<TeamMatchLineupUpdateManyMutationInput, TeamMatchLineupUncheckedUpdateManyWithoutMatchInput>
   }
 
   export type TournamentCreateWithoutLeagueStandingsInput = {
@@ -33829,6 +49429,9 @@ export namespace Prisma {
     streamPlatform?: $Enums.StreamPlatform | null
     description: string
     rules?: TournamentCreaterulesInput | string[]
+    prizePayoutPaid?: boolean
+    prizePayoutPaidAt?: Date | string | null
+    prizePayoutNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     registrations?: RegistrationCreateNestedManyWithoutTournamentInput
@@ -33859,6 +49462,9 @@ export namespace Prisma {
     streamPlatform?: $Enums.StreamPlatform | null
     description: string
     rules?: TournamentCreaterulesInput | string[]
+    prizePayoutPaid?: boolean
+    prizePayoutPaidAt?: Date | string | null
+    prizePayoutNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     registrations?: RegistrationUncheckedCreateNestedManyWithoutTournamentInput
@@ -33892,6 +49498,7 @@ export namespace Prisma {
     aggregateWonMatches?: MatchCreateNestedManyWithoutAggregateWinnerRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutRegistrationInput
     payments?: PaymentCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationUncheckedCreateWithoutLeagueStandingsInput = {
@@ -33915,6 +49522,7 @@ export namespace Prisma {
     aggregateWonMatches?: MatchUncheckedCreateNestedManyWithoutAggregateWinnerRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutRegistrationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationCreateOrConnectWithoutLeagueStandingsInput = {
@@ -33956,6 +49564,9 @@ export namespace Prisma {
     streamPlatform?: NullableEnumStreamPlatformFieldUpdateOperationsInput | $Enums.StreamPlatform | null
     description?: StringFieldUpdateOperationsInput | string
     rules?: TournamentUpdaterulesInput | string[]
+    prizePayoutPaid?: BoolFieldUpdateOperationsInput | boolean
+    prizePayoutPaidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    prizePayoutNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     registrations?: RegistrationUpdateManyWithoutTournamentNestedInput
@@ -33986,6 +49597,9 @@ export namespace Prisma {
     streamPlatform?: NullableEnumStreamPlatformFieldUpdateOperationsInput | $Enums.StreamPlatform | null
     description?: StringFieldUpdateOperationsInput | string
     rules?: TournamentUpdaterulesInput | string[]
+    prizePayoutPaid?: BoolFieldUpdateOperationsInput | boolean
+    prizePayoutPaidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    prizePayoutNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     registrations?: RegistrationUncheckedUpdateManyWithoutTournamentNestedInput
@@ -34025,6 +49639,7 @@ export namespace Prisma {
     aggregateWonMatches?: MatchUpdateManyWithoutAggregateWinnerRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutRegistrationNestedInput
   }
 
   export type RegistrationUncheckedUpdateWithoutLeagueStandingsInput = {
@@ -34048,6 +49663,7 @@ export namespace Prisma {
     aggregateWonMatches?: MatchUncheckedUpdateManyWithoutAggregateWinnerRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutRegistrationNestedInput
   }
 
   export type MatchCreateWithoutResultSubmissionsInput = {
@@ -34076,6 +49692,7 @@ export namespace Prisma {
     legNumber?: number | null
     homeScore?: number | null
     awayScore?: number | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     tournament: TournamentCreateNestedOneWithoutMatchesInput
@@ -34088,6 +49705,8 @@ export namespace Prisma {
     aggregateMatch?: MatchCreateNestedOneWithoutAggregateLegsInput
     aggregateLegs?: MatchCreateNestedManyWithoutAggregateMatchInput
     aggregateWinnerRegistration?: RegistrationCreateNestedOneWithoutAggregateWonMatchesInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutMatchInput
   }
 
   export type MatchUncheckedCreateWithoutResultSubmissionsInput = {
@@ -34125,9 +49744,12 @@ export namespace Prisma {
     awayScore?: number | null
     aggregateMatchId?: string | null
     aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     aggregateLegs?: MatchUncheckedCreateNestedManyWithoutAggregateMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutMatchInput
   }
 
   export type MatchCreateOrConnectWithoutResultSubmissionsInput = {
@@ -34156,6 +49778,7 @@ export namespace Prisma {
     aggregateWonMatches?: MatchCreateNestedManyWithoutAggregateWinnerRegistrationInput
     leagueStandings?: LeagueStandingCreateNestedManyWithoutRegistrationInput
     payments?: PaymentCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationUncheckedCreateWithoutMatchResultSubmissionsInput = {
@@ -34179,6 +49802,7 @@ export namespace Prisma {
     aggregateWonMatches?: MatchUncheckedCreateNestedManyWithoutAggregateWinnerRegistrationInput
     leagueStandings?: LeagueStandingUncheckedCreateNestedManyWithoutRegistrationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationCreateOrConnectWithoutMatchResultSubmissionsInput = {
@@ -34223,6 +49847,7 @@ export namespace Prisma {
     legNumber?: NullableIntFieldUpdateOperationsInput | number | null
     homeScore?: NullableIntFieldUpdateOperationsInput | number | null
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tournament?: TournamentUpdateOneRequiredWithoutMatchesNestedInput
@@ -34235,6 +49860,8 @@ export namespace Prisma {
     aggregateMatch?: MatchUpdateOneWithoutAggregateLegsNestedInput
     aggregateLegs?: MatchUpdateManyWithoutAggregateMatchNestedInput
     aggregateWinnerRegistration?: RegistrationUpdateOneWithoutAggregateWonMatchesNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateWithoutResultSubmissionsInput = {
@@ -34272,9 +49899,12 @@ export namespace Prisma {
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
     aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     aggregateLegs?: MatchUncheckedUpdateManyWithoutAggregateMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutMatchNestedInput
   }
 
   export type RegistrationUpsertWithoutMatchResultSubmissionsInput = {
@@ -34309,6 +49939,7 @@ export namespace Prisma {
     aggregateWonMatches?: MatchUpdateManyWithoutAggregateWinnerRegistrationNestedInput
     leagueStandings?: LeagueStandingUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutRegistrationNestedInput
   }
 
   export type RegistrationUncheckedUpdateWithoutMatchResultSubmissionsInput = {
@@ -34332,6 +49963,7 @@ export namespace Prisma {
     aggregateWonMatches?: MatchUncheckedUpdateManyWithoutAggregateWinnerRegistrationNestedInput
     leagueStandings?: LeagueStandingUncheckedUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutRegistrationNestedInput
   }
 
   export type UserCreateWithoutNotificationsInput = {
@@ -34365,6 +49997,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     rankingHistory?: RankingHistoryCreateNestedManyWithoutUserInput
     achievements?: PlayerAchievementCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingCreateNestedManyWithoutUserInput
+    wallet?: WalletCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -34398,6 +50036,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     rankingHistory?: RankingHistoryUncheckedCreateNestedManyWithoutUserInput
     achievements?: PlayerAchievementUncheckedCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingUncheckedCreateNestedManyWithoutUserInput
+    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionUncheckedCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -34447,6 +50091,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     rankingHistory?: RankingHistoryUpdateManyWithoutUserNestedInput
     achievements?: PlayerAchievementUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUpdateManyWithoutUserNestedInput
+    wallet?: WalletUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -34480,6 +50130,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     rankingHistory?: RankingHistoryUncheckedUpdateManyWithoutUserNestedInput
     achievements?: PlayerAchievementUncheckedUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUncheckedUpdateManyWithoutUserNestedInput
+    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUncheckedUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RegistrationCreateWithoutPaymentsInput = {
@@ -34503,6 +50159,7 @@ export namespace Prisma {
     aggregateWonMatches?: MatchCreateNestedManyWithoutAggregateWinnerRegistrationInput
     leagueStandings?: LeagueStandingCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationUncheckedCreateWithoutPaymentsInput = {
@@ -34526,6 +50183,7 @@ export namespace Prisma {
     aggregateWonMatches?: MatchUncheckedCreateNestedManyWithoutAggregateWinnerRegistrationInput
     leagueStandings?: LeagueStandingUncheckedCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationCreateOrConnectWithoutPaymentsInput = {
@@ -34565,6 +50223,7 @@ export namespace Prisma {
     aggregateWonMatches?: MatchUpdateManyWithoutAggregateWinnerRegistrationNestedInput
     leagueStandings?: LeagueStandingUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutRegistrationNestedInput
   }
 
   export type RegistrationUncheckedUpdateWithoutPaymentsInput = {
@@ -34588,6 +50247,629 @@ export namespace Prisma {
     aggregateWonMatches?: MatchUncheckedUpdateManyWithoutAggregateWinnerRegistrationNestedInput
     leagueStandings?: LeagueStandingUncheckedUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutRegistrationNestedInput
+  }
+
+  export type UserCreateWithoutWalletInput = {
+    id?: string
+    fullName: string
+    email: string
+    emailVerified?: boolean
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
+    phoneNumber?: string | null
+    whatsappNumber?: string | null
+    gamerTag?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    totalPoints?: number
+    totalWins?: number
+    totalLosses?: number
+    totalDraws?: number
+    tournamentsPlayed?: number
+    tournamentsWon?: number
+    currentRank?: number | null
+    favoriteGame?: $Enums.GameTitle | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    registrations?: RegistrationCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    refereeMatches?: MatchCreateNestedManyWithoutRefereeInput
+    captainTeams?: TeamCreateNestedManyWithoutCaptainInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    rankingHistory?: RankingHistoryCreateNestedManyWithoutUserInput
+    achievements?: PlayerAchievementCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingCreateNestedManyWithoutUserInput
+    walletTransactions?: WalletTransactionCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutWalletInput = {
+    id?: string
+    fullName: string
+    email: string
+    emailVerified?: boolean
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
+    phoneNumber?: string | null
+    whatsappNumber?: string | null
+    gamerTag?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    totalPoints?: number
+    totalWins?: number
+    totalLosses?: number
+    totalDraws?: number
+    tournamentsPlayed?: number
+    tournamentsWon?: number
+    currentRank?: number | null
+    favoriteGame?: $Enums.GameTitle | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    registrations?: RegistrationUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    refereeMatches?: MatchUncheckedCreateNestedManyWithoutRefereeInput
+    captainTeams?: TeamUncheckedCreateNestedManyWithoutCaptainInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    rankingHistory?: RankingHistoryUncheckedCreateNestedManyWithoutUserInput
+    achievements?: PlayerAchievementUncheckedCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingUncheckedCreateNestedManyWithoutUserInput
+    walletTransactions?: WalletTransactionUncheckedCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutWalletInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutWalletInput, UserUncheckedCreateWithoutWalletInput>
+  }
+
+  export type WalletTransactionCreateWithoutWalletInput = {
+    id?: string
+    type: $Enums.WalletTransactionType
+    amount: number
+    balanceAfter: number
+    description: string
+    reference?: string | null
+    registrationId?: string | null
+    tournamentId?: string | null
+    adminName?: string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutWalletTransactionsInput
+  }
+
+  export type WalletTransactionUncheckedCreateWithoutWalletInput = {
+    id?: string
+    userId: string
+    type: $Enums.WalletTransactionType
+    amount: number
+    balanceAfter: number
+    description: string
+    reference?: string | null
+    registrationId?: string | null
+    tournamentId?: string | null
+    adminName?: string | null
+    createdAt?: Date | string
+  }
+
+  export type WalletTransactionCreateOrConnectWithoutWalletInput = {
+    where: WalletTransactionWhereUniqueInput
+    create: XOR<WalletTransactionCreateWithoutWalletInput, WalletTransactionUncheckedCreateWithoutWalletInput>
+  }
+
+  export type WalletTransactionCreateManyWalletInputEnvelope = {
+    data: WalletTransactionCreateManyWalletInput | WalletTransactionCreateManyWalletInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutWalletInput = {
+    update: XOR<UserUpdateWithoutWalletInput, UserUncheckedUpdateWithoutWalletInput>
+    create: XOR<UserCreateWithoutWalletInput, UserUncheckedCreateWithoutWalletInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutWalletInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutWalletInput, UserUncheckedUpdateWithoutWalletInput>
+  }
+
+  export type UserUpdateWithoutWalletInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    totalWins?: IntFieldUpdateOperationsInput | number
+    totalLosses?: IntFieldUpdateOperationsInput | number
+    totalDraws?: IntFieldUpdateOperationsInput | number
+    tournamentsPlayed?: IntFieldUpdateOperationsInput | number
+    tournamentsWon?: IntFieldUpdateOperationsInput | number
+    currentRank?: NullableIntFieldUpdateOperationsInput | number | null
+    favoriteGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrations?: RegistrationUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    refereeMatches?: MatchUpdateManyWithoutRefereeNestedInput
+    captainTeams?: TeamUpdateManyWithoutCaptainNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    rankingHistory?: RankingHistoryUpdateManyWithoutUserNestedInput
+    achievements?: PlayerAchievementUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUpdateManyWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutWalletInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    totalWins?: IntFieldUpdateOperationsInput | number
+    totalLosses?: IntFieldUpdateOperationsInput | number
+    totalDraws?: IntFieldUpdateOperationsInput | number
+    tournamentsPlayed?: IntFieldUpdateOperationsInput | number
+    tournamentsWon?: IntFieldUpdateOperationsInput | number
+    currentRank?: NullableIntFieldUpdateOperationsInput | number | null
+    favoriteGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrations?: RegistrationUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    refereeMatches?: MatchUncheckedUpdateManyWithoutRefereeNestedInput
+    captainTeams?: TeamUncheckedUpdateManyWithoutCaptainNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    rankingHistory?: RankingHistoryUncheckedUpdateManyWithoutUserNestedInput
+    achievements?: PlayerAchievementUncheckedUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUncheckedUpdateManyWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUncheckedUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type WalletTransactionUpsertWithWhereUniqueWithoutWalletInput = {
+    where: WalletTransactionWhereUniqueInput
+    update: XOR<WalletTransactionUpdateWithoutWalletInput, WalletTransactionUncheckedUpdateWithoutWalletInput>
+    create: XOR<WalletTransactionCreateWithoutWalletInput, WalletTransactionUncheckedCreateWithoutWalletInput>
+  }
+
+  export type WalletTransactionUpdateWithWhereUniqueWithoutWalletInput = {
+    where: WalletTransactionWhereUniqueInput
+    data: XOR<WalletTransactionUpdateWithoutWalletInput, WalletTransactionUncheckedUpdateWithoutWalletInput>
+  }
+
+  export type WalletTransactionUpdateManyWithWhereWithoutWalletInput = {
+    where: WalletTransactionScalarWhereInput
+    data: XOR<WalletTransactionUpdateManyMutationInput, WalletTransactionUncheckedUpdateManyWithoutWalletInput>
+  }
+
+  export type WalletCreateWithoutTransactionsInput = {
+    id?: string
+    balance?: number
+    currency?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutWalletInput
+  }
+
+  export type WalletUncheckedCreateWithoutTransactionsInput = {
+    id?: string
+    userId: string
+    balance?: number
+    currency?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WalletCreateOrConnectWithoutTransactionsInput = {
+    where: WalletWhereUniqueInput
+    create: XOR<WalletCreateWithoutTransactionsInput, WalletUncheckedCreateWithoutTransactionsInput>
+  }
+
+  export type UserCreateWithoutWalletTransactionsInput = {
+    id?: string
+    fullName: string
+    email: string
+    emailVerified?: boolean
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
+    phoneNumber?: string | null
+    whatsappNumber?: string | null
+    gamerTag?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    totalPoints?: number
+    totalWins?: number
+    totalLosses?: number
+    totalDraws?: number
+    tournamentsPlayed?: number
+    tournamentsWon?: number
+    currentRank?: number | null
+    favoriteGame?: $Enums.GameTitle | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    registrations?: RegistrationCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    refereeMatches?: MatchCreateNestedManyWithoutRefereeInput
+    captainTeams?: TeamCreateNestedManyWithoutCaptainInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    rankingHistory?: RankingHistoryCreateNestedManyWithoutUserInput
+    achievements?: PlayerAchievementCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingCreateNestedManyWithoutUserInput
+    wallet?: WalletCreateNestedOneWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutWalletTransactionsInput = {
+    id?: string
+    fullName: string
+    email: string
+    emailVerified?: boolean
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
+    phoneNumber?: string | null
+    whatsappNumber?: string | null
+    gamerTag?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    totalPoints?: number
+    totalWins?: number
+    totalLosses?: number
+    totalDraws?: number
+    tournamentsPlayed?: number
+    tournamentsWon?: number
+    currentRank?: number | null
+    favoriteGame?: $Enums.GameTitle | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    registrations?: RegistrationUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    refereeMatches?: MatchUncheckedCreateNestedManyWithoutRefereeInput
+    captainTeams?: TeamUncheckedCreateNestedManyWithoutCaptainInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    rankingHistory?: RankingHistoryUncheckedCreateNestedManyWithoutUserInput
+    achievements?: PlayerAchievementUncheckedCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingUncheckedCreateNestedManyWithoutUserInput
+    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutWalletTransactionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutWalletTransactionsInput, UserUncheckedCreateWithoutWalletTransactionsInput>
+  }
+
+  export type WalletUpsertWithoutTransactionsInput = {
+    update: XOR<WalletUpdateWithoutTransactionsInput, WalletUncheckedUpdateWithoutTransactionsInput>
+    create: XOR<WalletCreateWithoutTransactionsInput, WalletUncheckedCreateWithoutTransactionsInput>
+    where?: WalletWhereInput
+  }
+
+  export type WalletUpdateToOneWithWhereWithoutTransactionsInput = {
+    where?: WalletWhereInput
+    data: XOR<WalletUpdateWithoutTransactionsInput, WalletUncheckedUpdateWithoutTransactionsInput>
+  }
+
+  export type WalletUpdateWithoutTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    balance?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutWalletNestedInput
+  }
+
+  export type WalletUncheckedUpdateWithoutTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    balance?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithoutWalletTransactionsInput = {
+    update: XOR<UserUpdateWithoutWalletTransactionsInput, UserUncheckedUpdateWithoutWalletTransactionsInput>
+    create: XOR<UserCreateWithoutWalletTransactionsInput, UserUncheckedCreateWithoutWalletTransactionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutWalletTransactionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutWalletTransactionsInput, UserUncheckedUpdateWithoutWalletTransactionsInput>
+  }
+
+  export type UserUpdateWithoutWalletTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    totalWins?: IntFieldUpdateOperationsInput | number
+    totalLosses?: IntFieldUpdateOperationsInput | number
+    totalDraws?: IntFieldUpdateOperationsInput | number
+    tournamentsPlayed?: IntFieldUpdateOperationsInput | number
+    tournamentsWon?: IntFieldUpdateOperationsInput | number
+    currentRank?: NullableIntFieldUpdateOperationsInput | number | null
+    favoriteGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrations?: RegistrationUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    refereeMatches?: MatchUpdateManyWithoutRefereeNestedInput
+    captainTeams?: TeamUpdateManyWithoutCaptainNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    rankingHistory?: RankingHistoryUpdateManyWithoutUserNestedInput
+    achievements?: PlayerAchievementUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUpdateManyWithoutUserNestedInput
+    wallet?: WalletUpdateOneWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutWalletTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    totalWins?: IntFieldUpdateOperationsInput | number
+    totalLosses?: IntFieldUpdateOperationsInput | number
+    totalDraws?: IntFieldUpdateOperationsInput | number
+    tournamentsPlayed?: IntFieldUpdateOperationsInput | number
+    tournamentsWon?: IntFieldUpdateOperationsInput | number
+    currentRank?: NullableIntFieldUpdateOperationsInput | number | null
+    favoriteGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrations?: RegistrationUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    refereeMatches?: MatchUncheckedUpdateManyWithoutRefereeNestedInput
+    captainTeams?: TeamUncheckedUpdateManyWithoutCaptainNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    rankingHistory?: RankingHistoryUncheckedUpdateManyWithoutUserNestedInput
+    achievements?: PlayerAchievementUncheckedUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUncheckedUpdateManyWithoutUserNestedInput
+    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutWalletFundingRequestsInput = {
+    id?: string
+    fullName: string
+    email: string
+    emailVerified?: boolean
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
+    phoneNumber?: string | null
+    whatsappNumber?: string | null
+    gamerTag?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    totalPoints?: number
+    totalWins?: number
+    totalLosses?: number
+    totalDraws?: number
+    tournamentsPlayed?: number
+    tournamentsWon?: number
+    currentRank?: number | null
+    favoriteGame?: $Enums.GameTitle | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    registrations?: RegistrationCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    refereeMatches?: MatchCreateNestedManyWithoutRefereeInput
+    captainTeams?: TeamCreateNestedManyWithoutCaptainInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    rankingHistory?: RankingHistoryCreateNestedManyWithoutUserInput
+    achievements?: PlayerAchievementCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingCreateNestedManyWithoutUserInput
+    wallet?: WalletCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutWalletFundingRequestsInput = {
+    id?: string
+    fullName: string
+    email: string
+    emailVerified?: boolean
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
+    phoneNumber?: string | null
+    whatsappNumber?: string | null
+    gamerTag?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    totalPoints?: number
+    totalWins?: number
+    totalLosses?: number
+    totalDraws?: number
+    tournamentsPlayed?: number
+    tournamentsWon?: number
+    currentRank?: number | null
+    favoriteGame?: $Enums.GameTitle | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    registrations?: RegistrationUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    refereeMatches?: MatchUncheckedCreateNestedManyWithoutRefereeInput
+    captainTeams?: TeamUncheckedCreateNestedManyWithoutCaptainInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    rankingHistory?: RankingHistoryUncheckedCreateNestedManyWithoutUserInput
+    achievements?: PlayerAchievementUncheckedCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingUncheckedCreateNestedManyWithoutUserInput
+    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutWalletFundingRequestsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutWalletFundingRequestsInput, UserUncheckedCreateWithoutWalletFundingRequestsInput>
+  }
+
+  export type UserUpsertWithoutWalletFundingRequestsInput = {
+    update: XOR<UserUpdateWithoutWalletFundingRequestsInput, UserUncheckedUpdateWithoutWalletFundingRequestsInput>
+    create: XOR<UserCreateWithoutWalletFundingRequestsInput, UserUncheckedCreateWithoutWalletFundingRequestsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutWalletFundingRequestsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutWalletFundingRequestsInput, UserUncheckedUpdateWithoutWalletFundingRequestsInput>
+  }
+
+  export type UserUpdateWithoutWalletFundingRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    totalWins?: IntFieldUpdateOperationsInput | number
+    totalLosses?: IntFieldUpdateOperationsInput | number
+    totalDraws?: IntFieldUpdateOperationsInput | number
+    tournamentsPlayed?: IntFieldUpdateOperationsInput | number
+    tournamentsWon?: IntFieldUpdateOperationsInput | number
+    currentRank?: NullableIntFieldUpdateOperationsInput | number | null
+    favoriteGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrations?: RegistrationUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    refereeMatches?: MatchUpdateManyWithoutRefereeNestedInput
+    captainTeams?: TeamUpdateManyWithoutCaptainNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    rankingHistory?: RankingHistoryUpdateManyWithoutUserNestedInput
+    achievements?: PlayerAchievementUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUpdateManyWithoutUserNestedInput
+    wallet?: WalletUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutWalletFundingRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    totalWins?: IntFieldUpdateOperationsInput | number
+    totalLosses?: IntFieldUpdateOperationsInput | number
+    totalDraws?: IntFieldUpdateOperationsInput | number
+    tournamentsPlayed?: IntFieldUpdateOperationsInput | number
+    tournamentsWon?: IntFieldUpdateOperationsInput | number
+    currentRank?: NullableIntFieldUpdateOperationsInput | number | null
+    favoriteGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrations?: RegistrationUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    refereeMatches?: MatchUncheckedUpdateManyWithoutRefereeNestedInput
+    captainTeams?: TeamUncheckedUpdateManyWithoutCaptainNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    rankingHistory?: RankingHistoryUncheckedUpdateManyWithoutUserNestedInput
+    achievements?: PlayerAchievementUncheckedUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUncheckedUpdateManyWithoutUserNestedInput
+    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RankingHistoryCreateWithoutSeasonInput = {
@@ -34667,6 +50949,12 @@ export namespace Prisma {
     captainTeams?: TeamCreateNestedManyWithoutCaptainInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     achievements?: PlayerAchievementCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingCreateNestedManyWithoutUserInput
+    wallet?: WalletCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRankingHistoryInput = {
@@ -34700,6 +50988,12 @@ export namespace Prisma {
     captainTeams?: TeamUncheckedCreateNestedManyWithoutCaptainInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     achievements?: PlayerAchievementUncheckedCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingUncheckedCreateNestedManyWithoutUserInput
+    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionUncheckedCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRankingHistoryInput = {
@@ -34774,6 +51068,12 @@ export namespace Prisma {
     captainTeams?: TeamUpdateManyWithoutCaptainNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     achievements?: PlayerAchievementUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUpdateManyWithoutUserNestedInput
+    wallet?: WalletUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRankingHistoryInput = {
@@ -34807,6 +51107,12 @@ export namespace Prisma {
     captainTeams?: TeamUncheckedUpdateManyWithoutCaptainNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     achievements?: PlayerAchievementUncheckedUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUncheckedUpdateManyWithoutUserNestedInput
+    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUncheckedUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LeaderboardSeasonUpsertWithoutHistoryInput = {
@@ -34909,6 +51215,12 @@ export namespace Prisma {
     captainTeams?: TeamCreateNestedManyWithoutCaptainInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     rankingHistory?: RankingHistoryCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingCreateNestedManyWithoutUserInput
+    wallet?: WalletCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAchievementsInput = {
@@ -34942,6 +51254,12 @@ export namespace Prisma {
     captainTeams?: TeamUncheckedCreateNestedManyWithoutCaptainInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     rankingHistory?: RankingHistoryUncheckedCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingUncheckedCreateNestedManyWithoutUserInput
+    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionUncheckedCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAchievementsInput = {
@@ -35014,6 +51332,12 @@ export namespace Prisma {
     captainTeams?: TeamUpdateManyWithoutCaptainNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     rankingHistory?: RankingHistoryUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUpdateManyWithoutUserNestedInput
+    wallet?: WalletUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAchievementsInput = {
@@ -35047,6 +51371,12 @@ export namespace Prisma {
     captainTeams?: TeamUncheckedUpdateManyWithoutCaptainNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     rankingHistory?: RankingHistoryUncheckedUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUncheckedUpdateManyWithoutUserNestedInput
+    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUncheckedUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AchievementUpsertWithoutPlayersInput = {
@@ -35109,6 +51439,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     rankingHistory?: RankingHistoryCreateNestedManyWithoutUserInput
     achievements?: PlayerAchievementCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingCreateNestedManyWithoutUserInput
+    wallet?: WalletCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCaptainTeamsInput = {
@@ -35142,6 +51478,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     rankingHistory?: RankingHistoryUncheckedCreateNestedManyWithoutUserInput
     achievements?: PlayerAchievementUncheckedCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingUncheckedCreateNestedManyWithoutUserInput
+    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionUncheckedCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCaptainTeamsInput = {
@@ -35196,6 +51538,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutRegistrationInput
     payments?: PaymentCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationUncheckedCreateWithoutTeamInput = {
@@ -35219,6 +51562,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUncheckedCreateNestedManyWithoutRegistrationInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutRegistrationInput
     payments?: PaymentUncheckedCreateNestedManyWithoutRegistrationInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutRegistrationInput
   }
 
   export type RegistrationCreateOrConnectWithoutTeamInput = {
@@ -35228,6 +51572,38 @@ export namespace Prisma {
 
   export type RegistrationCreateManyTeamInputEnvelope = {
     data: RegistrationCreateManyTeamInput | RegistrationCreateManyTeamInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TeamMatchLineupCreateWithoutTeamInput = {
+    id?: string
+    memberUserIds: JsonNullValueInput | InputJsonValue
+    representativeUserId: string
+    submittedByUserId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    match: MatchCreateNestedOneWithoutTeamLineupsInput
+    registration: RegistrationCreateNestedOneWithoutTeamLineupsInput
+  }
+
+  export type TeamMatchLineupUncheckedCreateWithoutTeamInput = {
+    id?: string
+    matchId: string
+    registrationId: string
+    memberUserIds: JsonNullValueInput | InputJsonValue
+    representativeUserId: string
+    submittedByUserId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TeamMatchLineupCreateOrConnectWithoutTeamInput = {
+    where: TeamMatchLineupWhereUniqueInput
+    create: XOR<TeamMatchLineupCreateWithoutTeamInput, TeamMatchLineupUncheckedCreateWithoutTeamInput>
+  }
+
+  export type TeamMatchLineupCreateManyTeamInputEnvelope = {
+    data: TeamMatchLineupCreateManyTeamInput | TeamMatchLineupCreateManyTeamInput[]
     skipDuplicates?: boolean
   }
 
@@ -35273,6 +51649,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     rankingHistory?: RankingHistoryUpdateManyWithoutUserNestedInput
     achievements?: PlayerAchievementUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUpdateManyWithoutUserNestedInput
+    wallet?: WalletUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCaptainTeamsInput = {
@@ -35306,6 +51688,12 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     rankingHistory?: RankingHistoryUncheckedUpdateManyWithoutUserNestedInput
     achievements?: PlayerAchievementUncheckedUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUncheckedUpdateManyWithoutUserNestedInput
+    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUncheckedUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
@@ -35340,6 +51728,22 @@ export namespace Prisma {
     data: XOR<RegistrationUpdateManyMutationInput, RegistrationUncheckedUpdateManyWithoutTeamInput>
   }
 
+  export type TeamMatchLineupUpsertWithWhereUniqueWithoutTeamInput = {
+    where: TeamMatchLineupWhereUniqueInput
+    update: XOR<TeamMatchLineupUpdateWithoutTeamInput, TeamMatchLineupUncheckedUpdateWithoutTeamInput>
+    create: XOR<TeamMatchLineupCreateWithoutTeamInput, TeamMatchLineupUncheckedCreateWithoutTeamInput>
+  }
+
+  export type TeamMatchLineupUpdateWithWhereUniqueWithoutTeamInput = {
+    where: TeamMatchLineupWhereUniqueInput
+    data: XOR<TeamMatchLineupUpdateWithoutTeamInput, TeamMatchLineupUncheckedUpdateWithoutTeamInput>
+  }
+
+  export type TeamMatchLineupUpdateManyWithWhereWithoutTeamInput = {
+    where: TeamMatchLineupScalarWhereInput
+    data: XOR<TeamMatchLineupUpdateManyMutationInput, TeamMatchLineupUncheckedUpdateManyWithoutTeamInput>
+  }
+
   export type TeamCreateWithoutMembersInput = {
     id?: string
     name: string
@@ -35351,6 +51755,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     captain: UserCreateNestedOneWithoutCaptainTeamsInput
     registrations?: RegistrationCreateNestedManyWithoutTeamInput
+    matchLineups?: TeamMatchLineupCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutMembersInput = {
@@ -35364,6 +51769,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     registrations?: RegistrationUncheckedCreateNestedManyWithoutTeamInput
+    matchLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutMembersInput = {
@@ -35402,6 +51808,12 @@ export namespace Prisma {
     captainTeams?: TeamCreateNestedManyWithoutCaptainInput
     rankingHistory?: RankingHistoryCreateNestedManyWithoutUserInput
     achievements?: PlayerAchievementCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingCreateNestedManyWithoutUserInput
+    wallet?: WalletCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTeamMembershipsInput = {
@@ -35435,6 +51847,12 @@ export namespace Prisma {
     captainTeams?: TeamUncheckedCreateNestedManyWithoutCaptainInput
     rankingHistory?: RankingHistoryUncheckedCreateNestedManyWithoutUserInput
     achievements?: PlayerAchievementUncheckedCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingUncheckedCreateNestedManyWithoutUserInput
+    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionUncheckedCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTeamMembershipsInput = {
@@ -35464,6 +51882,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     captain?: UserUpdateOneRequiredWithoutCaptainTeamsNestedInput
     registrations?: RegistrationUpdateManyWithoutTeamNestedInput
+    matchLineups?: TeamMatchLineupUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutMembersInput = {
@@ -35477,6 +51896,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     registrations?: RegistrationUncheckedUpdateManyWithoutTeamNestedInput
+    matchLineups?: TeamMatchLineupUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type UserUpsertWithoutTeamMembershipsInput = {
@@ -35521,6 +51941,12 @@ export namespace Prisma {
     captainTeams?: TeamUpdateManyWithoutCaptainNestedInput
     rankingHistory?: RankingHistoryUpdateManyWithoutUserNestedInput
     achievements?: PlayerAchievementUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUpdateManyWithoutUserNestedInput
+    wallet?: WalletUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTeamMembershipsInput = {
@@ -35554,6 +51980,384 @@ export namespace Prisma {
     captainTeams?: TeamUncheckedUpdateManyWithoutCaptainNestedInput
     rankingHistory?: RankingHistoryUncheckedUpdateManyWithoutUserNestedInput
     achievements?: PlayerAchievementUncheckedUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUncheckedUpdateManyWithoutUserNestedInput
+    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUncheckedUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type MatchCreateWithoutTeamLineupsInput = {
+    id?: string
+    round: number
+    groupName?: string | null
+    playerOneScore?: number | null
+    playerTwoScore?: number | null
+    status?: $Enums.MatchStatus
+    liveStatus?: $Enums.MatchLiveStatus
+    livePlayerOneScore?: number
+    livePlayerTwoScore?: number
+    liveHomeScore?: number
+    liveAwayScore?: number
+    liveStartedAt?: Date | string | null
+    liveEndedAt?: Date | string | null
+    scheduledAt?: Date | string | null
+    livestreamUrl?: string | null
+    streamMode?: $Enums.MatchStreamMode
+    playerStreamUrl?: string | null
+    officialStreamUrl?: string | null
+    featuredLive?: boolean
+    roomCode?: string | null
+    roomPassword?: string | null
+    spectatorNote?: string | null
+    legNumber?: number | null
+    homeScore?: number | null
+    awayScore?: number | null
+    penaltyRatingApplied?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tournament: TournamentCreateNestedOneWithoutMatchesInput
+    referee?: UserCreateNestedOneWithoutRefereeMatchesInput
+    playerOneRegistration?: RegistrationCreateNestedOneWithoutPlayerOneMatchesInput
+    playerTwoRegistration?: RegistrationCreateNestedOneWithoutPlayerTwoMatchesInput
+    winnerRegistration?: RegistrationCreateNestedOneWithoutWonMatchesInput
+    homeRegistration?: RegistrationCreateNestedOneWithoutHomeMatchesInput
+    awayRegistration?: RegistrationCreateNestedOneWithoutAwayMatchesInput
+    aggregateMatch?: MatchCreateNestedOneWithoutAggregateLegsInput
+    aggregateLegs?: MatchCreateNestedManyWithoutAggregateMatchInput
+    aggregateWinnerRegistration?: RegistrationCreateNestedOneWithoutAggregateWonMatchesInput
+    resultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutMatchInput
+  }
+
+  export type MatchUncheckedCreateWithoutTeamLineupsInput = {
+    id?: string
+    tournamentId: string
+    round: number
+    groupName?: string | null
+    playerOneRegistrationId?: string | null
+    playerTwoRegistrationId?: string | null
+    playerOneScore?: number | null
+    playerTwoScore?: number | null
+    winnerRegistrationId?: string | null
+    status?: $Enums.MatchStatus
+    liveStatus?: $Enums.MatchLiveStatus
+    refereeId?: string | null
+    livePlayerOneScore?: number
+    livePlayerTwoScore?: number
+    liveHomeScore?: number
+    liveAwayScore?: number
+    liveStartedAt?: Date | string | null
+    liveEndedAt?: Date | string | null
+    scheduledAt?: Date | string | null
+    livestreamUrl?: string | null
+    streamMode?: $Enums.MatchStreamMode
+    playerStreamUrl?: string | null
+    officialStreamUrl?: string | null
+    featuredLive?: boolean
+    roomCode?: string | null
+    roomPassword?: string | null
+    spectatorNote?: string | null
+    legNumber?: number | null
+    homeRegistrationId?: string | null
+    awayRegistrationId?: string | null
+    homeScore?: number | null
+    awayScore?: number | null
+    aggregateMatchId?: string | null
+    aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    aggregateLegs?: MatchUncheckedCreateNestedManyWithoutAggregateMatchInput
+    resultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutMatchInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutMatchInput
+  }
+
+  export type MatchCreateOrConnectWithoutTeamLineupsInput = {
+    where: MatchWhereUniqueInput
+    create: XOR<MatchCreateWithoutTeamLineupsInput, MatchUncheckedCreateWithoutTeamLineupsInput>
+  }
+
+  export type RegistrationCreateWithoutTeamLineupsInput = {
+    id?: string
+    platformId: string
+    paymentStatus?: $Enums.PaymentStatus
+    approvalStatus?: $Enums.ApprovalStatus
+    proofOfPaymentText?: string | null
+    adminNote?: string | null
+    agreedToRules?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutRegistrationsInput
+    tournament: TournamentCreateNestedOneWithoutRegistrationsInput
+    team?: TeamCreateNestedOneWithoutRegistrationsInput
+    playerOneMatches?: MatchCreateNestedManyWithoutPlayerOneRegistrationInput
+    playerTwoMatches?: MatchCreateNestedManyWithoutPlayerTwoRegistrationInput
+    wonMatches?: MatchCreateNestedManyWithoutWinnerRegistrationInput
+    homeMatches?: MatchCreateNestedManyWithoutHomeRegistrationInput
+    awayMatches?: MatchCreateNestedManyWithoutAwayRegistrationInput
+    aggregateWonMatches?: MatchCreateNestedManyWithoutAggregateWinnerRegistrationInput
+    leagueStandings?: LeagueStandingCreateNestedManyWithoutRegistrationInput
+    matchResultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutRegistrationInput
+    payments?: PaymentCreateNestedManyWithoutRegistrationInput
+  }
+
+  export type RegistrationUncheckedCreateWithoutTeamLineupsInput = {
+    id?: string
+    userId: string
+    tournamentId: string
+    teamId?: string | null
+    platformId: string
+    paymentStatus?: $Enums.PaymentStatus
+    approvalStatus?: $Enums.ApprovalStatus
+    proofOfPaymentText?: string | null
+    adminNote?: string | null
+    agreedToRules?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    playerOneMatches?: MatchUncheckedCreateNestedManyWithoutPlayerOneRegistrationInput
+    playerTwoMatches?: MatchUncheckedCreateNestedManyWithoutPlayerTwoRegistrationInput
+    wonMatches?: MatchUncheckedCreateNestedManyWithoutWinnerRegistrationInput
+    homeMatches?: MatchUncheckedCreateNestedManyWithoutHomeRegistrationInput
+    awayMatches?: MatchUncheckedCreateNestedManyWithoutAwayRegistrationInput
+    aggregateWonMatches?: MatchUncheckedCreateNestedManyWithoutAggregateWinnerRegistrationInput
+    leagueStandings?: LeagueStandingUncheckedCreateNestedManyWithoutRegistrationInput
+    matchResultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutRegistrationInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutRegistrationInput
+  }
+
+  export type RegistrationCreateOrConnectWithoutTeamLineupsInput = {
+    where: RegistrationWhereUniqueInput
+    create: XOR<RegistrationCreateWithoutTeamLineupsInput, RegistrationUncheckedCreateWithoutTeamLineupsInput>
+  }
+
+  export type TeamCreateWithoutMatchLineupsInput = {
+    id?: string
+    name: string
+    tag: string
+    logoUrl?: string | null
+    game: $Enums.GameTitle
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    captain: UserCreateNestedOneWithoutCaptainTeamsInput
+    members?: TeamMemberCreateNestedManyWithoutTeamInput
+    registrations?: RegistrationCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamUncheckedCreateWithoutMatchLineupsInput = {
+    id?: string
+    name: string
+    tag: string
+    logoUrl?: string | null
+    captainId: string
+    game: $Enums.GameTitle
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
+    registrations?: RegistrationUncheckedCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamCreateOrConnectWithoutMatchLineupsInput = {
+    where: TeamWhereUniqueInput
+    create: XOR<TeamCreateWithoutMatchLineupsInput, TeamUncheckedCreateWithoutMatchLineupsInput>
+  }
+
+  export type MatchUpsertWithoutTeamLineupsInput = {
+    update: XOR<MatchUpdateWithoutTeamLineupsInput, MatchUncheckedUpdateWithoutTeamLineupsInput>
+    create: XOR<MatchCreateWithoutTeamLineupsInput, MatchUncheckedCreateWithoutTeamLineupsInput>
+    where?: MatchWhereInput
+  }
+
+  export type MatchUpdateToOneWithWhereWithoutTeamLineupsInput = {
+    where?: MatchWhereInput
+    data: XOR<MatchUpdateWithoutTeamLineupsInput, MatchUncheckedUpdateWithoutTeamLineupsInput>
+  }
+
+  export type MatchUpdateWithoutTeamLineupsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    round?: IntFieldUpdateOperationsInput | number
+    groupName?: NullableStringFieldUpdateOperationsInput | string | null
+    playerOneScore?: NullableIntFieldUpdateOperationsInput | number | null
+    playerTwoScore?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumMatchStatusFieldUpdateOperationsInput | $Enums.MatchStatus
+    liveStatus?: EnumMatchLiveStatusFieldUpdateOperationsInput | $Enums.MatchLiveStatus
+    livePlayerOneScore?: IntFieldUpdateOperationsInput | number
+    livePlayerTwoScore?: IntFieldUpdateOperationsInput | number
+    liveHomeScore?: IntFieldUpdateOperationsInput | number
+    liveAwayScore?: IntFieldUpdateOperationsInput | number
+    liveStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    liveEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    livestreamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    streamMode?: EnumMatchStreamModeFieldUpdateOperationsInput | $Enums.MatchStreamMode
+    playerStreamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    officialStreamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredLive?: BoolFieldUpdateOperationsInput | boolean
+    roomCode?: NullableStringFieldUpdateOperationsInput | string | null
+    roomPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    spectatorNote?: NullableStringFieldUpdateOperationsInput | string | null
+    legNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    homeScore?: NullableIntFieldUpdateOperationsInput | number | null
+    awayScore?: NullableIntFieldUpdateOperationsInput | number | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tournament?: TournamentUpdateOneRequiredWithoutMatchesNestedInput
+    referee?: UserUpdateOneWithoutRefereeMatchesNestedInput
+    playerOneRegistration?: RegistrationUpdateOneWithoutPlayerOneMatchesNestedInput
+    playerTwoRegistration?: RegistrationUpdateOneWithoutPlayerTwoMatchesNestedInput
+    winnerRegistration?: RegistrationUpdateOneWithoutWonMatchesNestedInput
+    homeRegistration?: RegistrationUpdateOneWithoutHomeMatchesNestedInput
+    awayRegistration?: RegistrationUpdateOneWithoutAwayMatchesNestedInput
+    aggregateMatch?: MatchUpdateOneWithoutAggregateLegsNestedInput
+    aggregateLegs?: MatchUpdateManyWithoutAggregateMatchNestedInput
+    aggregateWinnerRegistration?: RegistrationUpdateOneWithoutAggregateWonMatchesNestedInput
+    resultSubmissions?: MatchResultSubmissionUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutMatchNestedInput
+  }
+
+  export type MatchUncheckedUpdateWithoutTeamLineupsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tournamentId?: StringFieldUpdateOperationsInput | string
+    round?: IntFieldUpdateOperationsInput | number
+    groupName?: NullableStringFieldUpdateOperationsInput | string | null
+    playerOneRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    playerTwoRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    playerOneScore?: NullableIntFieldUpdateOperationsInput | number | null
+    playerTwoScore?: NullableIntFieldUpdateOperationsInput | number | null
+    winnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMatchStatusFieldUpdateOperationsInput | $Enums.MatchStatus
+    liveStatus?: EnumMatchLiveStatusFieldUpdateOperationsInput | $Enums.MatchLiveStatus
+    refereeId?: NullableStringFieldUpdateOperationsInput | string | null
+    livePlayerOneScore?: IntFieldUpdateOperationsInput | number
+    livePlayerTwoScore?: IntFieldUpdateOperationsInput | number
+    liveHomeScore?: IntFieldUpdateOperationsInput | number
+    liveAwayScore?: IntFieldUpdateOperationsInput | number
+    liveStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    liveEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    livestreamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    streamMode?: EnumMatchStreamModeFieldUpdateOperationsInput | $Enums.MatchStreamMode
+    playerStreamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    officialStreamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredLive?: BoolFieldUpdateOperationsInput | boolean
+    roomCode?: NullableStringFieldUpdateOperationsInput | string | null
+    roomPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    spectatorNote?: NullableStringFieldUpdateOperationsInput | string | null
+    legNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    homeRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    awayRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    homeScore?: NullableIntFieldUpdateOperationsInput | number | null
+    awayScore?: NullableIntFieldUpdateOperationsInput | number | null
+    aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
+    aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    aggregateLegs?: MatchUncheckedUpdateManyWithoutAggregateMatchNestedInput
+    resultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutMatchNestedInput
+  }
+
+  export type RegistrationUpsertWithoutTeamLineupsInput = {
+    update: XOR<RegistrationUpdateWithoutTeamLineupsInput, RegistrationUncheckedUpdateWithoutTeamLineupsInput>
+    create: XOR<RegistrationCreateWithoutTeamLineupsInput, RegistrationUncheckedCreateWithoutTeamLineupsInput>
+    where?: RegistrationWhereInput
+  }
+
+  export type RegistrationUpdateToOneWithWhereWithoutTeamLineupsInput = {
+    where?: RegistrationWhereInput
+    data: XOR<RegistrationUpdateWithoutTeamLineupsInput, RegistrationUncheckedUpdateWithoutTeamLineupsInput>
+  }
+
+  export type RegistrationUpdateWithoutTeamLineupsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    platformId?: StringFieldUpdateOperationsInput | string
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    proofOfPaymentText?: NullableStringFieldUpdateOperationsInput | string | null
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    agreedToRules?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutRegistrationsNestedInput
+    tournament?: TournamentUpdateOneRequiredWithoutRegistrationsNestedInput
+    team?: TeamUpdateOneWithoutRegistrationsNestedInput
+    playerOneMatches?: MatchUpdateManyWithoutPlayerOneRegistrationNestedInput
+    playerTwoMatches?: MatchUpdateManyWithoutPlayerTwoRegistrationNestedInput
+    wonMatches?: MatchUpdateManyWithoutWinnerRegistrationNestedInput
+    homeMatches?: MatchUpdateManyWithoutHomeRegistrationNestedInput
+    awayMatches?: MatchUpdateManyWithoutAwayRegistrationNestedInput
+    aggregateWonMatches?: MatchUpdateManyWithoutAggregateWinnerRegistrationNestedInput
+    leagueStandings?: LeagueStandingUpdateManyWithoutRegistrationNestedInput
+    matchResultSubmissions?: MatchResultSubmissionUpdateManyWithoutRegistrationNestedInput
+    payments?: PaymentUpdateManyWithoutRegistrationNestedInput
+  }
+
+  export type RegistrationUncheckedUpdateWithoutTeamLineupsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    tournamentId?: StringFieldUpdateOperationsInput | string
+    teamId?: NullableStringFieldUpdateOperationsInput | string | null
+    platformId?: StringFieldUpdateOperationsInput | string
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    proofOfPaymentText?: NullableStringFieldUpdateOperationsInput | string | null
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    agreedToRules?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    playerOneMatches?: MatchUncheckedUpdateManyWithoutPlayerOneRegistrationNestedInput
+    playerTwoMatches?: MatchUncheckedUpdateManyWithoutPlayerTwoRegistrationNestedInput
+    wonMatches?: MatchUncheckedUpdateManyWithoutWinnerRegistrationNestedInput
+    homeMatches?: MatchUncheckedUpdateManyWithoutHomeRegistrationNestedInput
+    awayMatches?: MatchUncheckedUpdateManyWithoutAwayRegistrationNestedInput
+    aggregateWonMatches?: MatchUncheckedUpdateManyWithoutAggregateWinnerRegistrationNestedInput
+    leagueStandings?: LeagueStandingUncheckedUpdateManyWithoutRegistrationNestedInput
+    matchResultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutRegistrationNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutRegistrationNestedInput
+  }
+
+  export type TeamUpsertWithoutMatchLineupsInput = {
+    update: XOR<TeamUpdateWithoutMatchLineupsInput, TeamUncheckedUpdateWithoutMatchLineupsInput>
+    create: XOR<TeamCreateWithoutMatchLineupsInput, TeamUncheckedCreateWithoutMatchLineupsInput>
+    where?: TeamWhereInput
+  }
+
+  export type TeamUpdateToOneWithWhereWithoutMatchLineupsInput = {
+    where?: TeamWhereInput
+    data: XOR<TeamUpdateWithoutMatchLineupsInput, TeamUncheckedUpdateWithoutMatchLineupsInput>
+  }
+
+  export type TeamUpdateWithoutMatchLineupsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tag?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    game?: EnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    captain?: UserUpdateOneRequiredWithoutCaptainTeamsNestedInput
+    members?: TeamMemberUpdateManyWithoutTeamNestedInput
+    registrations?: RegistrationUpdateManyWithoutTeamNestedInput
+  }
+
+  export type TeamUncheckedUpdateWithoutMatchLineupsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tag?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    captainId?: StringFieldUpdateOperationsInput | string
+    game?: EnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+    registrations?: RegistrationUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TournamentCreateWithoutAutomationSettingInput = {
@@ -35579,6 +52383,9 @@ export namespace Prisma {
     streamPlatform?: $Enums.StreamPlatform | null
     description: string
     rules?: TournamentCreaterulesInput | string[]
+    prizePayoutPaid?: boolean
+    prizePayoutPaidAt?: Date | string | null
+    prizePayoutNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     registrations?: RegistrationCreateNestedManyWithoutTournamentInput
@@ -35609,6 +52416,9 @@ export namespace Prisma {
     streamPlatform?: $Enums.StreamPlatform | null
     description: string
     rules?: TournamentCreaterulesInput | string[]
+    prizePayoutPaid?: boolean
+    prizePayoutPaidAt?: Date | string | null
+    prizePayoutNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     registrations?: RegistrationUncheckedCreateNestedManyWithoutTournamentInput
@@ -35655,6 +52465,9 @@ export namespace Prisma {
     streamPlatform?: NullableEnumStreamPlatformFieldUpdateOperationsInput | $Enums.StreamPlatform | null
     description?: StringFieldUpdateOperationsInput | string
     rules?: TournamentUpdaterulesInput | string[]
+    prizePayoutPaid?: BoolFieldUpdateOperationsInput | boolean
+    prizePayoutPaidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    prizePayoutNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     registrations?: RegistrationUpdateManyWithoutTournamentNestedInput
@@ -35685,11 +52498,828 @@ export namespace Prisma {
     streamPlatform?: NullableEnumStreamPlatformFieldUpdateOperationsInput | $Enums.StreamPlatform | null
     description?: StringFieldUpdateOperationsInput | string
     rules?: TournamentUpdaterulesInput | string[]
+    prizePayoutPaid?: BoolFieldUpdateOperationsInput | boolean
+    prizePayoutPaidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    prizePayoutNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     registrations?: RegistrationUncheckedUpdateManyWithoutTournamentNestedInput
     matches?: MatchUncheckedUpdateManyWithoutTournamentNestedInput
     leagueStandings?: LeagueStandingUncheckedUpdateManyWithoutTournamentNestedInput
+  }
+
+  export type UserCreateWithoutPenaltyShootoutResultsInput = {
+    id?: string
+    fullName: string
+    email: string
+    emailVerified?: boolean
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
+    phoneNumber?: string | null
+    whatsappNumber?: string | null
+    gamerTag?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    totalPoints?: number
+    totalWins?: number
+    totalLosses?: number
+    totalDraws?: number
+    tournamentsPlayed?: number
+    tournamentsWon?: number
+    currentRank?: number | null
+    favoriteGame?: $Enums.GameTitle | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    registrations?: RegistrationCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    refereeMatches?: MatchCreateNestedManyWithoutRefereeInput
+    captainTeams?: TeamCreateNestedManyWithoutCaptainInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    rankingHistory?: RankingHistoryCreateNestedManyWithoutUserInput
+    achievements?: PlayerAchievementCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingCreateNestedManyWithoutUserInput
+    wallet?: WalletCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPenaltyShootoutResultsInput = {
+    id?: string
+    fullName: string
+    email: string
+    emailVerified?: boolean
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
+    phoneNumber?: string | null
+    whatsappNumber?: string | null
+    gamerTag?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    totalPoints?: number
+    totalWins?: number
+    totalLosses?: number
+    totalDraws?: number
+    tournamentsPlayed?: number
+    tournamentsWon?: number
+    currentRank?: number | null
+    favoriteGame?: $Enums.GameTitle | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    registrations?: RegistrationUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    refereeMatches?: MatchUncheckedCreateNestedManyWithoutRefereeInput
+    captainTeams?: TeamUncheckedCreateNestedManyWithoutCaptainInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    rankingHistory?: RankingHistoryUncheckedCreateNestedManyWithoutUserInput
+    achievements?: PlayerAchievementUncheckedCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingUncheckedCreateNestedManyWithoutUserInput
+    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionUncheckedCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPenaltyShootoutResultsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPenaltyShootoutResultsInput, UserUncheckedCreateWithoutPenaltyShootoutResultsInput>
+  }
+
+  export type MatchCreateWithoutPenaltyShootoutResultsInput = {
+    id?: string
+    round: number
+    groupName?: string | null
+    playerOneScore?: number | null
+    playerTwoScore?: number | null
+    status?: $Enums.MatchStatus
+    liveStatus?: $Enums.MatchLiveStatus
+    livePlayerOneScore?: number
+    livePlayerTwoScore?: number
+    liveHomeScore?: number
+    liveAwayScore?: number
+    liveStartedAt?: Date | string | null
+    liveEndedAt?: Date | string | null
+    scheduledAt?: Date | string | null
+    livestreamUrl?: string | null
+    streamMode?: $Enums.MatchStreamMode
+    playerStreamUrl?: string | null
+    officialStreamUrl?: string | null
+    featuredLive?: boolean
+    roomCode?: string | null
+    roomPassword?: string | null
+    spectatorNote?: string | null
+    legNumber?: number | null
+    homeScore?: number | null
+    awayScore?: number | null
+    penaltyRatingApplied?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tournament: TournamentCreateNestedOneWithoutMatchesInput
+    referee?: UserCreateNestedOneWithoutRefereeMatchesInput
+    playerOneRegistration?: RegistrationCreateNestedOneWithoutPlayerOneMatchesInput
+    playerTwoRegistration?: RegistrationCreateNestedOneWithoutPlayerTwoMatchesInput
+    winnerRegistration?: RegistrationCreateNestedOneWithoutWonMatchesInput
+    homeRegistration?: RegistrationCreateNestedOneWithoutHomeMatchesInput
+    awayRegistration?: RegistrationCreateNestedOneWithoutAwayMatchesInput
+    aggregateMatch?: MatchCreateNestedOneWithoutAggregateLegsInput
+    aggregateLegs?: MatchCreateNestedManyWithoutAggregateMatchInput
+    aggregateWinnerRegistration?: RegistrationCreateNestedOneWithoutAggregateWonMatchesInput
+    resultSubmissions?: MatchResultSubmissionCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupCreateNestedManyWithoutMatchInput
+  }
+
+  export type MatchUncheckedCreateWithoutPenaltyShootoutResultsInput = {
+    id?: string
+    tournamentId: string
+    round: number
+    groupName?: string | null
+    playerOneRegistrationId?: string | null
+    playerTwoRegistrationId?: string | null
+    playerOneScore?: number | null
+    playerTwoScore?: number | null
+    winnerRegistrationId?: string | null
+    status?: $Enums.MatchStatus
+    liveStatus?: $Enums.MatchLiveStatus
+    refereeId?: string | null
+    livePlayerOneScore?: number
+    livePlayerTwoScore?: number
+    liveHomeScore?: number
+    liveAwayScore?: number
+    liveStartedAt?: Date | string | null
+    liveEndedAt?: Date | string | null
+    scheduledAt?: Date | string | null
+    livestreamUrl?: string | null
+    streamMode?: $Enums.MatchStreamMode
+    playerStreamUrl?: string | null
+    officialStreamUrl?: string | null
+    featuredLive?: boolean
+    roomCode?: string | null
+    roomPassword?: string | null
+    spectatorNote?: string | null
+    legNumber?: number | null
+    homeRegistrationId?: string | null
+    awayRegistrationId?: string | null
+    homeScore?: number | null
+    awayScore?: number | null
+    aggregateMatchId?: string | null
+    aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    aggregateLegs?: MatchUncheckedCreateNestedManyWithoutAggregateMatchInput
+    resultSubmissions?: MatchResultSubmissionUncheckedCreateNestedManyWithoutMatchInput
+    teamLineups?: TeamMatchLineupUncheckedCreateNestedManyWithoutMatchInput
+  }
+
+  export type MatchCreateOrConnectWithoutPenaltyShootoutResultsInput = {
+    where: MatchWhereUniqueInput
+    create: XOR<MatchCreateWithoutPenaltyShootoutResultsInput, MatchUncheckedCreateWithoutPenaltyShootoutResultsInput>
+  }
+
+  export type UserUpsertWithoutPenaltyShootoutResultsInput = {
+    update: XOR<UserUpdateWithoutPenaltyShootoutResultsInput, UserUncheckedUpdateWithoutPenaltyShootoutResultsInput>
+    create: XOR<UserCreateWithoutPenaltyShootoutResultsInput, UserUncheckedCreateWithoutPenaltyShootoutResultsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPenaltyShootoutResultsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPenaltyShootoutResultsInput, UserUncheckedUpdateWithoutPenaltyShootoutResultsInput>
+  }
+
+  export type UserUpdateWithoutPenaltyShootoutResultsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    totalWins?: IntFieldUpdateOperationsInput | number
+    totalLosses?: IntFieldUpdateOperationsInput | number
+    totalDraws?: IntFieldUpdateOperationsInput | number
+    tournamentsPlayed?: IntFieldUpdateOperationsInput | number
+    tournamentsWon?: IntFieldUpdateOperationsInput | number
+    currentRank?: NullableIntFieldUpdateOperationsInput | number | null
+    favoriteGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrations?: RegistrationUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    refereeMatches?: MatchUpdateManyWithoutRefereeNestedInput
+    captainTeams?: TeamUpdateManyWithoutCaptainNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    rankingHistory?: RankingHistoryUpdateManyWithoutUserNestedInput
+    achievements?: PlayerAchievementUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUpdateManyWithoutUserNestedInput
+    wallet?: WalletUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPenaltyShootoutResultsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    totalWins?: IntFieldUpdateOperationsInput | number
+    totalLosses?: IntFieldUpdateOperationsInput | number
+    totalDraws?: IntFieldUpdateOperationsInput | number
+    tournamentsPlayed?: IntFieldUpdateOperationsInput | number
+    tournamentsWon?: IntFieldUpdateOperationsInput | number
+    currentRank?: NullableIntFieldUpdateOperationsInput | number | null
+    favoriteGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrations?: RegistrationUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    refereeMatches?: MatchUncheckedUpdateManyWithoutRefereeNestedInput
+    captainTeams?: TeamUncheckedUpdateManyWithoutCaptainNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    rankingHistory?: RankingHistoryUncheckedUpdateManyWithoutUserNestedInput
+    achievements?: PlayerAchievementUncheckedUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUncheckedUpdateManyWithoutUserNestedInput
+    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUncheckedUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type MatchUpsertWithoutPenaltyShootoutResultsInput = {
+    update: XOR<MatchUpdateWithoutPenaltyShootoutResultsInput, MatchUncheckedUpdateWithoutPenaltyShootoutResultsInput>
+    create: XOR<MatchCreateWithoutPenaltyShootoutResultsInput, MatchUncheckedCreateWithoutPenaltyShootoutResultsInput>
+    where?: MatchWhereInput
+  }
+
+  export type MatchUpdateToOneWithWhereWithoutPenaltyShootoutResultsInput = {
+    where?: MatchWhereInput
+    data: XOR<MatchUpdateWithoutPenaltyShootoutResultsInput, MatchUncheckedUpdateWithoutPenaltyShootoutResultsInput>
+  }
+
+  export type MatchUpdateWithoutPenaltyShootoutResultsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    round?: IntFieldUpdateOperationsInput | number
+    groupName?: NullableStringFieldUpdateOperationsInput | string | null
+    playerOneScore?: NullableIntFieldUpdateOperationsInput | number | null
+    playerTwoScore?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumMatchStatusFieldUpdateOperationsInput | $Enums.MatchStatus
+    liveStatus?: EnumMatchLiveStatusFieldUpdateOperationsInput | $Enums.MatchLiveStatus
+    livePlayerOneScore?: IntFieldUpdateOperationsInput | number
+    livePlayerTwoScore?: IntFieldUpdateOperationsInput | number
+    liveHomeScore?: IntFieldUpdateOperationsInput | number
+    liveAwayScore?: IntFieldUpdateOperationsInput | number
+    liveStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    liveEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    livestreamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    streamMode?: EnumMatchStreamModeFieldUpdateOperationsInput | $Enums.MatchStreamMode
+    playerStreamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    officialStreamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredLive?: BoolFieldUpdateOperationsInput | boolean
+    roomCode?: NullableStringFieldUpdateOperationsInput | string | null
+    roomPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    spectatorNote?: NullableStringFieldUpdateOperationsInput | string | null
+    legNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    homeScore?: NullableIntFieldUpdateOperationsInput | number | null
+    awayScore?: NullableIntFieldUpdateOperationsInput | number | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tournament?: TournamentUpdateOneRequiredWithoutMatchesNestedInput
+    referee?: UserUpdateOneWithoutRefereeMatchesNestedInput
+    playerOneRegistration?: RegistrationUpdateOneWithoutPlayerOneMatchesNestedInput
+    playerTwoRegistration?: RegistrationUpdateOneWithoutPlayerTwoMatchesNestedInput
+    winnerRegistration?: RegistrationUpdateOneWithoutWonMatchesNestedInput
+    homeRegistration?: RegistrationUpdateOneWithoutHomeMatchesNestedInput
+    awayRegistration?: RegistrationUpdateOneWithoutAwayMatchesNestedInput
+    aggregateMatch?: MatchUpdateOneWithoutAggregateLegsNestedInput
+    aggregateLegs?: MatchUpdateManyWithoutAggregateMatchNestedInput
+    aggregateWinnerRegistration?: RegistrationUpdateOneWithoutAggregateWonMatchesNestedInput
+    resultSubmissions?: MatchResultSubmissionUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutMatchNestedInput
+  }
+
+  export type MatchUncheckedUpdateWithoutPenaltyShootoutResultsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tournamentId?: StringFieldUpdateOperationsInput | string
+    round?: IntFieldUpdateOperationsInput | number
+    groupName?: NullableStringFieldUpdateOperationsInput | string | null
+    playerOneRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    playerTwoRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    playerOneScore?: NullableIntFieldUpdateOperationsInput | number | null
+    playerTwoScore?: NullableIntFieldUpdateOperationsInput | number | null
+    winnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMatchStatusFieldUpdateOperationsInput | $Enums.MatchStatus
+    liveStatus?: EnumMatchLiveStatusFieldUpdateOperationsInput | $Enums.MatchLiveStatus
+    refereeId?: NullableStringFieldUpdateOperationsInput | string | null
+    livePlayerOneScore?: IntFieldUpdateOperationsInput | number
+    livePlayerTwoScore?: IntFieldUpdateOperationsInput | number
+    liveHomeScore?: IntFieldUpdateOperationsInput | number
+    liveAwayScore?: IntFieldUpdateOperationsInput | number
+    liveStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    liveEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    livestreamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    streamMode?: EnumMatchStreamModeFieldUpdateOperationsInput | $Enums.MatchStreamMode
+    playerStreamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    officialStreamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredLive?: BoolFieldUpdateOperationsInput | boolean
+    roomCode?: NullableStringFieldUpdateOperationsInput | string | null
+    roomPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    spectatorNote?: NullableStringFieldUpdateOperationsInput | string | null
+    legNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    homeRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    awayRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    homeScore?: NullableIntFieldUpdateOperationsInput | number | null
+    awayScore?: NullableIntFieldUpdateOperationsInput | number | null
+    aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
+    aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    aggregateLegs?: MatchUncheckedUpdateManyWithoutAggregateMatchNestedInput
+    resultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutMatchNestedInput
+  }
+
+  export type UserCreateWithoutPenaltyTrainingAttemptsInput = {
+    id?: string
+    fullName: string
+    email: string
+    emailVerified?: boolean
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
+    phoneNumber?: string | null
+    whatsappNumber?: string | null
+    gamerTag?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    totalPoints?: number
+    totalWins?: number
+    totalLosses?: number
+    totalDraws?: number
+    tournamentsPlayed?: number
+    tournamentsWon?: number
+    currentRank?: number | null
+    favoriteGame?: $Enums.GameTitle | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    registrations?: RegistrationCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    refereeMatches?: MatchCreateNestedManyWithoutRefereeInput
+    captainTeams?: TeamCreateNestedManyWithoutCaptainInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    rankingHistory?: RankingHistoryCreateNestedManyWithoutUserInput
+    achievements?: PlayerAchievementCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingCreateNestedManyWithoutUserInput
+    wallet?: WalletCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPenaltyTrainingAttemptsInput = {
+    id?: string
+    fullName: string
+    email: string
+    emailVerified?: boolean
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
+    phoneNumber?: string | null
+    whatsappNumber?: string | null
+    gamerTag?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    totalPoints?: number
+    totalWins?: number
+    totalLosses?: number
+    totalDraws?: number
+    tournamentsPlayed?: number
+    tournamentsWon?: number
+    currentRank?: number | null
+    favoriteGame?: $Enums.GameTitle | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    registrations?: RegistrationUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    refereeMatches?: MatchUncheckedCreateNestedManyWithoutRefereeInput
+    captainTeams?: TeamUncheckedCreateNestedManyWithoutCaptainInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    rankingHistory?: RankingHistoryUncheckedCreateNestedManyWithoutUserInput
+    achievements?: PlayerAchievementUncheckedCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutUserInput
+    playerRatings?: PlayerRatingUncheckedCreateNestedManyWithoutUserInput
+    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionUncheckedCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPenaltyTrainingAttemptsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPenaltyTrainingAttemptsInput, UserUncheckedCreateWithoutPenaltyTrainingAttemptsInput>
+  }
+
+  export type UserUpsertWithoutPenaltyTrainingAttemptsInput = {
+    update: XOR<UserUpdateWithoutPenaltyTrainingAttemptsInput, UserUncheckedUpdateWithoutPenaltyTrainingAttemptsInput>
+    create: XOR<UserCreateWithoutPenaltyTrainingAttemptsInput, UserUncheckedCreateWithoutPenaltyTrainingAttemptsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPenaltyTrainingAttemptsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPenaltyTrainingAttemptsInput, UserUncheckedUpdateWithoutPenaltyTrainingAttemptsInput>
+  }
+
+  export type UserUpdateWithoutPenaltyTrainingAttemptsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    totalWins?: IntFieldUpdateOperationsInput | number
+    totalLosses?: IntFieldUpdateOperationsInput | number
+    totalDraws?: IntFieldUpdateOperationsInput | number
+    tournamentsPlayed?: IntFieldUpdateOperationsInput | number
+    tournamentsWon?: IntFieldUpdateOperationsInput | number
+    currentRank?: NullableIntFieldUpdateOperationsInput | number | null
+    favoriteGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrations?: RegistrationUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    refereeMatches?: MatchUpdateManyWithoutRefereeNestedInput
+    captainTeams?: TeamUpdateManyWithoutCaptainNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    rankingHistory?: RankingHistoryUpdateManyWithoutUserNestedInput
+    achievements?: PlayerAchievementUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUpdateManyWithoutUserNestedInput
+    wallet?: WalletUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPenaltyTrainingAttemptsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    totalWins?: IntFieldUpdateOperationsInput | number
+    totalLosses?: IntFieldUpdateOperationsInput | number
+    totalDraws?: IntFieldUpdateOperationsInput | number
+    tournamentsPlayed?: IntFieldUpdateOperationsInput | number
+    tournamentsWon?: IntFieldUpdateOperationsInput | number
+    currentRank?: NullableIntFieldUpdateOperationsInput | number | null
+    favoriteGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrations?: RegistrationUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    refereeMatches?: MatchUncheckedUpdateManyWithoutRefereeNestedInput
+    captainTeams?: TeamUncheckedUpdateManyWithoutCaptainNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    rankingHistory?: RankingHistoryUncheckedUpdateManyWithoutUserNestedInput
+    achievements?: PlayerAchievementUncheckedUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutUserNestedInput
+    playerRatings?: PlayerRatingUncheckedUpdateManyWithoutUserNestedInput
+    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUncheckedUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type PlayerRatingCreateWithoutSeasonInput = {
+    id?: string
+    matchesPlayed?: number
+    wins?: number
+    losses?: number
+    goalsScored?: number
+    goalsConceded?: number
+    currentRating?: number
+    highestRating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPlayerRatingsInput
+  }
+
+  export type PlayerRatingUncheckedCreateWithoutSeasonInput = {
+    id?: string
+    userId: string
+    matchesPlayed?: number
+    wins?: number
+    losses?: number
+    goalsScored?: number
+    goalsConceded?: number
+    currentRating?: number
+    highestRating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PlayerRatingCreateOrConnectWithoutSeasonInput = {
+    where: PlayerRatingWhereUniqueInput
+    create: XOR<PlayerRatingCreateWithoutSeasonInput, PlayerRatingUncheckedCreateWithoutSeasonInput>
+  }
+
+  export type PlayerRatingCreateManySeasonInputEnvelope = {
+    data: PlayerRatingCreateManySeasonInput | PlayerRatingCreateManySeasonInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PlayerRatingUpsertWithWhereUniqueWithoutSeasonInput = {
+    where: PlayerRatingWhereUniqueInput
+    update: XOR<PlayerRatingUpdateWithoutSeasonInput, PlayerRatingUncheckedUpdateWithoutSeasonInput>
+    create: XOR<PlayerRatingCreateWithoutSeasonInput, PlayerRatingUncheckedCreateWithoutSeasonInput>
+  }
+
+  export type PlayerRatingUpdateWithWhereUniqueWithoutSeasonInput = {
+    where: PlayerRatingWhereUniqueInput
+    data: XOR<PlayerRatingUpdateWithoutSeasonInput, PlayerRatingUncheckedUpdateWithoutSeasonInput>
+  }
+
+  export type PlayerRatingUpdateManyWithWhereWithoutSeasonInput = {
+    where: PlayerRatingScalarWhereInput
+    data: XOR<PlayerRatingUpdateManyMutationInput, PlayerRatingUncheckedUpdateManyWithoutSeasonInput>
+  }
+
+  export type UserCreateWithoutPlayerRatingsInput = {
+    id?: string
+    fullName: string
+    email: string
+    emailVerified?: boolean
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
+    phoneNumber?: string | null
+    whatsappNumber?: string | null
+    gamerTag?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    totalPoints?: number
+    totalWins?: number
+    totalLosses?: number
+    totalDraws?: number
+    tournamentsPlayed?: number
+    tournamentsWon?: number
+    currentRank?: number | null
+    favoriteGame?: $Enums.GameTitle | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    registrations?: RegistrationCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    refereeMatches?: MatchCreateNestedManyWithoutRefereeInput
+    captainTeams?: TeamCreateNestedManyWithoutCaptainInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    rankingHistory?: RankingHistoryCreateNestedManyWithoutUserInput
+    achievements?: PlayerAchievementCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptCreateNestedManyWithoutUserInput
+    wallet?: WalletCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPlayerRatingsInput = {
+    id?: string
+    fullName: string
+    email: string
+    emailVerified?: boolean
+    platformId?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    defaultGame?: $Enums.GameTitle | null
+    defaultGamePlayerId?: string | null
+    phoneNumber?: string | null
+    whatsappNumber?: string | null
+    gamerTag?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    totalPoints?: number
+    totalWins?: number
+    totalLosses?: number
+    totalDraws?: number
+    tournamentsPlayed?: number
+    tournamentsWon?: number
+    currentRank?: number | null
+    favoriteGame?: $Enums.GameTitle | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    registrations?: RegistrationUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    refereeMatches?: MatchUncheckedCreateNestedManyWithoutRefereeInput
+    captainTeams?: TeamUncheckedCreateNestedManyWithoutCaptainInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    rankingHistory?: RankingHistoryUncheckedCreateNestedManyWithoutUserInput
+    achievements?: PlayerAchievementUncheckedCreateNestedManyWithoutUserInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedCreateNestedManyWithoutUserInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedCreateNestedManyWithoutUserInput
+    wallet?: WalletUncheckedCreateNestedOneWithoutUserInput
+    walletTransactions?: WalletTransactionUncheckedCreateNestedManyWithoutUserInput
+    walletFundingRequests?: WalletFundingRequestUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPlayerRatingsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPlayerRatingsInput, UserUncheckedCreateWithoutPlayerRatingsInput>
+  }
+
+  export type SeasonCreateWithoutRatingsInput = {
+    id?: string
+    name: string
+    startDate: Date | string
+    endDate: Date | string
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SeasonUncheckedCreateWithoutRatingsInput = {
+    id?: string
+    name: string
+    startDate: Date | string
+    endDate: Date | string
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SeasonCreateOrConnectWithoutRatingsInput = {
+    where: SeasonWhereUniqueInput
+    create: XOR<SeasonCreateWithoutRatingsInput, SeasonUncheckedCreateWithoutRatingsInput>
+  }
+
+  export type UserUpsertWithoutPlayerRatingsInput = {
+    update: XOR<UserUpdateWithoutPlayerRatingsInput, UserUncheckedUpdateWithoutPlayerRatingsInput>
+    create: XOR<UserCreateWithoutPlayerRatingsInput, UserUncheckedCreateWithoutPlayerRatingsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPlayerRatingsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPlayerRatingsInput, UserUncheckedUpdateWithoutPlayerRatingsInput>
+  }
+
+  export type UserUpdateWithoutPlayerRatingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    totalWins?: IntFieldUpdateOperationsInput | number
+    totalLosses?: IntFieldUpdateOperationsInput | number
+    totalDraws?: IntFieldUpdateOperationsInput | number
+    tournamentsPlayed?: IntFieldUpdateOperationsInput | number
+    tournamentsWon?: IntFieldUpdateOperationsInput | number
+    currentRank?: NullableIntFieldUpdateOperationsInput | number | null
+    favoriteGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrations?: RegistrationUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    refereeMatches?: MatchUpdateManyWithoutRefereeNestedInput
+    captainTeams?: TeamUpdateManyWithoutCaptainNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    rankingHistory?: RankingHistoryUpdateManyWithoutUserNestedInput
+    achievements?: PlayerAchievementUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUpdateManyWithoutUserNestedInput
+    wallet?: WalletUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPlayerRatingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    platformId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsapp?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    defaultGamePlayerId?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gamerTag?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    totalPoints?: IntFieldUpdateOperationsInput | number
+    totalWins?: IntFieldUpdateOperationsInput | number
+    totalLosses?: IntFieldUpdateOperationsInput | number
+    totalDraws?: IntFieldUpdateOperationsInput | number
+    tournamentsPlayed?: IntFieldUpdateOperationsInput | number
+    tournamentsWon?: IntFieldUpdateOperationsInput | number
+    currentRank?: NullableIntFieldUpdateOperationsInput | number | null
+    favoriteGame?: NullableEnumGameTitleFieldUpdateOperationsInput | $Enums.GameTitle | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrations?: RegistrationUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    refereeMatches?: MatchUncheckedUpdateManyWithoutRefereeNestedInput
+    captainTeams?: TeamUncheckedUpdateManyWithoutCaptainNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    rankingHistory?: RankingHistoryUncheckedUpdateManyWithoutUserNestedInput
+    achievements?: PlayerAchievementUncheckedUpdateManyWithoutUserNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutUserNestedInput
+    penaltyTrainingAttempts?: PenaltyShootoutTrainingAttemptUncheckedUpdateManyWithoutUserNestedInput
+    wallet?: WalletUncheckedUpdateOneWithoutUserNestedInput
+    walletTransactions?: WalletTransactionUncheckedUpdateManyWithoutUserNestedInput
+    walletFundingRequests?: WalletFundingRequestUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type SeasonUpsertWithoutRatingsInput = {
+    update: XOR<SeasonUpdateWithoutRatingsInput, SeasonUncheckedUpdateWithoutRatingsInput>
+    create: XOR<SeasonCreateWithoutRatingsInput, SeasonUncheckedCreateWithoutRatingsInput>
+    where?: SeasonWhereInput
+  }
+
+  export type SeasonUpdateToOneWithWhereWithoutRatingsInput = {
+    where?: SeasonWhereInput
+    data: XOR<SeasonUpdateWithoutRatingsInput, SeasonUncheckedUpdateWithoutRatingsInput>
+  }
+
+  export type SeasonUpdateWithoutRatingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeasonUncheckedUpdateWithoutRatingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RegistrationCreateManyUserInput = {
@@ -35749,6 +53379,7 @@ export namespace Prisma {
     awayScore?: number | null
     aggregateMatchId?: string | null
     aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -35788,6 +53419,71 @@ export namespace Prisma {
     unlockedAt?: Date | string
   }
 
+  export type PenaltyShootoutResultCreateManyUserInput = {
+    id?: string
+    matchId?: string | null
+    score: number
+    suddenDeathScore?: number
+    totalShots?: number
+    shotsJson: JsonNullValueInput | InputJsonValue
+    suddenDeathShotsJson?: JsonNullValueInput | InputJsonValue
+    isWinner?: boolean
+    auditVersion?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PenaltyShootoutTrainingAttemptCreateManyUserInput = {
+    id?: string
+    score: number
+    totalShots?: number
+    shotsJson: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type PlayerRatingCreateManyUserInput = {
+    id?: string
+    seasonId?: string | null
+    matchesPlayed?: number
+    wins?: number
+    losses?: number
+    goalsScored?: number
+    goalsConceded?: number
+    currentRating?: number
+    highestRating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WalletTransactionCreateManyUserInput = {
+    id?: string
+    walletId: string
+    type: $Enums.WalletTransactionType
+    amount: number
+    balanceAfter: number
+    description: string
+    reference?: string | null
+    registrationId?: string | null
+    tournamentId?: string | null
+    adminName?: string | null
+    createdAt?: Date | string
+  }
+
+  export type WalletFundingRequestCreateManyUserInput = {
+    id?: string
+    amount: number
+    currency?: string
+    paymentMethod: string
+    senderName: string
+    receiptUrl?: string | null
+    status?: $Enums.WalletFundingRequestStatus
+    adminNote?: string | null
+    approvedBy?: string | null
+    creditedTransactionId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type RegistrationUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     platformId?: StringFieldUpdateOperationsInput | string
@@ -35809,6 +53505,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutRegistrationNestedInput
   }
 
   export type RegistrationUncheckedUpdateWithoutUserInput = {
@@ -35832,6 +53529,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUncheckedUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutRegistrationNestedInput
   }
 
   export type RegistrationUncheckedUpdateManyWithoutUserInput = {
@@ -35901,6 +53599,7 @@ export namespace Prisma {
     legNumber?: NullableIntFieldUpdateOperationsInput | number | null
     homeScore?: NullableIntFieldUpdateOperationsInput | number | null
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tournament?: TournamentUpdateOneRequiredWithoutMatchesNestedInput
@@ -35913,6 +53612,8 @@ export namespace Prisma {
     aggregateLegs?: MatchUpdateManyWithoutAggregateMatchNestedInput
     aggregateWinnerRegistration?: RegistrationUpdateOneWithoutAggregateWonMatchesNestedInput
     resultSubmissions?: MatchResultSubmissionUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateWithoutRefereeInput = {
@@ -35949,10 +53650,13 @@ export namespace Prisma {
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
     aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     aggregateLegs?: MatchUncheckedUpdateManyWithoutAggregateMatchNestedInput
     resultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateManyWithoutRefereeInput = {
@@ -35989,6 +53693,7 @@ export namespace Prisma {
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
     aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -36004,6 +53709,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: TeamMemberUpdateManyWithoutTeamNestedInput
     registrations?: RegistrationUpdateManyWithoutTeamNestedInput
+    matchLineups?: TeamMatchLineupUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutCaptainInput = {
@@ -36017,6 +53723,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
     registrations?: RegistrationUncheckedUpdateManyWithoutTeamNestedInput
+    matchLineups?: TeamMatchLineupUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateManyWithoutCaptainInput = {
@@ -36102,6 +53809,201 @@ export namespace Prisma {
     unlockedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PenaltyShootoutResultUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    suddenDeathScore?: IntFieldUpdateOperationsInput | number
+    totalShots?: IntFieldUpdateOperationsInput | number
+    shotsJson?: JsonNullValueInput | InputJsonValue
+    suddenDeathShotsJson?: JsonNullValueInput | InputJsonValue
+    isWinner?: BoolFieldUpdateOperationsInput | boolean
+    auditVersion?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    match?: MatchUpdateOneWithoutPenaltyShootoutResultsNestedInput
+  }
+
+  export type PenaltyShootoutResultUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matchId?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: IntFieldUpdateOperationsInput | number
+    suddenDeathScore?: IntFieldUpdateOperationsInput | number
+    totalShots?: IntFieldUpdateOperationsInput | number
+    shotsJson?: JsonNullValueInput | InputJsonValue
+    suddenDeathShotsJson?: JsonNullValueInput | InputJsonValue
+    isWinner?: BoolFieldUpdateOperationsInput | boolean
+    auditVersion?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PenaltyShootoutResultUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matchId?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: IntFieldUpdateOperationsInput | number
+    suddenDeathScore?: IntFieldUpdateOperationsInput | number
+    totalShots?: IntFieldUpdateOperationsInput | number
+    shotsJson?: JsonNullValueInput | InputJsonValue
+    suddenDeathShotsJson?: JsonNullValueInput | InputJsonValue
+    isWinner?: BoolFieldUpdateOperationsInput | boolean
+    auditVersion?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PenaltyShootoutTrainingAttemptUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    totalShots?: IntFieldUpdateOperationsInput | number
+    shotsJson?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PenaltyShootoutTrainingAttemptUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    totalShots?: IntFieldUpdateOperationsInput | number
+    shotsJson?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PenaltyShootoutTrainingAttemptUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    totalShots?: IntFieldUpdateOperationsInput | number
+    shotsJson?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlayerRatingUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matchesPlayed?: IntFieldUpdateOperationsInput | number
+    wins?: IntFieldUpdateOperationsInput | number
+    losses?: IntFieldUpdateOperationsInput | number
+    goalsScored?: IntFieldUpdateOperationsInput | number
+    goalsConceded?: IntFieldUpdateOperationsInput | number
+    currentRating?: IntFieldUpdateOperationsInput | number
+    highestRating?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    season?: SeasonUpdateOneWithoutRatingsNestedInput
+  }
+
+  export type PlayerRatingUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    matchesPlayed?: IntFieldUpdateOperationsInput | number
+    wins?: IntFieldUpdateOperationsInput | number
+    losses?: IntFieldUpdateOperationsInput | number
+    goalsScored?: IntFieldUpdateOperationsInput | number
+    goalsConceded?: IntFieldUpdateOperationsInput | number
+    currentRating?: IntFieldUpdateOperationsInput | number
+    highestRating?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlayerRatingUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    matchesPlayed?: IntFieldUpdateOperationsInput | number
+    wins?: IntFieldUpdateOperationsInput | number
+    losses?: IntFieldUpdateOperationsInput | number
+    goalsScored?: IntFieldUpdateOperationsInput | number
+    goalsConceded?: IntFieldUpdateOperationsInput | number
+    currentRating?: IntFieldUpdateOperationsInput | number
+    highestRating?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WalletTransactionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumWalletTransactionTypeFieldUpdateOperationsInput | $Enums.WalletTransactionType
+    amount?: IntFieldUpdateOperationsInput | number
+    balanceAfter?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    tournamentId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    wallet?: WalletUpdateOneRequiredWithoutTransactionsNestedInput
+  }
+
+  export type WalletTransactionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    walletId?: StringFieldUpdateOperationsInput | string
+    type?: EnumWalletTransactionTypeFieldUpdateOperationsInput | $Enums.WalletTransactionType
+    amount?: IntFieldUpdateOperationsInput | number
+    balanceAfter?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    tournamentId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WalletTransactionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    walletId?: StringFieldUpdateOperationsInput | string
+    type?: EnumWalletTransactionTypeFieldUpdateOperationsInput | $Enums.WalletTransactionType
+    amount?: IntFieldUpdateOperationsInput | number
+    balanceAfter?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    tournamentId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WalletFundingRequestUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    senderName?: StringFieldUpdateOperationsInput | string
+    receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumWalletFundingRequestStatusFieldUpdateOperationsInput | $Enums.WalletFundingRequestStatus
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    creditedTransactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WalletFundingRequestUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    senderName?: StringFieldUpdateOperationsInput | string
+    receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumWalletFundingRequestStatusFieldUpdateOperationsInput | $Enums.WalletFundingRequestStatus
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    creditedTransactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WalletFundingRequestUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    senderName?: StringFieldUpdateOperationsInput | string
+    receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumWalletFundingRequestStatusFieldUpdateOperationsInput | $Enums.WalletFundingRequestStatus
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    creditedTransactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type RegistrationCreateManyTournamentInput = {
     id?: string
     userId: string
@@ -36150,6 +54052,7 @@ export namespace Prisma {
     awayScore?: number | null
     aggregateMatchId?: string | null
     aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -36191,6 +54094,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutRegistrationNestedInput
   }
 
   export type RegistrationUncheckedUpdateWithoutTournamentInput = {
@@ -36214,6 +54118,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUncheckedUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutRegistrationNestedInput
   }
 
   export type RegistrationUncheckedUpdateManyWithoutTournamentInput = {
@@ -36256,6 +54161,7 @@ export namespace Prisma {
     legNumber?: NullableIntFieldUpdateOperationsInput | number | null
     homeScore?: NullableIntFieldUpdateOperationsInput | number | null
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referee?: UserUpdateOneWithoutRefereeMatchesNestedInput
@@ -36268,6 +54174,8 @@ export namespace Prisma {
     aggregateLegs?: MatchUpdateManyWithoutAggregateMatchNestedInput
     aggregateWinnerRegistration?: RegistrationUpdateOneWithoutAggregateWonMatchesNestedInput
     resultSubmissions?: MatchResultSubmissionUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateWithoutTournamentInput = {
@@ -36304,10 +54212,13 @@ export namespace Prisma {
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
     aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     aggregateLegs?: MatchUncheckedUpdateManyWithoutAggregateMatchNestedInput
     resultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateManyWithoutTournamentInput = {
@@ -36344,6 +54255,7 @@ export namespace Prisma {
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
     aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -36430,6 +54342,7 @@ export namespace Prisma {
     awayScore?: number | null
     aggregateMatchId?: string | null
     aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -36468,6 +54381,7 @@ export namespace Prisma {
     awayScore?: number | null
     aggregateMatchId?: string | null
     aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -36506,6 +54420,7 @@ export namespace Prisma {
     awayScore?: number | null
     aggregateMatchId?: string | null
     aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -36544,6 +54459,7 @@ export namespace Prisma {
     awayScore?: number | null
     aggregateMatchId?: string | null
     aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -36582,6 +54498,7 @@ export namespace Prisma {
     awayScore?: number | null
     aggregateMatchId?: string | null
     aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -36620,6 +54537,7 @@ export namespace Prisma {
     homeScore?: number | null
     awayScore?: number | null
     aggregateMatchId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -36674,6 +54592,17 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type TeamMatchLineupCreateManyRegistrationInput = {
+    id?: string
+    matchId: string
+    teamId: string
+    memberUserIds: JsonNullValueInput | InputJsonValue
+    representativeUserId: string
+    submittedByUserId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type MatchUpdateWithoutPlayerOneRegistrationInput = {
     id?: StringFieldUpdateOperationsInput | string
     round?: IntFieldUpdateOperationsInput | number
@@ -36700,6 +54629,7 @@ export namespace Prisma {
     legNumber?: NullableIntFieldUpdateOperationsInput | number | null
     homeScore?: NullableIntFieldUpdateOperationsInput | number | null
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tournament?: TournamentUpdateOneRequiredWithoutMatchesNestedInput
@@ -36712,6 +54642,8 @@ export namespace Prisma {
     aggregateLegs?: MatchUpdateManyWithoutAggregateMatchNestedInput
     aggregateWinnerRegistration?: RegistrationUpdateOneWithoutAggregateWonMatchesNestedInput
     resultSubmissions?: MatchResultSubmissionUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateWithoutPlayerOneRegistrationInput = {
@@ -36748,10 +54680,13 @@ export namespace Prisma {
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
     aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     aggregateLegs?: MatchUncheckedUpdateManyWithoutAggregateMatchNestedInput
     resultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateManyWithoutPlayerOneRegistrationInput = {
@@ -36788,6 +54723,7 @@ export namespace Prisma {
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
     aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -36818,6 +54754,7 @@ export namespace Prisma {
     legNumber?: NullableIntFieldUpdateOperationsInput | number | null
     homeScore?: NullableIntFieldUpdateOperationsInput | number | null
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tournament?: TournamentUpdateOneRequiredWithoutMatchesNestedInput
@@ -36830,6 +54767,8 @@ export namespace Prisma {
     aggregateLegs?: MatchUpdateManyWithoutAggregateMatchNestedInput
     aggregateWinnerRegistration?: RegistrationUpdateOneWithoutAggregateWonMatchesNestedInput
     resultSubmissions?: MatchResultSubmissionUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateWithoutPlayerTwoRegistrationInput = {
@@ -36866,10 +54805,13 @@ export namespace Prisma {
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
     aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     aggregateLegs?: MatchUncheckedUpdateManyWithoutAggregateMatchNestedInput
     resultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateManyWithoutPlayerTwoRegistrationInput = {
@@ -36906,6 +54848,7 @@ export namespace Prisma {
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
     aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -36936,6 +54879,7 @@ export namespace Prisma {
     legNumber?: NullableIntFieldUpdateOperationsInput | number | null
     homeScore?: NullableIntFieldUpdateOperationsInput | number | null
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tournament?: TournamentUpdateOneRequiredWithoutMatchesNestedInput
@@ -36948,6 +54892,8 @@ export namespace Prisma {
     aggregateLegs?: MatchUpdateManyWithoutAggregateMatchNestedInput
     aggregateWinnerRegistration?: RegistrationUpdateOneWithoutAggregateWonMatchesNestedInput
     resultSubmissions?: MatchResultSubmissionUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateWithoutWinnerRegistrationInput = {
@@ -36984,10 +54930,13 @@ export namespace Prisma {
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
     aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     aggregateLegs?: MatchUncheckedUpdateManyWithoutAggregateMatchNestedInput
     resultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateManyWithoutWinnerRegistrationInput = {
@@ -37024,6 +54973,7 @@ export namespace Prisma {
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
     aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37054,6 +55004,7 @@ export namespace Prisma {
     legNumber?: NullableIntFieldUpdateOperationsInput | number | null
     homeScore?: NullableIntFieldUpdateOperationsInput | number | null
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tournament?: TournamentUpdateOneRequiredWithoutMatchesNestedInput
@@ -37066,6 +55017,8 @@ export namespace Prisma {
     aggregateLegs?: MatchUpdateManyWithoutAggregateMatchNestedInput
     aggregateWinnerRegistration?: RegistrationUpdateOneWithoutAggregateWonMatchesNestedInput
     resultSubmissions?: MatchResultSubmissionUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateWithoutHomeRegistrationInput = {
@@ -37102,10 +55055,13 @@ export namespace Prisma {
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
     aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     aggregateLegs?: MatchUncheckedUpdateManyWithoutAggregateMatchNestedInput
     resultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateManyWithoutHomeRegistrationInput = {
@@ -37142,6 +55098,7 @@ export namespace Prisma {
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
     aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37172,6 +55129,7 @@ export namespace Prisma {
     legNumber?: NullableIntFieldUpdateOperationsInput | number | null
     homeScore?: NullableIntFieldUpdateOperationsInput | number | null
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tournament?: TournamentUpdateOneRequiredWithoutMatchesNestedInput
@@ -37184,6 +55142,8 @@ export namespace Prisma {
     aggregateLegs?: MatchUpdateManyWithoutAggregateMatchNestedInput
     aggregateWinnerRegistration?: RegistrationUpdateOneWithoutAggregateWonMatchesNestedInput
     resultSubmissions?: MatchResultSubmissionUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateWithoutAwayRegistrationInput = {
@@ -37220,10 +55180,13 @@ export namespace Prisma {
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
     aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     aggregateLegs?: MatchUncheckedUpdateManyWithoutAggregateMatchNestedInput
     resultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateManyWithoutAwayRegistrationInput = {
@@ -37260,6 +55223,7 @@ export namespace Prisma {
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
     aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37290,6 +55254,7 @@ export namespace Prisma {
     legNumber?: NullableIntFieldUpdateOperationsInput | number | null
     homeScore?: NullableIntFieldUpdateOperationsInput | number | null
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tournament?: TournamentUpdateOneRequiredWithoutMatchesNestedInput
@@ -37302,6 +55267,8 @@ export namespace Prisma {
     aggregateMatch?: MatchUpdateOneWithoutAggregateLegsNestedInput
     aggregateLegs?: MatchUpdateManyWithoutAggregateMatchNestedInput
     resultSubmissions?: MatchResultSubmissionUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateWithoutAggregateWinnerRegistrationInput = {
@@ -37338,10 +55305,13 @@ export namespace Prisma {
     homeScore?: NullableIntFieldUpdateOperationsInput | number | null
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     aggregateLegs?: MatchUncheckedUpdateManyWithoutAggregateMatchNestedInput
     resultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateManyWithoutAggregateWinnerRegistrationInput = {
@@ -37378,6 +55348,7 @@ export namespace Prisma {
     homeScore?: NullableIntFieldUpdateOperationsInput | number | null
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateMatchId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37532,6 +55503,39 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type TeamMatchLineupUpdateWithoutRegistrationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    memberUserIds?: JsonNullValueInput | InputJsonValue
+    representativeUserId?: StringFieldUpdateOperationsInput | string
+    submittedByUserId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    match?: MatchUpdateOneRequiredWithoutTeamLineupsNestedInput
+    team?: TeamUpdateOneRequiredWithoutMatchLineupsNestedInput
+  }
+
+  export type TeamMatchLineupUncheckedUpdateWithoutRegistrationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matchId?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    memberUserIds?: JsonNullValueInput | InputJsonValue
+    representativeUserId?: StringFieldUpdateOperationsInput | string
+    submittedByUserId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeamMatchLineupUncheckedUpdateManyWithoutRegistrationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matchId?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    memberUserIds?: JsonNullValueInput | InputJsonValue
+    representativeUserId?: StringFieldUpdateOperationsInput | string
+    submittedByUserId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type MatchCreateManyAggregateMatchInput = {
     id?: string
     tournamentId: string
@@ -37566,6 +55570,7 @@ export namespace Prisma {
     homeScore?: number | null
     awayScore?: number | null
     aggregateWinnerRegistrationId?: string | null
+    penaltyRatingApplied?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -37582,6 +55587,31 @@ export namespace Prisma {
     opponentDisputed?: boolean
     opponentNote?: string | null
     autoApproved?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PenaltyShootoutResultCreateManyMatchInput = {
+    id?: string
+    userId: string
+    score: number
+    suddenDeathScore?: number
+    totalShots?: number
+    shotsJson: JsonNullValueInput | InputJsonValue
+    suddenDeathShotsJson?: JsonNullValueInput | InputJsonValue
+    isWinner?: boolean
+    auditVersion?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TeamMatchLineupCreateManyMatchInput = {
+    id?: string
+    registrationId: string
+    teamId: string
+    memberUserIds: JsonNullValueInput | InputJsonValue
+    representativeUserId: string
+    submittedByUserId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -37612,6 +55642,7 @@ export namespace Prisma {
     legNumber?: NullableIntFieldUpdateOperationsInput | number | null
     homeScore?: NullableIntFieldUpdateOperationsInput | number | null
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tournament?: TournamentUpdateOneRequiredWithoutMatchesNestedInput
@@ -37624,6 +55655,8 @@ export namespace Prisma {
     aggregateLegs?: MatchUpdateManyWithoutAggregateMatchNestedInput
     aggregateWinnerRegistration?: RegistrationUpdateOneWithoutAggregateWonMatchesNestedInput
     resultSubmissions?: MatchResultSubmissionUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateWithoutAggregateMatchInput = {
@@ -37660,10 +55693,13 @@ export namespace Prisma {
     homeScore?: NullableIntFieldUpdateOperationsInput | number | null
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     aggregateLegs?: MatchUncheckedUpdateManyWithoutAggregateMatchNestedInput
     resultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutMatchNestedInput
+    penaltyShootoutResults?: PenaltyShootoutResultUncheckedUpdateManyWithoutMatchNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutMatchNestedInput
   }
 
   export type MatchUncheckedUpdateManyWithoutAggregateMatchInput = {
@@ -37700,6 +55736,7 @@ export namespace Prisma {
     homeScore?: NullableIntFieldUpdateOperationsInput | number | null
     awayScore?: NullableIntFieldUpdateOperationsInput | number | null
     aggregateWinnerRegistrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    penaltyRatingApplied?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37750,6 +55787,137 @@ export namespace Prisma {
     autoApproved?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PenaltyShootoutResultUpdateWithoutMatchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    suddenDeathScore?: IntFieldUpdateOperationsInput | number
+    totalShots?: IntFieldUpdateOperationsInput | number
+    shotsJson?: JsonNullValueInput | InputJsonValue
+    suddenDeathShotsJson?: JsonNullValueInput | InputJsonValue
+    isWinner?: BoolFieldUpdateOperationsInput | boolean
+    auditVersion?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPenaltyShootoutResultsNestedInput
+  }
+
+  export type PenaltyShootoutResultUncheckedUpdateWithoutMatchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    suddenDeathScore?: IntFieldUpdateOperationsInput | number
+    totalShots?: IntFieldUpdateOperationsInput | number
+    shotsJson?: JsonNullValueInput | InputJsonValue
+    suddenDeathShotsJson?: JsonNullValueInput | InputJsonValue
+    isWinner?: BoolFieldUpdateOperationsInput | boolean
+    auditVersion?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PenaltyShootoutResultUncheckedUpdateManyWithoutMatchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    suddenDeathScore?: IntFieldUpdateOperationsInput | number
+    totalShots?: IntFieldUpdateOperationsInput | number
+    shotsJson?: JsonNullValueInput | InputJsonValue
+    suddenDeathShotsJson?: JsonNullValueInput | InputJsonValue
+    isWinner?: BoolFieldUpdateOperationsInput | boolean
+    auditVersion?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeamMatchLineupUpdateWithoutMatchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    memberUserIds?: JsonNullValueInput | InputJsonValue
+    representativeUserId?: StringFieldUpdateOperationsInput | string
+    submittedByUserId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registration?: RegistrationUpdateOneRequiredWithoutTeamLineupsNestedInput
+    team?: TeamUpdateOneRequiredWithoutMatchLineupsNestedInput
+  }
+
+  export type TeamMatchLineupUncheckedUpdateWithoutMatchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    registrationId?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    memberUserIds?: JsonNullValueInput | InputJsonValue
+    representativeUserId?: StringFieldUpdateOperationsInput | string
+    submittedByUserId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeamMatchLineupUncheckedUpdateManyWithoutMatchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    registrationId?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    memberUserIds?: JsonNullValueInput | InputJsonValue
+    representativeUserId?: StringFieldUpdateOperationsInput | string
+    submittedByUserId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WalletTransactionCreateManyWalletInput = {
+    id?: string
+    userId: string
+    type: $Enums.WalletTransactionType
+    amount: number
+    balanceAfter: number
+    description: string
+    reference?: string | null
+    registrationId?: string | null
+    tournamentId?: string | null
+    adminName?: string | null
+    createdAt?: Date | string
+  }
+
+  export type WalletTransactionUpdateWithoutWalletInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumWalletTransactionTypeFieldUpdateOperationsInput | $Enums.WalletTransactionType
+    amount?: IntFieldUpdateOperationsInput | number
+    balanceAfter?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    tournamentId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutWalletTransactionsNestedInput
+  }
+
+  export type WalletTransactionUncheckedUpdateWithoutWalletInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumWalletTransactionTypeFieldUpdateOperationsInput | $Enums.WalletTransactionType
+    amount?: IntFieldUpdateOperationsInput | number
+    balanceAfter?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    tournamentId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WalletTransactionUncheckedUpdateManyWithoutWalletInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumWalletTransactionTypeFieldUpdateOperationsInput | $Enums.WalletTransactionType
+    amount?: IntFieldUpdateOperationsInput | number
+    balanceAfter?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    tournamentId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RankingHistoryCreateManySeasonInput = {
@@ -37838,6 +56006,17 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type TeamMatchLineupCreateManyTeamInput = {
+    id?: string
+    matchId: string
+    registrationId: string
+    memberUserIds: JsonNullValueInput | InputJsonValue
+    representativeUserId: string
+    submittedByUserId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type TeamMemberUpdateWithoutTeamInput = {
     id?: StringFieldUpdateOperationsInput | string
     role?: EnumTeamRoleFieldUpdateOperationsInput | $Enums.TeamRole
@@ -37883,6 +56062,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUpdateManyWithoutRegistrationNestedInput
   }
 
   export type RegistrationUncheckedUpdateWithoutTeamInput = {
@@ -37906,6 +56086,7 @@ export namespace Prisma {
     leagueStandings?: LeagueStandingUncheckedUpdateManyWithoutRegistrationNestedInput
     matchResultSubmissions?: MatchResultSubmissionUncheckedUpdateManyWithoutRegistrationNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutRegistrationNestedInput
+    teamLineups?: TeamMatchLineupUncheckedUpdateManyWithoutRegistrationNestedInput
   }
 
   export type RegistrationUncheckedUpdateManyWithoutTeamInput = {
@@ -37918,6 +56099,95 @@ export namespace Prisma {
     proofOfPaymentText?: NullableStringFieldUpdateOperationsInput | string | null
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     agreedToRules?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeamMatchLineupUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    memberUserIds?: JsonNullValueInput | InputJsonValue
+    representativeUserId?: StringFieldUpdateOperationsInput | string
+    submittedByUserId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    match?: MatchUpdateOneRequiredWithoutTeamLineupsNestedInput
+    registration?: RegistrationUpdateOneRequiredWithoutTeamLineupsNestedInput
+  }
+
+  export type TeamMatchLineupUncheckedUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matchId?: StringFieldUpdateOperationsInput | string
+    registrationId?: StringFieldUpdateOperationsInput | string
+    memberUserIds?: JsonNullValueInput | InputJsonValue
+    representativeUserId?: StringFieldUpdateOperationsInput | string
+    submittedByUserId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeamMatchLineupUncheckedUpdateManyWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matchId?: StringFieldUpdateOperationsInput | string
+    registrationId?: StringFieldUpdateOperationsInput | string
+    memberUserIds?: JsonNullValueInput | InputJsonValue
+    representativeUserId?: StringFieldUpdateOperationsInput | string
+    submittedByUserId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlayerRatingCreateManySeasonInput = {
+    id?: string
+    userId: string
+    matchesPlayed?: number
+    wins?: number
+    losses?: number
+    goalsScored?: number
+    goalsConceded?: number
+    currentRating?: number
+    highestRating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PlayerRatingUpdateWithoutSeasonInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matchesPlayed?: IntFieldUpdateOperationsInput | number
+    wins?: IntFieldUpdateOperationsInput | number
+    losses?: IntFieldUpdateOperationsInput | number
+    goalsScored?: IntFieldUpdateOperationsInput | number
+    goalsConceded?: IntFieldUpdateOperationsInput | number
+    currentRating?: IntFieldUpdateOperationsInput | number
+    highestRating?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPlayerRatingsNestedInput
+  }
+
+  export type PlayerRatingUncheckedUpdateWithoutSeasonInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    matchesPlayed?: IntFieldUpdateOperationsInput | number
+    wins?: IntFieldUpdateOperationsInput | number
+    losses?: IntFieldUpdateOperationsInput | number
+    goalsScored?: IntFieldUpdateOperationsInput | number
+    goalsConceded?: IntFieldUpdateOperationsInput | number
+    currentRating?: IntFieldUpdateOperationsInput | number
+    highestRating?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlayerRatingUncheckedUpdateManyWithoutSeasonInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    matchesPlayed?: IntFieldUpdateOperationsInput | number
+    wins?: IntFieldUpdateOperationsInput | number
+    losses?: IntFieldUpdateOperationsInput | number
+    goalsScored?: IntFieldUpdateOperationsInput | number
+    goalsConceded?: IntFieldUpdateOperationsInput | number
+    currentRating?: IntFieldUpdateOperationsInput | number
+    highestRating?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

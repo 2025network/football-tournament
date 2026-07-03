@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import type { PlayerSession } from "@/components/PlayerAuthGate";
 
@@ -30,6 +30,21 @@ type PlayerRegistration = {
   latestPayment: LatestPayment | null;
 };
 
+type PlayerRating = { seasonName: string; matchesPlayed: number; wins: number; losses: number; goalsScored: number; goalsConceded: number; currentRating: number; highestRating: number };
+type WalletTransaction = { id: string; type: "CREDIT" | "DEBIT"; amount: number; balanceAfter: number; description: string; reference: string | null; createdAt: string };
+type PlayerWallet = { balance: number; currency: string; transactions: WalletTransaction[] };
+type WalletFundingRequest = {
+  id: string;
+  amount: number;
+  currency: string;
+  paymentMethod: string;
+  senderName: string;
+  receiptUrl: string | null;
+  status: "PENDING" | "APPROVED" | "REJECTED";
+  adminNote: string | null;
+  createdAt: string;
+};
+
 type PlayerStats = PlayerSession & {
   currentRank: number | null;
   totalPoints: number;
@@ -44,6 +59,7 @@ type PlayerStats = PlayerSession & {
   gamerTag: string;
   defaultGame: string;
   defaultGamePlayerId: string;
+  rating: PlayerRating | null;
 };
 
 type PlayerAchievement = {
@@ -64,6 +80,8 @@ type RecentMatch = {
 
 type PlayerDashboardResponse = {
   player: PlayerStats;
+  wallet: PlayerWallet;
+  walletFundingRequests: WalletFundingRequest[];
   achievements: PlayerAchievement[];
   recentMatches: RecentMatch[];
   registrations: PlayerRegistration[];
@@ -98,7 +116,9 @@ export function PlayerDashboard({ player, onLogout }: PlayerDashboardProps) {
   const searchParams = useSearchParams();
   const welcomePlatformId = searchParams.get("welcomePlatformId") ?? "";
   const [registrations, setRegistrations] = useState<PlayerRegistration[]>([]);
-  const [profile, setProfile] = useState<PlayerStats>({ ...player, platformId: player.platformId ?? "", whatsapp: player.whatsapp ?? "", gamerTag: player.gamerTag ?? "", defaultGame: player.defaultGame ?? "Not set", defaultGamePlayerId: player.defaultGamePlayerId ?? "", currentRank: null, totalPoints: 0, totalWins: 0, totalLosses: 0, totalDraws: 0, tournamentsPlayed: 0, tournamentsWon: 0, favoriteGame: "Not set" });
+  const [profile, setProfile] = useState<PlayerStats>({ ...player, platformId: player.platformId ?? "", whatsapp: player.whatsapp ?? "", gamerTag: player.gamerTag ?? "", defaultGame: player.defaultGame ?? "Not set", defaultGamePlayerId: player.defaultGamePlayerId ?? "", currentRank: null, totalPoints: 0, totalWins: 0, totalLosses: 0, totalDraws: 0, tournamentsPlayed: 0, tournamentsWon: 0, favoriteGame: "Not set", rating: null });
+  const [wallet, setWallet] = useState<PlayerWallet>({ balance: 0, currency: "NGN", transactions: [] });
+  const [fundingRequests, setFundingRequests] = useState<WalletFundingRequest[]>([]);
   const [achievements, setAchievements] = useState<PlayerAchievement[]>([]);
   const [recentMatches, setRecentMatches] = useState<RecentMatch[]>([]);
   const [loading, setLoading] = useState(true);
@@ -117,6 +137,8 @@ export function PlayerDashboard({ player, onLogout }: PlayerDashboardProps) {
       }
 
       setProfile(data.player);
+      setWallet(data.wallet);
+      setFundingRequests(data.walletFundingRequests);
       setAchievements(data.achievements);
       setRecentMatches(data.recentMatches);
       setRegistrations(data.registrations);
@@ -163,6 +185,26 @@ export function PlayerDashboard({ player, onLogout }: PlayerDashboardProps) {
     }
   }
 
+  async function payWithWallet(registrationId: string) {
+    setPayingId(registrationId);
+    setErrorMessage("");
+
+    try {
+      const response = await fetch("/api/payments/wallet", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ registrationId, email: player.email }),
+      });
+      const data = (await response.json()) as { message?: string };
+      if (!response.ok) throw new Error(data.message ?? "Could not pay from wallet.");
+      await loadDashboard();
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Could not pay from wallet.");
+    } finally {
+      setPayingId("");
+    }
+  }
+
   return (
     <section className="mx-auto max-w-7xl px-5 py-10 lg:px-8">
       <div className="flex flex-col gap-5 border-b border-white/10 pb-8 md:flex-row md:items-end md:justify-between">
@@ -177,6 +219,10 @@ export function PlayerDashboard({ player, onLogout }: PlayerDashboardProps) {
         </button>
       </div>
 
+      <PlayerRatingCard rating={profile.rating} />
+      <WalletCard wallet={wallet} />
+      <WalletFundingPanel playerEmail={player.email} requests={fundingRequests} onRequestSubmitted={loadDashboard} />
+
       <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <ProfileCard label="Platform ID" value={profile.platformId || "Not generated"} highlight />
         <ProfileCard label="Profile completion" value={`${profileCompletion}%`} />
@@ -188,14 +234,15 @@ export function PlayerDashboard({ player, onLogout }: PlayerDashboardProps) {
         <ProfileCard label="Email" value={profile.email} />
         <ProfileCard label="Phone" value={profile.phone || "Not provided"} />
         <ProfileCard label="WhatsApp" value={profile.whatsapp || "Not provided"} />
-        <ProfileCard label="Default game UID" value={profile.defaultGamePlayerId || "Not set"} />
-        <ProfileCard label="Favorite game" value={profile.favoriteGame} />
+        <ProfileCard label="Default football ID" value={profile.defaultGamePlayerId || "Not set"} />
+        <ProfileCard label="Favorite football category" value={profile.favoriteGame} />
       </div>
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-3">
+      <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <ActionCard title="Unpaid registrations" value={String(unpaidRegistrations.length)} href="#my-tournaments" />
         <ActionCard title="Upcoming matches" value="View schedule" href="/player/matches" />
         <ActionCard title="Notifications" value="Open inbox" href="/player/notifications" />
+        <ActionCard title="Practice penalties" value="Training mode" href="/games/penalty-shootout/training" />
       </div>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-2">
@@ -262,7 +309,7 @@ export function PlayerDashboard({ player, onLogout }: PlayerDashboardProps) {
                 </div>
                 <h3 className="mt-4 text-xl font-black text-white">{registration.tournamentTitle}</h3>
                 <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
-                  <Info label="Game" value={registration.game} />
+                  <Info label="Football category" value={registration.game} />
                   <Info label="Start date" value={formatDate(registration.startDate)} />
                   <Info label="Registered" value={formatDate(registration.registeredAt)} />
                   <Info label="Tournament ID" value={registration.tournamentId} />
@@ -274,9 +321,12 @@ export function PlayerDashboard({ player, onLogout }: PlayerDashboardProps) {
                 {registration.latestPayment?.reference ? <p className="mt-3 text-xs text-slate-500">Reference: {registration.latestPayment.reference}</p> : null}
 
                 {registration.entryFee > 0 && registration.paymentStatus !== "PAID" ? (
-                  <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                  <div className="mt-5 grid gap-3 sm:grid-cols-3">
                     <button onClick={() => payWithPaystack(registration.id)} disabled={payingId === registration.id} type="button" className="rounded-lg bg-cyan-300 px-4 py-3 text-sm font-black text-slate-950 transition hover:bg-white disabled:opacity-50">
                       {payingId === registration.id ? "Starting..." : "Pay with Paystack"}
+                    </button>
+                    <button onClick={() => payWithWallet(registration.id)} disabled={payingId === registration.id || wallet.balance < registration.entryFee} type="button" className="rounded-lg border border-emerald-300/30 bg-emerald-300/10 px-4 py-3 text-sm font-black text-emerald-100 transition hover:bg-emerald-300 hover:text-slate-950 disabled:opacity-50">
+                      Pay from Wallet
                     </button>
                     <Link href={`/player/payments/bank-transfer?registrationId=${registration.id}`} className="rounded-lg border border-cyan-300/30 bg-cyan-300/10 px-4 py-3 text-center text-sm font-black text-cyan-100 transition hover:bg-cyan-300 hover:text-slate-950">
                       Pay by Bank Transfer
@@ -292,6 +342,149 @@ export function PlayerDashboard({ player, onLogout }: PlayerDashboardProps) {
   );
 }
 
+
+function PlayerRatingCard({ rating }: { rating: PlayerRating | null }) {
+  const wins = rating?.wins ?? 0;
+  const matchesPlayed = rating?.matchesPlayed ?? 0;
+  const winPercentage = matchesPlayed === 0 ? "0%" : `${Math.round((wins / matchesPlayed) * 100)}%`;
+  return (
+    <section className="mt-8 rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-5 shadow-[0_0_35px_rgba(14,165,233,0.08)]">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-cyan-300">Current season rating</p>
+          <p className="mt-2 text-4xl font-black text-white">{rating?.currentRating ?? 1000}</p>
+          <p className="mt-1 text-sm text-slate-300">{rating?.seasonName ?? "No active season rating yet"} · Highest rating: {rating?.highestRating ?? 1000}</p>
+        </div>
+        <Link href="/leaderboard" className="rounded-lg border border-cyan-300/30 bg-slate-950/40 px-4 py-3 text-center text-sm font-black text-cyan-100 transition hover:bg-cyan-300 hover:text-slate-950">View Leaderboard</Link>
+      </div>
+      <div className="mt-5 grid gap-3 sm:grid-cols-5">
+        <Info label="Played" value={String(matchesPlayed)} />
+        <Info label="Wins" value={String(wins)} />
+        <Info label="Losses" value={String(rating?.losses ?? 0)} />
+        <Info label="Win %" value={winPercentage} />
+        <Info label="Goals" value={`${rating?.goalsScored ?? 0} / ${rating?.goalsConceded ?? 0}`} />
+      </div>
+    </section>
+  );
+}
+
+function WalletCard({ wallet }: { wallet: PlayerWallet }) {
+  return (
+    <section className="mt-8 rounded-2xl border border-emerald-300/20 bg-emerald-300/10 p-5 shadow-[0_0_35px_rgba(16,185,129,0.08)]">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-300">Player wallet</p>
+          <p className="mt-2 text-4xl font-black text-white">{wallet.currency} {wallet.balance.toLocaleString()}</p>
+          <p className="mt-1 text-sm text-slate-300">Use wallet balance to pay tournament entry fees.</p>
+        </div>
+      </div>
+      <div className="mt-5 grid gap-2">
+        {wallet.transactions.length === 0 ? <p className="text-sm text-slate-400">No wallet transactions yet.</p> : wallet.transactions.slice(0, 5).map((transaction) => (
+          <div key={transaction.id} className="flex flex-col gap-1 rounded-lg border border-white/10 bg-slate-950/50 px-4 py-3 text-sm sm:flex-row sm:items-center sm:justify-between">
+            <span className={transaction.type === "CREDIT" ? "font-bold text-emerald-200" : "font-bold text-amber-200"}>{transaction.type} {wallet.currency} {transaction.amount.toLocaleString()}</span>
+            <span className="text-slate-300">{transaction.description}</span>
+            <span className="text-xs text-slate-500">Balance: {wallet.currency} {transaction.balanceAfter.toLocaleString()}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WalletFundingPanel({ playerEmail, requests, onRequestSubmitted }: { playerEmail: string; requests: WalletFundingRequest[]; onRequestSubmitted: () => Promise<void> }) {
+  const [amount, setAmount] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("Bank Transfer");
+  const [senderName, setSenderName] = useState("");
+  const [receipt, setReceipt] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+
+  async function submitFundingRequest(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setLoading(true);
+    setMessage("");
+    setError("");
+
+    try {
+      const formData = new FormData();
+      formData.append("email", playerEmail);
+      formData.append("amount", amount);
+      formData.append("paymentMethod", paymentMethod);
+      formData.append("senderName", senderName);
+      if (receipt) formData.append("receipt", receipt);
+
+      const response = await fetch("/api/wallet/funding-requests", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json() as { message?: string };
+      if (!response.ok) throw new Error(data.message ?? "Could not submit funding request.");
+
+      setMessage(data.message ?? "Funding request submitted.");
+      setAmount("");
+      setPaymentMethod("Bank Transfer");
+      setSenderName("");
+      setReceipt(null);
+      const fileInput = event.currentTarget.elements.namedItem("receipt") as HTMLInputElement | null;
+      if (fileInput) fileInput.value = "";
+      await onRequestSubmitted();
+    } catch (currentError) {
+      setError(currentError instanceof Error ? currentError.message : "Could not submit funding request.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <section className="mt-8 rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-5 shadow-[0_0_35px_rgba(14,165,233,0.08)]">
+      <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+        <form onSubmit={submitFundingRequest}>
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-cyan-300">Fund wallet</p>
+          <h2 className="mt-2 text-2xl font-black text-white">Submit Funding Request</h2>
+          <p className="mt-2 text-sm leading-6 text-slate-300">Upload proof after paying by bank transfer or another supported method. Admin approval will credit your wallet automatically.</p>
+
+          {message ? <div className="mt-4 rounded-lg border border-emerald-300/30 bg-emerald-300/10 px-4 py-3 text-sm font-bold text-emerald-200">{message}</div> : null}
+          {error ? <div className="mt-4 rounded-lg border border-red-300/30 bg-red-500/10 px-4 py-3 text-sm font-bold text-red-200">{error}</div> : null}
+
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <input className="form-input" value={amount} onChange={(event) => setAmount(event.target.value)} type="number" min="1" placeholder="Amount" />
+            <select className="form-input" value={paymentMethod} onChange={(event) => setPaymentMethod(event.target.value)}>
+              <option>Bank Transfer</option>
+              <option>Paystack Transfer</option>
+              <option>Cash Deposit</option>
+              <option>Other</option>
+            </select>
+            <input className="form-input sm:col-span-2" value={senderName} onChange={(event) => setSenderName(event.target.value)} placeholder="Sender name on payment" />
+            <input name="receipt" className="form-input sm:col-span-2" onChange={(event) => setReceipt(event.target.files?.[0] ?? null)} type="file" accept="image/png,image/jpeg,image/webp,application/pdf" />
+          </div>
+
+          <button disabled={loading} type="submit" className="mt-4 rounded-lg bg-cyan-300 px-4 py-3 text-sm font-black text-slate-950 transition hover:bg-white disabled:opacity-50">
+            {loading ? "Submitting..." : "Submit Funding Request"}
+          </button>
+        </form>
+
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Funding request status</p>
+          <div className="mt-4 grid max-h-96 gap-3 overflow-y-auto pr-1">
+            {requests.length === 0 ? <p className="rounded-lg border border-white/10 bg-slate-950/50 p-4 text-sm text-slate-400">No wallet funding requests yet.</p> : requests.map((request) => (
+              <article key={request.id} className="rounded-xl border border-white/10 bg-slate-950/60 p-4">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <p className="font-black text-white">{request.currency} {request.amount.toLocaleString()}</p>
+                  <span className={`rounded-full border px-3 py-1 text-xs font-black ${statusClass(request.status)}`}>{request.status}</span>
+                </div>
+                <p className="mt-2 text-sm text-slate-300">{request.paymentMethod} by {request.senderName}</p>
+                <p className="mt-1 text-xs text-slate-500">Submitted {formatDate(request.createdAt)}</p>
+                {request.receiptUrl ? <a href={request.receiptUrl} target="_blank" className="mt-3 inline-block text-sm font-bold text-cyan-300 hover:text-white">View receipt</a> : null}
+                {request.adminNote ? <p className="mt-3 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-sm text-slate-300">Admin note: {request.adminNote}</p> : null}
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 function ProfileCard({ label, value, highlight = false }: { label: string; value: string; highlight?: boolean }) {
   return (
     <div className="rounded-xl border border-white/10 bg-white/[0.035] p-5 shadow-[0_0_35px_rgba(14,165,233,0.08)]">

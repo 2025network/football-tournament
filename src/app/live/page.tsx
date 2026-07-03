@@ -99,7 +99,7 @@ function MatchPanel({ match, featured = false }: { match: StreamMatch; featured?
       {match.liveStatus !== MatchLiveStatus.NOT_STARTED ? <p className="mt-3 text-3xl font-black text-white">{match.liveHomeScore} : {match.liveAwayScore}</p> : null}
       <dl className="mt-4 grid gap-2 text-sm">
         <Info label="Scheduled" value={match.scheduledAt ? formatDate(match.scheduledAt.toISOString()) : "Not scheduled"} />
-        {match.roomCode ? <Info label="Room code" value={match.roomCode} /> : null}
+        {match.roomCode ? <Info label="Match access code" value={match.roomCode} /> : null}
         {match.spectatorNote ? <Info label="Spectator note" value={match.spectatorNote} /> : null}
       </dl>
       {streamUrl ? <Link href={streamUrl} target="_blank" className="mt-4 inline-block rounded-lg bg-cyan-300 px-4 py-3 text-sm font-black text-slate-950 transition hover:bg-white">Open Livestream</Link> : null}

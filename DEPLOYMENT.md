@@ -1,6 +1,6 @@
-# football-tournament DigitalOcean VPS Deployment Guide
+# AfriKick DigitalOcean VPS Deployment Guide
 
-This guide prepares `football-tournament` for a DigitalOcean VPS running Ubuntu 24.04, Node.js, PostgreSQL, PM2, Nginx, and HTTPS with Certbot.
+This guide prepares AfriKick for a DigitalOcean VPS running Ubuntu 24.04, Node.js, PostgreSQL, PM2, Nginx, and HTTPS with Certbot.
 
 Do not run production commands until you have a domain name, production environment variables, and a fresh VPS ready.
 
@@ -86,17 +86,17 @@ sudo -u postgres psql
 Inside PostgreSQL, run:
 
 ```sql
-CREATE DATABASE football_tournament;
-CREATE USER football_tournament_user WITH ENCRYPTED PASSWORD 'replace_with_strong_password';
-GRANT ALL PRIVILEGES ON DATABASE football_tournament TO football_tournament_user;
-ALTER DATABASE football_tournament OWNER TO football_tournament_user;
+CREATE DATABASE afrikick;
+CREATE USER afrikick_user WITH ENCRYPTED PASSWORD 'replace_with_strong_password';
+GRANT ALL PRIVILEGES ON DATABASE afrikick TO afrikick_user;
+ALTER DATABASE afrikick OWNER TO afrikick_user;
 \q
 ```
 
 Your production `DATABASE_URL` will look like:
 
 ```bash
-DATABASE_URL="postgresql://football_tournament_user:replace_with_strong_password@localhost:5432/football_tournament?schema=public"
+DATABASE_URL="postgresql://afrikick_user:replace_with_strong_password@localhost:5432/afrikick?schema=public"
 ```
 
 ## 5. Install PM2
@@ -155,8 +155,8 @@ cd /var/www
 Clone your project repository:
 
 ```bash
-git clone YOUR_REPOSITORY_URL football-tournament
-cd football-tournament
+git clone YOUR_REPOSITORY_URL afrikick
+cd afrikick
 ```
 
 Install dependencies:
@@ -177,7 +177,7 @@ nano .env
 Fill in real values:
 
 ```bash
-DATABASE_URL="postgresql://football_tournament_user:replace_with_strong_password@localhost:5432/football_tournament?schema=public"
+DATABASE_URL="postgresql://afrikick_user:replace_with_strong_password@localhost:5432/afrikick?schema=public"
 ADMIN_EMAIL="your-admin-email@example.com"
 ADMIN_PASSWORD="use-a-strong-password"
 PAYSTACK_SECRET_KEY="sk_live_xxxxx"
@@ -246,7 +246,7 @@ Check status:
 
 ```bash
 pm2 status
-pm2 logs football-tournament
+pm2 logs afrikick
 ```
 
 Save PM2 process list:
@@ -266,13 +266,13 @@ http://localhost:3000
 Copy the Nginx config example:
 
 ```bash
-sudo cp deploy/nginx-football-tournament.conf /etc/nginx/sites-available/football-tournament
+sudo cp deploy/nginx-afrikick.conf /etc/nginx/sites-available/afrikick
 ```
 
 Edit it:
 
 ```bash
-sudo nano /etc/nginx/sites-available/football-tournament
+sudo nano /etc/nginx/sites-available/afrikick
 ```
 
 Replace:
@@ -286,7 +286,7 @@ with your real domain.
 Enable the site:
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/football-tournament /etc/nginx/sites-enabled/football-tournament
+sudo ln -s /etc/nginx/sites-available/afrikick /etc/nginx/sites-enabled/afrikick
 sudo nginx -t
 sudo systemctl reload nginx
 ```
@@ -322,7 +322,7 @@ NEXT_PUBLIC_APP_URL="https://yourdomain.com"
 Restart PM2:
 
 ```bash
-pm2 restart football-tournament
+pm2 restart afrikick
 ```
 
 ## 16. Use The Production Checklist
@@ -351,13 +351,13 @@ Create a database backup:
 
 ```bash
 mkdir -p ~/backups
-pg_dump "postgresql://football_tournament_user:replace_with_strong_password@localhost:5432/football_tournament" > ~/backups/football_tournament_$(date +%F_%H-%M).sql
+pg_dump "postgresql://afrikick_user:replace_with_strong_password@localhost:5432/afrikick" > ~/backups/afrikick_$(date +%F_%H-%M).sql
 ```
 
 Restore a backup:
 
 ```bash
-psql "postgresql://football_tournament_user:replace_with_strong_password@localhost:5432/football_tournament" < ~/backups/backup_file.sql
+psql "postgresql://afrikick_user:replace_with_strong_password@localhost:5432/afrikick" < ~/backups/backup_file.sql
 ```
 
 ## 18. Uploads Folder Backup
@@ -366,13 +366,13 @@ Backup uploads:
 
 ```bash
 mkdir -p ~/backups
-tar -czf ~/backups/football_tournament_uploads_$(date +%F_%H-%M).tar.gz public/uploads
+tar -czf ~/backups/afrikick_uploads_$(date +%F_%H-%M).tar.gz public/uploads
 ```
 
 Restore uploads:
 
 ```bash
-tar -xzf ~/backups/football_tournament_uploads_BACKUP_DATE.tar.gz -C /var/www/football-tournament
+tar -xzf ~/backups/afrikick_uploads_BACKUP_DATE.tar.gz -C /var/www/afrikick
 ```
 
 ## 19. Updating The App Later
@@ -380,18 +380,18 @@ tar -xzf ~/backups/football_tournament_uploads_BACKUP_DATE.tar.gz -C /var/www/fo
 From the project folder:
 
 ```bash
-cd /var/www/football-tournament
+cd /var/www/afrikick
 git pull
 npm install
 npm run prisma:deploy
 npm run build
-pm2 restart football-tournament
+pm2 restart afrikick
 ```
 
 Check logs:
 
 ```bash
-pm2 logs football-tournament
+pm2 logs afrikick
 ```
 
 ## 20. Troubleshooting
@@ -408,8 +408,8 @@ Stop the old process if needed:
 
 ```bash
 pm2 status
-pm2 stop football-tournament
-pm2 delete football-tournament
+pm2 stop afrikick
+pm2 delete afrikick
 ```
 
 Then restart:
@@ -476,7 +476,7 @@ Check PM2:
 
 ```bash
 pm2 status
-pm2 logs football-tournament
+pm2 logs afrikick
 ```
 
 Check if port 3000 is listening:
@@ -488,7 +488,7 @@ sudo lsof -i :3000
 Restart app and Nginx:
 
 ```bash
-pm2 restart football-tournament
+pm2 restart afrikick
 sudo systemctl reload nginx
 ```
 
@@ -500,7 +500,7 @@ If screenshots or receipts cannot upload:
 mkdir -p public/uploads/payment-receipts
 sudo chown -R $USER:$USER public/uploads
 chmod -R 755 public/uploads
-pm2 restart football-tournament
+pm2 restart afrikick
 ```
 
 Also confirm Nginx upload limit includes:

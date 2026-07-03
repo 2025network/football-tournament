@@ -1,0 +1,1 @@
+ALTER TABLE "PenaltyShootoutResult" ADD COLUMN IF NOT EXISTS "auditVersion" INTEGER NOT NULL DEFAULT 1;

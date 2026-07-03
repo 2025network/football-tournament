@@ -44,7 +44,7 @@ export function TournamentCard({ tournament }: TournamentCardProps) {
       <dl className="mt-6 grid gap-3 text-sm">
         <div className="flex items-center justify-between rounded-lg bg-white/[0.04] px-4 py-3">
           <dt className="text-slate-400">Prize pool</dt>
-          <dd className="font-black text-emerald-300">{formatMoney(tournament.prizePool)}</dd>
+          <dd className="font-black text-emerald-300">{formatMoney(tournament.calculatedPrizePool ?? tournament.prizePool)}</dd>
         </div>
         <div className="flex items-center justify-between rounded-lg bg-white/[0.04] px-4 py-3">
           <dt className="text-slate-400">Slots available</dt>

@@ -14,6 +14,10 @@ export type PublicTournament = {
   title: string;
   game: PublicGameTitle;
   prizePool: number;
+  calculatedPrizePool?: number;
+  prizePayoutPaid?: boolean;
+  prizePayoutPaidAt?: string | null;
+  prizePayoutNote?: string | null;
   entryFee: number;
   slots: number;
   registeredPlayers: number;
@@ -99,14 +103,18 @@ export type PublicCompetitionResponse = {
 
 export const publicGameOptions = [
   { label: "All", value: "All" },
-  { label: "eFootball Mobile", value: "EFOOTBALL_MOBILE" },
-  { label: "PUBG Mobile", value: "PUBG_MOBILE" },
-  { label: "COD Mobile", value: "COD_MOBILE" },
-  { label: "Free Fire", value: "FREE_FIRE" },
+  { label: "Football", value: "EFOOTBALL_MOBILE" },
 ] as const;
 
 export function formatGame(game: PublicGameTitle) {
-  return publicGameOptions.find((option) => option.value === game)?.label ?? game;
+  const labels: Record<PublicGameTitle, string> = {
+    EFOOTBALL_MOBILE: "Football",
+    PUBG_MOBILE: "Community Cup",
+    COD_MOBILE: "Club Challenge",
+    FREE_FIRE: "Street Football Cup",
+  };
+
+  return labels[game];
 }
 
 export function formatStatus(status: PublicTournamentStatus) {
@@ -126,10 +134,10 @@ export function formatRegistrationType(type: PublicRegistrationType) {
 export function formatCompetition(format: PublicCompetitionFormat) {
   const labels: Record<PublicCompetitionFormat, string> = {
     OPEN_KNOCKOUT: "Open Knockout",
-    DOUBLE_ELIMINATION: "Double Elimination",
-    LEAGUE: "League",
-    CHAMPIONS_LEAGUE: "Champions League",
-    SWISS_SYSTEM: "Swiss System",
+    DOUBLE_ELIMINATION: "Cup Format",
+    LEAGUE: "League Format",
+    CHAMPIONS_LEAGUE: "Group Stage",
+    SWISS_SYSTEM: "Community Cup",
   };
 
   return labels[format];

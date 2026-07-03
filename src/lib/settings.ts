@@ -10,9 +10,9 @@ export type SettingDefinition = {
 };
 
 export const defaultSettings: SettingDefinition[] = [
-  { key: "site_name", label: "Site name", value: "football-tournament", type: WebsiteSettingType.TEXT, group: "Brand" },
-  { key: "homepage_hero_title", label: "Homepage hero title", value: "Build your squad. Enter the arena. Win the prize.", type: WebsiteSettingType.TEXT, group: "Homepage" },
-  { key: "homepage_hero_subtitle", label: "Homepage hero subtitle", value: "A professional esports tournament platform for eFootball Mobile, PUBG Mobile, COD Mobile, and Free Fire players.", type: WebsiteSettingType.LONG_TEXT, group: "Homepage" },
+  { key: "site_name", label: "Site name", value: "AfriKick", type: WebsiteSettingType.TEXT, group: "Brand" },
+  { key: "homepage_hero_title", label: "Homepage hero title", value: "AfriKick", type: WebsiteSettingType.TEXT, group: "Homepage" },
+  { key: "homepage_hero_subtitle", label: "Homepage hero subtitle", value: "Create, join, and manage football tournaments built for African players, clubs, schools, communities, and football competitors.", type: WebsiteSettingType.LONG_TEXT, group: "Homepage" },
   { key: "homepage_cta_text", label: "Homepage call-to-action text", value: "Register Tournament", type: WebsiteSettingType.TEXT, group: "Homepage" },
   { key: "whatsapp_contact_link", label: "WhatsApp contact link", value: "https://wa.me/2340000000000", type: WebsiteSettingType.URL, group: "Contact" },
   { key: "support_email", label: "Support email", value: "support@example.com", type: WebsiteSettingType.TEXT, group: "Contact" },
@@ -27,21 +27,26 @@ export const defaultSettings: SettingDefinition[] = [
 export type SettingsMap = Record<string, string>;
 
 export async function ensureDefaultSettings() {
-  await Promise.all(
-    defaultSettings.map((setting) =>
-      prisma.websiteSetting.upsert({
-        where: { key: setting.key },
-        update: {},
-        create: { key: setting.key, value: setting.value, type: setting.type },
-      }),
-    ),
-  );
+  await prisma.websiteSetting.createMany({
+    data: defaultSettings.map((setting) => ({
+      key: setting.key,
+      value: setting.value,
+      type: setting.type,
+    })),
+    skipDuplicates: true,
+  });
 }
 
 export async function getSettings() {
   await ensureDefaultSettings();
-  const settings = await prisma.websiteSetting.findMany({ orderBy: { key: "asc" } });
-  const definitions = new Map(defaultSettings.map((setting) => [setting.key, setting]));
+
+  const settings = await prisma.websiteSetting.findMany({
+    orderBy: { key: "asc" },
+  });
+
+  const definitions = new Map(
+    defaultSettings.map((setting) => [setting.key, setting]),
+  );
 
   return settings.map((setting) => ({
     id: setting.id,
@@ -56,6 +61,7 @@ export async function getSettings() {
 
 export async function getSettingsMap(): Promise<SettingsMap> {
   const settings = await getSettings();
+
   return settings.reduce<SettingsMap>((map, setting) => {
     map[setting.key] = setting.value;
     return map;
@@ -64,8 +70,14 @@ export async function getSettingsMap(): Promise<SettingsMap> {
 
 export async function updateSettings(values: Record<string, string>) {
   await ensureDefaultSettings();
-  const definitions = new Map(defaultSettings.map((setting) => [setting.key, setting]));
-  const allowedKeys = new Set(defaultSettings.map((setting) => setting.key));
+
+  const definitions = new Map(
+    defaultSettings.map((setting) => [setting.key, setting]),
+  );
+
+  const allowedKeys = new Set(
+    defaultSettings.map((setting) => setting.key),
+  );
 
   await Promise.all(
     Object.entries(values)
@@ -73,8 +85,15 @@ export async function updateSettings(values: Record<string, string>) {
       .map(([key, value]) =>
         prisma.websiteSetting.upsert({
           where: { key },
-          update: { value: String(value ?? ""), type: definitions.get(key)?.type ?? WebsiteSettingType.TEXT },
-          create: { key, value: String(value ?? ""), type: definitions.get(key)?.type ?? WebsiteSettingType.TEXT },
+          update: {
+            value: String(value ?? ""),
+            type: definitions.get(key)?.type ?? WebsiteSettingType.TEXT,
+          },
+          create: {
+            key,
+            value: String(value ?? ""),
+            type: definitions.get(key)?.type ?? WebsiteSettingType.TEXT,
+          },
         }),
       ),
   );
@@ -86,10 +105,18 @@ export function parseSocialLinks(value: string | undefined) {
   if (!value) return [];
 
   try {
-    const parsed = JSON.parse(value) as Array<{ label?: string; href?: string }>;
+    const parsed = JSON.parse(value) as Array<{
+      label?: string;
+      href?: string;
+    }>;
+
     if (!Array.isArray(parsed)) return [];
+
     return parsed
-      .map((link) => ({ label: String(link.label ?? "").trim(), href: String(link.href ?? "").trim() }))
+      .map((link) => ({
+        label: String(link.label ?? "").trim(),
+        href: String(link.href ?? "").trim(),
+      }))
       .filter((link) => link.label && link.href);
   } catch {
     return [];

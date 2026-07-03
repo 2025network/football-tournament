@@ -6,10 +6,10 @@ import { Navbar } from "@/components/Navbar";
 import { prisma } from "@/lib/prisma";
 
 const gameLabels: Record<GameTitle, string> = {
-  EFOOTBALL_MOBILE: "eFootball Mobile",
-  PUBG_MOBILE: "PUBG Mobile",
-  COD_MOBILE: "COD Mobile",
-  FREE_FIRE: "Free Fire",
+  EFOOTBALL_MOBILE: "Football",
+  PUBG_MOBILE: "Community Cup",
+  COD_MOBILE: "Club Challenge",
+  FREE_FIRE: "Street Football Cup",
 };
 
 type PlayerProfilePageProps = { params: Promise<{ id: string }> };
@@ -61,10 +61,10 @@ export default async function PlayerProfilePage({ params }: PlayerProfilePagePro
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               <Stat label="Platform ID" value={player.platformId ?? "Not generated"} />
               <Stat label="Current rank" value={player.currentRank ? `#${player.currentRank}` : "Unranked"} />
-              <Stat label="Favorite game" value={player.favoriteGame ? gameLabels[player.favoriteGame] : "Not set"} />
+              <Stat label="Favorite football category" value={player.favoriteGame ? gameLabels[player.favoriteGame] : "Not set"} />
               <Stat label="Total points" value={String(player.totalPoints)} />
               <Stat label="Tournaments won" value={String(player.tournamentsWon)} />
-              <Stat label="Default game UID" value={player.defaultGamePlayerId ?? "Not set"} />
+              <Stat label="Default football ID" value={player.defaultGamePlayerId ?? "Not set"} />
             </div>
           </div>
 

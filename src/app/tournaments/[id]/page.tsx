@@ -71,6 +71,8 @@ export default async function TournamentDetailsPage({ params }: TournamentDetail
               <p className="text-sm font-black uppercase tracking-[0.24em] text-cyan-300">Registration</p>
               <dl className="mt-5 grid gap-3 text-sm">
                 <Info label="Prize pool" value={formatMoney(tournament.prizePool)} highlight />
+                <Info label="Calculated pool" value={formatMoney(tournament.calculatedPrizePool ?? 0)} />
+                <Info label="Prize payout" value={tournament.prizePayoutPaid ? "Paid" : "Pending"} />
                 <Info label="Entry fee" value={formatMoney(tournament.entryFee)} />
                 <Info label="Registration type" value={formatRegistrationType(tournament.registrationType)} />
                 {tournament.registrationType === "TEAM" && tournament.teamSize ? <Info label="Team size" value={`${tournament.teamSize} players`} /> : null}
@@ -180,7 +182,7 @@ function Standings({ standings }: { standings: PublicStanding[] }) {
     <div className="rounded-2xl border border-white/10 bg-slate-900/70 p-6">
       <p className="text-sm font-black uppercase tracking-[0.24em] text-cyan-300">Tables and groups</p>
       {entries.length === 0 ? (
-        <p className="mt-4 text-slate-400">League tables and Champions League groups will appear after admin generates fixtures.</p>
+        <p className="mt-4 text-slate-400">League tables and group-stage tables will appear after admin generates fixtures.</p>
       ) : (
         <div className="mt-6 grid gap-6">
           {entries.map(([group, rows]) => (
@@ -233,7 +235,7 @@ function Matches({ matches }: { matches: PublicMatch[] }) {
                   <p className="mt-2 text-2xl font-black text-white">{match.liveStatus === "LIVE" || match.liveStatus === "PAUSED" ? `${match.liveHomeScore} : ${match.liveAwayScore}` : `${match.homeScore ?? "-"} : ${match.awayScore ?? "-"}`}</p>
                   {match.liveStatus !== "NOT_STARTED" ? <p className="mt-1 text-sm font-bold text-cyan-300">Referee live status: {match.liveStatus}</p> : null}
                   {getMatchStreamUrl(match) ? <a href={getMatchStreamUrl(match) ?? "#"} target="_blank" className="mt-3 inline-block text-sm font-bold text-cyan-300 hover:text-white">Watch match livestream</a> : null}
-                  {match.roomCode ? <p className="mt-2 text-sm text-slate-300">Room code: <span className="font-bold text-white">{match.roomCode}</span></p> : null}
+                  {match.roomCode ? <p className="mt-2 text-sm text-slate-300">Match access code: <span className="font-bold text-white">{match.roomCode}</span></p> : null}
                   {match.spectatorNote ? <p className="mt-2 text-sm text-slate-300">Spectator note: {match.spectatorNote}</p> : null}
                   {match.aggregateWinnerName ? <p className="mt-2 text-sm font-bold text-emerald-300">Aggregate winner: {match.aggregateWinnerName}</p> : null}
                   {match.winnerName ? <p className="mt-2 text-sm font-bold text-cyan-300">Winner: {match.winnerName}</p> : null}

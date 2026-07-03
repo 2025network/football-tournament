@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 const WIN_POINTS = 3;
 const DRAW_POINTS = 1;
 const TOURNAMENT_WINNER_BONUS = 10;
-const CHAMPIONS_LEAGUE_WINNER_BONUS = 15;
+const GROUP_STAGE_WINNER_BONUS = 15;
 
 type PlayerStats = {
   points: number;
@@ -21,7 +21,7 @@ const defaultAchievements = [
   { name: "First Win", description: "Win your first completed match.", icon: "1W" },
   { name: "10 Wins", description: "Win 10 completed matches.", icon: "10W" },
   { name: "League Champion", description: "Finish as champion in a league tournament.", icon: "LC" },
-  { name: "Champions League Winner", description: "Win a Champions League format tournament.", icon: "CL" },
+  { name: "Group Stage Winner", description: "Win a Group Stage format tournament.", icon: "GS" },
   { name: "Undefeated Season", description: "Complete a tournament without losing a match.", icon: "US" },
 ];
 
@@ -72,7 +72,7 @@ export async function recalculateGlobalRankings() {
   for (const winner of tournamentWinners) {
     const userStats = getStats(stats, winner.userId);
     userStats.tournamentWins += 1;
-    userStats.points += winner.competitionFormat === CompetitionFormat.CHAMPIONS_LEAGUE ? CHAMPIONS_LEAGUE_WINNER_BONUS : TOURNAMENT_WINNER_BONUS;
+    userStats.points += winner.competitionFormat === CompetitionFormat.CHAMPIONS_LEAGUE ? GROUP_STAGE_WINNER_BONUS : TOURNAMENT_WINNER_BONUS;
   }
 
   const undefeatedMap = getUndefeatedTournamentPlayers(matches, registrations, registrationToUser);
@@ -256,7 +256,7 @@ async function unlockAchievements(userId: string, stats: PlayerStats, tournament
   if (stats.wins >= 1) names.add("First Win");
   if (stats.wins >= 10) names.add("10 Wins");
   if (tournamentWinners.some((winner) => winner.userId === userId && winner.competitionFormat === CompetitionFormat.LEAGUE)) names.add("League Champion");
-  if (tournamentWinners.some((winner) => winner.userId === userId && winner.competitionFormat === CompetitionFormat.CHAMPIONS_LEAGUE)) names.add("Champions League Winner");
+  if (tournamentWinners.some((winner) => winner.userId === userId && winner.competitionFormat === CompetitionFormat.CHAMPIONS_LEAGUE)) names.add("Group Stage Winner");
   if (stats.undefeatedTournamentIds.size > 0) names.add("Undefeated Season");
 
   for (const name of names) {

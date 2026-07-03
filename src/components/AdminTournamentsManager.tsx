@@ -67,26 +67,23 @@ type FormState = {
 };
 
 const gameOptions = [
-  { label: "eFootball Mobile", value: GameTitle.EFOOTBALL_MOBILE },
-  { label: "PUBG Mobile", value: GameTitle.PUBG_MOBILE },
-  { label: "COD Mobile", value: GameTitle.COD_MOBILE },
-  { label: "Free Fire", value: GameTitle.FREE_FIRE },
+  { label: "Football", value: GameTitle.EFOOTBALL_MOBILE },
 ];
 
 const competitionOptions = [
   { label: "Open Knockout", value: CompetitionFormat.OPEN_KNOCKOUT },
-  { label: "Double Elimination", value: CompetitionFormat.DOUBLE_ELIMINATION },
-  { label: "League", value: CompetitionFormat.LEAGUE },
-  { label: "Champions League", value: CompetitionFormat.CHAMPIONS_LEAGUE },
-  { label: "Swiss System", value: CompetitionFormat.SWISS_SYSTEM },
+  { label: "Cup Format", value: CompetitionFormat.DOUBLE_ELIMINATION },
+  { label: "League Format", value: CompetitionFormat.LEAGUE },
+  { label: "Group Stage", value: CompetitionFormat.CHAMPIONS_LEAGUE },
+  { label: "Community Cup", value: CompetitionFormat.SWISS_SYSTEM },
 ];
 
 const competitionDescriptions: Record<CompetitionFormat, string> = {
   [CompetitionFormat.OPEN_KNOCKOUT]: "Single-loss bracket. Players or teams are eliminated after one defeat until one champion remains.",
-  [CompetitionFormat.DOUBLE_ELIMINATION]: "Bracket with a winners side and losers side. A participant is eliminated after two defeats.",
+  [CompetitionFormat.DOUBLE_ELIMINATION]: "Cup bracket with a winners side and recovery path. A participant is eliminated after two defeats.",
   [CompetitionFormat.LEAGUE]: "Everyone plays scheduled fixtures and earns table points. Best record wins the league.",
-  [CompetitionFormat.CHAMPIONS_LEAGUE]: "Group stage followed by knockout rounds for qualifiers, similar to a Champions League structure.",
-  [CompetitionFormat.SWISS_SYSTEM]: "Players or teams face opponents with similar records across multiple rounds without immediate elimination.",
+  [CompetitionFormat.CHAMPIONS_LEAGUE]: "Group stage followed by knockout rounds for qualifiers.",
+  [CompetitionFormat.SWISS_SYSTEM]: "Community cup rounds where players or teams face opponents with similar records.",
 };
 
 const statusOptions = [TournamentStatus.OPEN, TournamentStatus.UPCOMING, TournamentStatus.CLOSED];
@@ -114,10 +111,10 @@ const emptyForm: FormState = {
   rules: "",
 };
 const seedTemplates: Array<{ label: string; data: FormState }> = [
-  { label: "Create eFootball Test Tournament", data: { ...emptyForm, title: "eFootball Test Cup", game: GameTitle.EFOOTBALL_MOBILE, prizePool: "50000", entryFee: "1000", slots: "32", startDate: futureDateInput(7), status: TournamentStatus.OPEN, format: "1v1 test knockout bracket", competitionFormat: CompetitionFormat.OPEN_KNOCKOUT, description: "Quick eFootball test tournament for local registration testing.", rules: "Use correct game UID\nSubmit proof after match\nRespect opponents" } },
-  { label: "Create PUBG Squad Test Tournament", data: { ...emptyForm, title: "PUBG Squad Test", game: GameTitle.PUBG_MOBILE, prizePool: "150000", entryFee: "3000", slots: "16", startDate: futureDateInput(10), status: TournamentStatus.OPEN, format: "Squad league test format", competitionFormat: CompetitionFormat.LEAGUE, registrationType: RegistrationType.TEAM, teamSize: "4", description: "Quick PUBG squad tournament for team registration testing.", rules: "Captain registers team\nFour active members required\nSubmit match proof" } },
-  { label: "Create COD 5v5 Test Tournament", data: { ...emptyForm, title: "COD Mobile 5v5 Test", game: GameTitle.COD_MOBILE, prizePool: "120000", entryFee: "2500", slots: "16", startDate: futureDateInput(12), status: TournamentStatus.OPEN, format: "5v5 double elimination", competitionFormat: CompetitionFormat.DOUBLE_ELIMINATION, registrationType: RegistrationType.TEAM, teamSize: "5", description: "Quick COD Mobile 5v5 tournament for testing team workflows.", rules: "Five active members required\nNo account sharing\nSubmit score proof" } },
-  { label: "Create Free Fire Squad Test Tournament", data: { ...emptyForm, title: "Free Fire Squad Test", game: GameTitle.FREE_FIRE, prizePool: "100000", entryFee: "2000", slots: "20", startDate: futureDateInput(14), status: TournamentStatus.OPEN, format: "Squad Swiss test rounds", competitionFormat: CompetitionFormat.SWISS_SYSTEM, registrationType: RegistrationType.TEAM, teamSize: "4", description: "Quick Free Fire squad tournament for testing registrations and teams.", rules: "Captain registers team\nFour active members required\nUpload result proof" } },
+  { label: "Create Community Cup", data: { ...emptyForm, title: "Community Cup", game: GameTitle.EFOOTBALL_MOBILE, prizePool: "50000", entryFee: "1000", slots: "32", startDate: futureDateInput(7), status: TournamentStatus.OPEN, format: "Open Knockout", competitionFormat: CompetitionFormat.OPEN_KNOCKOUT, description: "Quick football tournament for local community registration testing.", rules: "Use correct football player ID\nSubmit proof after match\nRespect opponents" } },
+  { label: "Create School Cup", data: { ...emptyForm, title: "School Cup", game: GameTitle.EFOOTBALL_MOBILE, prizePool: "150000", entryFee: "3000", slots: "16", startDate: futureDateInput(10), status: TournamentStatus.OPEN, format: "League Format", competitionFormat: CompetitionFormat.LEAGUE, registrationType: RegistrationType.TEAM, teamSize: "4", description: "Quick school football tournament for team registration testing.", rules: "Captain registers team\nFour active members required\nSubmit match proof" } },
+  { label: "Create Club Challenge", data: { ...emptyForm, title: "Club Challenge", game: GameTitle.EFOOTBALL_MOBILE, prizePool: "120000", entryFee: "2500", slots: "16", startDate: futureDateInput(12), status: TournamentStatus.OPEN, format: "Cup Format", competitionFormat: CompetitionFormat.DOUBLE_ELIMINATION, registrationType: RegistrationType.TEAM, teamSize: "5", description: "Quick club football tournament for testing team workflows.", rules: "Five active members required\nNo account sharing\nSubmit score proof" } },
+  { label: "Create Street Football Cup", data: { ...emptyForm, title: "Street Football Cup", game: GameTitle.EFOOTBALL_MOBILE, prizePool: "100000", entryFee: "2000", slots: "20", startDate: futureDateInput(14), status: TournamentStatus.OPEN, format: "Community Cup", competitionFormat: CompetitionFormat.SWISS_SYSTEM, registrationType: RegistrationType.TEAM, teamSize: "4", description: "Quick street football tournament for testing registrations and teams.", rules: "Captain registers team\nFour active members required\nUpload result proof" } },
 ];
 
 export function AdminTournamentsManager() {
@@ -355,7 +352,7 @@ export function AdminTournamentsManager() {
               <input className="form-input" value={form.title} onChange={(event) => updateField("title", event.target.value)} placeholder="Weekend Masters" />
             </FormLabel>
             <div className="grid gap-4 sm:grid-cols-2">
-              <FormLabel label="Game">
+              <FormLabel label="Football category">
                 <select className="form-input" value={form.game} onChange={(event) => updateField("game", event.target.value as GameTitle)}>
                   {gameOptions.map((game) => <option key={game.value} value={game.value}>{game.label}</option>)}
                 </select>

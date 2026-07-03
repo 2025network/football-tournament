@@ -39,7 +39,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
     }
 
     if (!body.name?.trim()) return NextResponse.json({ message: "Team name is required." }, { status: 400 });
-    if (!body.game || !Object.values(GameTitle).includes(body.game)) return NextResponse.json({ message: "Valid game is required." }, { status: 400 });
+    if (!body.game || !Object.values(GameTitle).includes(body.game)) return NextResponse.json({ message: "Valid football category is required." }, { status: 400 });
 
     const duplicateName = await prisma.team.findFirst({
       where: {
@@ -48,7 +48,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
         name: { equals: body.name.trim(), mode: "insensitive" },
       },
     });
-    if (duplicateName) return NextResponse.json({ message: "A team with this name already exists for this game." }, { status: 409 });
+    if (duplicateName) return NextResponse.json({ message: "A team with this name already exists for this football category." }, { status: 409 });
 
     const team = await prisma.team.update({
       where: { id },

@@ -1,0 +1,2 @@
+-- Prevent a player from submitting more than one penalty shootout result for the same match.
+CREATE UNIQUE INDEX "PenaltyShootoutResult_userId_matchId_key" ON "PenaltyShootoutResult"("userId", "matchId");

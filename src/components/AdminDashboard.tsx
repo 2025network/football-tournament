@@ -341,7 +341,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
           <StatCard label="Total registrations" value={registrations.length} />
           <StatCard label="Total tournaments" value={tournaments.length} />
           <StatCard label="Open tournaments" value={openTournaments} />
-          <StatCard label="Games supported" value={uniqueGames.size} />
+          <StatCard label="Football categories" value={uniqueGames.size} />
         </div>
 
         <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -369,13 +369,13 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               className="mt-2 w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-300"
-              placeholder="Name, email, gamer tag"
+              placeholder="Name, email, player tag"
               type="search"
             />
           </label>
 
           <FilterSelect
-            label="Game"
+            label="Football category"
             value={gameFilter}
             onChange={(value) => setGameFilter(value as "All" | PublicGameTitle)}
             options={publicGameOptions.map((option) => option.value)}
@@ -451,8 +451,8 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                       </div>
 
                       <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
-                        <Info label="Gamer tag" value={registration.gamerTag} />
-                        <Info label="Game" value={registration.game} />
+                        <Info label="Player tag" value={registration.gamerTag} />
+                        <Info label="Football category" value={registration.game} />
                         <Info
                           label="Tournament"
                           value={registration.tournamentTitle}

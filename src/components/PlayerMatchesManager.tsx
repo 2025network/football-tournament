@@ -25,6 +25,24 @@ type ResultSubmission = {
   createdAt: string;
 };
 
+type LineupMember = {
+  userId: string;
+  fullName: string;
+  gamerTag: string | null;
+  platformId: string | null;
+};
+
+type MatchLineup = {
+  id: string;
+  registrationId: string;
+  teamName: string;
+  teamTag: string;
+  memberUserIds: string[];
+  members: LineupMember[];
+  representativeUserId: string;
+  representativeName: string;
+};
+
 type PlayerMatch = {
   id: string;
   tournamentTitle: string;
@@ -38,6 +56,9 @@ type PlayerMatch = {
   homeScore: number | null;
   awayScore: number | null;
   currentPlayerRegistrationId: string | null;
+  canManageLineup: boolean;
+  currentTeamMembers: LineupMember[];
+  lineups: MatchLineup[];
   side: "HOME" | "AWAY" | "PLAYER";
   scheduledAt: string | null;
   streamMode: "NONE" | "PLAYER_STREAM" | "OFFICIAL_STREAM";
@@ -45,6 +66,15 @@ type PlayerMatch = {
   officialStreamUrl: string | null;
   featuredLive: boolean;
   submissions: ResultSubmission[];
+  penaltyShootout: {
+    belongsToMatch: boolean;
+    status: "NOT_PLAYED" | "PLAYED" | "WAITING_FOR_OPPONENT" | "COMPLETED" | "DISPUTED" | "SUDDEN_DEATH_REQUIRED";
+    latestScore: number | null;
+    suddenDeathScore: number;
+    totalShots: number;
+    playedAt: string | null;
+    canPlay: boolean;
+  };
 };
 
 type PlayerMatchesResponse = {
@@ -54,6 +84,7 @@ type PlayerMatchesResponse = {
 };
 
 type FormState = Record<string, { submittedScore: string; note: string; streamUrl: string; screenshot: File | null }>;
+type LineupState = Record<string, { memberUserIds: string[]; representativeUserId: string }>;
 
 const playerSessionKey = "football-tournament-player-session";
 
@@ -75,6 +106,7 @@ export function PlayerMatchesManager() {
   const [player, setPlayer] = useState<PlayerSession | null>(() => readPlayerSession());
   const [matches, setMatches] = useState<PlayerMatch[]>([]);
   const [forms, setForms] = useState<FormState>({});
+  const [lineups, setLineups] = useState<LineupState>({});
   const [disputeNotes, setDisputeNotes] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState("");
@@ -100,6 +132,7 @@ export function PlayerMatchesManager() {
 
       setMatches(data.matches ?? []);
       setForms((current) => buildFormState(data.matches ?? [], current));
+      setLineups((current) => buildLineupState(data.matches ?? [], current));
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : "Could not load player matches.");
     } finally {
@@ -167,6 +200,71 @@ export function PlayerMatchesManager() {
     } finally {
       setActionLoading("");
     }
+  }
+
+  async function saveLineup(match: PlayerMatch) {
+    if (!player || !match.currentPlayerRegistrationId) {
+      setErrorMessage("Your team registration could not be matched to this fixture.");
+      return;
+    }
+
+    const lineup = lineups[match.id];
+    if (!lineup?.memberUserIds.length || !lineup.representativeUserId) {
+      setErrorMessage("Select lineup members and one penalty representative.");
+      return;
+    }
+
+    setActionLoading(`lineup-${match.id}`);
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    try {
+      const response = await fetch(`/api/matches/${match.id}/lineup`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          captainEmail: player.email,
+          registrationId: match.currentPlayerRegistrationId,
+          memberUserIds: lineup.memberUserIds,
+          representativeUserId: lineup.representativeUserId,
+        }),
+      });
+      const data = (await response.json()) as { message?: string };
+      if (!response.ok) throw new Error(data.message ?? "Could not save lineup.");
+      setSuccessMessage(data.message ?? "Lineup saved.");
+      await loadMatches();
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Could not save lineup.");
+    } finally {
+      setActionLoading("");
+    }
+  }
+
+  function toggleLineupMember(matchId: string, userId: string) {
+    setLineups((current) => {
+      const lineup = current[matchId] ?? { memberUserIds: [], representativeUserId: "" };
+      const memberUserIds = lineup.memberUserIds.includes(userId) ? lineup.memberUserIds.filter((id) => id !== userId) : [...lineup.memberUserIds, userId];
+      return {
+        ...current,
+        [matchId]: {
+          memberUserIds,
+          representativeUserId: memberUserIds.includes(lineup.representativeUserId) ? lineup.representativeUserId : "",
+        },
+      };
+    });
+  }
+
+  function setRepresentative(matchId: string, userId: string) {
+    setLineups((current) => {
+      const lineup = current[matchId] ?? { memberUserIds: [], representativeUserId: "" };
+      return {
+        ...current,
+        [matchId]: {
+          memberUserIds: lineup.memberUserIds.includes(userId) ? lineup.memberUserIds : [...lineup.memberUserIds, userId],
+          representativeUserId: userId,
+        },
+      };
+    });
   }
 
   async function submitResult(match: PlayerMatch) {
@@ -341,6 +439,8 @@ export function PlayerMatchesManager() {
                   </dl>
                   <p className="mt-5 text-sm font-black text-white">Current score</p>
                   <p className="mt-2 text-3xl font-black text-cyan-300">{match.homeScore ?? "-"} : {match.awayScore ?? "-"}</p>
+                  <PenaltyShootoutPanel match={match} />
+                  <TeamLineupPanel match={match} lineupState={lineups[match.id] ?? { memberUserIds: [], representativeUserId: "" }} actionLoading={actionLoading} onToggleMember={toggleLineupMember} onSetRepresentative={setRepresentative} onSaveLineup={saveLineup} />
                   <div className="mt-4 grid gap-3">
                     {match.submissions.length === 0 ? <p className="text-sm text-slate-400">No submissions yet.</p> : match.submissions.map((submission) => {
                       const isOpponentSubmission = submission.registrationId !== match.currentPlayerRegistrationId;
@@ -420,9 +520,125 @@ export function PlayerMatchesManager() {
   );
 }
 
+function PenaltyShootoutPanel({ match }: { match: PlayerMatch }) {
+  const status = getPenaltyStatus(match);
+  const isDisabled = !match.penaltyShootout.canPlay;
+
+  return (
+    <div className="mt-5 rounded-xl border border-cyan-300/20 bg-cyan-300/10 p-4">
+      <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+        <div>
+          <p className="text-sm font-black text-cyan-100">Penalty shootout</p>
+          <p className="mt-1 text-xs leading-5 text-slate-300">Play the 5-shot penalty challenge for this match. Your score will be saved and connected to this fixture.</p>
+        </div>
+        <span className={`w-fit rounded-full border px-3 py-1 text-xs font-black ${status.className}`}>{status.label}</span>
+      </div>
+      <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-sm text-slate-300">
+          {match.penaltyShootout.latestScore !== null ? `Normal: ${match.penaltyShootout.latestScore}/${match.penaltyShootout.totalShots} · Sudden death: ${match.penaltyShootout.suddenDeathScore}` : "No penalty score saved yet."}
+        </p>
+        {isDisabled ? (
+          <button type="button" disabled className="rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-black text-slate-500">
+            {match.status === "COMPLETED" ? "Match Completed" : "Unavailable"}
+          </button>
+        ) : (
+          <Link href={`/games/penalty-shootout?matchId=${match.id}`} className="rounded-lg bg-cyan-300 px-4 py-2 text-center text-sm font-black text-slate-950 transition hover:bg-white">
+            Play Penalty Shootout
+          </Link>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function TeamLineupPanel({ match, lineupState, actionLoading, onToggleMember, onSetRepresentative, onSaveLineup }: { match: PlayerMatch; lineupState: { memberUserIds: string[]; representativeUserId: string }; actionLoading: string; onToggleMember: (matchId: string, userId: string) => void; onSetRepresentative: (matchId: string, userId: string) => void; onSaveLineup: (match: PlayerMatch) => void }) {
+  if (match.currentTeamMembers.length === 0 && match.lineups.length === 0) return null;
+
+  return (
+    <div className="mt-5 rounded-xl border border-fuchsia-300/20 bg-fuchsia-300/10 p-4">
+      <p className="text-sm font-black text-fuchsia-100">Team lineups</p>
+      {match.lineups.length === 0 ? <p className="mt-2 text-sm text-slate-300">No team lineup has been selected yet.</p> : (
+        <div className="mt-3 grid gap-3">
+          {match.lineups.map((lineup) => (
+            <div key={lineup.id} className="rounded-lg border border-white/10 bg-slate-950/50 p-3">
+              <p className="font-black text-white">[{lineup.teamTag}] {lineup.teamName}</p>
+              <p className="mt-1 text-xs font-bold text-cyan-200">Representative: {lineup.representativeName}</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {lineup.members.map((member) => <span key={member.userId} className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs text-slate-200">{member.gamerTag || member.fullName}</span>)}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {match.canManageLineup ? (
+        <div className="mt-4 rounded-lg border border-fuchsia-300/20 bg-slate-950/50 p-3">
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-fuchsia-200">Select your lineup</p>
+          <div className="mt-3 grid gap-2">
+            {match.currentTeamMembers.map((member) => (
+              <div key={member.userId} className="grid gap-2 rounded-lg border border-white/10 bg-black/20 p-3 sm:grid-cols-[1fr_auto_auto] sm:items-center">
+                <div>
+                  <p className="font-bold text-white">{member.gamerTag || member.fullName}</p>
+                  <p className="text-xs text-slate-500">{member.platformId ?? "No Platform ID"}</p>
+                </div>
+                <label className="flex items-center gap-2 text-sm font-bold text-slate-200">
+                  <input type="checkbox" checked={lineupState.memberUserIds.includes(member.userId)} onChange={() => onToggleMember(match.id, member.userId)} className="h-4 w-4 accent-cyan-300" />
+                  In lineup
+                </label>
+                <label className="flex items-center gap-2 text-sm font-bold text-slate-200">
+                  <input type="radio" name={`representative-${match.id}`} checked={lineupState.representativeUserId === member.userId} onChange={() => onSetRepresentative(match.id, member.userId)} className="h-4 w-4 accent-fuchsia-300" />
+                  Representative
+                </label>
+              </div>
+            ))}
+          </div>
+          <button onClick={() => onSaveLineup(match)} disabled={actionLoading === `lineup-${match.id}`} type="button" className="mt-4 rounded-lg border border-fuchsia-300/30 bg-fuchsia-300/10 px-4 py-3 text-sm font-black text-fuchsia-100 transition hover:bg-fuchsia-300 hover:text-slate-950 disabled:opacity-50">
+            {actionLoading === `lineup-${match.id}` ? "Saving lineup..." : "Save Lineup"}
+          </button>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function getPenaltyStatus(match: PlayerMatch) {
+  const styles = {
+    NOT_PLAYED: "border-slate-500/30 bg-slate-500/10 text-slate-200",
+    PLAYED: "border-cyan-300/30 bg-cyan-300/10 text-cyan-100",
+    WAITING_FOR_OPPONENT: "border-amber-300/30 bg-amber-300/10 text-amber-100",
+    COMPLETED: "border-emerald-300/30 bg-emerald-300/10 text-emerald-100",
+    DISPUTED: "border-rose-300/30 bg-rose-300/10 text-rose-100",
+    SUDDEN_DEATH_REQUIRED: "border-amber-300/30 bg-amber-300/10 text-amber-100",
+  } satisfies Record<PlayerMatch["penaltyShootout"]["status"], string>;
+
+  const labels = {
+    NOT_PLAYED: "Not played",
+    PLAYED: "Played",
+    WAITING_FOR_OPPONENT: "Waiting for opponent",
+    COMPLETED: "Completed",
+    DISPUTED: "Disputed",
+    SUDDEN_DEATH_REQUIRED: "Sudden death required",
+  } satisfies Record<PlayerMatch["penaltyShootout"]["status"], string>;
+
+  return {
+    label: labels[match.penaltyShootout.status],
+    className: styles[match.penaltyShootout.status],
+  };
+}
 function buildFormState(matches: PlayerMatch[], current: FormState) {
   return matches.reduce<FormState>((next, match) => {
     next[match.id] = current[match.id] ?? { submittedScore: "", note: "", streamUrl: match.playerStreamUrl ?? "", screenshot: null };
+    return next;
+  }, {});
+}
+
+function buildLineupState(matches: PlayerMatch[], current: LineupState) {
+  return matches.reduce<LineupState>((next, match) => {
+    const lineup = match.lineups.find((item) => item.registrationId === match.currentPlayerRegistrationId);
+    next[match.id] = current[match.id] ?? {
+      memberUserIds: lineup?.memberUserIds ?? [],
+      representativeUserId: lineup?.representativeUserId ?? "",
+    };
     return next;
   }, {});
 }

@@ -11,10 +11,10 @@ export const teamInclude = {
 export type TeamWithRelations = Prisma.TeamGetPayload<{ include: typeof teamInclude }>;
 
 export const gameLabels: Record<GameTitle, string> = {
-  EFOOTBALL_MOBILE: "eFootball Mobile",
-  PUBG_MOBILE: "PUBG Mobile",
-  COD_MOBILE: "COD Mobile",
-  FREE_FIRE: "Free Fire",
+  EFOOTBALL_MOBILE: "Football",
+  PUBG_MOBILE: "Community Cup",
+  COD_MOBILE: "Club Challenge",
+  FREE_FIRE: "Street Football Cup",
 };
 
 export function normalizeTeamTag(tag: string) {

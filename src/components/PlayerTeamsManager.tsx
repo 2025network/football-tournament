@@ -19,7 +19,7 @@ export function PlayerTeamsManager() {
   const router = useRouter();
   const [player, setPlayer] = useState<PlayerSession | null>(null);
   const [teams, setTeams] = useState<PublicTeam[]>([]);
-  const [invitePlatformIds, setInvitePlatformIds] = useState<Record<string, string>>({});
+  const [inviteTargets, setInviteTargets] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -91,8 +91,8 @@ export function PlayerTeamsManager() {
       <div className="flex flex-col gap-5 border-b border-white/10 pb-8 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-sm font-black uppercase tracking-[0.24em] text-cyan-300">Player teams</p>
-          <h1 className="mt-3 text-3xl font-black text-white sm:text-5xl">My Teams & Clans</h1>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">Create squads, accept invites, invite members by Platform ID, and manage team tournament rosters.</p>
+          <h1 className="mt-3 text-3xl font-black text-white sm:text-5xl">My Football Teams</h1>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">Create squads, accept invites, invite members by email or Platform ID, and manage team tournament rosters.</p>
         </div>
         <Link href="/teams/create" className="rounded-lg bg-cyan-300 px-4 py-3 text-center text-sm font-black text-slate-950 transition hover:bg-white">Create Team</Link>
       </div>
@@ -131,8 +131,12 @@ export function PlayerTeamsManager() {
 
                 {isCaptain ? (
                   <div className="mt-5 grid gap-3 sm:grid-cols-[1fr_auto_auto]">
-                    <input className="form-input" value={invitePlatformIds[team.id] ?? ""} onChange={(event) => setInvitePlatformIds((current) => ({ ...current, [team.id]: event.target.value }))} placeholder="Invite by Platform ID, e.g. FT-000001" />
-                    <button onClick={() => player && teamAction(team.id, "invite", { captainEmail: player.email, platformId: invitePlatformIds[team.id] ?? "" })} className="rounded-lg border border-cyan-300/30 bg-cyan-300/10 px-4 py-3 text-sm font-black text-cyan-100 hover:bg-cyan-300 hover:text-slate-950">Invite</button>
+                    <input className="form-input" value={inviteTargets[team.id] ?? ""} onChange={(event) => setInviteTargets((current) => ({ ...current, [team.id]: event.target.value }))} placeholder="Invite by email or Platform ID, e.g. FT-000001" />
+                    <button onClick={() => {
+                      if (!player) return;
+                      const inviteTarget = (inviteTargets[team.id] ?? "").trim();
+                      void teamAction(team.id, "invite", inviteTarget.includes("@") ? { captainEmail: player.email, email: inviteTarget } : { captainEmail: player.email, platformId: inviteTarget });
+                    }} className="rounded-lg border border-cyan-300/30 bg-cyan-300/10 px-4 py-3 text-sm font-black text-cyan-100 hover:bg-cyan-300 hover:text-slate-950">Invite</button>
                     <button onClick={() => deleteTeam(team)} className="rounded-lg border border-rose-300/30 bg-rose-300/10 px-4 py-3 text-sm font-black text-rose-200 hover:bg-rose-300 hover:text-slate-950">Delete</button>
                   </div>
                 ) : null}

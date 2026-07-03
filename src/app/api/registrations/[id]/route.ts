@@ -15,10 +15,10 @@ type UpdateRegistrationBody = {
 };
 
 const gameToDisplay: Record<GameTitle, string> = {
-  EFOOTBALL_MOBILE: "eFootball Mobile",
-  PUBG_MOBILE: "PUBG Mobile",
-  COD_MOBILE: "COD Mobile",
-  FREE_FIRE: "Free Fire",
+  EFOOTBALL_MOBILE: "Football",
+  PUBG_MOBILE: "Community Cup",
+  COD_MOBILE: "Club Challenge",
+  FREE_FIRE: "Street Football Cup",
 };
 
 export async function GET(_request: NextRequest, context: RouteContext) {

@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { formatGame, formatMoney, getAvailableSlots, type PublicTournament } from "@/types/public-tournament";
 
 export async function HomepagePlatformSections() {
-  const [registeredPlayers, activeTournaments, matchesPlayed, prizeAggregate, featuredTournaments] = await Promise.all([
+  const [registeredPlayers, activeTournaments, matchesPlayed, prizeAggregate, featuredTournaments, activeSeason] = await Promise.all([
     prisma.user.count({ where: { role: "PLAYER" } }),
     prisma.tournament.count({ where: { status: TournamentStatus.OPEN, registrationOpen: true } }),
     prisma.match.count({ where: { status: MatchStatus.COMPLETED } }),
@@ -14,7 +14,9 @@ export async function HomepagePlatformSections() {
       orderBy: [{ prizePool: "desc" }, { startDate: "asc" }],
       take: 3,
     }),
+    prisma.season.findFirst({ where: { active: true }, orderBy: { updatedAt: "desc" } }),
   ]);
+  const topRatings = activeSeason ? await prisma.playerRating.findMany({ where: { seasonId: activeSeason.id }, include: { user: true }, orderBy: [{ currentRating: "desc" }, { wins: "desc" }], take: 5 }) : [];
 
   const stats = [
     { label: "Registered Players", value: registeredPlayers.toLocaleString(), detail: "verified platform accounts" },
@@ -42,7 +44,7 @@ export async function HomepagePlatformSections() {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-sm font-black uppercase tracking-[0.24em] text-cyan-300">Featured tournaments</p>
-              <h2 className="mt-3 text-3xl font-black text-white sm:text-4xl">Compete for real prizes</h2>
+              <h2 className="mt-3 text-3xl font-black text-white sm:text-4xl">Compete across Africa</h2>
             </div>
             <Link href="/tournaments" className="rounded-lg border border-cyan-300/40 bg-cyan-300/10 px-5 py-3 text-center text-sm font-black text-cyan-100 transition hover:-translate-y-1 hover:bg-cyan-300 hover:text-slate-950">View All Tournaments</Link>
           </div>
@@ -57,19 +59,42 @@ export async function HomepagePlatformSections() {
         </div>
       </section>
 
+      <section className="px-5 py-14 lg:px-8">
+        <div className="mx-auto max-w-7xl rounded-2xl border border-cyan-300/15 bg-white/[0.035] p-5 shadow-[0_0_35px_rgba(14,165,233,0.08)] sm:p-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-sm font-black uppercase tracking-[0.24em] text-cyan-300">Leaderboard preview</p>
+              <h2 className="mt-3 text-3xl font-black text-white sm:text-4xl">Top AfriKick competitors</h2>
+              <p className="mt-2 text-sm text-slate-400">{activeSeason ? activeSeason.name : "Create an active season to start rating players."}</p>
+            </div>
+            <Link href="/leaderboard" className="rounded-lg border border-cyan-300/40 bg-cyan-300/10 px-5 py-3 text-center text-sm font-black text-cyan-100 transition hover:-translate-y-1 hover:bg-cyan-300 hover:text-slate-950">Full Leaderboard</Link>
+          </div>
+          {topRatings.length === 0 ? <p className="mt-6 text-sm text-slate-400">Ratings will appear after completed penalty matches.</p> : (
+            <div className="mt-6 grid gap-3 md:grid-cols-5">
+              {topRatings.map((rating, index) => (
+                <div key={rating.id} className="rounded-xl border border-white/10 bg-slate-950/70 p-4">
+                  <p className="text-xs font-black uppercase tracking-[0.18em] text-cyan-300">#{index + 1}</p>
+                  <p className="mt-2 truncate font-black text-white">{rating.user.gamerTag || rating.user.fullName}</p>
+                  <p className="mt-2 text-2xl font-black text-cyan-200">{rating.currentRating}</p>
+                  <p className="text-xs text-slate-500">{rating.wins}W / {rating.losses}L</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
     </>
   );
 }
 
 function FeaturedTournamentCard({ tournament }: { tournament: PublicTournament }) {
   const slots = getAvailableSlots(tournament);
-
   return (
     <article className="rounded-2xl border border-white/10 bg-slate-950/70 p-5 shadow-[0_0_35px_rgba(14,165,233,0.08)] transition hover:-translate-y-1 hover:border-cyan-300/50">
       <p className="text-xs font-black uppercase tracking-[0.2em] text-cyan-300">{formatGame(tournament.game)}</p>
       <h3 className="mt-3 text-2xl font-black text-white">{tournament.title}</h3>
       <dl className="mt-5 grid gap-3 text-sm">
-        <Info label="Prize pool" value={formatMoney(tournament.prizePool)} highlight />
+        <Info label="Prize pool" value={formatMoney(tournament.calculatedPrizePool ?? tournament.prizePool)} highlight />
         <Info label="Entry fee" value={formatMoney(tournament.entryFee)} />
         <Info label="Slots remaining" value={Number.isFinite(slots) ? String(slots) : "Unlimited"} />
       </dl>
@@ -89,6 +114,10 @@ function serializeTournament(tournament: Awaited<ReturnType<typeof prisma.tourna
     title: tournament.title,
     game: tournament.game,
     prizePool: tournament.prizePool,
+    calculatedPrizePool: "calculatedPrizePool" in tournament && typeof tournament.calculatedPrizePool === "number" ? tournament.calculatedPrizePool : undefined,
+    prizePayoutPaid: "prizePayoutPaid" in tournament && typeof tournament.prizePayoutPaid === "boolean" ? tournament.prizePayoutPaid : undefined,
+    prizePayoutPaidAt: "prizePayoutPaidAt" in tournament && tournament.prizePayoutPaidAt instanceof Date ? tournament.prizePayoutPaidAt.toISOString() : null,
+    prizePayoutNote: "prizePayoutNote" in tournament && typeof tournament.prizePayoutNote === "string" ? tournament.prizePayoutNote : null,
     entryFee: tournament.entryFee,
     slots: tournament.slots,
     registeredPlayers: tournament.registeredPlayers,
@@ -108,4 +137,3 @@ function serializeTournament(tournament: Awaited<ReturnType<typeof prisma.tourna
     rules: tournament.rules,
   };
 }
-

@@ -18,10 +18,10 @@ type RegistrationRequestBody = {
 };
 
 const prismaGameToDisplay: Record<PrismaGameTitle, string> = {
-  [PrismaGameTitle.EFOOTBALL_MOBILE]: "eFootball Mobile",
-  [PrismaGameTitle.PUBG_MOBILE]: "PUBG Mobile",
-  [PrismaGameTitle.COD_MOBILE]: "COD Mobile",
-  [PrismaGameTitle.FREE_FIRE]: "Free Fire",
+  [PrismaGameTitle.EFOOTBALL_MOBILE]: "Football",
+  [PrismaGameTitle.PUBG_MOBILE]: "Community Cup",
+  [PrismaGameTitle.COD_MOBILE]: "Club Challenge",
+  [PrismaGameTitle.FREE_FIRE]: "Street Football Cup",
 };
 
 export async function GET() {
@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (body.platformId && account.platformId && body.platformId.trim().toUpperCase() === account.platformId.toUpperCase()) {
-      return NextResponse.json({ message: "Do not use your Platform ID as your Game Player ID / UID. Enter the ID from inside your selected game." }, { status: 400 });
+      return NextResponse.json({ message: "Do not use your Platform ID as your Football Player ID / UID. Enter the ID for your football category." }, { status: 400 });
     }
 
     const tournament = await prisma.tournament.findFirst({
@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
 
       team = await prisma.team.findUnique({ where: { id: body.teamId }, include: { captain: true, members: true } });
       if (!team) return NextResponse.json({ message: "Selected team was not found." }, { status: 404 });
-      if (team.game !== tournament.game) return NextResponse.json({ message: "Team game must match the tournament game." }, { status: 400 });
+      if (team.game !== tournament.game) return NextResponse.json({ message: "Team football category must match the tournament football category." }, { status: 400 });
       if (team.captain.email.toLowerCase() !== account.email.toLowerCase()) return NextResponse.json({ message: "Only the team captain can register this team." }, { status: 403 });
       const existingTeamRegistration = await prisma.registration.findFirst({ where: { tournamentId: tournament.id, teamId: team.id } });
       if (existingTeamRegistration) return NextResponse.json({ message: "This team is already registered for this tournament." }, { status: 409 });
@@ -184,7 +184,7 @@ function validateRegistrationBody(body: RegistrationRequestBody) {
   if (!body.fullName?.trim()) return "Full name is required.";
   if (!body.email || !isValidEmail(body.email)) return "A valid email is required.";
   if (!body.phoneNumber || !isValidNigerianPhone(body.phoneNumber)) return "Phone number must be 11 digits and start with 070, 080, 081, 090, or 091.";
-  if (!body.gamerTag?.trim()) return "Gamer tag is required.";
+  if (!body.gamerTag?.trim()) return "Player tag is required.";
   if (!body.tournamentId?.trim()) return "Tournament is required.";
   const gamePlayerIdError = validateGamePlayerId(body.platformId ?? "");
   if (gamePlayerIdError) return gamePlayerIdError;

@@ -73,7 +73,7 @@ export function AdminProductionChecklist() {
         <div>
           <p className="text-sm font-black uppercase tracking-[0.24em] text-cyan-300">Production readiness</p>
           <h1 className="mt-3 text-3xl font-black text-white sm:text-5xl">Deployment checklist</h1>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">Check the important settings your esports platform needs before moving from local development to a VPS or production host.</p>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">Check the important settings your football tournament platform needs before moving from local development to a VPS or production host.</p>
         </div>
         <button onClick={() => void loadChecklist()} disabled={refreshing} type="button" className="rounded-lg bg-cyan-300 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-white disabled:opacity-50">
           {refreshing ? "Checking..." : "Refresh Checks"}

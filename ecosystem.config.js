@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "football-tournament",
+      name: "afrikick",
       script: "npm",
       args: "start",
       env: {
